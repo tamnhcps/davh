@@ -1,0 +1,93 @@
+table gsheet_chi_so_nghi_viec
+	lineageTag: 83931a14-4bcb-451f-ace3-6c8c1b3b8cbb
+
+	measure '% Hoàn thành Chỉ số nghỉ việc' =
+			
+			VAR region = SELECTEDVALUE('DIM_Danh mục_Miền'[Miền])
+			VAR size   = SELECTEDVALUE('DIM_Danh mục_Phòng ban'[Size])
+			
+			VAR target =
+			    SWITCH(
+			        TRUE(),
+			
+			        -- MN
+			        region = "Miền Nam" && size = "S", 2.0,
+			        region = "Miền Nam" && size IN {"A","B"}, 1.5,
+			        region = "Miền Nam" && size IN {"C","D"}, 1.0,
+			
+			        -- MB
+			        region = "Miền Bắc" && size IN {"S","A"}, 2.0,
+			        region = "Miền Bắc" && size = "B", 1.5,
+			        region = "Miền Bắc" && size IN {"C","D"}, 1.0,
+			
+			        BLANK()
+			    )
+			
+			VAR actual = SELECTEDVALUE(gsheet_chi_so_nghi_viec[Thực đạt Chỉ số nghỉ việc])
+			
+			VAR score = divide(target - actual, target)
+			
+			RETURN
+			IF(
+			    ISBLANK(actual) || ISBLANK(target),
+			    BLANK(),
+			    MAX(
+			        -1.2,
+			        MIN(
+			            1.2,
+			            score
+			        )
+			    )
+			)
+		lineageTag: 0ef1c664-1601-4df2-9e44-177fcf4dcbc3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Trọng số Chỉ số nghỉ việc' = 0.1*[% Hoàn thành Chỉ số nghỉ việc]
+		lineageTag: 3d3c6425-ee06-419c-94cc-42c12d57612e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Năm_Tháng
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1bf487d6-2eeb-4c82-90f0-21c546a6497f
+		summarizeBy: none
+		sourceColumn: Năm_Tháng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 9bc6d689-9d7c-4aea-8c1c-387028320439
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thực đạt Chỉ số nghỉ việc'
+		dataType: double
+		lineageTag: 56640e00-1222-423f-b9dd-f9ee3c455854
+		summarizeBy: sum
+		sourceColumn: Thực đạt Chỉ số nghỉ việc
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition gsheet_chi_so_nghi_viec = m
+		mode: import
+		source =
+				let
+				    Source = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1_VIJUmGY9u165wtmpWiCctT6gDJfCf7BulTavMPsL3o/edit?usp=sharing"),
+				    Sheet1_Table = Source{[name="Sheet1",ItemKind="Table"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Table, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Chỉ số nghỉ việc", type number}, {"Năm_Tháng", type datetime}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Chỉ số nghỉ việc", "Thực đạt Chỉ số nghỉ việc"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

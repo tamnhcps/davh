@@ -1,0 +1,33 @@
+table DIM_he_so_4/2026
+	lineageTag: ea048e60-a430-4bfa-98c1-56daec048871
+
+	column Size
+		dataType: string
+		lineageTag: 292d7a2f-258e-4ed0-aa41-e759ed2dc3b0
+		summarizeBy: none
+		sourceColumn: Size
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hệ số'
+		dataType: double
+		lineageTag: f7427c06-bad5-4299-84fd-37b1886ba113
+		summarizeBy: none
+		sourceColumn: Hệ số
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DIM_he_so_4/2026 = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WClbSUTLUM1WK1YlWcgSzjcBsJxAbzHIGsgz0LMBsFxg7FgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Size = _t, #"Hệ số" = _t])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

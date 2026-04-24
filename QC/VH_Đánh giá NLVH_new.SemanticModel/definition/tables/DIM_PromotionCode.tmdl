@@ -1,0 +1,118 @@
+table DIM_PromotionCode
+	lineageTag: 5a323514-78ce-4e96-956e-4869baf5c139
+	sourceLineageTag: 13796efc-2cc5-4775-a98f-847dfde03523
+
+	column PromotionCodeId
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		lineageTag: 586bc411-57b0-4f11-8faf-b8044ea63f40
+		sourceLineageTag: 299dd3dc-4238-41a0-a231-60289105fb81
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: PromotionCodeId
+
+		annotation SummarizationSetBy = User
+
+	column PromotionCode
+		dataType: string
+		lineageTag: 99f2ed96-1b93-4bb9-8868-f69e2bb89f7f
+		sourceLineageTag: 11fc6ab3-eb69-4df2-9f15-c521d08ef1db
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: PromotionCode
+
+		annotation SummarizationSetBy = User
+
+	column BOD
+		dataType: int64
+		formatString: 0
+		lineageTag: 0f5f4b45-52b4-4dde-aee4-09f519110a5f
+		sourceLineageTag: 2594f7b5-0d90-4909-aa5e-4a3e56a993d4
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: BOD
+
+		annotation SummarizationSetBy = User
+
+	column MKT
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c1bc123-d15d-43a9-88d8-673b322fec61
+		sourceLineageTag: 70363799-0ed2-42a8-9001-d82050cceceb
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: MKT
+
+		annotation SummarizationSetBy = User
+
+	column KD
+		dataType: string
+		lineageTag: 4a0b66b4-2ee4-457e-bf24-8f98fd0a6b8b
+		sourceLineageTag: 46dbdbed-5338-446e-a28c-ef35b870a09b
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: KD
+
+		annotation SummarizationSetBy = User
+
+	column AM
+		dataType: int64
+		formatString: 0
+		lineageTag: 6350370a-fcca-4c2e-839d-91eaeaf02873
+		sourceLineageTag: 23dfbb19-ca5b-4cd8-bab2-0b6038282756
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: AM
+
+		annotation SummarizationSetBy = User
+
+	column SM
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b3fe6fa-2a93-41f9-a9d5-0d621dae62a5
+		sourceLineageTag: fc93d4ec-09c1-4db3-a441-7cbb76847dd0
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: SM
+
+		annotation SummarizationSetBy = User
+
+	column RSM
+		dataType: int64
+		formatString: 0
+		lineageTag: 615407d1-bf7d-4a75-8351-758bf387b7ba
+		sourceLineageTag: 057e8d35-8e39-4c76-b5af-4f89a1f5254c
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: RSM
+
+		annotation SummarizationSetBy = User
+
+	column CHECK
+		dataType: int64
+		formatString: 0
+		lineageTag: c98bd918-3cb6-45fa-a85c-68d246163fac
+		sourceLineageTag: 67f21047-ff33-4a11-9aa8-cda32fb61f1f
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: CHECK
+
+		annotation SummarizationSetBy = User
+
+	column 'Chương trình'
+		dataType: string
+		lineageTag: c98ae38c-eeec-4abf-b996-9df67c08f316
+		sourceLineageTag: cdf7b815-f333-4a1e-ae4c-a916bd0433eb
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Chương trình
+
+		annotation SummarizationSetBy = User
+
+	partition DIM_PromotionCode = entity
+		mode: directQuery
+		source
+			entityName: DIM_PromotionCode
+			expressionSource: 'DirectQuery to AS - VH_Sử dụng code'
+

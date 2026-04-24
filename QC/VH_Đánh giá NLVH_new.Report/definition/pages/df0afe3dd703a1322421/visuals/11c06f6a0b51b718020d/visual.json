@@ -1,0 +1,667 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "11c06f6a0b51b718020d",
+  "position": {
+    "x": 694.65941397840618,
+    "y": 391.75559974363608,
+    "z": 3000,
+    "height": 205.9745936796437,
+    "width": 585.61404085388892,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko đạt"
+                }
+              },
+              "queryRef": "Measure.% Số cửa hàng ko Đạt",
+              "nativeQueryRef": "Tổng",
+              "displayName": "Tổng"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko sử dụng ESL"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko sử dụng ESL",
+              "nativeQueryRef": "% Sử dụng ESL",
+              "displayName": "% Sử dụng ESL"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko turnover rate"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko turnover rate",
+              "nativeQueryRef": "% Turnover rate",
+              "displayName": "% Turnover rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko năng suất định biên"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko năng suất định biên",
+              "nativeQueryRef": "% Năng suất định biên",
+              "displayName": "% Năng suất định biên"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko lượt tải app"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko lượt tải app",
+              "nativeQueryRef": "% Lượt tải app",
+              "displayName": "% Lượt tải app"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko trễ đơn giao hàng"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko trễ đơn giao hàng",
+              "nativeQueryRef": "% Trễ đơn giao hàng",
+              "displayName": "% Trễ đơn giao hàng"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko thành công đơn Online"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko thành công đơn Online",
+              "nativeQueryRef": "% Thành công đơn Online",
+              "displayName": "% Thành công đơn Online"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko thất thoát hàng hóa"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko thất thoát hàng hóa",
+              "nativeQueryRef": "% Thất thoát hàng hóa",
+              "displayName": "% Thất thoát hàng hóa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko tham gia đào tạo"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko tham gia đào tạo",
+              "nativeQueryRef": "% Tham gia đào tạo",
+              "displayName": "% Tham gia đào tạo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko tư vấn smember"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko tư vấn smember",
+              "nativeQueryRef": "% Tư vấn smember",
+              "displayName": "% Tư vấn smember"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Số CH ko thu thập KHTN"
+                }
+              },
+              "queryRef": "Measure.% Số CH ko thu thập KHTN",
+              "nativeQueryRef": "% Thu thập KHTN",
+              "displayName": "% Thu thập KHTN"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Measure"
+                  }
+                },
+                "Property": "% Số CH ko đạt"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "layout": [
+        {
+          "properties": {
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "cellPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            },
+            "rowCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            },
+            "columnCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "6L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "outline": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "value": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'belowValue'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Tỉ lệ Cửa hàng KHÔNG ĐẠT các Chỉ tiêu'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#CA5252'"
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "preset": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Custom'"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "40D"
+                }
+              }
+            },
+            "shadowSpread": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "shadowBlur": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "angle": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "shadowDistance": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "71fcb6d070c7c010e01e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko đạt"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "00b906c7badab908101d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko sử dụng ESL"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "95cca94c7319e4a1701b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko turnover rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e42b3e4625baa4561560",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko năng suất định biên"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9f704207ea98b0350892",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko lượt tải app"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "195486bc9dabcd914867",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko trễ đơn giao hàng"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f590dd22eb8cd7b90bd6",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko thành công đơn Online"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "91e0952aa27839592d70",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko thất thoát hàng hóa"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "fa5c395604cbb39cc20a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko tham gia đào tạo"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7d35102f2d13840ebb55",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko tư vấn smember"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f446c1725454aba40310",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "% Số CH ko thu thập KHTN"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

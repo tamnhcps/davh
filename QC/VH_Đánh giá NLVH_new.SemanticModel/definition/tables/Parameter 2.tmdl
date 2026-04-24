@@ -1,0 +1,51 @@
+table 'Parameter 2'
+	lineageTag: b2c1a1ee-b4e2-4d86-8c38-7f59eb28f0a5
+
+	column 'Parameter 2'
+		lineageTag: 387e4d21-9d9b-494f-9b19-43c614b40073
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter 2 Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter 2 Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter 2 Fields'
+		isHidden
+		lineageTag: d4ceed9c-82b7-48e6-8215-e473dc3de7e4
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter 2 Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter 2 Order'
+		isHidden
+		formatString: 0
+		lineageTag: a7ecd2c4-7186-444d-9b4d-7c52ee58ae12
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter 2' = calculated
+		mode: import
+		source = ```
+				{ ("Target", NAMEOF('NLVH_TieuChi_Q2_2026'[NLVH Target]), 0),
+				    ("Thực đạt", NAMEOF('NLVH_TieuChi_Q2_2026'[Thực đạt]), 1),
+				    ("% Hoàn Thành", NAMEOF('NLVH_TieuChi_Q2_2026'[% Hoàn thành]), 2),
+				     ("Điểm trọng số", NAMEOF('NLVH_TieuChi_Q2_2026'[Điểm trọng số]), 3)
+				    
+				}
+				```
+
+	annotation PBI_Id = 6781f344d8ff4d9abfb92aed4511959e
+
