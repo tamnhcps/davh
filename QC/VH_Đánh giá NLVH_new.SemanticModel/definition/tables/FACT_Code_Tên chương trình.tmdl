@@ -1,0 +1,51 @@
+table 'FACT_Code_Tên chương trình'
+	lineageTag: 9acb4b64-e618-4dd2-9e83-4a56453332d2
+	sourceLineageTag: 8d05de44-53e4-402d-b213-5f8b70622537
+
+	column 'Chương trình'
+		dataType: string
+		isNullable: false
+		lineageTag: c031ba50-18d3-4320-95c6-df0cf0f400da
+		sourceLineageTag: 026446f7-1699-4a65-b17e-979b3222111d
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Chương trình
+
+		annotation SummarizationSetBy = User
+
+	column 'Loại chương trình'
+		dataType: string
+		lineageTag: dc74cd80-02cb-4c56-8320-f06730494754
+		sourceLineageTag: 5033c7d8-0ce1-4054-8081-f4ad4dd76ebc
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Loại chương trình
+
+		annotation SummarizationSetBy = User
+
+	column 'Người tạo'
+		dataType: string
+		lineageTag: a775966d-5c30-4d23-8303-b9051d70d9bd
+		sourceLineageTag: 1a846906-1dad-4295-9196-340a46ec4680
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Người tạo
+
+		annotation SummarizationSetBy = User
+
+	column 'Phòng ban'
+		dataType: string
+		lineageTag: 07a29e10-4b4c-44a3-a3dc-2eb3e8f0a6ec
+		sourceLineageTag: 3bbf7d45-b521-447c-93af-6d2feeae5352
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Phòng ban
+
+		annotation SummarizationSetBy = User
+
+	partition 'FACT_Code_Tên chương trình' = entity
+		mode: directQuery
+		source
+			entityName: FACT_Code_Tên chương trình
+			expressionSource: 'DirectQuery to AS - VH_Sử dụng code'
+

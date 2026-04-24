@@ -1,0 +1,48 @@
+table 'Parameter_Chi tieu'
+	lineageTag: b93ebd89-9c7f-4337-8135-cb624af0c55e
+
+	column 'Parameter_Chi tieu'
+		lineageTag: dc98faa4-2b4e-4d7d-a8c8-5eb4147ad8ee
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Chi tieu Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Chi tieu Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Chi tieu Fields'
+		isHidden
+		lineageTag: 604de5e5-bcaa-40d6-883a-5f0e7ec029e5
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Chi tieu Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Chi tieu Order'
+		isHidden
+		formatString: 0
+		lineageTag: 59f8fd84-34fc-48cb-9e6a-9d1a3bf3d9af
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter_Chi tieu' = calculated
+		mode: import
+		source =
+				{
+				    ("Tổng KPI Đạt", NAMEOF('AM_SM_Current_Month'[Tổng KPI Đạt]), 0),
+				    ("Đánh giá Shop", NAMEOF('AM_SM_Current_Month'[Đánh giá SHOP]), 1)
+				}
+
+	annotation PBI_Id = 3083dc73f39b4376877bc836d8891ea4
+

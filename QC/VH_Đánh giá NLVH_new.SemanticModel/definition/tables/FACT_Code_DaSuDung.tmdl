@@ -1,0 +1,441 @@
+table FACT_Code_DaSuDung
+	lineageTag: 80cf1f31-40fa-44ab-8acc-9bca85b6dd27
+	sourceLineageTag: 75f7576b-cf05-436c-8b65-4f9cd529610f
+
+	column ChuongTrinh
+		dataType: string
+		lineageTag: 8b9083cc-b74f-4200-9a19-115ad229b96a
+		sourceLineageTag: b6fefd44-d88a-431a-bd07-c194e26656c5
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: ChuongTrinh
+
+		annotation SummarizationSetBy = User
+
+	column Code
+		dataType: string
+		lineageTag: 68334bb2-9dc4-40a9-8f1d-d92d0059c28c
+		sourceLineageTag: 5030063d-9b63-476c-8a54-7c4e7c9df323
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = User
+
+	column AutoCode
+		dataType: string
+		lineageTag: 699cbfb5-1646-4eae-9554-b1819b2d7406
+		sourceLineageTag: a4d54985-2437-43cd-963e-d182a513a679
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: AutoCode
+
+		annotation SummarizationSetBy = User
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Number
+		lineageTag: 8f8184ae-622d-4b9e-94b1-e99802a22da2
+		sourceLineageTag: 1602d46c-b812-498d-89b2-d09726acd402
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		variation Variation
+			isDefault
+			relationship: 6cc90393-e4a3-4658-83a3-3602c5f457e3
+			defaultHierarchy: LocalDateTable_492f7cc8-6085-4843-9a97-d3fde5c3dba0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = User
+
+	column UsingDate
+		dataType: dateTime
+		formatString: General Number
+		lineageTag: 24a0f7b1-b334-400f-af6d-d2d14344fa5c
+		sourceLineageTag: 28d5bdaf-9ecb-4b44-951c-be24b886e77e
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: UsingDate
+
+		variation Variation
+			isDefault
+			relationship: d1cd79d4-416a-4202-9976-d670f3cf8bb9
+			defaultHierarchy: LocalDateTable_b6e62671-db80-4e77-92b4-69ce2fe89d6c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = User
+
+	column CreateBy
+		dataType: string
+		lineageTag: 191226dc-e4be-4164-a51b-4c51f5b79181
+		sourceLineageTag: 07566bee-30fd-4ed8-ac05-802de99fdb88
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: CreateBy
+
+		annotation SummarizationSetBy = User
+
+	column UsedBy
+		dataType: string
+		lineageTag: 0e217cf0-260a-4997-acbc-1311c851989a
+		sourceLineageTag: 3453e34b-a73a-4db6-a42e-3dd389c51e91
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: UsedBy
+
+		annotation SummarizationSetBy = User
+
+	column StoreCode
+		dataType: string
+		lineageTag: a53de5c5-cc06-4d22-8d7f-46bc31f88996
+		sourceLineageTag: d4e7c4bd-a066-473e-a059-414399c52c7b
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: StoreCode
+
+		annotation SummarizationSetBy = User
+
+	column count
+		dataType: int64
+		formatString: 0
+		lineageTag: c4794022-cc34-4d08-8a87-07fe174f5ff9
+		sourceLineageTag: 931ae6c7-3d9b-46cd-9548-d12f1646f4cf
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: count
+
+		annotation SummarizationSetBy = User
+
+	column Id
+		dataType: int64
+		formatString: 0
+		lineageTag: 640e70d2-69fd-4f74-965a-7fb385182850
+		sourceLineageTag: ea968ec4-386c-4905-919e-204095add05e
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = User
+
+	column Date_Used
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: dc6629f0-0e13-41db-9c07-d86807f3ca3e
+		sourceLineageTag: 0837bd62-62e8-487d-8c48-3c4b1335eb50
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Date_Used
+
+		annotation SummarizationSetBy = User
+
+	column 'Count Autocode'
+		dataType: int64
+		formatString: #,0
+		lineageTag: f4540822-03c9-450c-b684-9ddb158a739c
+		sourceLineageTag: d8155bc3-7200-4a02-9808-616156da61f0
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Count Autocode
+
+		annotation SummarizationSetBy = User
+
+	column Dso
+		dataType: double
+		formatString: #,0
+		lineageTag: ba510d21-c213-4bae-b1a5-84e0e25ec04e
+		sourceLineageTag: 318c3051-7a9f-4088-aff3-d5540a444aab
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Dso
+
+		annotation SummarizationSetBy = User
+
+	column Index
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		lineageTag: 1954e14a-0f2a-4d7d-a9d0-7e3ef7f903d1
+		sourceLineageTag: 97b8cc4b-7d81-4370-8031-127395025688
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = User
+
+	column IsPercent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2e72e22a-b8c7-4b29-9e9d-bf52bc2730e3
+		sourceLineageTag: 37868a21-fce7-4c75-91ee-420a9e0cf73a
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: IsPercent
+
+		annotation SummarizationSetBy = User
+
+	column TakeMaxAmount
+		dataType: double
+		formatString: #,0
+		lineageTag: 85091606-b3a8-463e-b0fb-ab2bbd2259c5
+		sourceLineageTag: d66229cb-ff70-4b59-85ed-70ba919a88b3
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: TakeMaxAmount
+
+		annotation SummarizationSetBy = User
+
+	column Contactphone
+		dataType: string
+		lineageTag: df5fcf71-250d-4cc5-bb36-f37055bf3ee8
+		sourceLineageTag: f44026a3-7314-4e32-8b80-5f7f8ad0f323
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Contactphone
+
+		annotation SummarizationSetBy = User
+
+	column 'TakeValue thực'
+		dataType: double
+		formatString: #,0
+		lineageTag: 096eccee-4619-410b-a8af-f5dc58894964
+		sourceLineageTag: 86419be0-7bb0-4e5d-b107-b8e119760b8e
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: TakeValue thực
+
+		annotation SummarizationSetBy = User
+
+	column Dso_SĐT
+		dataType: double
+		lineageTag: 7181e396-423e-4214-a115-d6c49721099c
+		sourceLineageTag: 32fdd29d-d2a6-4c5a-9d27-4eb1a209975d
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Dso_SĐT
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Code AM_SM'
+		dataType: string
+		lineageTag: 10e9da87-149b-4211-9743-2259c3be7b13
+		sourceLineageTag: 43ace223-f7d0-4881-9971-61307206a044
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Code AM_SM
+
+		annotation SummarizationSetBy = User
+
+	column Is_Use
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c2b46e4-d4e8-42f0-af14-a914ed373e37
+		sourceLineageTag: effb56c0-9475-41b2-8ef8-a8d2c929ca7d
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Is_Use
+
+		annotation SummarizationSetBy = User
+
+	column Date_Cre
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 64c44242-eba6-4ded-bf4b-30aff96e8480
+		sourceLineageTag: ec67d3cf-2463-4bee-9afb-6c82bd3e28b2
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Date_Cre
+
+		annotation SummarizationSetBy = User
+
+	column Percent
+		dataType: double
+		formatString: #,0
+		lineageTag: fc3fa3e2-47cd-4ee2-bd89-120be9ccf5a7
+		sourceLineageTag: a57c9655-fcef-4d24-b23c-d5957b02cc08
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Percent
+
+		annotation SummarizationSetBy = User
+
+	column Startdate_Cre
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: a7201793-bdf9-4a77-b8a2-c628ea454761
+		sourceLineageTag: 7e709178-f1fe-4865-8f17-cf554cea89f2
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Startdate_Cre
+
+		variation Variation
+			isDefault
+			relationship: 57e08e46-10ea-4ce6-a875-b957799a15b8
+			defaultHierarchy: LocalDateTable_ac99f73d-76c7-4d8f-9dff-ee492a3b4faf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = User
+
+	column 'Dso chưa ck'
+		dataType: double
+		lineageTag: 97428021-59f2-4e17-bd85-b2cb86fd7a35
+		sourceLineageTag: 02eb8d60-2e4a-474c-ab53-5825b987084c
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Dso chưa ck
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Phòng ban_Creby'
+		dataType: string
+		isHidden
+		lineageTag: a2fbd579-0e4c-4241-a997-bfa5cd5b9e65
+		sourceLineageTag: d6c5c2cc-0987-4a44-88c0-38278357dafe
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Phòng ban_Creby
+
+		annotation SummarizationSetBy = User
+
+	column Createby_Slgcode
+		dataType: int64
+		formatString: 0
+		lineageTag: 2cfba5cc-d21d-43f0-b082-dcc8b27ab233
+		sourceLineageTag: 5f0c9909-1db1-434d-b793-4a96e8653fe2
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Createby_Slgcode
+
+		annotation SummarizationSetBy = User
+
+	column Len_Contact
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e3018af-ca78-4c84-b9b7-b380bbbaf420
+		sourceLineageTag: b0a94a74-3f91-46a3-97dc-e96fdb53930c
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Len_Contact
+
+		annotation SummarizationSetBy = User
+
+	column 'Is_SĐT nv'
+		dataType: int64
+		formatString: 0
+		lineageTag: a0e48e32-bd62-4262-b64f-16783a0e6487
+		sourceLineageTag: 21cec31f-8b5d-48b2-9c7e-4a66fa58f94b
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Is_SĐT nv
+
+		annotation SummarizationSetBy = User
+
+	column Imei
+		dataType: string
+		lineageTag: 0cb3a94c-aafc-4213-b443-b1ff6dfb89cc
+		sourceLineageTag: af33a70e-d430-44c4-b1bb-48f1c6cc9bc9
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Imei
+
+		annotation SummarizationSetBy = User
+
+	column 'Ngày sử dụng code AM/SM gần nhất'
+		dataType: dateTime
+		formatString: General Number
+		lineageTag: 94c40f64-37e1-4b04-9586-c349c76ab6a0
+		sourceLineageTag: 3a0ff3a1-13b2-4ce9-ac5c-05700f2db67b
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Ngày sử dụng code AM/SM gần nhất
+
+		variation Variation
+			isDefault
+			relationship: 1583b097-325c-4b05-b5c0-b345127229d3
+			defaultHierarchy: LocalDateTable_01fce7e2-511b-4d39-a573-cc6dd54bd51d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = User
+
+	column 'Kc.tg'
+		dataType: double
+		formatString: 0.00
+		lineageTag: 64caec4f-cfa3-4294-92d6-ca113292f6b9
+		sourceLineageTag: 16ad9278-d35a-4b16-bc7f-9ca142295f38
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: Kc.tg
+
+		annotation SummarizationSetBy = User
+
+	column Brandname
+		dataType: string
+		lineageTag: 21a48aaf-2b4e-4e8c-ab96-1c89ed5d1eb3
+		sourceLineageTag: 3657c864-f9b5-4c49-b340-7534575bf0bf
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Brandname
+
+		annotation SummarizationSetBy = User
+
+	column takevalue
+		dataType: double
+		lineageTag: 6dba3318-7fee-48c2-9c0f-6e360aebfa99
+		sourceLineageTag: 02b178cb-29fb-4163-b8d4-51aa12820e63
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: takevalue
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nhom_hang
+		dataType: string
+		lineageTag: b5457000-c209-4f56-a5f8-f3375ab24ee6
+		sourceLineageTag: ac530cc9-2298-45c9-90d3-a2c24980f33e
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: nhom_hang
+
+		annotation SummarizationSetBy = User
+
+	column smember_discount
+		dataType: double
+		lineageTag: 7133afec-1987-4f84-a7b0-89048300c8b7
+		sourceLineageTag: 904b62f5-51f8-48f3-924f-6a3880f374ac
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: smember_discount
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column allocate_take_value
+		dataType: double
+		formatString: #,0
+		lineageTag: fbd75d35-8f9e-41ac-9db9-e2161d3bf486
+		sourceLineageTag: 3c1e633d-17ba-47c2-95af-9654e9b0087c
+		dataCategory: Uncategorized
+		summarizeBy: sum
+		sourceColumn: allocate_take_value
+
+		annotation SummarizationSetBy = User
+
+	column FUllName
+		dataType: string
+		lineageTag: a265bc8c-dad9-4bf1-929f-28f09f19dbc0
+		sourceLineageTag: 397810b4-cdc3-4ecb-be3d-734e73c0c32a
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: FUllName
+
+		annotation SummarizationSetBy = User
+
+	partition FACT_Code_DaSuDung = entity
+		mode: directQuery
+		source
+			entityName: FACT_Code_DaSuDung
+			expressionSource: 'DirectQuery to AS - VH_Sử dụng code'
+

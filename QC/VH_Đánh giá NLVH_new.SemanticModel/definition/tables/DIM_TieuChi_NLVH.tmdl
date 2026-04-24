@@ -1,0 +1,300 @@
+table DIM_TieuChi_NLVH
+	lineageTag: a9c910f6-9cbb-4513-ad48-fc50e73e0d79
+
+	column Sort
+		dataType: int64
+		formatString: 0
+		lineageTag: bbdd3277-d392-4eb1-a7b8-4902a731dc18
+		summarizeBy: sum
+		sourceColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 4e27b8df-9fc4-4168-b045-7c8ec0c09261
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên chỉ số'
+		dataType: string
+		lineageTag: 45d91727-671d-49b6-9640-e5be8d565c2e
+		summarizeBy: none
+		sourceColumn: Tên chỉ số
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên hiển thị'
+		dataType: string
+		lineageTag: 92ee417f-0a47-48fd-ac82-8827efd2adc6
+		summarizeBy: none
+		sourceColumn: Tên hiển thị
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mô tả ý nghĩa chỉ số'
+		dataType: string
+		lineageTag: a3453c9f-16e0-4b57-aac8-6df5ea1edbe8
+		summarizeBy: none
+		sourceColumn: Mô tả ý nghĩa chỉ số
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Công thức tính'
+		dataType: string
+		lineageTag: e960106c-85c9-45c0-adb0-5a9043ac4530
+		summarizeBy: none
+		sourceColumn: Công thức tính
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: string
+		lineageTag: 7c498792-22b6-4125-92c8-e2d6bcd7a5c5
+		summarizeBy: none
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nguồn dữ liệu'
+		dataType: string
+		lineageTag: f0824c57-c100-405a-91cc-a351055dd33c
+		summarizeBy: none
+		sourceColumn: Nguồn dữ liệu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hướng dẫn lấy dữ liệu'
+		dataType: string
+		lineageTag: baa3a6a9-e020-492b-b2e3-a5f1a2c76ee8
+		summarizeBy: none
+		sourceColumn: Hướng dẫn lấy dữ liệu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tần suất cập nhật dữ liệu'
+		dataType: string
+		lineageTag: 9ac6c78c-5a94-4497-beda-51f735912cb5
+		summarizeBy: none
+		sourceColumn: Tần suất cập nhật dữ liệu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phương thức cập nhật dữ liệu'
+		dataType: string
+		lineageTag: 6805c359-0cbc-430c-b7c4-3e9dcc74ab6d
+		summarizeBy: none
+		sourceColumn: Phương thức cập nhật dữ liệu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ghi chú'
+		dataType: string
+		lineageTag: 477761d2-8cc6-45dc-bd50-18d4d93bf965
+		summarizeBy: none
+		sourceColumn: Ghi chú
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trọng số'
+		dataType: double
+		lineageTag: 72d7cebb-8128-4be3-b113-2aff75b34dd0
+		summarizeBy: sum
+		sourceColumn: Trọng số
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Measure_Key
+		dataType: string
+		lineageTag: 7d49c9e2-b239-4695-a7d5-3e8c60938d36
+		summarizeBy: none
+		sourceColumn: Measure_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_TieuChi_NLVH = m
+		mode: import
+		source =
+				let
+				    Source =
+				        #table(
+				            type table
+				            [
+				                Sort = Int64.Type,
+				                Type = text,
+				                #"Tên chỉ số" = text,
+				                #"Tên hiển thị" = text,
+				                #"Mô tả ý nghĩa chỉ số" = text,
+				                #"Công thức tính" = text,
+				                Target = text,
+				                #"Nguồn dữ liệu" = text,
+				                #"Hướng dẫn lấy dữ liệu" = text,
+				                #"Tần suất cập nhật dữ liệu" = text,
+				                #"Phương thức cập nhật dữ liệu" = text,
+				                #"Ghi chú" = text,
+				                #"Trọng số" = number,
+				                Measure_Key = text
+				            ],
+				            {
+				                {
+				                    1,
+				                    "ONLINE_SUCCESS",
+				                    "Tỷ lệ thành công đơn Online",
+				                    "Tỷ lệ thành công đơn Online [20%]",
+				                    "Đánh giá khả năng chuyển đổi từ các đơn đặt hàng online thành phiếu bán",
+				                    "% CR Onl -> SP = Total SP / total đơn Online",
+				                    ">= 65%",
+				                    "Tỷ lệ chốt đơn",
+				                    "Lấy theo % Onl -> SP trong trang Tỷ lệ chốt đơn từ báo cáo Xử lý đơn hàng_new",
+				                    "Tự động",
+				                    "Tự động",
+				                    null,
+				                    0.20,
+				                    "TARGET_ONLINE_SUCCESS"
+				                },
+				                {
+				                    2,
+				                    "DELIVERY_LATE",
+				                    "Tỷ lệ trễ đơn giao hàng",
+				                    "Tỷ lệ trễ đơn giao hàng [15%]",
+				                    "Đảm bảo tốc độ xử lý đơn nhằm đảm bảo uy tín cam kết giao hàng với khách",
+				                    "% trễ ĐH = % phiếu trễ hạn ĐH / tổng phiếu",
+				                    "Zone 1 <= 15%; Zone 2 <= 15%; Zone 3 <= 20%",
+				                    "Logistics",
+				                    "Lấy theo % trễ đơn giao hàng của báo cáo logistics, chỉ áp dụng cho loại giao 2h và giao thường",
+				                    "n-1",
+				                    "Tự động",
+				                    "Nếu phát sinh 2 loại giao hàng thì tỉ trọng chia đôi",
+				                    0.15,
+				                    "TARGET_DELIVERY_LATE"
+				                },
+				                {
+				                    3,
+				                    "AIOV2",
+				                    "Tỷ lệ sử dụng AIOv2",
+				                    "Tỷ lệ sử dụng AIOv2 [10%]",
+				                    "Mức độ sử dụng hệ thống AIOv2 vào việc tạo phiếu bán, phản ánh sự thích nghi với công cụ mới",
+				                    "% AIOv2 = % phiếu bán xuất trên AIOv2 / tổng số phiếu có thể xuất bán trên AIOv2",
+				                    ">= 70%",
+				                    "AIOv2",
+				                    "Lấy % AIOv2 trong báo cáo, áp dụng cho đơn đến cửa hàng và bán lẻ, all nguồn đơn",
+				                    "n-1",
+				                    "Tự động",
+				                    null,
+				                    0.10,
+				                    "TARGET_AIOV2"
+				                },
+				                {
+				                    4,
+				                    "TKKD",
+				                    "Điểm TKKD",
+				                    "Điểm TKKD [10%]",
+				                    "Đánh giá mức độ tuân thủ tiến độ và chất lượng trưng bày của cửa hàng",
+				                    "Điểm TKKD = 50% hoàn thành công việc + 50% chấm điểm ngẫu nhiên",
+				                    ">= 90%",
+				                    "Link",
+				                    "Lấy cột điểm final",
+				                    "Thứ 7 hằng tuần và ngày 1 hằng tháng",
+				                    "Thủ công",
+				                    null,
+				                    0.10,
+				                    "TARGET_TKKD"
+				                },
+				                {
+				                    5,
+				                    "TAI_APP",
+				                    "%Tải app",
+				                    "%Tải app [15%]",
+				                    "Đánh giá hiệu quả chuyển đổi khách hàng tại shop tải app",
+				                    "Số lượng khách tải app / Số lượng khách đến shop chưa có app",
+				                    "Khu vực HCM/HN >= 50%; Khu vực tỉnh >= 55%",
+				                    "CS_Báo cáo tải app",
+				                    "Tổng quan -> filter all nguồn -> %Tải app",
+				                    "Cập nhật theo khung giờ trong ngày",
+				                    "Tự động",
+				                    null,
+				                    0.15,
+				                    "TARGET_TAI_APP"
+				                },
+				                {
+				                    6,
+				                    "CODE_USAGE",
+				                    "Hiệu quả sử dụng ngân sách",
+				                    "Hiệu quả sử dụng ngân sách [10%]",
+				                    "Đánh giá mức độ sử dụng ngân sách của cửa hàng nhằm đảm bảo nằm trong hạn mức đề ra theo từng hạng mục",
+				                    "Giá trị sử dụng code / Hạn mức cho phép",
+				                    "Chênh lệch giá trị sd_% >= 0; vượt 1 code mất 1/3 trọng số",
+				                    "VH_Sử dụng code",
+				                    "Xem ở trang cửa hàng",
+				                    "Mỗi ngày",
+				                    "Tự động",
+				                    "Theo dõi 3 chương trình code chính",
+				                    0.10,
+				                    "TARGET_CODE_USAGE"
+				                },
+				                {
+				                    7,
+				                    "TURNOVER",
+				                    "Chỉ số nghỉ việc",
+				                    "Chỉ số nghỉ việc [10%]",
+				                    "Đánh giá mức độ ổn định nhân sự, tỷ lệ nhân viên nghỉ việc",
+				                    "Tổng nhân sự nghỉ việc = SUM(Số nhân sự nghỉ việc * Tỷ lệ đóng góp)",
+				                    "Size S <= 2.0 nhân sự/quý; Size A/B <= 1.5 nhân sự/quý; Size C/D <= 1.0 nhân sự/quý",
+				                    "Miền Nam / Miền Bắc",
+				                    "Sheet Tổng kết",
+				                    "Mỗi 14 ngày",
+				                    "Thủ công",
+				                    null,
+				                    0.10,
+				                    "TARGET_TURNOVER"
+				                },
+				                {
+				                    8,
+				                    "NPS",
+				                    "NPS",
+				                    "NPS [10%]",
+				                    "Đánh giá chất lượng dịch vụ Shop",
+				                    "NPS = [(Khen ngợi + Hài lòng) - Có vi phạm] / Tổng khảo sát",
+				                    ">= 94%",
+				                    "CS_Kết quả khảo sát CS",
+				                    "Xem ở trang NPS Shop",
+				                    "Tự động",
+				                    "Tự động",
+				                    "NPS rỗng thì hiểu là 100% nếu không có phiếu vi phạm",
+				                    0.10,
+				                    "TARGET_NPS"
+				                }
+				            }
+				        ),
+				
+				    #"Changed Type" =
+				        Table.TransformColumnTypes(
+				            Source,
+				            {
+				                {"Sort", Int64.Type},
+				                {"Type", type text},
+				                {"Tên chỉ số", type text},
+				                {"Tên hiển thị", type text},
+				                {"Mô tả ý nghĩa chỉ số", type text},
+				                {"Công thức tính", type text},
+				                {"Target", type text},
+				                {"Nguồn dữ liệu", type text},
+				                {"Hướng dẫn lấy dữ liệu", type text},
+				                {"Tần suất cập nhật dữ liệu", type text},
+				                {"Phương thức cập nhật dữ liệu", type text},
+				                {"Ghi chú", type text},
+				                {"Trọng số", Percentage.Type},
+				                {"Measure_Key", type text}
+				            }
+				        )
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
