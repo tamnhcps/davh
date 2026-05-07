@@ -1,0 +1,31 @@
+table FACT_SALES_TICKET
+	lineageTag: 3b62c12a-4d55-429e-8aee-d906ba5fa53b
+
+	column AutoCode
+		dataType: string
+		lineageTag: c8142055-9b8b-428c-b1c8-c2564aad606d
+		summarizeBy: none
+		sourceColumn: AutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: e52d3f47-cdba-4df6-9391-fe97825d288d
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_SALES_TICKET = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=846a68ee-cfb9-40fd-940b-7f8fd45fb141""#(lf)with order_changes_hcm as #(lf)  (select #(lf)  JSON_EXTRACT_SCALAR(KeyValues, '$.Id')#(lf)  from `cellphones-data-platform.data_audit_changes_s12869_dwh.SO_Order_Changes` #(lf)  where Description like ""Đã tiếp nhận/ Đã tư vấn%""#(lf)  and DATE(SyncDate)  >= '2025-05-01'),#(lf)  #(lf)order_changes_hn as#(lf)  (select #(lf)  JSON_EXTRACT_SCALAR(KeyValues, '$.Id')#(lf)  from `cellphones-data-platform.data_audit_changes_s3759_dwh.SO_Order_Changes` #(lf)  where Description like ""Đã tiếp nhận/ Đã tư vấn%""#(lf)  and DATE(SyncDate)  >= '2025-05-01'),#(lf)#(lf)order_dh AS #(lf)  (select AutoCode, 'HCM' AS `Region`#(lf)  from `cps_cdc_sep_hcm_dbo.SO_Order`#(lf)  where #(lf)  cast(Id as string) in (select * from order_changes_hcm)#(lf)  union all#(lf)  select AutoCode, 'HN' AS `Region`#(lf)  from `cps_cdc_sep_hn_dbo.SO_Order`#(lf)  where #(lf)  cast(Id as string) in (select * from order_changes_hn))#(lf)#(lf)select distinct#(lf)    s.AutoCode,#(lf)    s.Region,#(lf)  from `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` s#(lf)  join order_dh o on s.SOOrderAutoCode = o.AutoCode and o.`Region` = s.Region#(lf)  where DATE(CreateDate) >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -2 MONTH)#(lf)  and MethodID = 58", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

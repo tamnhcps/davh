@@ -1,0 +1,304 @@
+table FACT_TFEX_TICKET
+	lineageTag: da3451cc-e6ff-420d-9c34-61358a9c6cb2
+
+	column 'Mã ticket'
+		dataType: string
+		lineageTag: 94db47fa-6e88-4dc2-9d39-a730d2be704c
+		summarizeBy: none
+		sourceColumn: Mã ticket
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nguồn
+		dataType: string
+		lineageTag: 55b517c3-dfa5-4405-bc2a-8861bff97c08
+		summarizeBy: none
+		sourceColumn: Nguồn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"FACT_TFEX_TICKET","TableItemName":"Group_Nguồn","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'Loại yêu cầu'
+		dataType: string
+		lineageTag: 863ed6dc-d96d-47c4-9fc3-1c30ceb32a64
+		summarizeBy: none
+		sourceColumn: Loại yêu cầu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tạo lúc'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7813abfb-5697-4294-878a-2e83ee69449a
+		summarizeBy: none
+		sourceColumn: Tạo lúc
+
+		variation Variation
+			isDefault
+			relationship: 66fdf2dc-24e7-4d09-a0df-c8ebdcee8e98
+			defaultHierarchy: LocalDateTable_dd6aee84-0ce8-40a7-a4a4-3bfdd56d0e14.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 75c45a1c-a7a2-4dcd-b3f2-4987e547419d
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên khách hàng'
+		dataType: string
+		lineageTag: 5b342ff1-c9fa-400a-b0f1-5e604f89401c
+		summarizeBy: none
+		sourceColumn: Tên khách hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số ĐT khách'
+		dataType: string
+		lineageTag: 1a44525e-3758-4939-b60a-c06b15a5ee31
+		summarizeBy: none
+		sourceColumn: Số ĐT khách
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Email khách'
+		dataType: string
+		lineageTag: 6665c868-c977-41a5-8289-fe701cf156a3
+		summarizeBy: none
+		sourceColumn: Email khách
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nội dung khách phản ánh'
+		dataType: string
+		lineageTag: 6c3bcfa3-b614-490f-a043-725391ef2300
+		summarizeBy: none
+		sourceColumn: Nội dung khách phản ánh
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái ticket'
+		dataType: string
+		lineageTag: 153c5c24-4d8a-43d0-bed9-508b8a195989
+		summarizeBy: none
+		sourceColumn: Trạng thái ticket
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kết luận'
+		dataType: string
+		lineageTag: 8ff26796-0b8a-4e97-be67-3294e53d25d1
+		summarizeBy: none
+		sourceColumn: Kết luận
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại ghi nhận'
+		dataType: string
+		lineageTag: 22facb43-e7a8-4746-a895-27091d07a9ca
+		summarizeBy: none
+		sourceColumn: Loại ghi nhận
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đối tượng liên quan'
+		dataType: string
+		lineageTag: 86205056-cd80-438d-8466-93043f604529
+		summarizeBy: none
+		sourceColumn: Đối tượng liên quan
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhân viên liên quan'
+		dataType: string
+		lineageTag: 5010f3ac-5564-4a46-938d-632204babedc
+		summarizeBy: none
+		sourceColumn: Nhân viên liên quan
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quản lý liên đới'
+		dataType: string
+		lineageTag: 3319e126-b49e-42f6-a21e-63b1c70aeb11
+		summarizeBy: none
+		sourceColumn: Quản lý liên đới
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nhãn
+		dataType: string
+		lineageTag: b67bcae0-34db-45fd-9589-f9d7e7dd96b6
+		summarizeBy: none
+		sourceColumn: Nhãn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã phiếu khảo sát'
+		dataType: string
+		lineageTag: 0b376d56-1b23-4afc-9ae1-ffa2ee84017b
+		summarizeBy: none
+		sourceColumn: Mã phiếu khảo sát
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo' = FACT_TFEX_TICKET[Tạo lúc].[Date]
+		lineageTag: 2ba0ea71-dc6c-484b-9dec-7151002a837b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng = FORMAT(FACT_TFEX_TICKET[Tạo lúc],"YYYY/MM")
+		lineageTag: d89f26f6-f160-4261-99da-d01c4f96c49c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhân viên liên quan khảo sát' = LOOKUPVALUE(FACT_NPS_TICKET[HaraID_NV],FACT_NPS_TICKET[Mã phiếu],FACT_TFEX_TICKET[Mã phiếu khảo sát])
+		lineageTag: b930cf38-3d06-4efb-b0b5-4c89575b0554
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Nguồn =
+			SWITCH(
+				TRUE,
+				ISBLANK('FACT_TFEX_TICKET'[Nguồn]),
+				"(Blank)",
+				'FACT_TFEX_TICKET'[Nguồn] IN {"Chat",
+					"Chat web",
+					"Chat Facebook",
+					"Cửa hàng",
+					"Email",
+					"Khảo sát",
+					"Nội bộ",
+					"QC",
+					"Tổng đài"},
+				"Khảo sát",
+				'FACT_TFEX_TICKET'[Nguồn] IN {"Mạng xã hội",
+					"Social_Facebook_Cá nhân",
+					"Social_Facebook_Review Page",
+					"Social_Google Rating",
+					"Social_Website Công ty"},
+				"Social",
+				'FACT_TFEX_TICKET'[Nguồn]
+			)
+		lineageTag: 12fc3a9d-4101-4701-8934-47953c9068d1
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "FACT_TFEX_TICKET"
+				          }
+				        },
+				        "Property": "Nguồn"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"f","Entity":"FACT_TFEX_TICKET"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"Nguồn"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"Khảo sát","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"Nguồn"}}],"Values":[[{"Literal":{"Value":"'Chat'"}}],[{"Literal":{"Value":"'Chat web'"}}],[{"Literal":{"Value":"'Chat Facebook'"}}],[{"Literal":{"Value":"'Cửa hàng'"}}],[{"Literal":{"Value":"'Email'"}}],[{"Literal":{"Value":"'Khảo sát'"}}],[{"Literal":{"Value":"'Nội bộ'"}}],[{"Literal":{"Value":"'QC'"}}],[{"Literal":{"Value":"'Tổng đài'"}}]]}}},{"DisplayName":"Social","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"Nguồn"}}],"Values":[[{"Literal":{"Value":"'Mạng xã hội'"}}],[{"Literal":{"Value":"'Social_Facebook_Cá nhân'"}}],[{"Literal":{"Value":"'Social_Facebook_Review Page'"}}],[{"Literal":{"Value":"'Social_Google Rating'"}}],[{"Literal":{"Value":"'Social_Website Công ty'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	column Evaluation_NPS =
+			
+			SWITCH(TRUE(),
+			FACT_TFEX_TICKET[Kết luận] IN {"Hài lòng", "Khen ngợi"}, "Hài lòng_HaveTicket",
+			FACT_TFEX_TICKET[Kết luận] = "Nhắc nhở" && FACT_TFEX_TICKET[Nguồn] <> "Khảo sát", "Nhắc nhở",
+			FACT_TFEX_TICKET[Kết luận] = "Có vi phạm", "Vi phạm",
+			BLANK())
+		lineageTag: a70b47a5-45c8-45b6-9f2a-17928f44c84e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Link ticket'
+		dataType: string
+		lineageTag: 701b1caf-8712-4321-9936-85bfd15579a6
+		summarizeBy: none
+		sourceColumn: Link ticket
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM = RELATED('DIM_Danh mục_Phòng ban'[AM])
+		lineageTag: af888b05-2534-430c-b3d1-1d3f8ae7c01f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_info
+		dataType: string
+		lineageTag: f43fc1da-e5b8-410f-8e26-e8bf5c72b2a7
+		summarizeBy: none
+		sourceColumn: customer_info
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền = RELATED('DIM_Danh mục_Miền'[Miền])
+		lineageTag: eee62c44-bae2-4e24-99c6-a8e28220381d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column responsible_by
+		dataType: string
+		lineageTag: e0e63445-dd2f-44d8-a55f-5c2624550769
+		summarizeBy: none
+		sourceColumn: responsible_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column key
+		dataType: string
+		lineageTag: d00f81a9-a380-4d53-8641-d95154c5ee9b
+		summarizeBy: none
+		sourceColumn: key
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái đánh giá' = ```
+			
+			VAR KetLuan = 'FACT_TFEX_TICKET'[Kết luận]
+			
+			VAR TrangThai = MAXX(RELATEDTABLE('FACT_TFEX_FEEDBACK'), 'FACT_TFEX_FEEDBACK'[Trạng thái])
+			
+			RETURN
+			IF (
+			    ISBLANK(KetLuan) || KetLuan = "", 
+			    "Chưa đánh giá",
+			    IF (
+			        KetLuan = "Cần thêm thông tin",
+			        TrangThai, 
+			        KetLuan 
+			    )
+			)
+			```
+		lineageTag: dda4de15-0689-4eb0-9527-ca3dc4a176db
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_TFEX_TICKET = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=846a68ee-cfb9-40fd-940b-7f8fd45fb141""#(lf)WITH activities AS #(lf)  (SELECT * #(lf)  FROM `cellphones-data-platform.cps_data_hrw_dwh.hrw_tfex_ticket_activities` #(lf)  WHERE #(lf)    field_key_had_updated = 'Assessment_Responsible_Departments'#(lf)    and gia_tri_moi like 'CPS-%')#(lf)#(lf)SELECT #(lf)  f.* except (`Cửa hàng`), #(lf)  REGEXP_REPLACE(COALESCE(a.gia_tri_moi, f.`Cửa hàng`), r'^PG_', '') as `Cửa hàng` #(lf)FROM `cellphones-data-platform.cps_data_hrw_dwh.fact_tfex_ticket` f#(lf)LEFT JOIN activities a on f.`Mã ticket` = a.ticket_code#(lf)WHERE DATE(`Tạo lúc`) >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -5 MONTH)#(lf)AND REGEXP_CONTAINS(`Nhãn`, r'Liên quan Shop|XLKN|Cần QLCH gọi|Khen thưởng')", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"Cửa hàng"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-QNI-HL-126KL","CPS-QNI-HGA-19THD",Replacer.ReplaceText,{"Cửa hàng"})
+				in
+				    #"Replaced Value1"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

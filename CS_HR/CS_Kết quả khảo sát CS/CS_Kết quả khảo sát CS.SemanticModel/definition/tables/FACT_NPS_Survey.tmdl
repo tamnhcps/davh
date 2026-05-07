@@ -1,0 +1,232 @@
+table FACT_NPS_Survey
+	lineageTag: 763703cb-2eea-47f4-a83d-f73f60c24264
+
+	column Date = FACT_NPS_Survey[Ngày mua].[Date]
+		formatString: Short Date
+		lineageTag: 6d72db35-d310-4c0a-9eda-07666d7757b4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng = FORMAT(FACT_NPS_Survey[Ngày mua],"YYYY/MM")
+		lineageTag: 7d68e728-41e9-447e-90ac-7540846ede26
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nguồn khảo sát' = IF(FACT_NPS_Survey[Nguồn] = BLANK(), "Khảo sát", FACT_NPS_Survey[Nguồn])
+		lineageTag: 09bae9d7-478d-4ea3-b930-d1f0ff9cde76
+		summarizeBy: none
+		sortByColumn: Index_NKS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index_NKS = RELATED('DIM_Nguồn khảo sát'[Index])
+		formatString: 0
+		lineageTag: df5e6b52-1184-4949-b5a7-49c7892feeea
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã phiếu'
+		lineageTag: 8bf150d5-4060-4107-ad09-ae77dabaf713
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Mã phiếu]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo phiếu'
+		formatString: General Date
+		lineageTag: 319df3e8-088a-4441-9815-29d7c564c854
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Ngày tạo phiếu]
+
+		variation Variation
+			isDefault
+			relationship: 563e4992-0f20-4286-92d7-90dbb5ff2bb9
+			defaultHierarchy: LocalDateTable_bd57aa66-35aa-4c21-a037-8ac3b153a2ba.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo'
+		formatString: Short Date
+		lineageTag: 5ab9a6eb-449d-4def-8d5b-3f8763d13125
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Ngày tạo]
+
+		variation Variation
+			isDefault
+			relationship: fdf4fbee-83c5-4ffa-8eef-c902f7a02109
+			defaultHierarchy: LocalDateTable_60e03896-e568-40e7-808b-46e89d0e3e58.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Trạng thái'
+		lineageTag: 1c8b1a54-db7f-4a69-8823-a81ea25f7628
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Trạng thái]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		lineageTag: 89df761d-6090-429a-852e-ac8663e425bb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Cửa hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã hóa đơn'
+		lineageTag: f69e7712-0f31-48bf-aab9-eb0ce3177454
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Mã hóa đơn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày mua'
+		formatString: General Date
+		lineageTag: 844d4e69-b216-49a7-8d11-4014940b2f62
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Ngày mua]
+
+		variation Variation
+			isDefault
+			relationship: c126d04a-92af-4568-8171-f982f3e7c469
+			defaultHierarchy: LocalDateTable_d8bb3c48-d910-42c8-8597-06895aa65fcb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nguồn
+		lineageTag: 027d1629-11b8-4215-a4ae-53724c93d979
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Nguồn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SĐT
+		lineageTag: aff160b6-2f3a-4475-893d-2b73169ebbfe
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[SĐT]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian thực hiện khảo sát'
+		formatString: General Date
+		lineageTag: cd157306-96f6-4dd9-89a9-6d19f9c387f2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Thời gian thực hiện khảo sát]
+
+		variation Variation
+			isDefault
+			relationship: 759255bd-3b29-4ab8-9241-ab344cbf5d8e
+			defaultHierarchy: LocalDateTable_0a81ebf0-96b8-4386-a277-b48f543ddfd0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên hàng'
+		lineageTag: 1c8b96d6-deb9-406a-bb77-dd241acaea87
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Tên hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại hàng'
+		lineageTag: 53fa038a-2c13-43ee-b28c-f68e69a0ff83
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Loại hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phương thức'
+		lineageTag: 5fef1e43-0ac7-4073-8122-fa162b14cc49
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Phương thức]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Liên hệ khảo sát'
+		lineageTag: a96a6ce7-bebe-4cdb-b947-4d020e3ff392
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Liên hệ khảo sát]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lý do không liên hệ được'
+		lineageTag: a6745e48-66fd-4962-9809-3cace311c50b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Lý do không liên hệ được]
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsSurveyed
+		formatString: 0
+		lineageTag: 7712b7ea-2032-4bae-bfda-c89bd8a338bc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[IsSurveyed]
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWarning = ```
+			
+			var som = [StartDate]
+			var shop = RELATED('DIM_Danh mục_Phòng ban'[Bộ phận])
+			var check = CALCULATE( COUNTROWS(DIM_Shop_Warning), FILTER(DIM_Shop_Warning, DIM_Shop_Warning[CỬA HÀNG] = shop && DIM_Shop_Warning[THÁNG] = som))
+			RETURN IF(check > 0, "⚠️", "📞") 
+			```
+		lineageTag: 0ec97b1c-fe27-4575-af43-31f1721cb515
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_NPS_Survey = calculated
+		mode: import
+		source =
+				
+				CALCULATETABLE(
+				        SUMMARIZE(
+				            FACT_NPS_TICKET,
+				            FACT_NPS_TICKET[Mã phiếu],
+				            FACT_NPS_TICKET[Ngày tạo phiếu],
+				            FACT_NPS_TICKET[Ngày tạo],
+				            FACT_NPS_TICKET[Trạng thái],
+				            FACT_NPS_TICKET[Cửa hàng],
+				            // FACT_NPS_TICKET[Mã phiếu SEP],
+				            FACT_NPS_TICKET[Mã hóa đơn],
+				            FACT_NPS_TICKET[Ngày mua],
+				            FACT_NPS_TICKET[Nguồn],
+				            // FACT_NPS_TICKET[Tên khách hàng],
+				            FACT_NPS_TICKET[SĐT],
+				            FACT_NPS_TICKET[Thời gian thực hiện khảo sát],
+				            // FACT_NPS_TICKET[Mã sản phẩm],
+				            // FACT_NPS_TICKET[Tên sản phẩm],
+				            FACT_NPS_TICKET[Tên hàng],
+				            FACT_NPS_TICKET[Loại hàng],
+				            FACT_NPS_TICKET[Phương thức],
+				            FACT_NPS_TICKET[Liên hệ khảo sát],
+				            FACT_NPS_TICKET[Lý do không liên hệ được],
+				            FACT_NPS_TICKET[IsSurveyed]
+				        ),
+				        FILTER(
+				            FACT_NPS_TICKET,
+				            FACT_NPS_TICKET[Phương thức] IN {"Bán lẻ", "Đơn đến cửa hàng", "Đơn giao hàng"}
+				        ))
+
+	annotation PBI_Id = b6c9f78bc09b4d458b97c1747f773115
+

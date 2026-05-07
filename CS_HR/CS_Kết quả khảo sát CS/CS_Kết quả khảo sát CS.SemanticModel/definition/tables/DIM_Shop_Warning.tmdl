@@ -1,0 +1,50 @@
+table DIM_Shop_Warning
+	lineageTag: 4417c145-797f-47df-bcea-774da743334e
+
+	column MIỀN
+		dataType: string
+		lineageTag: b6b4db13-2ae4-4259-a9d6-d2b12a592377
+		summarizeBy: none
+		sourceColumn: MIỀN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'CỬA HÀNG'
+		dataType: string
+		lineageTag: dad4441a-07fc-40f3-9888-065ca32933ba
+		summarizeBy: none
+		sourceColumn: CỬA HÀNG
+
+		annotation SummarizationSetBy = Automatic
+
+	column THÁNG
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: f16a0f78-9d40-443c-bd6c-aff5c4674660
+		summarizeBy: none
+		sourceColumn: THÁNG
+
+		variation Variation
+			isDefault
+			relationship: 701f8f4e-1779-409b-8875-10414a96736c
+			defaultHierarchy: LocalDateTable_2d77cc1a-d419-43f0-b47c-6763248bee3f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition DIM_Shop_Warning = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbNcFj3JCJGxEIjAS7hkWoOi3K60B3y-5Gth1VrVKD8PZ5F50ZaDb7JyLDl8ZuHyG1061RPvbD99K/pub?output=xlsx"), null, true),
+				    #"Trang tính1_Sheet" = Source{[Item="TOP SHOP WARNING",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Trang tính1_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"MIỀN", type text}, {"CỬA HÀNG", type text}, {"THÁNG", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

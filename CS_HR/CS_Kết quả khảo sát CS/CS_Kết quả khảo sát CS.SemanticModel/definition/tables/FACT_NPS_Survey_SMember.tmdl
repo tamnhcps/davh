@@ -1,0 +1,262 @@
+table FACT_NPS_Survey_SMember
+	lineageTag: 3f909939-a51a-465f-ab90-6b17dc52e427
+
+	column Date = FACT_NPS_Survey_SMember[Ngày mua].[Date]
+		formatString: Short Date
+		lineageTag: 5d8dfa75-442d-4460-b1f7-0dd0d7819ae2
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 76809c13-a060-4871-92d4-182b0298e128
+			defaultHierarchy: LocalDateTable_11bb4240-026f-477d-a81b-8069568cb2bb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Nguồn khảo sát' = IF(FACT_NPS_Survey_SMember[Nguồn] = BLANK(), "Khảo sát", FACT_NPS_Survey_SMember[Nguồn])
+		lineageTag: aa03d39c-2ce2-4a2d-be2b-adc02664526a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng = FORMAT(FACT_NPS_Survey_SMember[Ngày mua],"YYYY/MM")
+		lineageTag: 87690a23-8d76-461a-9cb7-9c1ca255ad18
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng_KS = FORMAT(FACT_NPS_Survey_SMember[Ngày tạo],"YYYY/MM")
+		lineageTag: 6853c634-f5fc-4b28-81b7-75d09463442e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã phiếu'
+		lineageTag: c7acc65b-80fe-481b-acbc-b2dc780522db
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mã phiếu]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo phiếu'
+		formatString: General Date
+		lineageTag: ce7ceac0-1778-45d6-88e8-2b0b5854927c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ngày tạo phiếu]
+
+		variation Variation
+			isDefault
+			relationship: fe9a4d94-753b-4171-bc59-bf3cac840106
+			defaultHierarchy: LocalDateTable_12652776-e38e-464c-8bd0-c36aa0091795.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo'
+		formatString: General Date
+		lineageTag: 7e2c9122-6876-492c-870a-f92f11760083
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ngày tạo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái'
+		lineageTag: e71ec1a3-1309-4299-8579-7e8a03038500
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Trạng thái]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		lineageTag: 6d66a463-a7ce-4ace-b77f-11e89ee922be
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Cửa hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã hóa đơn'
+		lineageTag: 597bc304-c207-4b97-a751-a3e3016c83c1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mã hóa đơn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày mua'
+		formatString: General Date
+		lineageTag: 98634729-cf19-4803-890f-64e87b38dd49
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Ngày mua]
+
+		variation Variation
+			isDefault
+			relationship: 8ffffeff-b335-4fea-aa62-249e75e23b09
+			defaultHierarchy: LocalDateTable_c7ade146-6828-4901-a09f-3ba74cb0092e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nguồn
+		lineageTag: 205c2674-3099-4c97-8a21-0ab58beca0a2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Nguồn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SĐT
+		lineageTag: e30325b0-9936-4113-807d-3913327e8cfe
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [SĐT]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian thực hiện khảo sát'
+		lineageTag: c6405635-3432-4119-a617-25cd572f0dfc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Thời gian thực hiện khảo sát]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Tên hàng'
+		lineageTag: da11b5ef-2d2b-4560-bb1f-ea72516075be
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Tên hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại hàng'
+		lineageTag: 4837ace2-eec7-49ca-981f-af1b5bd2e3dc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Loại hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phương thức'
+		lineageTag: 2bc77f2d-ec67-4a22-840a-b786210af90f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Phương thức]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhân viên bán'
+		lineageTag: b463542b-594e-46b4-988c-0d0b1200e375
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Nhân viên bán]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Liên hệ khảo sát'
+		lineageTag: a6724cee-7598-437b-92b4-65e3bba9648a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Liên hệ khảo sát]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lý do không liên hệ được'
+		lineageTag: 5c9aa958-8ecd-4e53-846b-c6d30e5871e4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Lý do không liên hệ được]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kết quả khảo sát_SMember'
+		lineageTag: 432ee7e5-7f03-4030-9f9f-ba1232353d23
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Kết quả khảo sát_SMember]
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_tiep_nhan =
+			
+			CALCULATE(
+			    COUNTROWS(FACT_SALES_TICKET),
+			    FILTER(FACT_SALES_TICKET, FACT_SALES_TICKET[AutoCode] = FACT_NPS_Survey_SMember[Mã hóa đơn]))
+		formatString: 0
+		lineageTag: 2e2120f8-3929-4146-945c-bb751e46a0d9
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_NPS_Survey_SMember = calculated
+		mode: import
+		source = ```
+				
+				UNION(
+				    CALCULATETABLE(
+				        SELECTCOLUMNS(
+				            FACT_NPS_TICKET,
+				            "Mã phiếu", FACT_NPS_TICKET[Mã phiếu],
+				            "Ngày tạo phiếu", FACT_NPS_TICKET[Ngày tạo phiếu],
+				            "Ngày tạo", FACT_NPS_TICKET[Ngày tạo],
+				            "Trạng thái", FACT_NPS_TICKET[Trạng thái],
+				            "Cửa hàng", FACT_NPS_TICKET[Cửa hàng],
+				            // "Mã phiếu SEP", FACT_NPS_TICKET[Mã phiếu SEP],
+				            "Mã hóa đơn", FACT_NPS_TICKET[Mã hóa đơn],
+				            "Ngày mua", FACT_NPS_TICKET[Ngày mua],
+				            "Nguồn", FACT_NPS_TICKET[Nguồn],
+				            // "Tên khách hàng", FACT_NPS_TICKET[Tên khách hàng],
+				            "SĐT", FACT_NPS_TICKET[SĐT],
+				            "Thời gian thực hiện khảo sát", FACT_NPS_TICKET[Thời gian thực hiện khảo sát],
+				            // "Mã sản phẩm", FACT_NPS_TICKET[Mã sản phẩm],
+				            // "Tên sản phẩm", FACT_NPS_TICKET[Tên sản phẩm],
+				            "Tên hàng", FACT_NPS_TICKET[Tên hàng],
+				            "Loại hàng", FACT_NPS_TICKET[Loại hàng],
+				            "Phương thức", FACT_NPS_TICKET[Phương thức],
+				            "Nhân viên bán", FACT_NPS_TICKET[Nhân viên bán],
+				            "Liên hệ khảo sát", FACT_NPS_TICKET[Liên hệ khảo sát],
+				            "Lý do không liên hệ được", FACT_NPS_TICKET[Lý do không liên hệ được],
+				            "Kết quả khảo sát_SMember", FACT_NPS_TICKET[Kết quả khảo sát_SMember]
+				        ),
+				        FACT_NPS_TICKET[Phương thức] IN { "Bán lẻ", "Đơn đến cửa hàng", "Đơn giao hàng" }
+				            && FACT_NPS_TICKET[Ngày tạo phiếu] >= DATE(2024, 5, 4)
+				            && FACT_NPS_TICKET[IsSurveyed_SMember] = 1
+				    ),
+				    
+				    SELECTCOLUMNS(
+				        FACT_QC_AI,
+				        "Mã phiếu", FACT_QC_AI[Mã phiếu],
+				        "Ngày tạo phiếu", FACT_QC_AI[Ngày tạo phiếu],
+				        "Ngày tạo", FACT_QC_AI[Ngày tạo],
+				        "Trạng thái", BLANK(),
+				        "Cửa hàng", FACT_QC_AI[HaraID],
+				        // "Mã phiếu SEP", BLANK(),
+				        "Mã hóa đơn", FACT_QC_AI[Mã hóa đơn],
+				        "Ngày mua", FACT_QC_AI[Ngày mua],
+				        "Nguồn", FACT_QC_AI[Nguồn],
+				        // "Tên khách hàng", BLANK(),
+				        "SĐT", FACT_QC_AI[SĐT],
+				        "Thời gian thực hiện khảo sát", BLANK(),
+				        // "Mã sản phẩm", BLANK(),
+				        // "Tên sản phẩm", BLANK(),
+				        "Tên hàng", BLANK(),
+				        "Loại hàng", BLANK(),
+				        "Phương thức", FACT_QC_AI[Phương thức],
+				        "Nhân viên bán", FACT_QC_AI[Nhân viên bán],
+				        "Liên hệ khảo sát", BLANK(),
+				        "Lý do không liên hệ được", BLANK(),
+				        "Kết quả khảo sát_SMember", FACT_QC_AI[Kết quả khảo sát_SMember]
+				    )
+				)
+				
+				```
+
+	annotation PBI_Id = dcd86a0ea72a4875b080845ce50c52ad
+

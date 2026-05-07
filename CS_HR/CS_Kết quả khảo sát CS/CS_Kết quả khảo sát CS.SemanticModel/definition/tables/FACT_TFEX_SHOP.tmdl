@@ -1,0 +1,414 @@
+table FACT_TFEX_SHOP
+	lineageTag: 8c89a739-4d40-4c35-9029-bcf89a2f936e
+
+	column 'Mã ticket'
+		dataType: string
+		lineageTag: 94e8f34e-450b-4fcc-aea1-af3f90d7fdc1
+		summarizeBy: none
+		sourceColumn: Mã ticket
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tạo lúc'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ac6b262c-1bd3-4bad-bcf3-5404154329da
+		summarizeBy: none
+		sourceColumn: Tạo lúc
+
+		variation Variation
+			isDefault
+			relationship: e49fd626-33af-414d-8911-5837be8bcf07
+			defaultHierarchy: LocalDateTable_59595a68-0e30-458c-896b-7aa6591d9c1b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 3e62415f-14a3-4926-884b-f1b9f6fd7f6b
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái ticket'
+		dataType: string
+		lineageTag: 33847022-2b5b-4024-8d1d-b02310ebf8c2
+		summarizeBy: none
+		sourceColumn: Trạng thái ticket
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kết luận'
+		dataType: string
+		lineageTag: d6b61e96-b4d8-42ca-b1e8-fecc5747abee
+		summarizeBy: none
+		sourceColumn: Kết luận
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại ghi nhận'
+		dataType: string
+		lineageTag: b2aeb0dc-a742-417e-b554-25379bbc1336
+		summarizeBy: none
+		sourceColumn: Loại ghi nhận
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Label.No'
+		dataType: string
+		lineageTag: 61ced12f-7426-40bc-ba1c-b0425173788b
+		summarizeBy: none
+		sourceColumn: Label.No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: cc629df9-a8dc-48fa-8a95-5a6ee84b3883
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"FACT_TFEX_SHOP","TableItemName":"Nhóm_Đánh_Giá","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'Ngày tạo' = FACT_TFEX_SHOP[Tạo lúc].[Date]
+		formatString: Short Date
+		lineageTag: 91192705-4c2c-437b-9b7c-a33c496edaa6
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column StartDate = STARTOFMONTH(FACT_TFEX_SHOP[Tạo lúc].[Date])
+		formatString: yyyy-mm
+		lineageTag: 8516cb27-2169-4487-b460-2f2690a97136
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 78b7f15b-fc6e-4b01-b883-5fa0c04e6b54
+			defaultHierarchy: LocalDateTable_0c21c16b-1581-4d7b-bd36-a67662ecc3ce.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Index = RELATED('DIM_GroupType'[Index])
+		formatString: 0
+		lineageTag: 6ab999ca-ff54-47c9-87ce-39f990946c1c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NPS = ```
+			
+			var hailong_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] IN {"Hài lòng", "Khen ngợi"}
+			        && FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			var hailong_NoTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			        && FACT_NPS_TICKET[Kết quả khảo sát] IN {"Hài lòng", "Khen ngợi"}
+			        && FACT_NPS_TICKET[HaveTFEX] = BLANK()
+			        && FACT_NPS_TICKET[Shop] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			var loidung_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] = "Có vi phạm"
+			        && FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			var binhthuong = 
+			CALCULATE(
+			    DISTINCTCOUNT( FACT_NPS_TICKET[Mã phiếu] ),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			            && FACT_NPS_TICKET[Kết quả khảo sát] = "Bình thường"
+			            && (
+			                FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			                    || FACT_NPS_TICKET[NV_Câu 5] = "None"
+			            )
+			            && FACT_NPS_TICKET[Shop] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			
+			var kohailong = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			        && FACT_NPS_TICKET[Kết quả khảo sát] = "Không hài lòng"
+			            && (FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			            || FACT_NPS_TICKET[NV_Câu 5] = "None")
+			        && FACT_NPS_TICKET[Có liên hệ được] <> FALSE()
+			        && FACT_NPS_TICKET[Shop] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			var nhacnho_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] = "Nhắc nhở"
+			        && FACT_TFEX_TICKET[Nguồn] <> "Khảo sát"
+			        && FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			VAR hailong = hailong_HaveTicket+hailong_NoTicket
+			
+			var tongkhaosat = hailong+binhthuong+kohailong+loidung_HaveTicket+nhacnho_HaveTicket
+			
+			RETURN
+			DIVIDE(hailong-loidung_HaveTicket,tongkhaosat,BLANK())
+			
+			```
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 0c695b31-9375-40d3-99b0-666dce21e42a
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng = FORMAT(FACT_TFEX_SHOP[Ngày tạo],"YYYY/MM")
+		lineageTag: a6b12917-e4ea-4ee9-8e2a-202d0d5f0ca3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '%Vi phạm' = ```
+			
+			var hailong_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] IN {"Hài lòng", "Khen ngợi"}
+			        && FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			var hailong_NoTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			        && FACT_NPS_TICKET[Kết quả khảo sát] IN {"Hài lòng", "Khen ngợi"}
+			        && FACT_NPS_TICKET[HaveTFEX] = BLANK()
+			        && FACT_NPS_TICKET[Shop] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			var loidung_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] = "Có vi phạm"
+			        && FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			var binhthuong = 
+			CALCULATE(
+			    DISTINCTCOUNT( FACT_NPS_TICKET[Mã phiếu] ),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			            && FACT_NPS_TICKET[Kết quả khảo sát] = "Bình thường"
+			            && (
+			                FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			                    || FACT_NPS_TICKET[NV_Câu 5] = "None"
+			            )
+			            && FACT_NPS_TICKET[Shop] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			
+			var kohailong = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			        && FACT_NPS_TICKET[Kết quả khảo sát] = "Không hài lòng"
+			            && (FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			            || FACT_NPS_TICKET[NV_Câu 5] = "None")
+			        && FACT_NPS_TICKET[Có liên hệ được] = TRUE()
+			        && FACT_NPS_TICKET[Shop] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			
+			
+			var nhacnho_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] = "Nhắc nhở"
+			        && FACT_TFEX_TICKET[Nguồn] <> "Khảo sát"
+			        && FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_TFEX_SHOP[Cửa hàng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_TFEX_SHOP[Năm/Tháng])
+			    )
+			)
+			VAR hailong = hailong_HaveTicket+hailong_NoTicket
+			
+			var tongkhaosat = hailong+binhthuong+kohailong+loidung_HaveTicket+nhacnho_HaveTicket
+			
+			RETURN
+			DIVIDE(loidung_HaveTicket,tongkhaosat,BLANK())
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c876e2d9-4c8b-4e91-acc4-f7392bb0bd8e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column = IF(FACT_TFEX_SHOP[Group_Type] = FACT_TFEX_SHOP[Nhóm_Đánh_Giá],1,0)
+		lineageTag: 47bc4485-60a9-4a97-9cf0-69e299fa5ad2
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Type = ```
+			
+			SWITCH(
+			    TRUE(),
+			    -- BHMR
+			    FACT_TFEX_SHOP[Type] = "Cảm nhận khách hàng" && FACT_TFEX_SHOP[Loại ghi nhận] = "BHMR", "BHMR",
+			    FACT_TFEX_SHOP[Type] = "Có sự việc cụ thể" && FACT_TFEX_SHOP[Loại ghi nhận] = "BHMR", "BHMR",
+			    FACT_TFEX_SHOP[Type] = "Lỗi tư vấn", "BHMR",    
+			    -- Thái độ
+			    FACT_TFEX_SHOP[Type] = "Cảm nhận khách hàng" , "Thái độ",
+			    FACT_TFEX_SHOP[Type] = "Có sự việc cụ thể", "Thái độ",
+			    -- Nghiệp vụ
+			    "Nghiệp vụ"
+			)
+			
+			```
+		lineageTag: a5b003fe-e25f-48f5-9cab-f8acc0aa1a38
+		summarizeBy: none
+		sortByColumn: Index
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nhóm_Đánh_Giá =
+			SWITCH(
+				TRUE,
+				ISBLANK('FACT_TFEX_SHOP'[Type]),
+				"(Blank)",
+				'FACT_TFEX_SHOP'[Type] IN {"Lỗi tư vấn"},
+				"BHMR",
+				'FACT_TFEX_SHOP'[Type] IN {"Bám sàn",
+					"Bảo hành",
+					"Chase Khách",
+					"Hóa đơn đỏ",
+					"Không Đúng Hẹn",
+					"Kiến thức",
+					"Kỹ năng",
+					"Lỗi nghiệp vụ điều chuyển",
+					"Thanh toán",
+					"Tiếp đón",
+					"Trước - Sau tư vấn",
+					"Xử lý đơn hàng"},
+				"Nghiệp vụ",
+				'FACT_TFEX_SHOP'[Type] IN {"Cảm nhận khách hàng",
+					"Có sự việc cụ thể"},
+				"Thái độ",
+				'FACT_TFEX_SHOP'[Type]
+			)
+		lineageTag: ad88319e-22a8-469d-8f85-c51f90140a97
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "FACT_TFEX_SHOP"
+				          }
+				        },
+				        "Property": "Type"
+				      }
+				    }
+				  ]
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"f","Entity":"FACT_TFEX_SHOP"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"Type"}}],"GroupItems":[{"DisplayName":"(Blank)","BlankDefaultPlaceholder":true},{"DisplayName":"BHMR","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"Type"}}],"Values":[[{"Literal":{"Value":"'Lỗi tư vấn'"}}]]}}},{"DisplayName":"Nghiệp vụ","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"Type"}}],"Values":[[{"Literal":{"Value":"'Bám sàn'"}}],[{"Literal":{"Value":"'Bảo hành'"}}],[{"Literal":{"Value":"'Chase Khách'"}}],[{"Literal":{"Value":"'Hóa đơn đỏ'"}}],[{"Literal":{"Value":"'Không Đúng Hẹn'"}}],[{"Literal":{"Value":"'Kiến thức'"}}],[{"Literal":{"Value":"'Kỹ năng'"}}],[{"Literal":{"Value":"'Lỗi nghiệp vụ điều chuyển'"}}],[{"Literal":{"Value":"'Thanh toán'"}}],[{"Literal":{"Value":"'Tiếp đón'"}}],[{"Literal":{"Value":"'Trước - Sau tư vấn'"}}],[{"Literal":{"Value":"'Xử lý đơn hàng'"}}]]}}},{"DisplayName":"Thái độ","Expression":{"In":{"Expressions":[{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"Type"}}],"Values":[[{"Literal":{"Value":"'Cảm nhận khách hàng'"}}],[{"Literal":{"Value":"'Có sự việc cụ thể'"}}]]}}}]}
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_TFEX_SHOP = m
+		mode: import
+		source =
+				let
+				    Source = FACT_TFEX_TICKET,
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Kết luận] = "Có vi phạm") and ([Nhãn] <> "Liên quan Shop")),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"Mã ticket", "Tạo lúc", "Cửa hàng", "Trạng thái ticket", "Kết luận", "Loại ghi nhận", "Nhãn"}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Removed Other Columns", "Nhãn", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"Nhãn.1", "Nhãn.2", "Nhãn.3"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Nhãn.1", type text}, {"Nhãn.2", type text}, {"Nhãn.3", type text}}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Changed Type", {"Mã ticket", "Tạo lúc", "Cửa hàng", "Trạng thái ticket", "Kết luận", "Loại ghi nhận"}, "Label.No", "Type"),
+				    #"Trimmed Text" = Table.TransformColumns(#"Unpivoted Other Columns",{{"Type", Text.Trim, type text}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Trimmed Text", each ([Type] = "Bảo hành" or [Type] = "Chase Khách" or [Type] = "Có sự việc cụ thể" or [Type] = "Cảm nhận khách hàng" or [Type] = "Hoàn tiền" or [Type] = "Hóa đơn đỏ" or [Type] = "Hỗ trợ kỹ thuật" or [Type] = "Không Đúng Hẹn" or [Type] = "Kiến thức" or [Type] = "Kỹ năng" or [Type] = "Lỗi tư vấn" or [Type] = "Thanh toán" or [Type] = "Tiếp đón" or [Type] = "Xử lý đơn hàng" or [Type] = "Trước - Sau tư vấn" or [Type] = "Lỗi nghiệp vụ điều chuyển" or [Type] = "Bám sàn")),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows1","CPS-QNI-HL-126KL","CPS-QNI-HGA-19THD",Replacer.ReplaceText,{"Cửa hàng"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

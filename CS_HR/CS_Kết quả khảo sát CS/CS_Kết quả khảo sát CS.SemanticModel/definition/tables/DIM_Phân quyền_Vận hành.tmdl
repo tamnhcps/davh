@@ -1,0 +1,52 @@
+table 'DIM_Phân quyền_Vận hành'
+	lineageTag: 7d1f4515-4488-4f73-b8b2-3d7aaf6e19cb
+
+	column 'Bộ phận'
+		lineageTag: 5c02fd0c-db3a-4c6b-b866-c63dcc5d1935
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Phòng ban[Bộ phận]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		lineageTag: 67bc775a-b565-44e7-9474-c70175fe36a3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Phòng ban[Miền]
+
+		annotation SummarizationSetBy = Automatic
+
+	column OP = IF('DIM_Phân quyền_Vận hành'[Miền] = "Miền Nam", "OP MIỀN NAM", "OP MIỀN BẮC")
+		lineageTag: 8322ca24-9445-4357-bdee-7cb91499aa47
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader = LOOKUPVALUE('DIM_Phân quyền_User'[Leader],'DIM_Phân quyền_User'[Tên],'DIM_Phân quyền_Vận hành'[Bộ phận],BLANK())
+		lineageTag: 2b45729d-e7f1-4602-b0c4-52b8c05e5457
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column HaraID
+		lineageTag: 3ccc1b88-5e56-4c64-9ef6-2daba4bbf2d4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Phòng ban[HaraID]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_Vận hành' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE (
+				    FILTER('DIM_Danh mục_Phòng ban', 'DIM_Danh mục_Phòng ban'[Công ty] = "CPS"),
+				    'DIM_Danh mục_Phòng ban'[HaraID],
+				    'DIM_Danh mục_Phòng ban'[Bộ phận],
+				    'DIM_Danh mục_Phòng ban'[Miền]
+				)
+
+	annotation PBI_Id = c9a0a767c9304100a9dd55ce83e9459a
+

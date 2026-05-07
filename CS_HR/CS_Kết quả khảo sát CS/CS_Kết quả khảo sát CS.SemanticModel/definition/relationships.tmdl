@@ -1,0 +1,406 @@
+relationship 226b7eec-c799-49e1-89a8-696cd2c6ccc1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_TICKET.'Ngày tạo phiếu'
+	toColumn: LocalDateTable_98e25595-9363-4e91-be83-12a3e9f872c0.Date
+
+relationship fd5c8450-175d-49ea-b4eb-c288a851cbb6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_TICKET.'Ngày khảo sát gần nhất'
+	toColumn: LocalDateTable_4baebfbf-69a8-46ee-8688-a012a5d7e223.Date
+
+relationship 71fb802c-e786-4c28-a3a9-36bae755880c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_TICKET.'Ngày mua'
+	toColumn: LocalDateTable_334e7e7d-4adc-4e4e-bf79-e1c8a435124c.Date
+
+relationship b2147f82-dcc5-4ad9-83c0-133bcfb10d0e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Phòng ban'.'Ngày bán cuối cùng'
+	toColumn: LocalDateTable_716fcdb8-9391-4eca-8d0c-26b41f1ae8ff.Date
+
+relationship 4b62103a-dc03-4089-9d3f-d9963e9077ac
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Phòng ban'.'Ngày khai trương'
+	toColumn: LocalDateTable_58a0d8ff-dd1f-4be3-8ace-abf5559d0668.Date
+
+relationship b63aa0f0-ef93-4a13-87b4-210971a2e706
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Nhân viên'.'Ngày sinh'
+	toColumn: LocalDateTable_4f53825e-b4eb-4153-b662-5b8c746ae5a3.Date
+
+relationship b5870119-93c9-47e9-9ec9-05a0e6d69020
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Nhân viên'.'Ngày nhận việc'
+	toColumn: LocalDateTable_ec90b026-6155-475b-bfa5-b9653912b161.Date
+
+relationship b753da4b-0a16-4454-b708-b6b3f34e5dc1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Nhân viên'.'Ngày kết thúc'
+	toColumn: LocalDateTable_a4af27d0-3394-44f4-b5de-22448b36e32d.Date
+
+relationship 199be11d-83c3-4509-81e0-3973109a70cf
+	fromColumn: FACT_NPS_TICKET.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.HaraID
+
+relationship 66fdf2dc-24e7-4d09-a0df-c8ebdcee8e98
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_TFEX_TICKET.'Tạo lúc'
+	toColumn: LocalDateTable_dd6aee84-0ce8-40a7-a4a4-3bfdd56d0e14.Date
+
+relationship 0625c9e1-416e-48a4-ad9a-f7c2b2032459
+	fromColumn: FACT_TFEX_TICKET.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship 01c55c32-4696-4ba7-bca4-b4bb9c0b2846
+	fromColumn: FACT_Công_ChiTiet.'Mã nhân viên'
+	toColumn: 'DIM_Danh mục_Nhân viên'.'Mã nhân viên'
+
+relationship fb008627-d8ec-4bde-8cbc-fd54bd72ab47
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_Công_ChiTiet.StartDate
+	toColumn: LocalDateTable_8e267bd9-9824-400a-b534-01a81ad80c63.Date
+
+relationship 02fbf8b0-17f8-430c-ae93-5cb101c481b9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_TICKET.'Thời gian thực hiện khảo sát'
+	toColumn: LocalDateTable_379f84b0-f4f8-4f67-b054-f64c9a470bb0.Date
+
+relationship beb3a434-599b-4541-a13e-db685fdd9544
+	fromColumn: FACT_NPS_Survey.'Nguồn khảo sát'
+	toColumn: 'DIM_Nguồn khảo sát'.Nguồn
+
+relationship 58c8023d-6ee5-4c2c-86c6-61e0c22e472d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Phân quyền_User'.Startdate
+	toColumn: LocalDateTable_6b466b74-e9f4-45da-8f38-1fe7fe9d77c5.Date
+
+relationship 9d46c832-48e8-4b58-b033-ca7025b7e5a1
+	fromColumn: FACT_NPS_Survey_SMember.'Nguồn khảo sát'
+	toColumn: 'DIM_Nguồn khảo sát'.Nguồn
+
+relationship 7fed107d-88f4-4084-8986-eaab5c746b06
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_TICKET.Date
+	toColumn: LocalDateTable_94cf93bf-13ca-475b-8f3f-a444c41af905.Date
+
+relationship 701f8f4e-1779-409b-8875-10414a96736c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_Shop_Warning.THÁNG
+	toColumn: LocalDateTable_2d77cc1a-d419-43f0-b47c-6763248bee3f.Date
+
+relationship 0ee8f4f9-c928-8e89-8921-126e57606772
+	fromColumn: DIM_Shop_Warning.'CỬA HÀNG'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship 3330e9e4-4248-476f-aa19-07376e5c8624
+	fromColumn: FACT_TFEX_TICKET.'Cửa hàng'
+	toColumn: 'DIM_Phân quyền_Vận hành'.'Bộ phận'
+
+relationship eb554b1a-c5c1-4cf3-9372-edcb9bf75452
+	fromColumn: FACT_NPS_TICKET.'Cửa hàng'
+	toColumn: 'DIM_Phân quyền_Vận hành'.HaraID
+
+relationship AutoDetected_186d7a5d-db73-4f7b-b420-348acc45d800
+	fromColumn: 'DIM_Danh mục_Phòng ban'.Miền
+	toColumn: 'DIM_Danh mục_Miền'.Miền
+
+relationship AutoDetected_9af2b69f-2cc3-4870-a0b5-07bd2f1eda48
+	isActive: false
+	fromColumn: DIM_Shop_Warning.MIỀN
+	toColumn: 'DIM_Danh mục_Miền'.Miền
+
+relationship AutoDetected_1698451f-24a0-4c69-9ff9-856ad4e1c9a8
+	fromColumn: FACT_GSheet_Target_NPS.Miền
+	toColumn: 'DIM_Danh mục_Miền'.Miền
+
+relationship b1d27560-6441-471a-98c8-87e370e0b3ec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_GSheet_Target_NPS.StartDate
+	toColumn: LocalDateTable_c68f0898-6095-448d-99ae-b14ce613b5f8.Date
+
+relationship d1d6cedf-51bf-4575-be30-5e7ebc9aa02f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_GSheet_Target_NPS.EndDate
+	toColumn: LocalDateTable_ca7c3617-5a74-4133-be19-1eabae654f8b.Date
+
+relationship ada8fdda-f85a-4102-a41e-364e194cfbbc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_GSheet_KhungThuong.'Áp dụng từ tháng'
+	toColumn: LocalDateTable_6e8a7b48-61ce-4167-9da5-dbd8d38953b3.Date
+
+relationship 79f44665-798e-4971-bb15-8442f76b19b1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_GSheet_KhungThuong.EndDate
+	toColumn: LocalDateTable_cbed30a7-3263-44f7-8bb4-e04702b892e1.Date
+
+relationship AutoDetected_05ce162f-e684-4e16-bcc9-84178e5e675c
+	fromColumn: FACT_GSheet_KhungThuong.Miền
+	toColumn: 'DIM_Danh mục_Miền'.Miền
+
+relationship e49fd626-33af-414d-8911-5837be8bcf07
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_TFEX_SHOP.'Tạo lúc'
+	toColumn: LocalDateTable_59595a68-0e30-458c-896b-7aa6591d9c1b.Date
+
+relationship 78b7f15b-fc6e-4b01-b883-5fa0c04e6b54
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_TFEX_SHOP.StartDate
+	toColumn: LocalDateTable_0c21c16b-1581-4d7b-bd36-a67662ecc3ce.Date
+
+relationship ce56e3ae-9aae-7c79-16fc-b1a32ab2a874
+	fromColumn: FACT_TFEX_SHOP.'Cửa hàng'
+	toColumn: 'DIM_Phân quyền_Vận hành'.'Bộ phận'
+
+relationship d40bfb57-db29-e3e6-9113-c09454301abc
+	fromColumn: FACT_TFEX_SHOP.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship 0bfc8de3-8132-4002-9833-2cb9e5ade695
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dim_Date.date
+	toColumn: LocalDateTable_7b900e66-da93-4f9c-a909-2b7ea9f60d6a.Date
+
+relationship f971df13-1280-4f82-a7ce-c85fe49968a7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dim_Date.FirstDayOfMonth
+	toColumn: LocalDateTable_64d397ea-9b05-4ab0-bea6-878df5abd520.Date
+
+relationship 239a8d46-f57c-43cf-b974-8cef6176b633
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dim_Date.LastDayOfMonth
+	toColumn: LocalDateTable_475c7608-39fb-4cd0-8543-9009a979b83e.Date
+
+relationship 54ab980c-136f-6cbb-03c1-4d53d1c80c40
+	fromColumn: FACT_Công_ChiTiet.Date
+	toColumn: Dim_Date.date
+
+relationship 710624dd-49ca-e812-f465-e3e393495d26
+	fromColumn: FACT_GSheet_Target_NPS.Date
+	toColumn: Dim_Date.date
+
+relationship 76809c13-a060-4871-92d4-182b0298e128
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_Survey_SMember.Date
+	toColumn: LocalDateTable_11bb4240-026f-477d-a81b-8069568cb2bb.Date
+
+relationship da8297c1-70ed-2c77-dcbf-5848c87870dd
+	fromColumn: FACT_NPS_TICKET.'Ngày tạo'
+	toColumn: Dim_Date.date
+
+relationship f20f5753-0fb4-c753-2272-c6797bf9edc4
+	fromColumn: FACT_TFEX_SHOP.'Ngày tạo'
+	toColumn: Dim_Date.date
+
+relationship 31beb465-a8f8-fe6f-3c81-4139e248a91a
+	fromColumn: FACT_TFEX_TICKET.'Ngày tạo'
+	toColumn: Dim_Date.date
+
+relationship 48e406e3-9f04-8072-280a-033c611eabfc
+	fromColumn: 'DIM_Danh mục_SM_SUP'.'Đơn vị'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship 16d641e3-8df1-465c-994b-d3887299576d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Update.'Ngày khảo sát gần nhất'
+	toColumn: LocalDateTable_dcfa52c7-f399-4695-993b-aa7f55b47432.Date
+
+relationship d8796952-2e7b-d6db-bc43-03126fe687fd
+	fromColumn: FACT_NPS_Survey.Date
+	toColumn: Dim_Date.date
+
+relationship e7c1a835-2316-4210-a4d7-b6727e4641d9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Shop_SMKN'.StartDate
+	toColumn: LocalDateTable_e7378a41-e46d-426e-932a-7e12c99a05b1.Date
+
+relationship 77a88fcd-8946-eaa5-142b-1caca9b852d8
+	fromColumn: 'DIM_Danh mục_Shop_SMKN'.SHOP
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship 7f8bab0c-4f72-4446-80f7-cd8200352f31
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_QC_AI.'Ngày tạo'
+	toColumn: LocalDateTable_0c179282-b0e7-41f6-bbdc-d06c9814fd94.Date
+
+relationship 5916814e-e100-4b44-8bdb-fa4834e2a53f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_QC_AI.'Ngày mua'
+	toColumn: LocalDateTable_67aabb3d-d9eb-410d-a08c-9970332f81ca.Date
+
+relationship ec36af8b-12f4-4a5b-fb40-b2cfcc3ea9d4
+	fromColumn: FACT_QC_AI.SaleEmployeeCode
+	toColumn: 'DIM_Danh mục_Nhân viên'.'Mã nhân viên'
+
+relationship b3e6a13a-15ba-3edb-7db9-89d93df2c365
+	fromColumn: FACT_QC_AI.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship fbf6a4cb-43db-9aec-8e5b-4a9bdcb7027e
+	fromColumn: FACT_NPS_SHOP.'Văn phòng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship aec6d1ee-83f9-42a4-9e75-5617416a0e1a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_QC_AI.'Ngày tạo phiếu'
+	toColumn: LocalDateTable_3d5ce9d1-6e5d-48a9-98e9-ea4e59b32a2f.Date
+
+relationship c706e289-4cfa-a345-37e0-e63fff6f71c8
+	fromColumn: Rank_Survey_SMember.Shop
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship 708e133b-f86b-4dfd-3d3a-786b40ffb945
+	fromColumn: Rank_Survey_SMember.StartDate
+	toColumn: Dim_Date.date
+
+relationship f0fa8840-3229-70db-c9b4-eaf55716543d
+	fromColumn: FACT_TFEX_SHOP.Group_Type
+	toColumn: DIM_GroupType.Group_Type
+
+relationship 9c8761ac-96b6-b48d-24b2-6090cdd3b0ad
+	fromColumn: FACT_NPS_NV.'Bộ phận'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship 7542fa69-0c4d-321f-f45a-be40aa0639fe
+	toCardinality: many
+	fromColumn: Rank_Survey_SMember.Năm/Tháng
+	toColumn: FACT_NPS_Survey_SMember.Năm/Tháng
+
+relationship 563e4992-0f20-4286-92d7-90dbb5ff2bb9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_Survey.'Ngày tạo phiếu'
+	toColumn: LocalDateTable_bd57aa66-35aa-4c21-a037-8ac3b153a2ba.Date
+
+relationship fdf4fbee-83c5-4ffa-8eef-c902f7a02109
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_Survey.'Ngày tạo'
+	toColumn: LocalDateTable_60e03896-e568-40e7-808b-46e89d0e3e58.Date
+
+relationship 96a8e6b9-242e-4b6a-8c61-7cc75c1d5ec3
+	fromColumn: FACT_NPS_Survey.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.HaraID
+
+relationship 2fa82c53-8549-4f8e-a4e5-410dce49a08f
+	fromColumn: FACT_NPS_Survey.'Cửa hàng'
+	toColumn: 'DIM_Phân quyền_Vận hành'.HaraID
+
+relationship c126d04a-92af-4568-8171-f982f3e7c469
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_Survey.'Ngày mua'
+	toColumn: LocalDateTable_d8bb3c48-d910-42c8-8597-06895aa65fcb.Date
+
+relationship 759255bd-3b29-4ab8-9241-ab344cbf5d8e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_Survey.'Thời gian thực hiện khảo sát'
+	toColumn: LocalDateTable_0a81ebf0-96b8-4386-a277-b48f543ddfd0.Date
+
+relationship fe9a4d94-753b-4171-bc59-bf3cac840106
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_Survey_SMember.'Ngày tạo phiếu'
+	toColumn: LocalDateTable_12652776-e38e-464c-8bd0-c36aa0091795.Date
+
+relationship 637e2d93-5e6f-7db1-0412-ae2442aade26
+	fromColumn: FACT_NPS_Survey_SMember.'Ngày tạo'
+	toColumn: Dim_Date.date
+
+relationship 5470cdd5-cae2-417c-980c-127ab23f30ea
+	fromColumn: FACT_NPS_Survey_SMember.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.HaraID
+
+relationship dbbfeffd-0a21-4d15-ac00-61e5ae101317
+	fromColumn: FACT_NPS_Survey_SMember.'Cửa hàng'
+	toColumn: 'DIM_Phân quyền_Vận hành'.HaraID
+
+relationship 8ffffeff-b335-4fea-aa62-249e75e23b09
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_Survey_SMember.'Ngày mua'
+	toColumn: LocalDateTable_c7ade146-6828-4901-a09f-3ba74cb0092e.Date
+
+relationship 63491d3f-d307-6e4b-16bd-f8d4f799ab91
+	fromColumn: FACT_NPS_Survey_SMember.'Nhân viên bán'
+	toColumn: 'DIM_Danh mục_Nhân viên'.'Mã nhân viên Harawork'
+
+relationship 14f62d2a-9b11-4264-89fd-f0c4a4185c81
+	fromColumn: FACT_NPS_NV.'Mã nhân viên'
+	toColumn: 'DIM_Danh mục_Nhân viên'.'Mã nhân viên'
+
+relationship afcbbc04-ed7f-4bdc-aa74-05346fad5b15
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_NV.StartDate
+	toColumn: LocalDateTable_1132fa41-1331-405c-9dc4-9b69d620e7aa.Date
+
+relationship 70a1b1fe-48f3-451f-902f-3e7a62576d74
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_SURVEY_SStudent.Date
+	toColumn: LocalDateTable_ca86cbdf-bf8d-4117-ad7b-af4edf643090.Date
+
+relationship 00fed378-9434-aad7-c159-89986bf50812
+	fromColumn: FACT_NPS_SURVEY_SStudent.'Nguồn khảo sát'
+	toColumn: 'DIM_Nguồn khảo sát'.Nguồn
+
+relationship 16ba338a-2111-4ea0-9abc-0f35558e18d5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_SURVEY_SStudent.'Ngày tạo phiếu'
+	toColumn: LocalDateTable_e52530d2-8ad1-4cc3-a598-d003bc479f79.Date
+
+relationship 7a0e7a72-85a6-b2d2-7042-767ab5e32d50
+	fromColumn: FACT_NPS_SURVEY_SStudent.'Cửa hàng'
+	toColumn: 'DIM_Phân quyền_Vận hành'.HaraID
+
+relationship 34a99a43-2e54-3b49-b6d5-39fbf2635800
+	fromColumn: FACT_NPS_SURVEY_SStudent.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.HaraID
+
+relationship ad620c97-c19d-4383-9874-ad081d582bf3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_SURVEY_SStudent.'Ngày mua'
+	toColumn: LocalDateTable_fa45bcdd-e1d1-47d4-9724-1e3bf29551e8.Date
+
+relationship 7da0c248-fddb-44a4-9f2a-21e6025a3e3c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_NPS_SURVEY_SStudent.'Thời gian thực hiện khảo sát'
+	toColumn: LocalDateTable_f43c7c6b-aa2c-4de9-8375-7ca001b071f5.Date
+
+relationship 6f97d7bc-a38d-d451-ce53-bdb7ef7c374e
+	fromColumn: FACT_NPS_SURVEY_SStudent.'Nhân viên bán'
+	toColumn: 'DIM_Danh mục_Nhân viên'.'Mã nhân viên Harawork'
+
+relationship a0f6c41f-d9cb-69e8-954e-3354b0dc5280
+	fromColumn: FACT_NPS_SURVEY_SStudent.'Ngày tạo'
+	toColumn: Dim_Date.date
+
+relationship 64ba0f60-d6f3-49ab-9825-ab878369b8f5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Rank_Survey_SStudent.StartDate
+	toColumn: LocalDateTable_4748b8d3-ba23-4c92-aefd-207ef428fded.Date
+
+relationship 6dbc7506-e27d-07c1-4c10-c023a3e79046
+	fromColumn: NPS_Detail_Evaluation.'Ngày tạo'
+	toColumn: Dim_Date.date
+
+relationship 50b63023-f92f-cbb8-cf7a-b2eabf5e3a2c
+	fromColumn: NPS_Detail_Evaluation.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship 2d9b9ce6-5295-4937-670f-55aefee7316c
+	fromColumn: FACT_NPS_SHOP.StartDate
+	toColumn: Dim_Date.date
+
+relationship e0bab63f-4737-42c6-b32b-273bb46332c4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_TFEX_FEEDBACK.'Thời gian tạo phiếu'
+	toColumn: LocalDateTable_bd1882f4-077b-4cb1-8a36-4a699056ece4.Date
+
+relationship c9fbe414-5d4b-4568-a1fd-2b088d89a4af
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_TFEX_FEEDBACK.'Thời hạn phản hồi'
+	toColumn: LocalDateTable_b95de928-eaf2-45b3-8a9e-e352b54e1dad.Date
+
+relationship 739c0ed4-bea0-4069-a350-27f439af477d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_TFEX_FEEDBACK.Date
+	toColumn: LocalDateTable_f21d471c-6571-4d70-a473-8fac3b8585d6.Date
+
+relationship f601505a-8a7d-9a73-0431-0b5e41c72292
+	fromColumn: FACT_TFEX_FEEDBACK.'Mã Ticket'
+	toColumn: FACT_TFEX_TICKET.'Mã ticket'
+

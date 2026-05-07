@@ -1,0 +1,51 @@
+table Parameter_new
+	lineageTag: 5114f5aa-1143-44a8-8a7c-80601fbeeff1
+
+	column Parameter
+		lineageTag: 148e34d3-d73d-4220-9c0b-81da019be38a
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: e8d9c31e-2733-4edd-9523-9a05264b03c7
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: fd64d12e-795a-45bd-a3ad-b2f8605c4aab
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_new = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('DIM_Danh mục_Miền'[Miền]), 0),
+				    ("RSM",NAMEOF('DIM_Danh mục_Phòng ban'[RSM]),1),
+				    ("AM", NAMEOF('DIM_Danh mục_Phòng ban'[AM]), 2),
+				    ("Cửa hàng", NAMEOF('DIM_Danh mục_Phòng ban'[Cửa hàng gộp]), 3),
+				    ("Size shop", NAMEOF('DIM_Danh mục_Phòng ban'[SIZE]), 4)
+				}
+
+	annotation PBI_Id = f4dc74af38384f498f0c46a55b894d25
+

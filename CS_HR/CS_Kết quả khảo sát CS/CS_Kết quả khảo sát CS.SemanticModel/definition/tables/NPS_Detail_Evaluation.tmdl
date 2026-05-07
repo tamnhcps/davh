@@ -1,0 +1,243 @@
+table NPS_Detail_Evaluation
+	lineageTag: e782d5ca-45a5-4416-b5d9-8f1f84cc83df
+
+	column 'Mã hóa đơn' = ```
+			CALCULATE(VALUES(FACT_NPS_TICKET[Mã hóa đơn]), FILTER(FACT_NPS_TICKET, FACT_NPS_TICKET[Mã phiếu] = EARLIER(NPS_Detail_Evaluation[Mã phiếu khảo sát]))) 
+			```
+		lineageTag: 5344d1be-3cf3-4c87-870f-1805cdff92be
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã phiếu khảo sát'
+		lineageTag: a5a3d9c8-c11b-429c-9582-ea5f6fae7c62
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Mã phiếu khảo sát]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã ticket'
+		lineageTag: afbcc102-9298-4819-a95e-8e3006c94c80
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Mã ticket]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo'
+		formatString: Short Date
+		lineageTag: 010eead4-a209-44a5-b834-168aa6b08925
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Ngày tạo]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Nguồn
+		lineageTag: 82f2ea40-4ed1-45fb-955e-f2162539b2d4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Nguồn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái ticket'
+		lineageTag: 2aa51520-9d4f-4656-a07d-81c12a01d429
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Trạng thái ticket]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Evaluation_NPS
+		lineageTag: 659bfd62-03b9-47a0-8a32-05b48ec77d76
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Evaluation_NPS]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nhãn
+		lineageTag: 82e23f47-abb3-4bd1-9ed5-4be5d7dc4abe
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Nhãn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		lineageTag: 459e1165-7a74-4f6a-b446-106bce2e31bd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Cửa hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đối tượng liên quan'
+		lineageTag: fcaf27ce-ea7c-4e23-aa1f-fbdb6e8ed694
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Đối tượng liên quan]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nội dung khách phản ánh'
+		lineageTag: 2eef009c-e1a8-4315-81d5-3865428c45e0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Nội dung khách phản ánh]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhân viên liên quan'
+		lineageTag: 5b14c6c1-8327-4fe3-8ef4-9047990fc851
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Nhân viên liên quan]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quản lý liên đới'
+		lineageTag: a979fb8c-782f-4005-8e14-18a2c3a447ce
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Quản lý liên đới]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại ghi nhận'
+		lineageTag: 317b5e06-82da-42a1-a2b4-6179d2e7b07d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_TFEX_TICKET[Loại ghi nhận]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Link khảo sát'
+		lineageTag: 22a321aa-744e-4af9-992c-50b541113f8e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Link khảo sát]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Link ticket'
+		lineageTag: cb7a1e98-3464-44c3-93ba-b128e53da49b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Link ticket]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phương thức mới' = ```
+			
+			LOOKUPVALUE(
+			    'FACT_NPS_TICKET'[Phương thức], 
+			    'FACT_NPS_TICKET'[Mã phiếu], 
+			    'NPS_Detail_Evaluation'[Mã phiếu khảo sát]
+			)
+			```
+		lineageTag: 1133c65e-986b-4028-86dd-82dae813ab43
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã NV' =
+			
+			PATHITEM(SUBSTITUTE('NPS_Detail_Evaluation'[Nhân viên liên quan], "-", "|"), 1)
+		lineageTag: 5cd1b814-8e90-4bf7-8d69-f188cfa740e7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái NV mới' = ```
+			
+			VAR v_MaNV = 'NPS_Detail_Evaluation'[Mã NV]
+			VAR v_Ngay = 'NPS_Detail_Evaluation'[Ngày tạo] 
+			RETURN
+			CALCULATE(
+			    MAX('FACT_Công_ChiTiet'[Trạng thái làm việc]),
+			    'FACT_Công_ChiTiet'[Mã nhân viên] = v_MaNV,
+			    'FACT_Công_ChiTiet'[Date] = v_Ngay
+			)
+			```
+		lineageTag: f838ffb3-4aa7-4551-b8da-27c7b714f638
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition NPS_Detail_Evaluation = calculated
+		mode: import
+		source = ```
+				
+				
+				    UNION(
+				        CALCULATETABLE(
+				            SUMMARIZE(
+				                FACT_TFEX_TICKET,
+				                FACT_TFEX_TICKET[Mã phiếu khảo sát],
+				                FACT_TFEX_TICKET[Mã ticket],
+				                FACT_TFEX_TICKET[Ngày tạo],
+				                FACT_TFEX_TICKET[Nguồn],
+				                FACT_TFEX_TICKET[Trạng thái ticket],
+				                FACT_TFEX_TICKET[Evaluation_NPS],
+				                FACT_TFEX_TICKET[Nhãn],
+				                FACT_TFEX_TICKET[Cửa hàng],
+				                FACT_TFEX_TICKET[Đối tượng liên quan],
+				                FACT_TFEX_TICKET[Nội dung khách phản ánh],
+				                FACT_TFEX_TICKET[Nhân viên liên quan],
+				                FACT_TFEX_TICKET[Quản lý liên đới],
+				                FACT_TFEX_TICKET[Loại ghi nhận],
+				                "Link khảo sát", BLANK(),
+				                "Link ticket", MAX(FACT_TFEX_TICKET[Link ticket])
+				            ),
+				            FILTER(
+				                FACT_TFEX_TICKET,
+				                FACT_TFEX_TICKET[Loại yêu cầu] IN {"Khiếu nại dịch vụ", "Đánh giá"} &&
+				                FACT_TFEX_TICKET[Evaluation_NPS] <> BLANK()
+				            )
+				        ),
+				        CALCULATETABLE(
+				            SUMMARIZE(
+				                FACT_NPS_TICKET,
+				                FACT_NPS_TICKET[Mã phiếu],
+				                FACT_NPS_TICKET[TicketCode],
+				                FACT_NPS_TICKET[Ngày tạo],
+				                FACT_NPS_TICKET[Nguồn],
+				                FACT_NPS_TICKET[Trạng thái],
+				                FACT_NPS_TICKET[Evaluation_NPS],
+				                FACT_NPS_TICKET[Nhãn],
+				                FACT_NPS_TICKET[Shop],
+				                FACT_NPS_TICKET[NV_Câu 4],
+				                "Nội dung khách phản ánh", BLANK(),
+				                "Nhân viên liên quan", BLANK(),
+				                "Quản lý liên đới", BLANK(),
+				                "Loại ghi nhận", BLANK(),
+				                "Link khảo sát",
+				                    MAXX(
+				                        FILTER(
+				                            FACT_NPS_TICKET,
+				                            FACT_NPS_TICKET[TicketCode] = BLANK()
+				                        ),
+				                        FACT_NPS_TICKET[Link khảo sát]
+				                    ),
+				                "Link ticket", MAX(FACT_NPS_TICKET[Link ticket])
+				            ),
+				            FILTER(
+				                FACT_NPS_TICKET,
+				                FACT_NPS_TICKET[Trạng thái] IN {"Mới", "Hoàn tất"} &&
+				                FACT_NPS_TICKET[Evaluation_NPS] <> BLANK()
+				            )
+				        )
+				    )
+				    
+				    
+				
+				
+				```
+
+	annotation PBI_Id = 93c36eeb0b214ff7a695d76cdbc36af3
+

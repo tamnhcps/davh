@@ -1,0 +1,104 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["FACT_TFEX_TICKET","FACT_NPS_TICKET","FACT_QC_AI","FACT_SALES_TICKET","DIM_Danh mục_Phòng ban","DIM_Danh mục_Miền","DIM_Danh mục_Nhân viên","FACT_Công_ChiTiet","DIM_Nguồn khảo sát","DIM_Phân quyền_User","DIM_Shop_Warning","FACT_GSheet_Target_NPS","FACT_GSheet_KhungThuong_Source","FACT_GSheet_KhungThuong","FACT_TFEX_SHOP","DIM_GroupType","Dim_Date","Ghi chú","DIM_Danh mục_SM_SUP","DIM_Danh mục_Shop_SMKN","FACT_TFEX_FEEDBACK"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
+
+ref table FACT_TFEX_TICKET
+ref table DateTableTemplate_eb29af51-2e7e-4bf2-9d3d-e3a0b94ca516
+ref table FACT_NPS_TICKET
+ref table LocalDateTable_98e25595-9363-4e91-be83-12a3e9f872c0
+ref table LocalDateTable_4baebfbf-69a8-46ee-8688-a012a5d7e223
+ref table LocalDateTable_334e7e7d-4adc-4e4e-bf79-e1c8a435124c
+ref table 'DIM_Danh mục_Phòng ban'
+ref table LocalDateTable_716fcdb8-9391-4eca-8d0c-26b41f1ae8ff
+ref table LocalDateTable_58a0d8ff-dd1f-4be3-8ace-abf5559d0668
+ref table 'DIM_Danh mục_Nhân viên'
+ref table LocalDateTable_4f53825e-b4eb-4153-b662-5b8c746ae5a3
+ref table LocalDateTable_ec90b026-6155-475b-bfa5-b9653912b161
+ref table LocalDateTable_a4af27d0-3394-44f4-b5de-22448b36e32d
+ref table LocalDateTable_dd6aee84-0ce8-40a7-a4a4-3bfdd56d0e14
+ref table _Measure
+ref table FACT_Công_ChiTiet
+ref table FACT_NPS_SHOP
+ref table FACT_NPS_NV
+ref table LocalDateTable_8e267bd9-9824-400a-b534-01a81ad80c63
+ref table Parameter
+ref table LocalDateTable_379f84b0-f4f8-4f67-b054-f64c9a470bb0
+ref table FACT_NPS_Survey
+ref table 'DIM_Nguồn khảo sát'
+ref table 'DIM_Phân quyền_User'
+ref table LocalDateTable_6b466b74-e9f4-45da-8f38-1fe7fe9d77c5
+ref table 'DIM_Phân quyền_Vận hành'
+ref table FACT_NPS_Survey_SMember
+ref table Rank_Survey_SMember
+ref table LocalDateTable_94cf93bf-13ca-475b-8f3f-a444c41af905
+ref table DIM_Shop_Warning
+ref table LocalDateTable_2d77cc1a-d419-43f0-b47c-6763248bee3f
+ref table NPS_Detail_Evaluation
+ref table FACT_GSheet_Target_NPS
+ref table 'DIM_Danh mục_Miền'
+ref table LocalDateTable_c68f0898-6095-448d-99ae-b14ce613b5f8
+ref table LocalDateTable_ca7c3617-5a74-4133-be19-1eabae654f8b
+ref table 'Parameter_Thời gian'
+ref table Parameter_Metrics_NPSShop
+ref table FACT_GSheet_KhungThuong
+ref table LocalDateTable_6e8a7b48-61ce-4167-9da5-dbd8d38953b3
+ref table LocalDateTable_cbed30a7-3263-44f7-8bb4-e04702b892e1
+ref table FACT_TFEX_SHOP
+ref table LocalDateTable_59595a68-0e30-458c-896b-7aa6591d9c1b
+ref table LocalDateTable_0c21c16b-1581-4d7b-bd36-a67662ecc3ce
+ref table DIM_GroupType
+ref table Dim_Date
+ref table LocalDateTable_7b900e66-da93-4f9c-a909-2b7ea9f60d6a
+ref table LocalDateTable_64d397ea-9b05-4ab0-bea6-878df5abd520
+ref table LocalDateTable_475c7608-39fb-4cd0-8543-9009a979b83e
+ref table LocalDateTable_11bb4240-026f-477d-a81b-8069568cb2bb
+ref table 'Ghi chú'
+ref table 'DIM_Danh mục_SM_SUP'
+ref table Update
+ref table LocalDateTable_dcfa52c7-f399-4695-993b-aa7f55b47432
+ref table 'DIM_Danh mục_Shop_SMKN'
+ref table LocalDateTable_e7378a41-e46d-426e-932a-7e12c99a05b1
+ref table Parameter_SMB
+ref table FACT_QC_AI
+ref table LocalDateTable_0c179282-b0e7-41f6-bbdc-d06c9814fd94
+ref table LocalDateTable_67aabb3d-d9eb-410d-a08c-9970332f81ca
+ref table LocalDateTable_3d5ce9d1-6e5d-48a9-98e9-ea4e59b32a2f
+ref table FACT_SALES_TICKET
+ref table LocalDateTable_bd57aa66-35aa-4c21-a037-8ac3b153a2ba
+ref table LocalDateTable_60e03896-e568-40e7-808b-46e89d0e3e58
+ref table LocalDateTable_d8bb3c48-d910-42c8-8597-06895aa65fcb
+ref table LocalDateTable_0a81ebf0-96b8-4386-a277-b48f543ddfd0
+ref table LocalDateTable_12652776-e38e-464c-8bd0-c36aa0091795
+ref table LocalDateTable_c7ade146-6828-4901-a09f-3ba74cb0092e
+ref table LocalDateTable_1132fa41-1331-405c-9dc4-9b69d620e7aa
+ref table FACT_NPS_SURVEY_SStudent
+ref table LocalDateTable_ca86cbdf-bf8d-4117-ad7b-af4edf643090
+ref table LocalDateTable_e52530d2-8ad1-4cc3-a598-d003bc479f79
+ref table LocalDateTable_fa45bcdd-e1d1-47d4-9724-1e3bf29551e8
+ref table LocalDateTable_f43c7c6b-aa2c-4de9-8375-7ca001b071f5
+ref table Rank_Survey_SStudent
+ref table LocalDateTable_4748b8d3-ba23-4c92-aefd-207ef428fded
+ref table Parameter_new
+ref table FACT_TFEX_FEEDBACK
+ref table LocalDateTable_bd1882f4-077b-4cb1-8a36-4a699056ece4
+ref table LocalDateTable_b95de928-eaf2-45b3-8a9e-e352b54e1dad
+ref table LocalDateTable_f21d471c-6571-4d70-a473-8fac3b8585d6
+
+ref role Chung
+ref role 'Vận hành_Cửa hàng'
+ref role 'Vận hành_OP'
+ref role 'Vận hành_AM'
+
+ref cultureInfo en-US
+

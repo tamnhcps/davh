@@ -1,0 +1,790 @@
+table _Measure
+	lineageTag: 24aa7ac1-f2f2-4608-a5fa-3857639e89e5
+
+	measure 'Số phiếu Hài lòng_HaveTicket' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] IN {"Hài lòng", "Khen ngợi"}
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 67aa5632-8720-4d76-bba4-a41d3a737494
+
+	measure 'Số phiếu Hài lòng_NoTicket' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			        && FACT_NPS_TICKET[Kết quả khảo sát] IN {"Hài lòng", "Khen ngợi"}
+			            && FACT_NPS_TICKET[HaveTFEX] = BLANK()
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 54b0a0bb-266c-4b83-95e0-acff7bc54bf8
+
+	measure 'Số phiếu Hài lòng' = [Số phiếu Hài lòng_NoTicket] + [Số phiếu Hài lòng_HaveTicket]
+		formatString: #,0
+		lineageTag: 35a07c4f-151d-44e2-8aee-f919f862fbe1
+
+	measure 'Số phiếu Bình thường' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT( FACT_NPS_TICKET[Mã phiếu] ),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			            && FACT_NPS_TICKET[Kết quả khảo sát] = "Bình thường"
+			            && FACT_NPS_TICKET[Liên hệ khảo sát] <> "Không liên hệ được"
+			            && (
+			                FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			                    || FACT_NPS_TICKET[NV_Câu 5] = "None"
+			            )
+			    )
+			)
+		formatString: 0
+		lineageTag: 77ca9813-190e-4d0e-b849-080b05a3f46e
+
+	measure 'Số phiếu Không hài lòng' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			        && FACT_NPS_TICKET[Kết quả khảo sát] = "Không hài lòng"
+			            && (FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			            || FACT_NPS_TICKET[NV_Câu 5] = "None")
+			        && FACT_NPS_TICKET[Có liên hệ được] = TRUE()
+			        
+			    )
+			)
+			```
+		formatString: #,0
+		lineageTag: fcee3a98-c951-4068-8b88-2d772e279ea6
+
+	measure 'Số phiếu Vi phạm_HaveTicket' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] = "Có vi phạm"
+			    )
+			)
+			```
+		formatString: #,0
+		lineageTag: a68ab2c9-57c7-4592-b7f2-18b198c5f71b
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Số phiếu Nhắc nhở_HaveTicket' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] = "Nhắc nhở"
+			        && FACT_TFEX_TICKET[Nguồn] <> "Khảo sát"
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: c4939aa0-878c-4025-abb0-482bbe6a7f51
+
+	measure 'Tổng khảo sát' = [Số phiếu Hài lòng]+[Số phiếu Bình thường]+[Số phiếu Không hài lòng]+[Số phiếu Vi phạm_HaveTicket]+[Số phiếu Nhắc nhở_HaveTicket]
+		formatString: #,0
+		lineageTag: 6accdc74-faee-48a2-a883-e40188b610c5
+
+	measure NPS_Shop = DIVIDE([Số phiếu Hài lòng]-[Số phiếu Vi phạm_HaveTicket],[Tổng khảo sát],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 42e29637-98bb-4963-8f8e-13b23f7b6c7d
+
+	measure '%Hài lòng_Shop' =
+			
+			AVERAGEX(
+			    VALUES('DIM_Danh mục_Miền'[Miền]),
+			    DIVIDE([Số phiếu Hài lòng],[Tổng khảo sát],BLANK()))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f1265249-65b6-40c7-bcb2-cf6aac05ecbc
+
+	measure '%Vi phạm_Shop' = DIVIDE([Số phiếu Vi phạm_HaveTicket],[Tổng khảo sát],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 970ee5b2-6bbf-4b5f-8f02-6250c60d9c77
+
+	measure 'Xếp hạng_Shop' = RANKX(ALL('DIM_Danh mục_Phòng ban'[Bộ phận]),[NPS_Shop],[NPS_Shop])
+		formatString: 0
+		lineageTag: a1917a7a-53f9-4b92-9e28-2bcbaa352108
+
+	measure 'Ngày cập nhật' =
+			--MAX(FACT_NPS_TICKET[Ngày khảo sát gần nhất])
+			MAX( 'Update'[Ngày khảo sát gần nhất] )
+		formatString: Short Date
+		lineageTag: da351599-768c-446c-a6bf-20f96c6a4353
+
+	measure 'SLg Shop' = CALCULATE(DISTINCTCOUNT('DIM_Danh mục_Phòng ban'[Cửa hàng gộp]), FILTER('DIM_Danh mục_Phòng ban', [NPS_Shop] > 0))
+		formatString: 0
+		lineageTag: 1eb0cd3e-d206-40e4-9264-b49e99ee1dfb
+
+	measure 'SLg Quản lý' = CALCULATE(DISTINCTCOUNT(FACT_NPS_NV[Mã nhân viên]),FILTER(FACT_NPS_NV,FACT_NPS_NV[Chức danh] IN {"Trưởng cửa hàng", "Trợ lý cửa hàng"}))
+		formatString: 0
+		lineageTag: 8906b57c-cc81-439a-afbe-527b300a5e3a
+
+	measure 'SLg Nhân viên' = CALCULATE(DISTINCTCOUNT(FACT_NPS_NV[Mã nhân viên]),FILTER(FACT_NPS_NV,NOT(FACT_NPS_NV[Chức danh] IN {"Trưởng cửa hàng", "Trợ lý cửa hàng"})))
+		formatString: 0
+		lineageTag: 752b890e-e10d-4ce5-a5cc-10f825cf79c7
+
+	measure 'Số cửa hàng đạt %Vi phạm' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_SHOP[Văn phòng]),
+			    FILTER( FACT_NPS_SHOP, FACT_NPS_SHOP[%Vi phạm] < FACT_NPS_SHOP[%Vi phạm toàn miền] )
+			)
+		formatString: 0
+		lineageTag: 0bfe585a-3473-4ae9-ac7d-bc087a6d6d75
+
+	measure 'Số cửa hàng ko đạt %Vi phạm' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_SHOP[Văn phòng]),
+			    FILTER( FACT_NPS_SHOP, FACT_NPS_SHOP[%Vi phạm] > FACT_NPS_SHOP[%Vi phạm toàn miền] )
+			)
+		formatString: 0
+		lineageTag: 35cf5a57-966d-49c2-b848-82c78a1e8d6f
+
+	measure 'Số lượng đơn hàng' = [Số lượng đơn hàng đã khảo sát] + [Số lượng đơn hàng chưa khảo sát]
+		formatString: 0
+		lineageTag: 0278b962-3276-4041-b8e2-051bf5d21799
+
+	measure 'Số lượng đơn hàng chưa khảo sát' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[IsSurveyed] = 0))
+			```
+		formatString: 0
+		lineageTag: 9704aa23-a505-4a10-809f-1a64de413d01
+
+	measure 'Số lượng đơn hàng đã khảo sát' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[IsSurveyed] = 1))
+			```
+		formatString: 0
+		lineageTag: 462c7d80-da6a-4de9-836b-79fde97365d1
+
+	measure 'Tỷ lệ khảo sát' = [Số lượng đơn hàng đã khảo sát]/[Số lượng đơn hàng]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 84a0a61f-cd33-4432-bb62-21d248b4b1c8
+
+	measure 'Số lượng đơn hàng đã khảo sát_SMS' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[IsSurveyed] = 1 && FACT_NPS_Survey[Nguồn] = "SMS"))
+			```
+		formatString: 0
+		lineageTag: 752f7b9c-0a53-4944-9177-3716c756ec57
+
+	measure 'Số lượng đơn hàng đã khảo sát_Autocall' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[IsSurveyed] = 1 && FACT_NPS_Survey[Nguồn] = "Autocall"))
+			```
+		formatString: 0
+		lineageTag: 4b207490-b916-4233-bfcf-0ae1af80f603
+
+	measure 'Tỷ lệ khảo sát_Autocall' = [Số lượng đơn hàng đã khảo sát_Autocall]/[Số lượng đơn hàng]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 638e2257-7d2c-4bb7-97a1-f36b748eb32d
+
+	measure 'Tỷ lệ khảo sát_SMS' = [Số lượng đơn hàng đã khảo sát_SMS]/[Số lượng đơn hàng]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 44d5e3bc-0066-460d-b665-b335e0f100a3
+
+	measure 'Số lượng đơn hàng đã khảo sát_Happycall' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[IsSurveyed] = 1 && FACT_NPS_Survey[Nguồn] = Blank()))
+			```
+		formatString: 0
+		lineageTag: e7ec60ad-b903-4a6e-ad59-38c6bc42c511
+
+	measure 'Tỷ lệ khảo sát_Happycall' = [Số lượng đơn hàng đã khảo sát_Happycall]/[Số lượng đơn hàng]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 948b211d-ac29-4961-9633-99e99a2e2c7f
+
+	measure 'Số lượng phiếu có tư vấn' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey_SMember[Mã phiếu]), FILTER(FACT_NPS_Survey_SMember, FACT_NPS_Survey_SMember[Kết quả khảo sát_SMember] = "Có" && FACT_NPS_Survey_SMember[is_tiep_nhan] = BLANK()))
+			```
+		formatString: 0
+		lineageTag: 85e07e83-b6e9-48b1-92eb-5f7fc6943c90
+
+	measure 'Số lượng phiếu có tư vấn_SMS' = ```
+			
+			  CALCULATE([Số lượng phiếu có tư vấn], FILTER(FACT_NPS_Survey_SMember, FACT_NPS_Survey_SMember[Nguồn] = "SMS"))
+			```
+		formatString: 0
+		lineageTag: 1a185bf0-d427-4b9d-9615-0aa70a6df31d
+
+	measure 'Số lượng phiếu có tư vấn_Happycall' = ```
+			
+			 CALCULATE([Số lượng phiếu có tư vấn], FILTER(FACT_NPS_Survey_SMember, FACT_NPS_Survey_SMember[Nguồn] = BLANK()))
+			```
+		formatString: 0
+		lineageTag: a476438d-c7be-4dd3-aa6f-fff5551936a4
+
+	measure 'Số lượng phiếu không tư vấn' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey_SMember[Mã phiếu]), FILTER(FACT_NPS_Survey_SMember, FACT_NPS_Survey_SMember[Kết quả khảo sát_SMember] = "Không" && FACT_NPS_Survey_SMember[is_tiep_nhan] = BLANK()))
+			```
+		formatString: 0
+		lineageTag: 92f5561a-f7b1-40ba-b79f-437992b2d947
+
+	measure 'Số lượng phiếu tư vấn' = ```
+			[Số lượng phiếu có tư vấn] + [Số lượng phiếu không tư vấn]
+			
+			```
+		formatString: 0
+		lineageTag: ede05572-3585-4a65-95eb-f8e707d7d4ba
+
+	measure 'Tỷ lệ có tư vấn' = [Số lượng phiếu có tư vấn]/[Số lượng phiếu tư vấn]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e54051d1-5613-4c8b-90a0-e2495795145d
+
+	measure 'Tỷ lệ có tư vấn_SMS' = [Số lượng phiếu có tư vấn_SMS]/[Số lượng phiếu tư vấn]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cf739e8b-0714-4b90-99f7-d07f0eab40e9
+
+	measure 'Tỷ lệ có tư vấn_Happycall' = [Số lượng phiếu có tư vấn_Happycall]/[Số lượng phiếu tư vấn]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 554fb35b-f980-4150-8247-9b949f2864b6
+
+	measure 'Tỷ lệ có tư vấn/phiếu bán' = [Số lượng phiếu có tư vấn]/[Số lượng đơn hàng]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4f7f8352-93a4-478c-ad48-485fc33fc85d
+
+	measure 'Tỷ lệ không tư vấn' = [Số lượng phiếu không tư vấn]/[Số lượng phiếu tư vấn]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 35243eb0-e2f9-4eb9-aa1f-314d799891aa
+
+	measure 'Tỷ lệ không tư vấn/phiếu bán' = [Số lượng phiếu không tư vấn]/[Số lượng đơn hàng]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: fea41891-75cc-496e-9b7d-be9553b0395b
+
+	measure 'Color_Có tư vấn_sp' =
+			
+			IF(RANKX(ALLSELECTED('DIM_Danh mục_Phòng ban'[AM], 'DIM_Danh mục_Phòng ban'[Bộ phận], 'DIM_Danh mục_Phòng ban'[SIZE]), [Tỷ lệ có tư vấn/phiếu bán],,DESC,Dense) <= 10, 1, BLANK())
+		formatString: 0
+		lineageTag: a8b38423-1beb-42df-9fb3-38e25928f2e2
+
+	measure 'Color_Ko tư vấn_sp' =
+			
+			IF(RANKX(ALLSELECTED('DIM_Danh mục_Phòng ban'[AM], 'DIM_Danh mục_Phòng ban'[Bộ phận], 'DIM_Danh mục_Phòng ban'[SIZE]), [Tỷ lệ không tư vấn/phiếu bán],,DESC,Dense) <= 10, 1, BLANK())
+		formatString: 0
+		lineageTag: 154a4f06-8477-44c4-9b79-aedd51b07106
+
+	measure 'Color_Có tư vấn_s' =
+			
+			IF(RANKX(ALLSELECTED('DIM_Danh mục_Phòng ban'[AM], 'DIM_Danh mục_Phòng ban'[Bộ phận], 'DIM_Danh mục_Phòng ban'[SIZE]), [Tỷ lệ có tư vấn],,DESC,Dense) <= 10, 1, BLANK())
+		formatString: 0
+		lineageTag: 95dc2e18-6f77-4074-9bef-417d883aa1d5
+
+	measure 'Color_Ko tư vấn_s' =
+			
+			IF(RANKX(ALLSELECTED('DIM_Danh mục_Phòng ban'[AM], 'DIM_Danh mục_Phòng ban'[Bộ phận], 'DIM_Danh mục_Phòng ban'[SIZE]), [Tỷ lệ không tư vấn],,DESC,Dense) <= 10, 1, BLANK())
+		formatString: 0
+		lineageTag: 2f81a27e-5aea-4459-99ba-1737ac26024e
+
+	measure 'Rank_Ko tư vấn_s' =
+			
+			RANKX(ALLSELECTED('DIM_Danh mục_Phòng ban'[AM], 'DIM_Danh mục_Phòng ban'[Bộ phận], 'DIM_Danh mục_Phòng ban'[SIZE]), [Tỷ lệ không tư vấn],,DESC,Dense)
+		formatString: 0
+		lineageTag: ea48c4ca-036f-4332-b8a5-af17cb41a636
+
+	measure StartDate =
+			
+			VAR Mindate_D =
+			    CALCULATE(
+			        MIN( 'DIM_Date'[Date] ),
+			        FILTER(
+			            'Dim_Date',
+			            'Dim_Date'[IsActive] = 1
+			        )
+			    )
+			RETURN
+			    CALCULATE(
+			        STARTOFMONTH( 'DIM_Date'[Date] ),
+			        'Dim_Date'[Date] = Mindate_D
+			    )
+		formatString: m/d/yyyy
+		lineageTag: e7161af1-9656-4f5b-845b-b1eb9ea917e0
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure 'Số lượng đơn hàng đã khảo sát_Shop' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[IsSurveyed] = 1 && FACT_NPS_Survey[Nguồn] = "Tại Cửa Hàng"))
+			```
+		formatString: 0
+		lineageTag: 400e1744-ec48-452a-9ddc-86001112a2af
+
+	measure 'Tỷ lệ khảo sát_Shop' = [Số lượng đơn hàng đã khảo sát_Shop]/[Số lượng đơn hàng]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: af05b51b-da2a-4083-981a-5ba77faef92c
+
+	measure 'Tỷ lệ có tư vấn_LD g%' =
+			
+			VAR tv_ld_g =
+			    DIVIDE (
+			        [Tỷ lệ có tư vấn],
+			        [Tỷ lệ có tư vấn_LD],
+			        BLANK ()
+			    ) - 1
+			RETURN
+			    IF (
+			        [Tỷ lệ có tư vấn_LD] <> 0
+			            && [Tỷ lệ có tư vấn] <> 0,
+			        tv_ld_g,
+			        0
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 71c0862b-3b09-408c-bfe0-6d0656a0dad0
+
+	measure 'Tỷ lệ có tư vấn_LD' =
+			
+			CALCULATE (
+			    [Tỷ lệ có tư vấn],
+			    PREVIOUSDAY ( DIM_Date[Date] )
+			)
+		lineageTag: a378bfe2-6800-4319-9786-a97a7eca3435
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Target NPS' =
+			
+			CALCULATE(
+			    AVERAGE(FACT_GSheet_Target_NPS[Target]),
+			    FILTER(
+			        FACT_GSheet_Target_NPS,
+			        FACT_GSheet_Target_NPS[Đối tượng] = "NPS"
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1a4ca499-d442-478a-be14-37193cb1ba09
+
+	measure '%Target NPS' = ROUND(DIVIDE([NPS_Shop], [Target NPS]),4)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4df5589c-c6c3-469d-b6c2-49174e7511f3
+
+	measure 'Color_Lỗi phạt NV' = SUM(FACT_NPS_NV[Lỗi phạt])
+		formatString: 0
+		lineageTag: 3c99e17b-f8b0-430e-ab91-b8d84311275c
+
+	measure Shop_NPS_notachieve =
+			
+			var zT0 = CALCULATETABLE( VALUES('DIM_Danh mục_Phòng ban'[Bộ phận]), 'DIM_Danh mục_Phòng ban'[AM] <> BLANK())
+			var zT1 = ADDCOLUMNS( zT0, "zDanhGia", IF(ISBLANK([%Target NPS]), BLANK(), IF([%Target NPS] >= 1, "Đạt", "Không đạt")))
+			return COUNTX( FILTER( zT1, [zDanhGia] = "Không đạt"), 'DIM_Danh mục_Phòng ban'[Bộ phận] )
+		formatString: 0
+		lineageTag: 856dc634-d0dd-4ca5-8a38-f4eb35a2b9e4
+
+	measure Shop_NPS_achieve =
+			
+			var zT0 = CALCULATETABLE( VALUES('DIM_Danh mục_Phòng ban'[Bộ phận]), 'DIM_Danh mục_Phòng ban'[AM] <> BLANK())
+			var zT1 = ADDCOLUMNS( zT0, "zDanhGia", IF(ISBLANK([%Target NPS]), BLANK(), IF([%Target NPS] >= 1, "Đạt", "Không đạt")))
+			return COUNTX( FILTER( zT1, [zDanhGia] = "Đạt"), 'DIM_Danh mục_Phòng ban'[Bộ phận] )
+		formatString: 0
+		lineageTag: b52f708b-1859-4c51-8f1b-e72cee5f3b47
+
+	measure %Shop_achieve = DIVIDE([Shop_NPS_achieve], ([Shop_NPS_achieve] + [Shop_NPS_notachieve]))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c114c0b1-cef9-4360-b0a2-5d1060fdef34
+
+	measure %Shop_notachieve = DIVIDE([Shop_NPS_notachieve], ([Shop_NPS_achieve] + [Shop_NPS_notachieve]))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6e4700bb-f5de-4cc2-8441-b016c41ac91c
+
+	measure 'Shop_Slg cửa hàng' = COUNTROWS(CALCULATETABLE(VALUES(FACT_NPS_SHOP[Cửa hàng]), FACT_NPS_SHOP[Tổng khảo sát] > 0))
+		formatString: 0
+		lineageTag: 71e9b8ce-026a-48ca-b4f4-8ea7dae03770
+
+	measure 'Chi tiết Vi phạm' = ```
+			
+			VAR NghiepVu = CALCULATE(
+			    [Số phiếu Vi phạm_HaveTicket], 
+			    FILTER(FACT_TFEX_TICKET, FACT_TFEX_TICKET[Loại ghi nhận] = "Nghiệp vụ")
+			)
+			VAR Khac = CALCULATE(
+			    [Số phiếu Vi phạm_HaveTicket], 
+			    FILTER(FACT_TFEX_TICKET, FACT_TFEX_TICKET[Loại ghi nhận] = BLANK() || FACT_TFEX_TICKET[Loại ghi nhận] = "Các vấn đề khác")
+			)
+			VAR ThaiDo = CALCULATE(
+			    [Số phiếu Vi phạm_HaveTicket], 
+			    FILTER(FACT_TFEX_TICKET, FACT_TFEX_TICKET[Loại ghi nhận] = "Thái độ phục vụ")
+			)
+			VAR ChatLuong = CALCULATE(
+			    [Số phiếu Vi phạm_HaveTicket], 
+			    FILTER(FACT_TFEX_TICKET, FACT_TFEX_TICKET[Loại ghi nhận] = "Chất lượng sữa chửa")
+			)
+			
+			VAR ErrorDetails = 
+			    UNION(
+			        ROW("Category", "Thái độ", "Value", ThaiDo),
+			        ROW("Category", "Nghiệp vụ", "Value", NghiepVu),
+			        ROW("Category", "Chất lượng sữa chửa", "Value", ChatLuong),
+			        ROW("Category", "Khác", "Value", Khac)
+			    )
+			
+			RETURN
+			IF(
+			    ThaiDo + NghiepVu + ChatLuong + Khac > 0,
+			    CONCATENATEX(
+			        FILTER(ErrorDetails, [Value] > 0),
+			        [Category] & " " & [Value],
+			        " | "
+			    ),
+			    BLANK()
+			)
+			```
+		lineageTag: f39b3130-6106-4c85-bdcc-6583c773e290
+
+	measure SizeShop =
+			IF (
+			    ISINSCOPE ( 'DIM_Danh mục_Phòng ban'[Cửa hàng gộp] ),
+			    SELECTEDVALUE ( 'DIM_Danh mục_Phòng ban'[SIZE] ),
+			    BLANK ()
+			)
+		lineageTag: 3ffbc1f7-8c46-44e9-8707-c7e7251540b7
+
+	measure 'Tổng hợp Vi phạm' =
+			
+			COUNTROWS(SUMMARIZE(FACT_TFEX_SHOP, FACT_TFEX_SHOP[Mã ticket]))
+			--COUNT(FACT_TFEX_SHOP[Mã ticket])
+		formatString: 0
+		lineageTag: 78c1a8c4-50fa-470c-8fa1-4f3cbc901e13
+
+	measure SM/SUP = ```
+			
+			CONCATENATEX(
+			    FILTER(
+			        'DIM_Danh mục_SM_SUP',
+			        'DIM_Danh mục_SM_SUP'[Vị trí] IN {"Trưởng cửa hàng", "Trợ lý cửa hàng"}
+			    ),
+			    'DIM_Danh mục_SM_SUP'[Tên nhân viên],
+			    ", "
+			)
+			
+			```
+		lineageTag: 4a012ea6-5259-4ebd-b54c-583dd1160f8b
+
+	measure 'Đánh giá' = ```
+			IF([%Target NPS]>=0.999999,"Đạt","Không đạt") 
+			```
+		lineageTag: 9f8dae78-444c-4297-bcea-ea5ce52b167d
+
+	measure SM/SUP_show =
+			IF(
+			    ISINSCOPE('DIM_Danh mục_Phòng ban'[Cửa hàng gộp]),
+			    SELECTEDVALUE('DIM_Danh mục_Phòng ban'[SM/SUM]),
+			    BLANK()
+			)
+		lineageTag: 85b891d0-6072-44da-89fb-dd5f3a9c9c64
+
+	measure 'Số lượng phiếu không tư vấn_Happycall' = ```
+			
+			 CALCULATE([Số lượng phiếu không tư vấn], FILTER(FACT_NPS_Survey_SMember, FACT_NPS_Survey_SMember[Nguồn] = BLANK()))
+			```
+		formatString: 0
+		lineageTag: f7af517b-1037-41bf-9306-886489535773
+
+	measure 'Số lượng phiếu không tư vấn_SMS' = ```
+			
+			 CALCULATE([Số lượng phiếu không tư vấn], FILTER(FACT_NPS_Survey_SMember, FACT_NPS_Survey_SMember[Nguồn] = "SMS"))
+			```
+		formatString: 0
+		lineageTag: 4e0cb0bc-2805-4620-a263-0508bdf829ed
+
+	measure 'Số lượng phiếu có tư vấn_QC AI' = ```
+			
+			  CALCULATE([Số lượng phiếu có tư vấn], FILTER(FACT_NPS_Survey_SMember, FACT_NPS_Survey_SMember[Nguồn] = "QC AI"))
+			```
+		formatString: 0
+		lineageTag: 710fa642-d9b1-49aa-ad70-1f252c131629
+
+	measure 'Số lượng phiếu không tư vấn_QC AI' = ```
+			
+			 CALCULATE([Số lượng phiếu không tư vấn], FILTER(FACT_NPS_Survey_SMember, FACT_NPS_Survey_SMember[Nguồn] = "QC AI"))
+			```
+		formatString: 0
+		lineageTag: 4ef04c7e-0ecc-4262-9bf5-c2f438b52725
+
+	measure 'Phạt tư vấn_NV' = ```
+			
+			VAR sl = [Số lượng phiếu không tư vấn]
+			VAR _day = SELECTEDVALUE(FACT_NPS_Survey_SMember[Năm/Tháng])
+			VAR _z07 =  
+			SWITCH(
+			    TRUE(),
+			    sl < 5,0,
+			    (sl-4)*100000)
+			
+			VAR _z08 =  
+			SWITCH(
+			    TRUE(),
+			    sl < 6,0,
+			    (sl-5)*100000)   
+			RETURN
+			IF(_day = "2025/07",_z07,_z08)
+			```
+		formatString: #,0
+		lineageTag: 5880619e-e0e2-42e9-a618-6e55eb6a6719
+
+	measure NPS_NV = ```
+			
+			var _is_smkn =
+			sign(
+			    countrows(
+			        filter(
+			            FACT_NPS_NV,
+			            FACT_NPS_NV[isSMKN] = 1
+			        )
+			    )
+			)
+			
+			var _nps_smkn = 
+			    average( FACT_NPS_NV[NPS] )
+			
+			var _sp_hai_long = sum(FACT_NPS_NV[Số phiếu Hài lòng])
+			var _sp_vi_pham = sum(FACT_NPS_NV[Số phiếu Vi phạm_HaveTicket])
+			var _sp_tong_khao_sat = sum(FACT_NPS_NV[Tổng khảo sát])
+			
+			var _nps_nv =
+			divide(
+			    _sp_hai_long - _sp_vi_pham,
+			    _sp_tong_khao_sat,
+			    blank()
+			)
+			
+			return
+			    if( _is_smkn = 1, _nps_smkn, _nps_nv )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f20a4ce6-0fd7-46d1-9b9e-9a2ed901cbaa
+
+	measure NPS_NV_target =
+			
+			AVERAGE(FACT_NPS_NV[Target NPS])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 18fe2b24-dfac-4984-8c76-544965711d2b
+
+	measure 'NPS_NV_target %' =
+			
+			divide(
+			    [NPS_NV],
+			    [NPS_NV_target],
+			    blank()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: eb549ca6-0ea7-40cd-a7a6-fcb0168198a1
+
+	measure 'Số lượng phiếu có tư vấn SStudent' =
+			
+			CALCULATE(DISTINCTCOUNT(FACT_NPS_SURVEY_SStudent[Mã phiếu]),FILTER(FACT_NPS_SURVEY_SStudent,FACT_NPS_SURVEY_SStudent[Kết quả khảo sát_SStudent] = "Có"))
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: fed394d9-f3ff-4cde-b6c5-69f9cda177fb
+
+	measure 'Số lượng phiếu không tư vấn SStudent' =
+			
+			CALCULATE(DISTINCTCOUNT(FACT_NPS_SURVEY_SStudent[Mã phiếu]),FILTER(FACT_NPS_SURVEY_SStudent,FACT_NPS_SURVEY_SStudent[Kết quả khảo sát_SStudent] = "Không"))
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: 9d314677-9fc8-4ca2-9761-273de8717d97
+
+	measure 'Số lượng phiếu tư vấn SStudent' = [Số lượng phiếu có tư vấn SStudent] + [Số lượng phiếu không tư vấn SStudent]
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: fbfbdcf6-b21b-4c74-9300-76812f20e6cb
+
+	measure 'Tỷ lệ có tư vấn SStudent' = [Số lượng phiếu có tư vấn SStudent]/[Số lượng phiếu tư vấn SStudent]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: SStudent
+		lineageTag: 7cc25a5e-8442-44e7-90b7-36899fba4c27
+
+	measure 'Tỉ lệ không tư vấn SStudent' = [Số lượng phiếu không tư vấn SStudent]/[Số lượng phiếu tư vấn SStudent]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: SStudent
+		lineageTag: 39db927f-f6ce-49bd-857c-4c6e63331081
+
+	measure 'Số lượng phiếu có tư vấn SMS SStudent' = ```
+			
+			 CALCULATE([Số lượng phiếu có tư vấn SStudent],FILTER(FACT_NPS_SURVEY_SStudent,FACT_NPS_SURVEY_SStudent[Nguồn khảo sát] = "SMS"))
+			```
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: 485eed3f-7575-4bb5-bea6-c1ce5c96a9df
+
+	measure 'Số lượng phiếu không tư vấn SMS SStudent' = ```
+			
+			    CALCULATE([Số lượng phiếu không tư vấn SStudent],FILTER(FACT_NPS_SURVEY_SStudent,FACT_NPS_SURVEY_SStudent[Nguồn khảo sát] = "SMS"))
+			```
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: c410d180-098c-49c7-816e-01906d532529
+
+	measure 'Số lượng phiếu có tư vấn_Happycall SStudent' = ```
+			
+			 CALCULATE([Số lượng phiếu có tư vấn SStudent], FILTER(FACT_NPS_SURVEY_SStudent, FACT_NPS_SURVEY_SStudent[Nguồn khảo sát] = "HappyCall"))
+			```
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: eeaaebc6-e40c-4f9c-886a-7001aa772096
+
+	measure 'Số lượng đơn hàng đã khảo sát SStudent' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[IsSurveyed] = 1))
+			```
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: 10a3708b-2560-4d77-8fba-d4a98519b23f
+
+	measure 'Số lượng đơn hàng chưa khảo sát SStudent' = ```
+			
+			 CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[IsSurveyed] = 0))
+			```
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: 25e1cb25-f320-41af-93a2-c089bd847c77
+
+	measure 'Tổng số lượng đơn hàng SStudent' = [Số lượng đơn hàng đã khảo sát SStudent] + [Số lượng đơn hàng chưa khảo sát SStudent]
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: 8ec857db-81e9-470b-a699-e7706f25ad00
+
+	measure 'Tỷ lệ có tư vấn/phiếu bán SStudent' = [Số lượng phiếu có tư vấn SStudent] / [Tổng số lượng đơn hàng SStudent]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: SStudent
+		lineageTag: db5873f2-2371-4530-a972-3d875de4efbe
+
+	measure 'Tỷ lệ không tư vấn/phiếu bán SStudent' = ```
+			[Số lượng phiếu không tư vấn SStudent] / [Tổng số lượng đơn hàng SStudent] 
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: SStudent
+		lineageTag: a00c33d0-5cc0-423b-8cae-f6d6b270ec1a
+
+	measure 'Số lượng phiếu không tư vấn_Happycall SStudent' = ```
+			
+			 CALCULATE([Số lượng phiếu không tư vấn SStudent], FILTER(FACT_NPS_SURVEY_SStudent, FACT_NPS_SURVEY_SStudent[Nguồn khảo sát] = "HappyCall"))
+			```
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: 3d6df073-a847-46c8-8fd7-166d21b0e6bc
+
+	measure 'Phạt tư vấn_NV SStudent' = ```
+			
+			VAR sl = [Số lượng phiếu không tư vấn SStudent]
+			VAR _day = SELECTEDVALUE(FACT_NPS_SURVEY_SStudent[Năm/Tháng])
+			VAR _z07 =  
+			SWITCH(
+			    TRUE(),
+			    sl < 5,0,
+			    (sl-4)*100000)
+			
+			VAR _z08 =  
+			SWITCH(
+			    TRUE(),
+			    sl < 6,0,
+			    (sl-5)*100000)   
+			RETURN
+			IF(_day = "2025/07",_z07,_z08)
+			```
+		formatString: 0
+		displayFolder: SStudent
+		lineageTag: 611948e4-358e-4a73-9c85-21e5b643cc69
+
+	measure 'SL_Bình thường_Bán lẻ' = ```
+			
+			    CALCULATE(COUNTROWS(NPS_Detail_Evaluation),
+			            NPS_Detail_Evaluation[Evaluation_NPS] = "Bình thường",
+			            KEEPFILTERS(NPS_Detail_Evaluation[Phương thức mới] = "Bán lẻ")
+			    )
+			```
+		formatString: 0
+		isHidden
+		displayFolder: Phương thức
+		lineageTag: 3419f25b-e6e0-41b3-a2ca-091fa9d12bed
+
+	measure 'SL_Bình thường_All' =
+			
+			CALCULATE(COUNTROWS(NPS_Detail_Evaluation),
+			    NPS_Detail_Evaluation[Evaluation_NPS] = "Bình thường"
+			)
+		formatString: 0
+		displayFolder: Phương thức
+		lineageTag: cf005c0c-2ee7-4de2-a00a-59be2f83df57
+
+	measure 'SL_Vi phạm_Trạng thái' = ```
+			
+			        CALCULATE(COUNTROWS(NPS_Detail_Evaluation),
+			        NPS_Detail_Evaluation[Evaluation_NPS] = "Vi phạm")
+			```
+		formatString: 0
+		displayFolder: Vi phạm
+		lineageTag: 84b3b9cb-c924-4203-98e9-b2e296f2b8c0
+
+	measure '% Số lượng Ticket' =
+			
+			DIVIDE(
+			    COUNTROWS('NPS_Detail_Evaluation'),
+			    CALCULATE(COUNTROWS('NPS_Detail_Evaluation'), ALLSELECTED('NPS_Detail_Evaluation'[Evaluation_NPS]))
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6149a329-1619-4fd9-b4f6-1c0a1416d53b
+
+	measure 'Tỉ lệ % Phương thức' = ```
+			
+			DIVIDE(
+			    [SL_Bình thường_All], 
+			    CALCULATE(
+			        [SL_Bình thường_All], 
+			        REMOVEFILTERS('NPS_Detail_Evaluation'[Phương thức mới]) -- Thay 'Tên_Bảng' bằng tên bảng thực tế chứa cột này
+			    )
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Phương thức
+		lineageTag: e18429fa-c5aa-42e7-a2af-665b69beb8aa
+
+	measure 'Tỉ lệ % vi phạm theo trạng thái' =
+			
+			DIVIDE(
+			    [SL_Vi phạm_Trạng thái],
+			    CALCULATE(
+			        [SL_Vi phạm_Trạng thái],
+			        ALLSELECTED('NPS_Detail_Evaluation'[Trạng thái NV mới])
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Phương thức
+		lineageTag: 2dd14e06-83ec-4304-8cbe-f498cbd1ef0f
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 9ad48553-a2df-43d3-a92c-367fb5cdab85
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = e3eb79e1b51340d89107dd0697fbc14a
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

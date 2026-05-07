@@ -1,0 +1,53 @@
+table 'Ghi chú'
+	excludeFromModelRefresh
+	lineageTag: ab8ed97b-3f17-4007-989e-f32e935843c4
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: 20934758-2909-4ec7-8fd9-8fcbcddf66ae
+		summarizeBy: sum
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Báo cáo'
+		dataType: string
+		lineageTag: ec751d21-3561-486d-8ac3-3fd04c5e90ca
+		summarizeBy: none
+		sourceColumn: Báo cáo
+		sortByColumn: STT
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bắt đầu cập nhật lúc'
+		dataType: string
+		lineageTag: 138b9797-b9b2-44a8-aa0a-8df303df1082
+		summarizeBy: none
+		sourceColumn: Bắt đầu cập nhật lúc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dữ liệu gần nhất ghi nhận lúc'
+		dataType: string
+		lineageTag: 19875797-3ddb-4930-a302-43b0de530514
+		summarizeBy: none
+		sourceColumn: Dữ liệu gần nhất ghi nhận lúc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ghi chú' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("lZAxT8MwEIX/yslzKsUxpcpKhw6VOtAxiioUIV9E6xThIhgRExvMCCkVA1PE7ggxOH/E/4SzDSxdYHmyfLr33XtFwThL2HS5mjvzqeFy58wrXCBpA1d2r2G6pPkYRZoAF0hy7CVHuLYtZBxpWpw4865heHLmbQeVM90WFFl0GtbWVCWMgIOsXf/CyqRgWQTOmkauz1enZ7pWkr44+eYYKMGbT/7oLVLYojU6mIvvNGj3FQLaVknQhL7bgBruAyj9AfkH91iexWAxU+q5C2nbW1iMeHA9OuzoxvUdnfBBBwyPHkDXoesfFMLG9c81beS//qG4sZdJbC/x1UWc+HfM8gs=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [STT = _t, #"Báo cáo" = _t, #"Bắt đầu cập nhật lúc" = _t, #"Dữ liệu gần nhất ghi nhận lúc" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"STT", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

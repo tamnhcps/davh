@@ -1,0 +1,187 @@
+table FACT_Công_ChiTiet
+	lineageTag: 11c8ce4d-afdb-44c7-996d-2feb8bfee21a
+
+	column StartDate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 607032ef-76be-444b-9e37-e50db840cb4e
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		variation Variation
+			isDefault
+			relationship: fb008627-d8ec-4bde-8cbc-fd54bd72ab47
+			defaultHierarchy: LocalDateTable_8e267bd9-9824-400a-b534-01a81ad80c63.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Mã nhân viên'
+		dataType: string
+		lineageTag: bd931e6b-f397-43eb-961d-2cfaee439e1e
+		summarizeBy: none
+		sourceColumn: Mã nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 69669056-32d7-40cc-a832-b026d4287f81
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: feaeea87-b37f-463b-9932-2a68defa11c5
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: fd9b8b5a-f4cc-4698-bd4d-04af70dbb5e8
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng = FORMAT('FACT_Công_ChiTiet'[StartDate],"YYYY/MM")
+		lineageTag: 9060a2dd-ccfa-4d57-a23d-c109d4e2ba6e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Văn phòng'
+		dataType: string
+		lineageTag: 132a0154-f625-4bd4-b9d7-fb7af50acd20
+		summarizeBy: none
+		sourceColumn: Văn phòng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chức danh'
+		dataType: string
+		lineageTag: 47e8a5e4-ff24-4eb2-9128-c455f241b766
+		summarizeBy: none
+		sourceColumn: Chức danh
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên ca'
+		dataType: string
+		lineageTag: f65185a8-4204-4eb1-b826-5d3fe47b6cf1
+		summarizeBy: none
+		sourceColumn: Tên ca
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: a0c285f0-defe-40bc-8f71-429aa891ac85
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái làm việc'
+		dataType: string
+		lineageTag: e309e95c-0371-4fe1-a409-97448821a37c
+		summarizeBy: none
+		sourceColumn: Trạng thái làm việc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái'
+		dataType: string
+		lineageTag: adbac5ce-4c6b-4682-b387-a9ba325b0e18
+		summarizeBy: none
+		sourceColumn: Trạng thái
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bắt đầu ca'
+		dataType: string
+		lineageTag: 056d6f33-b525-4558-93c1-4c106595eec6
+		summarizeBy: none
+		sourceColumn: Bắt đầu ca
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kết thúc ca'
+		dataType: string
+		lineageTag: 0b7cb77d-53b5-4ed1-92a7-cae6b5ffef9a
+		summarizeBy: none
+		sourceColumn: Kết thúc ca
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên nhân viên' = ```
+			
+			    RELATED('DIM_Danh mục_Nhân viên'[Tên nhân viên])
+			```
+		lineageTag: db61d6cb-b3ed-455d-99db-58ae92c7f48a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Startshop = ```
+			
+			VAR _min = 
+			CALCULATE(
+			    MIN('FACT_Công_ChiTiet'[Date]),
+			    FILTER('FACT_Công_ChiTiet',
+			    'FACT_Công_ChiTiet'[Văn phòng] = EARLIER('FACT_Công_ChiTiet'[Văn phòng])))
+			VAR _max = 
+			CALCULATE(
+			    MAX('FACT_Công_ChiTiet'[Date]),
+			    FILTER('FACT_Công_ChiTiet',
+			    'FACT_Công_ChiTiet'[Văn phòng] = EARLIER('FACT_Công_ChiTiet'[Văn phòng])))
+			RETURN _max - _min
+			```
+		dataType: int64
+		formatString: 0
+		lineageTag: d12211ba-d6b5-4672-a059-84b8e72adf0a
+		summarizeBy: sum
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_Công_ChiTiet = m
+		mode: import
+		source = ```
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=846a68ee-cfb9-40fd-940b-7f8fd45fb141""#(lf)SELECT #(lf)  employee_code AS `Mã nhân viên`, #(lf)  department AS `Đơn vị`,#(lf)  job_title AS `Vị trí công việc`,#(lf)  shift_name AS `Tên ca`,#(lf)  checkin_department AS `Phòng ban chấm công`,#(lf)  working_type AS `Trạng thái làm việc`,#(lf)  checkin_status AS `Trạng thái công`,#(lf)  start_shift AS `Bắt đầu ca`,#(lf)  end_shift AS `Kết thúc ca`,#(lf)  DATE_TRUNC(checkin_day, MONTH) AS StartDate,#(lf)  checkin_day AS `Date`#(lf)FROM #(lf)  cellphones-data-platform.cps_organization_datamart.cps_cong_chi_tiet#(lf)WHERE 1=1#(lf)  AND DATE(checkin_day) >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 2 MONTH)#(lf)  AND LEFT(employee_code,1) IN ('S')#(lf)  AND checkin_status = 'Đã duyệt'", null, [EnableFolding=true]),
+				    #"Renamed Columns1" = Table.RenameColumns(Source,{{"Đơn vị", "Văn phòng"}, {"Trạng thái công", "Trạng thái"}, {"Phòng ban chấm công", "Phòng ban"}, {"Vị trí công việc", "Chức danh"}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns1", "Index", 0, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Phòng ban", "Cửa hàng"}}),
+				    #"Inserted Year" = Table.AddColumn(#"Renamed Columns", "Year", each Date.Year([StartDate]), Int64.Type),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Year", each ([Year] <> 2021)),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","VTA-VTA","BRI-VTA",Replacer.ReplaceText,{"Văn phòng"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","DNO","DON",Replacer.ReplaceText,{"Văn phòng"}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Replaced Value1", each Text.Contains([Văn phòng], "CPS")),
+				    #"Filtered Rows2" = Table.SelectRows(#"Filtered Rows1", each not Text.Contains([Văn phòng], "PG")),
+				    #"Filtered Rows3" = Table.SelectRows(#"Filtered Rows2", each ([Trạng thái] = "Đã duyệt") and ([Date] >= Date.StartOfMonth(Date.AddMonths(Date.From(DateTime.LocalNow()), -2))) and ([Date] < Date.From(DateTime.LocalNow()))),
+				    #"Filtered Rows5" = Table.SelectRows(#"Filtered Rows3", each ([Văn phòng] <> "CPS-BTH-PTH-165THD" or [StartDate] <> #date(2023, 9, 1))),
+				    #"Filtered Rows6" = Table.SelectRows(#"Filtered Rows5", each ([Văn phòng] <> "CPS-DON-BHO-44NAQ" or [StartDate] <> #date(2023, 12, 1))),    
+				    #"Filtered Rows4" = Table.SelectRows(#"Filtered Rows6", each true),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Filtered Rows4","CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"Văn phòng"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","CPS-QNI-HL-126KL","CPS-QNI-HGA-19THD",Replacer.ReplaceText,{"Văn phòng"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","CPS-QNI-HL-126KL","CPS-QNI-HGA-19THD",Replacer.ReplaceText,{"Cửa hàng"})
+				in
+				    #"Replaced Value4"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

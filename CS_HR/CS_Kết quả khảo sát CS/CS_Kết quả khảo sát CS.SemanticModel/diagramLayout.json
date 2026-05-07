@@ -1,0 +1,1051 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 1375.5985859842565,
+        "y": 463.42389784711276
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1375.66809166308,
+            "y": 1076.9477110419593
+          },
+          "nodeIndex": "FACT_TFEX_TICKET",
+          "nodeLineageTag": "da3451cc-e6ff-420d-9c34-61358a9c6cb2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 867.92933070687718,
+            "y": 347.12472056275556
+          },
+          "nodeIndex": "FACT_NPS_TICKET",
+          "nodeLineageTag": "cd53e27a-9776-40b9-b8e8-96771cc3bc71",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 25
+        },
+        {
+          "location": {
+            "x": 258.58483770064868,
+            "y": 1562.0993870020382
+          },
+          "nodeIndex": "DIM_Danh mục_Nhân viên",
+          "nodeLineageTag": "20fade4d-5767-4867-9d9c-299842b24819",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 1020.2736876147576,
+            "y": 748.14259075719849
+          },
+          "nodeIndex": "DIM_Danh mục_Phòng ban",
+          "nodeLineageTag": "edecd406-29c9-41cd-8f5d-a582bbb83659",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {
+            "x": 1122.8597840233761,
+            "y": 1431.9087350348327
+          },
+          "nodeIndex": "FACT_Công_ChiTiet",
+          "nodeLineageTag": "11c8ce4d-afdb-44c7-996d-2feb8bfee21a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 28
+        },
+        {
+          "location": {
+            "x": 52.603278524802519,
+            "y": 1013.4984955106935
+          },
+          "nodeIndex": "FACT_NPS_SHOP",
+          "nodeLineageTag": "0ddee663-f190-43ae-8b5f-6a8a9942299a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 26
+        },
+        {
+          "location": {
+            "x": 582.23795863920839,
+            "y": 1218.2603145627872
+          },
+          "nodeIndex": "FACT_NPS_NV",
+          "nodeLineageTag": "8763d5e6-3fed-4c89-ac3e-8da50280a311",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 21
+        },
+        {
+          "location": {
+            "x": 2181.9557573695006,
+            "y": 860.049693501019
+          },
+          "nodeIndex": "Parameter",
+          "nodeLineageTag": "bc14b4b1-a676-4af5-b8ea-2fa4f6d4320f",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 578.52290949608414,
+            "y": 325.31816938095722
+          },
+          "nodeIndex": "FACT_NPS_Survey",
+          "nodeLineageTag": "763703cb-2eea-47f4-a83d-f73f60c24264",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 24
+        },
+        {
+          "location": {
+            "x": 10,
+            "y": 679.23432230825438
+          },
+          "nodeIndex": "DIM_Nguồn khảo sát",
+          "nodeLineageTag": "9cef53d1-f726-4020-a605-63f345c3f174",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 22
+        },
+        {
+          "location": {
+            "x": 2465.9557573695006,
+            "y": 788.049693501019
+          },
+          "nodeIndex": "DIM_Phân quyền_User",
+          "nodeLineageTag": "f373c64a-cb31-4975-8f24-f0cb39a0cc7c",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 748.3256373244767,
+            "y": 954.01571163044514
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 23
+        },
+        {
+          "location": {
+            "x": 458.94667589399887,
+            "y": 681.49306109873623
+          },
+          "nodeIndex": "FACT_NPS_Survey_SMember",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 1614.0530734053837,
+            "y": 782.61967817895925
+          },
+          "nodeIndex": "DIM_Shop_Warning",
+          "nodeLineageTag": "4417c145-797f-47df-bcea-774da743334e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 1126.0867080263656,
+            "y": -10
+          },
+          "nodeIndex": "NPS_Detail_Evaluation",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1928.323441362191,
+            "y": 404.71739791428388
+          },
+          "nodeIndex": "DIM_Danh mục_Miền",
+          "nodeLineageTag": "ac703d81-c644-4f1c-92cc-4b0c626e7fcd",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1620.3095491160616,
+            "y": 175.66551465782516
+          },
+          "nodeIndex": "FACT_GSheet_Target_NPS",
+          "nodeLineageTag": "5ad1f446-b2d4-4979-8f38-88338091d3e8",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 3033.9557573695006,
+            "y": 860.049693501019
+          },
+          "nodeIndex": "Parameter_Thời gian",
+          "nodeLineageTag": "b5c72709-81e8-4576-9bb4-6b31d1c208ac",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 3317.9557573695006,
+            "y": 860.049693501019
+          },
+          "nodeIndex": "Parameter_Metrics_NPSShop",
+          "nodeLineageTag": "2b7688a6-be25-4fd9-ac42-ec4eb843a7e1",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 2449.9557573695006,
+            "y": 1160.3893161425285
+          },
+          "nodeIndex": "Rank_Survey_SMember",
+          "nodeLineageTag": "9d90171c-9e94-4640-87dc-55ab2a38cc52",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 1818.5893057670912,
+            "y": 1153.3635408099574
+          },
+          "nodeIndex": "FACT_GSheet_KhungThuong",
+          "nodeLineageTag": "2156d27f-b116-4201-a32e-b9ffc58ca74a",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 1560.5969515713757,
+            "y": 1434.3015612077652
+          },
+          "nodeIndex": "FACT_TFEX_SHOP",
+          "nodeLineageTag": "8c89a739-4d40-4c35-9029-bcf89a2f936e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 27
+        },
+        {
+          "location": {
+            "x": 1338.1423318802836,
+            "y": 1735.6394947910899
+          },
+          "nodeIndex": "DIM_GroupType",
+          "nodeLineageTag": "8ae85ff6-08d9-4256-896f-f1feee3d2cbc",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1430.8152940470247,
+            "y": 462.97357191176843
+          },
+          "nodeIndex": "Dim_Date",
+          "nodeLineageTag": "17d6522a-7642-42c9-8bc4-2c7321a1b38b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 3875.9557573695006,
+            "y": 848.81974739554494
+          },
+          "nodeIndex": "Ghi chú",
+          "nodeLineageTag": "ab8ed97b-3f17-4007-989e-f32e935843c4",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 1433.5928883813724
+          },
+          "nodeIndex": "DIM_Danh mục_SM_SUP",
+          "nodeLineageTag": "74d9758e-5a0c-4e2f-b378-e096b3ef0827",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 4159.9557573695,
+            "y": 836.81974739554494
+          },
+          "nodeIndex": "Update",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4443.9557573695,
+            "y": 848.81974739554494
+          },
+          "nodeIndex": "DIM_Danh mục_Shop_SMKN",
+          "nodeLineageTag": "4c0fb19a-4cea-4481-9f72-d0c7dbdeeb68",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4727.9557573695,
+            "y": 860.81974739554494
+          },
+          "nodeIndex": "Parameter_SMB",
+          "nodeLineageTag": "5f2c636a-8843-46e3-af45-876ecc07cf5e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4212.559530954406,
+            "y": 369.008426640828
+          },
+          "nodeIndex": "FACT_QC_AI",
+          "nodeLineageTag": "7cfa31bc-d531-4bd8-9be6-7fa82dc32a8f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 5011.9557573695,
+            "y": 872.81974739554494
+          },
+          "nodeIndex": "FACT_SALES_TICKET",
+          "nodeLineageTag": "3b62c12a-4d55-429e-8aee-d906ba5fa53b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 5295.9557573695,
+            "y": 836.81974739554494
+          },
+          "nodeIndex": "FACT_NPS_SURVEY_SStudent",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2749.9557573695006,
+            "y": 786.049693501019
+          },
+          "nodeIndex": "_Measure",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 5579.9557573695,
+            "y": 836.81974739554494
+          },
+          "nodeIndex": "Rank_Survey_SStudent",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 5863.9557573695,
+            "y": 860.81974739554494
+          },
+          "nodeIndex": "Parameter_new",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4322.0777516443977,
+            "y": 1424.1804255682505
+          },
+          "nodeIndex": "FACT_TFEX_FEEDBACK",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 65.426063182235666,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 191.80642824890248
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 182.0149781027522,
+            "y": 1005.1907372891432
+          },
+          "nodeIndex": "FACT_NPS_Survey",
+          "nodeLineageTag": "763703cb-2eea-47f4-a83d-f73f60c24264",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 10,
+            "y": 353.3098274476074
+          },
+          "nodeIndex": "DIM_Nguồn khảo sát",
+          "nodeLineageTag": "9cef53d1-f726-4020-a605-63f345c3f174",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 937.72928296557484,
+            "y": 423.76087235494379
+          },
+          "nodeIndex": "DIM_Danh mục_Phòng ban",
+          "nodeLineageTag": "edecd406-29c9-41cd-8f5d-a582bbb83659",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 586.34070425251093,
+            "y": 334.87787754291185
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "7d1f4515-4488-4f73-b8b2-3d7aaf6e19cb",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 217.89807972551415,
+            "y": 533.52980256988758
+          },
+          "nodeIndex": "FACT_NPS_Survey_SMember",
+          "nodeLineageTag": "3f909939-a51a-465f-ab90-6b17dc52e427",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 299.58395266425356,
+            "y": 18.459047478630964
+          },
+          "nodeIndex": "FACT_NPS_NV",
+          "nodeLineageTag": "8763d5e6-3fed-4c89-ac3e-8da50280a311",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 862.26458220970824,
+            "y": 0
+          },
+          "nodeIndex": "FACT_NPS_SHOP",
+          "nodeLineageTag": "0ddee663-f190-43ae-8b5f-6a8a9942299a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 601.39589172777346,
+            "y": 772.48072808620009
+          },
+          "nodeIndex": "FACT_TFEX_TICKET",
+          "nodeLineageTag": "da3451cc-e6ff-420d-9c34-61358a9c6cb2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 898.20208768271323,
+            "y": 833.74517947485742
+          },
+          "nodeIndex": "FACT_NPS_TICKET",
+          "nodeLineageTag": "cd53e27a-9776-40b9-b8e8-96771cc3bc71",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1324.3442944766607,
+            "y": 261.02479084403808
+          },
+          "nodeIndex": "DIM_Shop_Warning",
+          "nodeLineageTag": "4417c145-797f-47df-bcea-774da743334e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1190.7697402406084,
+            "y": 822.92524384304033
+          },
+          "nodeIndex": "DIM_Danh mục_Miền",
+          "nodeLineageTag": "ac703d81-c644-4f1c-92cc-4b0c626e7fcd",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1048.87637372259,
+            "y": 1193.4791295395635
+          },
+          "nodeIndex": "FACT_GSheet_Target_NPS",
+          "nodeLineageTag": "5ad1f446-b2d4-4979-8f38-88338091d3e8",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 13
+        }
+      ],
+      "name": "Layout 1",
+      "zoomValue": 50.467548942699061,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 322.15330026842173,
+            "y": 229.37728548140944
+          },
+          "nodeIndex": "FACT_NPS_Survey_SMember",
+          "nodeLineageTag": "3f909939-a51a-465f-ab90-6b17dc52e427",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 33.252896005378773,
+            "y": 584.853691583537
+          },
+          "nodeIndex": "DIM_Nguồn khảo sát",
+          "nodeLineageTag": "9cef53d1-f726-4020-a605-63f345c3f174",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 613.98625462241966,
+            "y": -10
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "7d1f4515-4488-4f73-b8b2-3d7aaf6e19cb",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 868.40959505434,
+            "y": 245.56520913423049
+          },
+          "nodeIndex": "DIM_Danh mục_Phòng ban",
+          "nodeLineageTag": "edecd406-29c9-41cd-8f5d-a582bbb83659",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 9.9999999999999432,
+            "y": 765.67347791605425
+          },
+          "nodeIndex": "DIM_Danh mục_Nhân viên",
+          "nodeLineageTag": "20fade4d-5767-4867-9d9c-299842b24819",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1154.7695580093732,
+            "y": 42.45799345518617
+          },
+          "nodeIndex": "DIM_Shop_Warning",
+          "nodeLineageTag": "4417c145-797f-47df-bcea-774da743334e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 968.81580725954075,
+            "y": 606.38635091478693
+          },
+          "nodeIndex": "NPS_Detail_Evaluation",
+          "nodeLineageTag": "e782d5ca-45a5-4416-b5d9-8f1f84cc83df",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 2",
+      "zoomValue": 48.082600133367492,
+      "pinKeyFieldsToTop": true,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 3,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 627.89372550785458,
+            "y": 105.74695372082954
+          },
+          "nodeIndex": "FACT_NPS_Survey_SMember",
+          "nodeLineageTag": "3f909939-a51a-465f-ab90-6b17dc52e427",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 485.41961257590879,
+            "y": 659.91534545456375
+          },
+          "nodeIndex": "FACT_NPS_SURVEY_SStudent",
+          "nodeLineageTag": "268fe75b-2bf6-416f-8006-052d13b27c95",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 256.05005333750137,
+            "y": 172.22667095736779
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "7d1f4515-4488-4f73-b8b2-3d7aaf6e19cb",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1782.3147285949847,
+            "y": 629.10661954843192
+          },
+          "nodeIndex": "NPS_Detail_Evaluation",
+          "nodeLineageTag": "e782d5ca-45a5-4416-b5d9-8f1f84cc83df",
+          "size": {
+            "height": 489.28555859480207,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1355.7210898430724,
+            "y": 504.84728761741263
+          },
+          "nodeIndex": "DIM_Danh mục_Nhân viên",
+          "nodeLineageTag": "20fade4d-5767-4867-9d9c-299842b24819",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 3",
+      "zoomValue": 56.447393005377791,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 4,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 950.87645406176762,
+            "y": 40.745903000000006
+          },
+          "nodeIndex": "FACT_NPS_TICKET",
+          "nodeLineageTag": "cd53e27a-9776-40b9-b8e8-96771cc3bc71",
+          "size": {
+            "height": 1000,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1516.456216,
+            "y": 54.39165699999996
+          },
+          "nodeIndex": "NPS_Detail_Evaluation",
+          "nodeLineageTag": "e782d5ca-45a5-4416-b5d9-8f1f84cc83df",
+          "size": {
+            "height": 600.71561,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 414.20000076293945,
+            "y": 0
+          },
+          "nodeIndex": "DIM_Danh mục_Phòng ban",
+          "nodeLineageTag": "edecd406-29c9-41cd-8f5d-a582bbb83659",
+          "size": {
+            "height": 211.86806643571435,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1810.1063365407881,
+            "y": 700.67654077716554
+          },
+          "nodeIndex": "DIM_Danh mục_Nhân viên",
+          "nodeLineageTag": "20fade4d-5767-4867-9d9c-299842b24819",
+          "size": {
+            "height": 593.14129462569031,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 159.22991528121423,
+            "y": 1010.5779709629651
+          },
+          "nodeIndex": "Dim_Date",
+          "nodeLineageTag": "17d6522a-7642-42c9-8bc4-2c7321a1b38b",
+          "size": {
+            "height": 372.63400100000013,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1928.3947116246115,
+            "y": 0
+          },
+          "nodeIndex": "FACT_Công_ChiTiet",
+          "nodeLineageTag": "11c8ce4d-afdb-44c7-996d-2feb8bfee21a",
+          "size": {
+            "height": 455.89736799999991,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 2102.481252991111,
+            "y": 693.52930820279676
+          },
+          "nodeIndex": "Parameter_new",
+          "nodeLineageTag": "5114f5aa-1143-44a8-8a7c-80601fbeeff1",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 4",
+      "zoomValue": 50.346892102823162,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 5,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 365.91597452362345,
+            "y": 345.86798574497493
+          },
+          "nodeIndex": "FACT_NPS_SURVEY_SStudent",
+          "nodeLineageTag": "268fe75b-2bf6-416f-8006-052d13b27c95",
+          "size": {
+            "height": 411.34444623223646,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 746.8977437657868,
+            "y": 136.13063614717856
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "7d1f4515-4488-4f73-b8b2-3d7aaf6e19cb",
+          "size": {
+            "height": 209.86533203067228,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 19.6818397905177,
+            "y": 523.69725163787427
+          },
+          "nodeIndex": "DIM_Nguồn khảo sát",
+          "nodeLineageTag": "9cef53d1-f726-4020-a605-63f345c3f174",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 15.453840348800981,
+            "y": 774.55855184639745
+          },
+          "nodeIndex": "DIM_Danh mục_Nhân viên",
+          "nodeLineageTag": "20fade4d-5767-4867-9d9c-299842b24819",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 976.61904676572658,
+            "y": 380.5089952765158
+          },
+          "nodeIndex": "DIM_Danh mục_Phòng ban",
+          "nodeLineageTag": "edecd406-29c9-41cd-8f5d-a582bbb83659",
+          "size": {
+            "height": 300,
+            "width": 329.6642939999997
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 861.76384084086726,
+            "y": 831.38579265220744
+          },
+          "nodeIndex": "Dim_Date",
+          "nodeLineageTag": "17d6522a-7642-42c9-8bc4-2c7321a1b38b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        }
+      ],
+      "name": "Layout SStudent",
+      "zoomValue": 56.447393005377933,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 6,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [],
+      "name": "Layout 5",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

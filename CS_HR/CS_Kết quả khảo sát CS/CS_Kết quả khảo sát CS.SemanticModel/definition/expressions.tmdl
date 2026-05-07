@@ -1,0 +1,26 @@
+expression FACT_GSheet_KhungThuong_Source = ```
+		let
+		    // 1. Load dữ liệu
+		    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRVSEDMypA1p38DmyidhNyi9dPcGsTDLJi64g5wOBbVAPWl3ucQgBh6sRxE4kzm7GAKAFopVmObTQOv/pub?output=xlsx"), null, true),
+		    KhungThuong_Sheet = Source{[Item="Khung thưởng",Kind="Sheet"]}[Data],
+		    PromotedHeaders = Table.PromoteHeaders(KhungThuong_Sheet, [PromoteAllScalars=true]),
+		    RemovedBlankRows = Table.SelectRows(PromotedHeaders, each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+		    ChangedType = Table.TransformColumnTypes(RemovedBlankRows, {
+		        {"Miền", type text}, 
+		        {"Áp dụng từ tháng", type date}, 
+		        {"Sizeshop", type text}, 
+		        {"Số giải", Int64.Type}, 
+		        {"Tiền thưởng", Int64.Type}
+		    }),
+		
+		    // 2. Sắp xếp dữ liệu theo Miền, Sizeshop và StartDate
+		    SortedRows = Table.Sort(ChangedType, {{"Miền", Order.Ascending}, {"Sizeshop", Order.Ascending}, {"Áp dụng từ tháng", Order.Ascending}})
+		in
+		    SortedRows
+		```
+	lineageTag: 1d631174-a61b-43ce-a807-daa69b928349
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

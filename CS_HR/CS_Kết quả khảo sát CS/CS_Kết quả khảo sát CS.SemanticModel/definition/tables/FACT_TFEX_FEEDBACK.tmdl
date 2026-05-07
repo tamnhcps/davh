@@ -1,0 +1,125 @@
+table FACT_TFEX_FEEDBACK
+	lineageTag: 613a43fb-cc28-457e-98f8-c86a758c84f0
+
+	column 'Mã Ticket'
+		dataType: string
+		lineageTag: 949a93c1-a5e6-47c7-9fb9-c13dbb3a5d7e
+		summarizeBy: none
+		sourceColumn: Mã Ticket
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian tạo phiếu'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 306e28d1-fad0-4740-b015-647286660a10
+		summarizeBy: none
+		sourceColumn: Thời gian tạo phiếu
+
+		variation Variation
+			isDefault
+			relationship: e0bab63f-4737-42c6-b32b-273bb46332c4
+			defaultHierarchy: LocalDateTable_bd1882f4-077b-4cb1-8a36-4a699056ece4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã HaraID'
+		dataType: string
+		lineageTag: 43f27ca0-0a64-4e40-be2e-9cdd95a76205
+		summarizeBy: none
+		sourceColumn: Mã HaraID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bộ phận liên quan'
+		dataType: string
+		lineageTag: 61c298d0-ef87-4449-a0e7-71881d30f731
+		summarizeBy: none
+		sourceColumn: Bộ phận liên quan
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời hạn phản hồi'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 98134528-6aa0-4299-bd2f-19b5f2c7cfd6
+		summarizeBy: none
+		sourceColumn: Thời hạn phản hồi
+
+		variation Variation
+			isDefault
+			relationship: c9fbe414-5d4b-4568-a1fd-2b088d89a4af
+			defaultHierarchy: LocalDateTable_b95de928-eaf2-45b3-8a9e-e352b54e1dad.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái'
+		dataType: string
+		lineageTag: 1eb6359a-a068-4a55-be6d-f1d1e8d0d07c
+		summarizeBy: none
+		sourceColumn: Trạng thái
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nội dung'
+		dataType: string
+		lineageTag: 20a5a6ca-170e-46bd-8b73-ce74eab41900
+		summarizeBy: none
+		sourceColumn: Nội dung
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhân viên phản hồi'
+		dataType: string
+		lineageTag: 33940b72-7f8c-46f1-834a-40dd212d7d84
+		summarizeBy: none
+		sourceColumn: Nhân viên phản hồi
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bộ phận phản hồi'
+		dataType: string
+		lineageTag: a2362c0e-cb06-44a4-9f35-ddaf7216cf2f
+		summarizeBy: none
+		sourceColumn: Bộ phận phản hồi
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vị trí phản hồi'
+		dataType: string
+		lineageTag: 1fb4bf6c-4415-4462-9314-881fbc0628ae
+		summarizeBy: none
+		sourceColumn: Vị trí phản hồi
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4ddbec21-351d-4ec6-a02f-a105778a8243
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 739c0ed4-bea0-4069-a350-27f439af477d
+			defaultHierarchy: LocalDateTable_f21d471c-6571-4d70-a473-8fac3b8585d6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition FACT_TFEX_FEEDBACK = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "SELECT  #(lf)    ma_ticket AS `Mã Ticket`,#(lf)    thoi_gian_tao_phieu AS `Thời gian tạo phiếu`,#(lf)    nguoi_tao AS `Mã HaraID`,#(lf)    bo_phan AS `Bộ phận liên quan`,#(lf)    thoi_han_phan_hoi AS `Thời hạn phản hồi`,#(lf)    trang_thai_phan_hoi AS `Trạng thái`,#(lf)    noi_dung_phan_hoi AS `Nội dung`,#(lf)    ten_nhan_vien AS `Nhân viên phản hồi`,#(lf)    bo_phan_nhan_vien AS `Bộ phận phản hồi`,#(lf)    vi_tri_nhan_vien AS `Vị trí phản hồi`#(lf)FROM `cellphones-data-platform.cps_data_hrw_dwh.hrw_tfex_feedback`#(lf)WHERE DATE(SAFE_CAST(thoi_gian_tao_phieu AS TIMESTAMP), 'Asia/Ho_Chi_Minh') #(lf)      >= DATE_SUB(CURRENT_DATE('Asia/Ho_Chi_Minh'), INTERVAL 1 MONTH)#(lf)QUALIFY ROW_NUMBER() OVER (#(lf)    PARTITION BY ma_ticket#(lf)    ORDER BY #(lf)        SAFE_CAST(thoi_gian_tao_phieu AS TIMESTAMP) DESC#(lf)) = 1", null, [EnableFolding=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Thời gian tạo phiếu", type datetime}, {"Thời hạn phản hồi", type datetime}}),
+				    #"Inserted Date" = Table.AddColumn(#"Changed Type", "Date", each DateTime.Date([Thời gian tạo phiếu]), type date)
+				in
+				    #"Inserted Date"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
