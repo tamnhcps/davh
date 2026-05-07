@@ -1,0 +1,204 @@
+table FACT_QC_AI
+	lineageTag: 7cfa31bc-d531-4bd8-9be6-7fa82dc32a8f
+
+	column 'Điểm tổng'
+		dataType: double
+		lineageTag: b4fde90a-58b6-40a4-b9c7-95961dddf5ff
+		summarizeBy: sum
+		sourceColumn: Điểm tổng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Ngưỡng điểm'
+		dataType: double
+		lineageTag: 1644ce86-0b31-4c97-8269-4d5100c19c9a
+		summarizeBy: sum
+		sourceColumn: Ngưỡng điểm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Hướng cuộc gọi'
+		dataType: string
+		lineageTag: e2b58e3c-d81a-43a4-a0e2-86e202d15a1d
+		summarizeBy: none
+		sourceColumn: Hướng cuộc gọi
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'QC đánh giá'
+		dataType: string
+		lineageTag: e748e094-5038-4b37-9fd5-6fa89c298352
+		summarizeBy: none
+		sourceColumn: QC đánh giá
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày QC đánh giá'
+		dataType: string
+		lineageTag: a4add418-41c5-4527-b19f-93e6b6094e0a
+		summarizeBy: none
+		sourceColumn: Ngày QC đánh giá
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tiêu chí'
+		dataType: string
+		lineageTag: 372a3d8d-026a-4062-863c-825214cbebe2
+		summarizeBy: none
+		sourceColumn: Tiêu chí
+
+		annotation SummarizationSetBy = Automatic
+
+	column SaleEmployeeCode
+		dataType: string
+		lineageTag: 01d4e683-0f69-49a6-a519-5ed091f8299d
+		summarizeBy: none
+		sourceColumn: SaleEmployeeCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SaleEmployeeName
+		dataType: string
+		lineageTag: 32f69c69-b179-4c9b-a183-ece573b7657d
+		summarizeBy: none
+		sourceColumn: SaleEmployeeName
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã phiếu'
+		dataType: string
+		lineageTag: 2956190f-1a65-4270-93d2-728ed76d10a5
+		summarizeBy: none
+		sourceColumn: Mã phiếu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo phiếu'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 06c344f4-8ed4-40cd-8a74-0243a658fcdf
+		summarizeBy: none
+		sourceColumn: Ngày tạo phiếu
+
+		variation Variation
+			isDefault
+			relationship: aec6d1ee-83f9-42a4-9e75-5617416a0e1a
+			defaultHierarchy: LocalDateTable_3d5ce9d1-6e5d-48a9-98e9-ea4e59b32a2f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f2443c28-225c-4c52-b096-ef3f6049ce62
+		summarizeBy: none
+		sourceColumn: Ngày tạo
+
+		variation Variation
+			isDefault
+			relationship: 7f8bab0c-4f72-4446-80f7-cd8200352f31
+			defaultHierarchy: LocalDateTable_0c179282-b0e7-41f6-bbdc-d06c9814fd94.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 6a308214-bee0-4e6c-8b75-4ca1d71ed697
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã hóa đơn'
+		dataType: string
+		lineageTag: e5164f75-982c-460d-9615-41ae29cf9de9
+		summarizeBy: none
+		sourceColumn: Mã hóa đơn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày mua'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b3793b0a-4e3d-461b-bf14-11c05db2740e
+		summarizeBy: none
+		sourceColumn: Ngày mua
+
+		variation Variation
+			isDefault
+			relationship: 5916814e-e100-4b44-8bdb-fa4834e2a53f
+			defaultHierarchy: LocalDateTable_67aabb3d-d9eb-410d-a08c-9970332f81ca.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Nguồn
+		dataType: string
+		lineageTag: 7e691858-b0d8-4781-8ea4-8468ab9c3db8
+		summarizeBy: none
+		sourceColumn: Nguồn
+
+		annotation SummarizationSetBy = Automatic
+
+	column SĐT
+		dataType: string
+		lineageTag: bffd0f65-afa2-4451-85dd-2bc04b286680
+		summarizeBy: none
+		sourceColumn: SĐT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phương thức'
+		dataType: string
+		lineageTag: b6ea0d02-524d-4340-a9e7-216adb392ec0
+		summarizeBy: none
+		sourceColumn: Phương thức
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kết quả khảo sát_SMember'
+		dataType: string
+		lineageTag: 21fe2266-3ac7-4b10-a6b7-806dd1224221
+		summarizeBy: none
+		sourceColumn: Kết quả khảo sát_SMember
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhân viên bán' =
+			
+			RELATED('DIM_Danh mục_Nhân viên'[Mã nhân viên Harawork])
+		formatString: 0
+		lineageTag: 4014085c-3717-4f17-9e5d-7a5d47a342ed
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column HaraID =
+			
+			RELATED('DIM_Danh mục_Phòng ban'[HaraID])
+		lineageTag: 98f347f2-9de4-4950-8851-849e7a7b5ffc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_QC_AI = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=846a68ee-cfb9-40fd-940b-7f8fd45fb141""#(lf)WITH phone_info AS (#(lf)  SELECT #(lf)  l.*,#(lf)  s.ma_kho#(lf)  FROM `cellphones-data-platform.cps_DA_General_Transform.dim_storage` s#(lf)  JOIN `cellphones-data-platform.cps_google_sheets_dwh.callout_line_shop_info` l#(lf)  ON s.cua_hang = l.shop#(lf)  WHERE REGEXP_CONTAINS(s.ma_kho, r'KM|-C|\(|KTM') = FALSE#(lf)),#(lf)phone_store AS (#(lf)  SELECT #(lf)    s.*,#(lf)    l.line,#(lf)    l.ma_kho,#(lf)    l.shop#(lf)  FROM `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` s#(lf)  JOIN phone_info l#(lf)  ON s.StoreCode = l.ma_kho#(lf)  WHERE DATE(CreateDate) >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -2 MONTH)#(lf))#(lf)SELECT#(lf)    call_id as `Mã phiếu`,   #(lf)    call_start AS `Ngày tạo phiếu`,#(lf)    DATE(call_start) as `Ngày tạo`, #(lf)    s.shop as `Cửa hàng`,#(lf)    s.Autocode as  `Mã hóa đơn`,#(lf)    s.Date as `Ngày mua`,#(lf)    ""QC AI"" as `Nguồn`,#(lf)    s.ContactPhone as `SĐT`,#(lf)    s.SaleEmployeeCode,#(lf)    s.SaleEmployeeName,#(lf)    s.MethodName as `Phương thức`,#(lf)    direction AS `Hướng cuộc gọi`,#(lf)    last_score AS `Điểm tổng`,#(lf)    pass_threshold AS `Ngưỡng điểm`,#(lf)    scoring_by AS `QC đánh giá`,#(lf)    people_last_scoring AS `Ngày QC đánh giá`,#(lf)    CASE #(lf)      WHEN last_score is not null AND pass_threshold is not null and last_score >= pass_threshold#(lf)      THEN 'Có' ELSE 'Không'#(lf)    END `Kết quả khảo sát_SMember`,#(lf)    CASE #(lf)      WHEN last_score is not null AND pass_threshold is not null and last_score >= pass_threshold#(lf)      THEN #(lf)        json_extract_scalar(passed_metrics, '$.metric_name') #(lf)      ELSE json_extract_scalar(failed_metrics, '$.metric_name')#(lf)    END `Tiêu chí`#(lf)#(lf)FROM #(lf)  `cellphones-data-platform.cps_namitech_dwh.external_call_logs_test_1` e#(lf)LEFT JOIN #(lf)  phone_store s#(lf)  ON REGEXP_REPLACE(s.ContactPhone, r'^0', '') = e.phone_number #(lf)  AND CAST(s.line AS STRING) = e.agent_id#(lf)LEFT JOIN UNNEST(passed_metrics) AS passed_metrics#(lf)LEFT JOIN UNNEST(failed_metrics) AS failed_metrics#(lf)WHERE#(lf)  last_score is not null#(lf)and s.MethodName = ""Đơn giao hàng""#(lf)and DATE(call_start) >= s.Date", null, [EnableFolding=true]),
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Tiêu chí] = "Không tư vấn chính sách SMB")),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","CPS-QNI-HL-126KL","CPS-QNI-HGA-19THD",Replacer.ReplaceText,{"Cửa hàng"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

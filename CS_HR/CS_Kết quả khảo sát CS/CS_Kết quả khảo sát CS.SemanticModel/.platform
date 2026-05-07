@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "CS_Kết quả khảo sát CS"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a2ed8230-5c77-4eda-8a69-e78cf574d878"
+  }
+}

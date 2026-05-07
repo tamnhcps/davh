@@ -1,0 +1,115 @@
+table 'DIM_Phân quyền_User'
+	lineageTag: f373c64a-cb31-4975-8f24-f0cb39a0cc7c
+
+	column Tên
+		dataType: string
+		lineageTag: 1f83fe6e-ba6f-4c61-b84a-4f85a3ebdbdf
+		summarizeBy: none
+		sourceColumn: Tên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mail
+		dataType: string
+		lineageTag: b67615b7-9a40-4570-9175-89d1e01b6dc6
+		summarizeBy: none
+		sourceColumn: Mail
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 2e984879-c311-4b6f-96c4-52b395582e9a
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Workspace
+		dataType: string
+		lineageTag: 0cac8497-d5d4-4cae-a22f-d61eb2a7fb9f
+		summarizeBy: none
+		sourceColumn: Workspace
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khu vực'
+		dataType: string
+		lineageTag: 742def5f-6533-4286-ba0c-3ed1b0720673
+		summarizeBy: none
+		sourceColumn: Khu vực
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		dataType: string
+		lineageTag: 11f16ba2-10ce-4737-b73e-016883286272
+		summarizeBy: none
+		sourceColumn: Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader
+		dataType: string
+		lineageTag: 4926e502-9efe-4c68-8b5b-cbb61b3abacb
+		summarizeBy: none
+		sourceColumn: Leader
+
+		annotation SummarizationSetBy = Automatic
+
+	column Startdate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0d4bfb45-562f-454b-82f4-6b7422bb8780
+		summarizeBy: none
+		sourceColumn: Startdate
+
+		variation Variation
+			isDefault
+			relationship: 58c8023d-6ee5-4c2c-86c6-61e0c22e472d
+			defaultHierarchy: LocalDateTable_6b466b74-e9f4-45da-8f38-1fe7fe9d77c5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Path =
+			
+			PATH (
+			    'DIM_Phân quyền_User'[Tên],
+			    'DIM_Phân quyền_User'[Leader_Safe]
+			)
+		lineageTag: 71c4a197-1727-4b21-9bd4-7b73bc48ef35
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader_Safe = ```
+			
+			IF (
+			    ISBLANK('DIM_Phân quyền_User'[Leader]), 
+			    BLANK(),
+			    IF (
+			        CONTAINS('DIM_Phân quyền_User', 'DIM_Phân quyền_User'[Tên], 'DIM_Phân quyền_User'[Leader]),
+			        'DIM_Phân quyền_User'[Leader],
+			        BLANK()
+			    )
+			)
+			```
+		lineageTag: 398a1abe-c2a6-4493-b867-e657641425a1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_User' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=846a68ee-cfb9-40fd-940b-7f8fd45fb141""#(lf)SELECT  #(lf)ten#(tab)AS `Tên`,#(lf)mail#(tab)AS `Mail`,#(lf)title#(tab)AS `Title`,#(lf)workspace#(tab)AS `Workspace`,#(lf)khu_vuc#(tab)AS `Khu vực`,#(lf)`group`#(tab)AS `Group`,#(lf)leader AS `Leader`,#(tab)#(lf)so_thang#(tab)AS `Startdate`#(lf)FROM `cellphones-data-platform.cps_DA_General_Transform.phan_quyen_bi_user`", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

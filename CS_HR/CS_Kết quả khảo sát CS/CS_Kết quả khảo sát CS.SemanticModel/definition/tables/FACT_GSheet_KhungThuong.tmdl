@@ -1,0 +1,86 @@
+table FACT_GSheet_KhungThuong
+	lineageTag: 2156d27f-b116-4201-a32e-b9ffc58ca74a
+
+	column Miền
+		dataType: string
+		lineageTag: 30f7349a-add3-4e68-a1e3-c5348f9c86fc
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Áp dụng từ tháng'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: dbe8c9b2-0072-4e78-adff-dd96b9359cd9
+		summarizeBy: none
+		sourceColumn: Áp dụng từ tháng
+
+		variation Variation
+			isDefault
+			relationship: ada8fdda-f85a-4102-a41e-364e194cfbbc
+			defaultHierarchy: LocalDateTable_6e8a7b48-61ce-4167-9da5-dbd8d38953b3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Sizeshop
+		dataType: string
+		lineageTag: a850fac8-dc12-4bd9-96d6-a8bd7b03e91a
+		summarizeBy: none
+		sourceColumn: Sizeshop
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số giải'
+		dataType: int64
+		formatString: 0
+		lineageTag: 11d564a9-02a7-4044-a34c-e3cdc249e506
+		summarizeBy: sum
+		sourceColumn: Số giải
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tiền thưởng'
+		dataType: int64
+		formatString: 0
+		lineageTag: 8dcf676c-0240-4f1a-99fa-5316bc0962d0
+		summarizeBy: sum
+		sourceColumn: Tiền thưởng
+
+		annotation SummarizationSetBy = Automatic
+
+	column EndDate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: e6d093e1-e335-4bb4-b4db-62d0884e48eb
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		variation Variation
+			isDefault
+			relationship: 79f44665-798e-4971-bb15-8442f76b19b1
+			defaultHierarchy: LocalDateTable_cbed30a7-3263-44f7-8bb4-e04702b892e1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition FACT_GSheet_KhungThuong = m
+		mode: import
+		source =
+				let
+				    Source = FACT_GSheet_KhungThuong_Source,
+				    Custom = Table.AddColumn(Source, "Custom", each Table.SelectRows(FACT_GSheet_KhungThuong_Source,(Magic)=> Magic[Miền]=_[Miền] and Magic[Sizeshop]=_[Sizeshop] and Magic[Áp dụng từ tháng]>_[Áp dụng từ tháng])),
+				    #"Expanded Custom" = Table.ExpandTableColumn(Custom, "Custom", {"Áp dụng từ tháng"}, {"NextStartDate"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Custom",{{"NextStartDate", type date}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "EndDate", each if [NextStartDate] is null then Date.From(Date.EndOfMonth(DateTime.LocalNow())) else Date.AddDays(Date.StartOfMonth([NextStartDate]), -1), type date),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Custom",{"NextStartDate"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,376 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "14a3c36e161cd974d8cf",
+  "position": {
+    "x": 229.41678520625891,
+    "y": 380.54054054054058,
+    "z": 0,
+    "height": 338.66287339971552,
+    "width": 1050.5832147937413,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Nguồn khảo sát"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Nguồn khảo sát",
+              "nativeQueryRef": "Nguồn khảo sát"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Mã phiếu"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Mã phiếu",
+              "nativeQueryRef": "Mã phiếu"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Trạng thái"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Trạng thái",
+              "nativeQueryRef": "Trạng thái"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Ngày tạo"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Ngày tạo",
+              "nativeQueryRef": "Ngày tạo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Kết quả khảo sát_SStudent"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Kết quả khảo sát_SStudent",
+              "nativeQueryRef": "Kết quả khảo sát_SStudent"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Phòng ban"
+                    }
+                  },
+                  "Property": "Cửa hàng gộp"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Phòng ban.Cửa hàng gộp",
+              "nativeQueryRef": "Cửa hàng gộp"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Nhân viên"
+                    }
+                  },
+                  "Property": "Mã - Tên nhân viên"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Nhân viên.Mã - Tên nhân viên",
+              "nativeQueryRef": "Mã - Tên nhân viên"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Mã hóa đơn"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Mã hóa đơn",
+              "nativeQueryRef": "Mã hóa đơn"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Ngày mua"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Ngày mua",
+              "nativeQueryRef": "Ngày mua"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Phương thức"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Phương thức",
+              "nativeQueryRef": "Phương thức"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "SĐT"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.SĐT",
+              "nativeQueryRef": "SĐT"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_SURVEY_SStudent"
+                    }
+                  },
+                  "Property": "Thời gian thực hiện khảo sát"
+                }
+              },
+              "queryRef": "FACT_NPS_SURVEY_SStudent.Thời gian thực hiện khảo sát",
+              "nativeQueryRef": "Thời gian thực hiện khảo sát"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_NPS_SURVEY_SStudent"
+                  }
+                },
+                "Property": "Thời gian thực hiện khảo sát"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Chi tiết phiếu khảo sát theo nhân viên - Tư vấn chính sách Học sinh - Sinh viên'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI'', wf_segoe-ui_normal, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

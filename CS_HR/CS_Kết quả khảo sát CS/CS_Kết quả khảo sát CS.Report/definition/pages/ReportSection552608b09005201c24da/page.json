@@ -1,0 +1,80 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "ReportSection552608b09005201c24da",
+  "displayName": "Chi tiết Vi Phạm",
+  "displayOption": "FitToPage",
+  "height": 780,
+  "width": 1280,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "40D"
+              }
+            }
+          },
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 0,
+                    "Percent": -0.1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "displayArea": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Middle'"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "cc611aab2be24b3f0b28",
+      "target": "79b6bc0ea7e699ef64de",
+      "type": "DataFilter"
+    },
+    {
+      "source": "1de1ec4fba0d3979c637",
+      "target": "041e3589f72c21ac62b9",
+      "type": "DataFilter"
+    },
+    {
+      "source": "cc21da155b9ce1cea467",
+      "target": "041e3589f72c21ac62b9",
+      "type": "DataFilter"
+    },
+    {
+      "source": "041e3589f72c21ac62b9",
+      "target": "cc21da155b9ce1cea467",
+      "type": "DataFilter"
+    },
+    {
+      "source": "dd2930a300254de5dd57",
+      "target": "8ecbb5ca84322db047b5",
+      "type": "DataFilter"
+    },
+    {
+      "source": "dd2930a300254de5dd57",
+      "target": "1c7a47354e655e83d960",
+      "type": "DataFilter"
+    }
+  ]
+}

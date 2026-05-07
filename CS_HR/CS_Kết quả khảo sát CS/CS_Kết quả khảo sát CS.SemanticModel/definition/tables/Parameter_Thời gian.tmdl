@@ -1,0 +1,49 @@
+table 'Parameter_Thời gian'
+	lineageTag: b5c72709-81e8-4576-9bb4-6b31d1c208ac
+
+	column 'Parameter_Thời gian'
+		lineageTag: cc89fc7f-5474-47e1-917d-f658521826cd
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Thời gian Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Thời gian Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Thời gian Fields'
+		isHidden
+		lineageTag: bb4a8b06-5bbd-47e6-ba5e-48060a5cd7bb
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Thời gian Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Thời gian Order'
+		isHidden
+		formatString: 0
+		lineageTag: fe7e777d-9046-49d8-a06d-4c8d4a659cd8
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter_Thời gian' = calculated
+		mode: import
+		source =
+				{
+				    ("Ngày", NAMEOF('Dim_Date'[date]), 0),
+				    ("Tuần", NAMEOF('Dim_Date'[YearWeek]), 1),
+				    ("Tháng", NAMEOF('Dim_Date'[yearMonth]), 2)
+				}
+
+	annotation PBI_Id = d91f4cb465a646728cb83ac43a2281b8
+

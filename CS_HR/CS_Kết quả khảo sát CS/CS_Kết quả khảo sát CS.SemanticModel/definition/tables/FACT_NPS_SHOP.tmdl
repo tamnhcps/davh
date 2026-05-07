@@ -1,0 +1,461 @@
+table FACT_NPS_SHOP
+	lineageTag: 0ddee663-f190-43ae-8b5f-6a8a9942299a
+
+	column 'Văn phòng'
+		lineageTag: fe33f030-70d8-4b23-9a71-b066bca0fbef
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Công_ChiTiet[Văn phòng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng
+		lineageTag: 892a9133-7bad-4112-a043-9c24d372d90d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Công_ChiTiet[Năm/Tháng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu Hài lòng_NoTicket' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Cửa hàng] = EARLIER(FACT_NPS_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_NPS_TICKET[Kết quả khảo sát] IN {"Hài lòng", "Khen ngợi"}
+			            && FACT_NPS_TICKET[HaveTFEX] = BLANK()
+			            && FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: cb9eedb4-2633-4ce1-94a2-559a98b6fc64
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng' = RELATED('DIM_Danh mục_Phòng ban'[HaraID])
+		lineageTag: bb5973b4-cc99-4bda-85cc-41dfaf3aa4d8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu Hài lòng_HaveTicket' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_NPS_SHOP[Văn phòng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])        
+			        && FACT_TFEX_TICKET[Kết luận] IN {"Hài lòng", "Khen ngợi"}
+			    )
+			)
+			```
+		lineageTag: 300a0c95-ecbb-4c7f-a1ee-f8cb0678ee38
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu Hài lòng' = FACT_NPS_SHOP[Số phiếu Hài lòng_NoTicket] + FACT_NPS_SHOP[Số phiếu Hài lòng_HaveTicket]
+		formatString: 0
+		lineageTag: e1bce1fd-5692-4337-b8b0-34fd80300ac6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu Bình thường' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Cửa hàng] = EARLIER(FACT_NPS_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])        
+			        && FACT_NPS_TICKET[Kết quả khảo sát] = "Bình thường"
+			            && (FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			            || FACT_NPS_TICKET[NV_Câu 5] = "None")
+			            && FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: df644cb6-1d28-4199-bee9-26e1ae9e8d68
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu Không hài lòng' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Cửa hàng] = EARLIER(FACT_NPS_SHOP[Cửa hàng])
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])    
+			        && FACT_NPS_TICKET[Kết quả khảo sát] = "Không hài lòng"
+			            && (FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			            || FACT_NPS_TICKET[NV_Câu 5] = "None")
+			            && FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			            && FACT_NPS_TICKET[Có liên hệ được] = TRUE()
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 444dd100-eb80-4062-803a-1f1106975251
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu Vi phạm_HaveTicket' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_NPS_SHOP[Văn phòng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_TFEX_TICKET[Kết luận] = "Có vi phạm"
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: cc86582b-9247-48f3-9ed5-69bd727c818e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu Nhắc nhở_HaveTicket' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Cửa hàng] = EARLIER(FACT_NPS_SHOP[Văn phòng])
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_TFEX_TICKET[Kết luận] = "Nhắc nhở"
+			        && FACT_TFEX_TICKET[Nguồn] <> "Khảo sát"
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: f37bece6-97b9-4423-962f-08395150fa70
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tổng khảo sát' = FACT_NPS_SHOP[Số phiếu Hài lòng]+FACT_NPS_SHOP[Số phiếu Bình thường]+FACT_NPS_SHOP[Số phiếu Không hài lòng]+FACT_NPS_SHOP[Số phiếu Vi phạm_HaveTicket]+FACT_NPS_SHOP[Số phiếu Nhắc nhở_HaveTicket]
+		formatString: 0
+		lineageTag: 1d5b094f-8457-4f46-9973-f5310b416beb
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column '%Hài lòng' = DIVIDE(FACT_NPS_SHOP[Số phiếu Hài lòng],FACT_NPS_SHOP[Tổng khảo sát],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d9170919-2fee-4db3-81e6-c479aced7314
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column '%Vi phạm' = DIVIDE(FACT_NPS_SHOP[Số phiếu Vi phạm_HaveTicket],FACT_NPS_SHOP[Tổng khảo sát],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b917c45a-7fef-4de2-82fb-76ba83cb7a44
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NPS = DIVIDE(FACT_NPS_SHOP[Số phiếu Hài lòng]-FACT_NPS_SHOP[Số phiếu Vi phạm_HaveTicket],FACT_NPS_SHOP[Tổng khảo sát],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e2a8e0f4-65f3-4390-be8d-20e687168ee4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column SizeShop = ```
+			
+			var size = LOOKUPVALUE('DIM_Danh mục_Phòng ban'[SIZE],'DIM_Danh mục_Phòng ban'[Bộ phận],FACT_NPS_SHOP[Văn phòng])
+			return
+			 SWITCH(
+			    TRUE(),
+			
+			    FACT_NPS_SHOP[Miền] = "Miền Nam", 
+			    SWITCH(
+			        TRUE(),
+			        size = "A", "S",
+			        size
+			    ),
+			    
+			    FACT_NPS_SHOP[Miền] = "Miền Bắc", 
+			    SWITCH(
+			        TRUE(),
+			        size = "A", "S",
+			        size = "E", "D",
+			        size
+			    ),
+			
+			    size
+			)
+			```
+		lineageTag: e211296b-1e4e-4f15-b218-0311d2b18682
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Xếp hạng hài lòng' =
+			
+			VAR xephang =
+			    RANKX(
+			        FILTER(
+			            FACT_NPS_SHOP,
+			            FACT_NPS_SHOP[Năm/Tháng] = EARLIER( FACT_NPS_SHOP[Năm/Tháng] )
+			                && FACT_NPS_SHOP[SizeShop] = EARLIER( FACT_NPS_SHOP[SizeShop] )
+			                && FACT_NPS_SHOP[Miền] = EARLIER( FACT_NPS_SHOP[Miền] )
+			                && FACT_NPS_SHOP[%Hài lòng] <> BLANK()
+			                && FACT_NPS_SHOP[Compare %Vi phạm] = TRUE()
+			        ),
+			        FACT_NPS_SHOP[%Hài lòng],
+			        [%Hài lòng],
+			        DESC,
+			        SKIP
+			    )
+			RETURN
+			    IF(
+			        OR(
+			            FACT_NPS_SHOP[%Hài lòng] = BLANK(),
+			            FACT_NPS_SHOP[Compare %Vi phạm] = FALSE()
+			        ),
+			        BLANK(),
+			        xephang
+			    )
+		formatString: 0
+		lineageTag: e616f806-c910-4ef5-8acd-f01e87a49218
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền = LOOKUPVALUE('DIM_Danh mục_Phòng ban'[Miền],'DIM_Danh mục_Phòng ban'[Bộ phận],FACT_NPS_SHOP[Văn phòng])
+		lineageTag: 5b6f196c-ae92-4a85-82bf-3530c87f3aeb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '%Vi phạm toàn miền' = ```
+			
+			var hailong_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] IN {"Hài lòng", "Khen ngợi"}
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_TFEX_TICKET[Miền] = EARLIER(FACT_NPS_SHOP[Miền])
+			
+			    )
+			)
+			
+			
+			var hailong_NoTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			        && FACT_NPS_TICKET[Kết quả khảo sát] IN {"Hài lòng", "Khen ngợi"}
+			        && FACT_NPS_TICKET[HaveTFEX] = BLANK()
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_NPS_TICKET[Miền] = EARLIER(FACT_NPS_SHOP[Miền])
+			
+			    )
+			)
+			
+			
+			var loidung_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] = "Có vi phạm"
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_TFEX_TICKET[Miền] = EARLIER(FACT_NPS_SHOP[Miền])
+			
+			    )
+			)
+			
+			
+			var binhthuong = 
+			CALCULATE(
+			    DISTINCTCOUNT( FACT_NPS_TICKET[Mã phiếu] ),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			            && FACT_NPS_TICKET[Kết quả khảo sát] = "Bình thường"
+			            && (
+			                FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			                    || FACT_NPS_TICKET[NV_Câu 5] = "None"
+			            )
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_NPS_TICKET[Miền] = EARLIER(FACT_NPS_SHOP[Miền])
+			
+			    )
+			)
+			
+			
+			
+			var kohailong = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_NPS_TICKET[Mã phiếu]),
+			    FILTER(
+			        FACT_NPS_TICKET,
+			        FACT_NPS_TICKET[Trạng thái] <> "Đang xử lý"
+			        && FACT_NPS_TICKET[Kết quả khảo sát] = "Không hài lòng"
+			            && (FACT_NPS_TICKET[NV_Câu 5] = BLANK()
+			            || FACT_NPS_TICKET[NV_Câu 5] = "None")
+			        && FACT_NPS_TICKET[Có liên hệ được] = TRUE()
+			        && FACT_NPS_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_NPS_TICKET[Miền] = EARLIER(FACT_NPS_SHOP[Miền])
+			
+			    )
+			)
+			
+			
+			var nhacnho_HaveTicket = 
+			    CALCULATE(
+			    DISTINCTCOUNT(FACT_TFEX_TICKET[Mã ticket]),
+			    FILTER(
+			        FACT_TFEX_TICKET,
+			        FACT_TFEX_TICKET[Kết luận] = "Nhắc nhở"
+			        && FACT_TFEX_TICKET[Nguồn] <> "Khảo sát"
+			        && FACT_TFEX_TICKET[Năm/Tháng] = EARLIER(FACT_NPS_SHOP[Năm/Tháng])
+			        && FACT_TFEX_TICKET[Miền] = EARLIER(FACT_NPS_SHOP[Miền])
+			
+			    )
+			)
+			VAR hailong = hailong_HaveTicket+hailong_NoTicket
+			
+			var tongkhaosat = hailong+binhthuong+kohailong+loidung_HaveTicket+nhacnho_HaveTicket
+			
+			RETURN
+			DIVIDE(loidung_HaveTicket,tongkhaosat,BLANK())
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a52f5901-30a0-4c38-a1cb-62081e152b47
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Compare %Vi phạm' = IF(FACT_NPS_SHOP[%Vi phạm]<FACT_NPS_SHOP[%Vi phạm toàn miền],TRUE,FALSE)
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0ebeb2e8-6de4-4e15-bd93-f703a4d1aeb7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thưởng Cửa hàng' = ```
+			
+			VAR sogiai = 
+			CALCULATE(
+			    FIRSTNONBLANK(FACT_GSheet_KhungThuong[Số giải],1), 
+			    FILTER(
+			        FACT_GSheet_KhungThuong, 
+			        FACT_GSheet_KhungThuong[Miền] = EARLIER(FACT_NPS_SHOP[Miền]) 
+			        && CONTAINSSTRING(FACT_GSheet_KhungThuong[Sizeshop],FACT_NPS_SHOP[SizeShop]) 
+			        && FACT_GSheet_KhungThuong[Áp dụng từ tháng] <= EARLIER(FACT_NPS_SHOP[StartDate]) 
+			        && FACT_GSheet_KhungThuong[EndDate] >= EARLIER(FACT_NPS_SHOP[StartDate])))
+			VAR tienthuong = 
+			CALCULATE(
+			    FIRSTNONBLANK(FACT_GSheet_KhungThuong[Tiền thưởng],1), 
+			    FILTER(FACT_GSheet_KhungThuong, 
+			        FACT_GSheet_KhungThuong[Miền] = EARLIER(FACT_NPS_SHOP[Miền]) 
+			        && CONTAINSSTRING(FACT_GSheet_KhungThuong[Sizeshop],FACT_NPS_SHOP[SizeShop]) 
+			        && FACT_GSheet_KhungThuong[Áp dụng từ tháng] <= EARLIER(FACT_NPS_SHOP[StartDate]) 
+			        && FACT_GSheet_KhungThuong[EndDate] >= EARLIER(FACT_NPS_SHOP[StartDate])))
+			VAR giaithuong =
+			    SWITCH(
+			        TRUE(),
+			        FACT_NPS_SHOP[Xếp hạng hài lòng] = BLANK(), BLANK(),
+			        FACT_NPS_SHOP[Xếp hạng hài lòng] <= sogiai, tienthuong,
+			        0
+			    )
+			VAR donggiai =
+			    CALCULATE(
+			        COUNT( FACT_NPS_SHOP[Xếp hạng hài lòng] ),
+			        FILTER(
+			            FACT_NPS_SHOP,
+			            FACT_NPS_SHOP[Năm/Tháng] = EARLIER( FACT_NPS_SHOP[Năm/Tháng] )
+			                && FACT_NPS_SHOP[SizeShop] = EARLIER( FACT_NPS_SHOP[SizeShop] )
+			                && FACT_NPS_SHOP[Miền] = EARLIER( FACT_NPS_SHOP[Miền] )
+			                && FACT_NPS_SHOP[%Hài lòng] <> BLANK()
+			                && FACT_NPS_SHOP[Compare %Vi phạm] = TRUE()
+			                && FACT_NPS_SHOP[Xếp hạng hài lòng] <= sogiai
+			        )
+			    )
+			
+			var _vipham = FACT_NPS_SHOP[%Vi phạm]
+			var _viphammien = FACT_NPS_SHOP[%Vi phạm toàn miền]
+			var xetvipham =
+			    switch(
+			        true(),
+			        _vipham > _viphammien, 0,
+			        _vipham = _viphammien, 0.5,
+			        1
+			    )
+			RETURN
+			DIVIDE( giaithuong, donggiai, BLANK() ) * xetvipham
+			```
+		formatString: #,0
+		lineageTag: f7989054-6c3c-4a6a-97f0-93652b9af6e6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		formatString: Short Date
+		lineageTag: 6876599c-4e55-4089-a025-57a23bbe725e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Công_ChiTiet[StartDate]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CuaHang_NamThang = 'FACT_NPS_SHOP'[Văn phòng] & " - " & 'FACT_NPS_SHOP'[Năm/Tháng]
+		lineageTag: c83901bc-90df-4182-86ed-b94f32948ba5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column '% Không Hài lòng' = DIVIDE(FACT_NPS_SHOP[Số phiếu Không hài lòng],FACT_NPS_SHOP[Tổng khảo sát],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6ade14db-81fb-4df4-b080-343d407884e4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_NPS_SHOP = calculated
+		mode: import
+		source = ```
+				
+				CALCULATETABLE(
+				        SUMMARIZE(
+				            'FACT_Công_ChiTiet',
+				            'FACT_Công_ChiTiet'[Văn phòng],
+				            'FACT_Công_ChiTiet'[Năm/Tháng],
+				            'FACT_Công_ChiTiet'[StartDate]
+				        ),
+				        FILTER(
+				            'FACT_Công_ChiTiet',
+				            NOT 'FACT_Công_ChiTiet'[Văn phòng] IN {"CPS-HNO-DDA-B2B", "CPS-HCM-SHOPONLINE", "CPS-HNO-DDA-ON98TH"} 
+				            && ('FACT_Công_ChiTiet'[Chức danh] = "Trưởng cửa hàng"
+				                || 'FACT_Công_ChiTiet'[Chức danh] = "Trợ lý cửa hàng")
+				            && 'FACT_Công_ChiTiet'[Startshop] >15
+				        ))
+				```
+
+	annotation PBI_Id = 14591b6abf9941f5891a36620a758202
+

@@ -1,0 +1,58 @@
+table Parameter_SMB
+	lineageTag: 5f2c636a-8843-46e3-af45-876ecc07cf5e
+
+	column Parameter_SMB
+		lineageTag: 6bd76d0e-0cb6-48d2-9714-8cdd8a636e80
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_SMB Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_SMB Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_SMB Fields'
+		isHidden
+		lineageTag: d3ca8df0-ba0d-4a2f-ac43-15f3cfe11f50
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_SMB Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_SMB Order'
+		isHidden
+		formatString: 0
+		lineageTag: 0bc03f00-3ff9-4b75-b349-79710f1ed3b7
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value4
+		lineageTag: 33033fc4-6c6c-4133-a03e-c88987655c8a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value4]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_SMB = calculated
+		mode: import
+		source =
+				{
+				    ("Số lượng phiếu có tư vấn_SMS", NAMEOF('_Measure'[Số lượng phiếu có tư vấn_SMS]), 0,"SMS"),
+				    ("Số lượng phiếu không tư vấn_SMS", NAMEOF('_Measure'[Số lượng phiếu không tư vấn_SMS]), 1,"SMS"),
+				    ("Số lượng phiếu có tư vấn_Happycall", NAMEOF('_Measure'[Số lượng phiếu có tư vấn_Happycall]), 2,"HappyCall"),
+				    ("Số lượng phiếu không tư vấn_Happycall", NAMEOF('_Measure'[Số lượng phiếu không tư vấn_Happycall]), 3,"HappyCall")
+				}
+
+	annotation PBI_Id = ddab2a5b125e46cd8eb49954bb3ad4a0
+

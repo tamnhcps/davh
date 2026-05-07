@@ -1,0 +1,344 @@
+table Rank_Survey_SMember
+	lineageTag: 9d90171c-9e94-4640-87dc-55ab2a38cc52
+
+	column 'Có tư vấn'
+		formatString: 0
+		lineageTag: 4a71e0f1-f8d6-4ad5-9b01-e4ea5c043116
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Có tư vấn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Không tư vấn'
+		formatString: 0
+		lineageTag: 00f45c9f-bcfd-40c2-b024-bdacdf444cba
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Không tư vấn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tổng số phiếu khảo sát'
+		formatString: 0
+		lineageTag: 2ccf23cd-6010-4432-84c6-6314abbc0810
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Tổng số phiếu khảo sát]
+
+		annotation SummarizationSetBy = Automatic
+
+	column '% Có tư vấn'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: af5fbb7a-a316-40de-8fd1-b971013e5cc2
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [% Có tư vấn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column '% Không tư vấn'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 844bf4f5-6ad4-4ad7-b1fe-b5ae82541c56
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [% Không tư vấn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền = LOOKUPVALUE('DIM_Danh mục_Phòng ban'[Miền],'DIM_Danh mục_Phòng ban'[HaraID], 'Rank_Survey_SMember'[Cửa hàng])
+		lineageTag: 3276b3ad-893a-4733-a09e-6e1dded11807
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shop = LOOKUPVALUE('DIM_Danh mục_Phòng ban'[Bộ phận],'DIM_Danh mục_Phòng ban'[HaraID], 'Rank_Survey_SMember'[Cửa hàng])
+		lineageTag: e1dabaa1-68b7-4006-98e8-fd2af3658a51
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size = LOOKUPVALUE('DIM_Danh mục_Phòng ban'[SIZE],'DIM_Danh mục_Phòng ban'[HaraID], 'Rank_Survey_SMember'[Cửa hàng])
+		lineageTag: 7b1e501b-c287-44c7-bccb-c65c49cf5235
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM = LOOKUPVALUE('DIM_Danh mục_Phòng ban'[AM],'DIM_Danh mục_Phòng ban'[HaraID], 'Rank_Survey_SMember'[Cửa hàng])
+		lineageTag: f73dbd93-f941-4878-8ec3-0f9affd0e123
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Xếp hạng cửa hàng' =
+			
+			RANKX(
+			    FILTER(
+			        'Rank_Survey_SMember',
+			        'Rank_Survey_SMember'[Năm/Tháng]
+			            = EARLIER( 'Rank_Survey_SMember'[Năm/Tháng] )
+			            && 'Rank_Survey_SMember'[Miền]
+			            = EARLIER( 'Rank_Survey_SMember'[Miền] )
+			    ),
+			    'Rank_Survey_SMember'[% Có tư vấn],
+			    [% Có tư vấn],
+			    DESC,
+			    SKIP
+			)
+		formatString: 0
+		lineageTag: ddb19e31-232e-4da5-8f88-536ee65ae7c9
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thưởng/Phạt = ```
+			
+			VAR Thuong = 
+			SWITCH(
+			    TRUE(),
+			    Rank_Survey_SMember[Thuong_1tr] = BLANK(),Rank_Survey_SMember[Thuong_500k],
+			    Rank_Survey_SMember[Thuong_1tr])
+			
+			VAR max_rank_mb = MAXX(FILTER('Rank_Survey_SMember', 'Rank_Survey_SMember'[Đánh giá] = "Không đạt" && 'Rank_Survey_SMember'[Miền] = "Miền Bắc" && 'Rank_Survey_SMember'[Năm/Tháng] = EARLIER('Rank_Survey_SMember'[Năm/Tháng])), 'Rank_Survey_SMember'[Xếp hạng cửa hàng final])
+			VAR max_rank_mn = MAXX(FILTER('Rank_Survey_SMember', 'Rank_Survey_SMember'[Đánh giá] = "Không đạt" && 'Rank_Survey_SMember'[Miền] = "Miền Nam" && 'Rank_Survey_SMember'[Năm/Tháng] = EARLIER('Rank_Survey_SMember'[Năm/Tháng])), 'Rank_Survey_SMember'[Xếp hạng cửa hàng final])
+			VAR Phat = 
+			SWITCH(TRUE(),
+			'Rank_Survey_SMember'[Đánh giá] = "Không đạt" && 'Rank_Survey_SMember'[Miền] = "Miền Nam" 
+			--&& 'Rank_Survey_SMember'[Xếp hạng cửa hàng final] > max_rank_mn - 10
+			, -500000,
+			'Rank_Survey_SMember'[Đánh giá] = "Không đạt" && 'Rank_Survey_SMember'[Miền] = "Miền Bắc" 
+			--&& 'Rank_Survey_SMember'[Xếp hạng cửa hàng final] > max_rank_mb - 10
+			, -500000, 0
+			)
+			Return Thuong + Phat
+			```
+		formatString: #,0
+		lineageTag: 80425f2e-d0eb-4825-928b-54f21887b735
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountRank =
+			
+			// CALCULATE(COUNTROWS(Rank_Survey_SMember),FILTER('FACT_NPS_Survey_SMember', Rank_Survey_SMember[Miền] = EARLIER(Rank_Survey_SMember[Miền]) && Rank_Survey_SMember[Xếp hạng cửa hàng] = EARLIER(Rank_Survey_SMember[Xếp hạng cửa hàng]) && Rank_Survey_SMember[Năm/Tháng] = EARLIER(Rank_Survey_SMember[Năm/Tháng])))
+			CALCULATE(COUNTROWS('Rank_Survey_SMember'),FILTER('Rank_Survey_SMember','Rank_Survey_SMember'[Xếp hạng cửa hàng] = EARLIER('Rank_Survey_SMember'[Xếp hạng cửa hàng]) && 'Rank_Survey_SMember'[Năm/Tháng] = EARLIER('Rank_Survey_SMember'[Năm/Tháng]) && 'Rank_Survey_SMember'[Miền] = EARLIER('Rank_Survey_SMember'[Miền])))
+		formatString: 0
+		lineageTag: 1bc5f1d0-a8f0-48e1-94b5-baf2aa6611e0
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Xếp hạng cửa hàng final' =
+			
+			VAR xephang = RANKX(
+			    FILTER(
+			        'Rank_Survey_SMember',
+			        'Rank_Survey_SMember'[Năm/Tháng]
+			            = EARLIER( 'Rank_Survey_SMember'[Năm/Tháng] )
+			            && 'Rank_Survey_SMember'[Miền]
+			            = EARLIER( 'Rank_Survey_SMember'[Miền] )
+			            && 'Rank_Survey_SMember'[CountRank] > 1
+			            && 'Rank_Survey_SMember'[Xếp hạng cửa hàng]
+			            = EARLIER( 'Rank_Survey_SMember'[Xếp hạng cửa hàng] )
+			    ),
+			    'Rank_Survey_SMember'[% Hài lòng/tổng phiếu bán],
+			    [% Hài lòng/tổng phiếu bán],
+			    DESC,
+			    DENSE
+			)
+			RETURN IF('Rank_Survey_SMember'[CountRank] = 1, 'Rank_Survey_SMember'[Xếp hạng cửa hàng], 'Rank_Survey_SMember'[Xếp hạng cửa hàng] + xephang - 1)
+		formatString: 0
+		lineageTag: b024845e-8f24-4b6f-9419-5ddf9a0e9da3
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tổng phiếu bán' = CALCULATE(DISTINCTCOUNT(FACT_NPS_Survey[Mã hóa đơn]), FILTER(FACT_NPS_Survey, FACT_NPS_Survey[Năm/Tháng] = EARLIER('Rank_Survey_SMember'[Năm/Tháng]) && FACT_NPS_Survey[Cửa hàng] = EARLIER('Rank_Survey_SMember'[Cửa hàng]) && FACT_NPS_Survey[Ngày tạo phiếu].[Date] >= DATE(2024, 5, 4)))
+		formatString: 0
+		lineageTag: 801db945-35a9-4994-80f0-6d7704dd3025
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đánh giá' =
+			
+			IF('Rank_Survey_SMember'[% Có tư vấn] >=Rank_Survey_SMember[Target], "Đạt", "Không đạt")
+		lineageTag: fab06095-13fa-4c4f-86d6-1e7bd59d8306
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target =
+			
+			SWITCH(
+			    TRUE(),
+			    [StartDate] = DATE(2025,8,1),0.93,
+			    [StartDate] = DATE(2025,7,1) && 'Rank_Survey_SMember'[Miền] = "Miền Nam", 0.93,
+			    [StartDate] = DATE(2025,7,1) && 'Rank_Survey_SMember'[Miền] = "Miền Bắc", 0.91,
+			    'Rank_Survey_SMember'[Miền] = "Miền Nam", 0.95,0.93)
+		lineageTag: e18a9696-1f14-4dac-bb85-27065400c1e1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Target %' =
+			
+			DIVIDE(
+			    Rank_Survey_SMember[% Có tư vấn],
+			    Rank_Survey_SMember[Target],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d171834c-f437-42c2-8374-1c0a3b0cfa34
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate =
+			
+			DATE(YEAR(Rank_Survey_SMember[Năm/Tháng]),MONTH(Rank_Survey_SMember[Năm/Tháng]),1)
+		formatString: General Date
+		lineageTag: 1156c800-e56e-405a-b8c9-7ab1c4772b30
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thuong_1tr = ```
+			
+			SWITCH(TRUE(),
+			
+			    // Miền Nam: % Có tư vấn = 1, Top 5 cả 2
+			    'Rank_Survey_SMember'[Đánh giá] = "Đạt" &&
+			    'Rank_Survey_SMember'[Miền] = "Miền Nam" &&
+			    'Rank_Survey_SMember'[Xếp hạng cửa hàng final] <= 5 &&
+			    'Rank_Survey_SMember'[% Có tư vấn] >= 1, 1000000,
+			
+			    // Miền Bắc: % Có tư vấn ≥ 0.98, Top 3 cả 2
+			    'Rank_Survey_SMember'[Đánh giá] = "Đạt" &&
+			    'Rank_Survey_SMember'[Miền] = "Miền Bắc" &&
+			    'Rank_Survey_SMember'[Xếp hạng cửa hàng final] <= 3 &&
+			    'Rank_Survey_SMember'[% Có tư vấn] >= 0.98, 1000000,
+			
+			    0
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 64d945cd-efc0-4068-957f-b18854a460dd
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thuong_500k = ```
+			
+			VAR xephangch = 
+			RANKX(
+			    FILTER(
+			        'Rank_Survey_SMember',
+			        'Rank_Survey_SMember'[Năm/Tháng]
+			            = EARLIER( 'Rank_Survey_SMember'[Năm/Tháng] )
+			            && 'Rank_Survey_SMember'[Miền]
+			            = EARLIER( 'Rank_Survey_SMember'[Miền] )
+			            && Rank_Survey_SMember[Thuong_1tr] = 0
+			    ),
+			    'Rank_Survey_SMember'[% Có tư vấn],
+			    [% Có tư vấn],
+			    DESC,
+			    SKIP
+			)
+			VAR xephang = RANKX(
+			    FILTER(
+			        'Rank_Survey_SMember',
+			        'Rank_Survey_SMember'[Năm/Tháng]
+			            = EARLIER( 'Rank_Survey_SMember'[Năm/Tháng] )
+			            && 'Rank_Survey_SMember'[Miền]
+			            = EARLIER( 'Rank_Survey_SMember'[Miền] )
+			            && 'Rank_Survey_SMember'[CountRank] > 1
+			            && 'Rank_Survey_SMember'[Xếp hạng cửa hàng]
+			            = EARLIER( 'Rank_Survey_SMember'[Xếp hạng cửa hàng] )
+			            && Rank_Survey_SMember[Thuong_1tr] = 0
+			    ),
+			    'Rank_Survey_SMember'[% Hài lòng/tổng phiếu bán],
+			    [% Hài lòng/tổng phiếu bán],
+			    DESC,
+			    DENSE
+			)
+			VAR z = IF('Rank_Survey_SMember'[CountRank] = 1, xephangch, xephangch + xephang - 1)
+			RETURN
+			SWITCH(TRUE(),
+			
+			    // Miền Nam: % Có tư vấn = 1, Top 5 cả 2
+			    'Rank_Survey_SMember'[Đánh giá] = "Đạt" &&
+			    'Rank_Survey_SMember'[Miền] = "Miền Nam" &&
+			    z <= 5 &&
+			    'Rank_Survey_SMember'[% Có tư vấn] >= 0.98, 500000,
+			
+			    // Miền Bắc: % Có tư vấn ≥ 0.98, Top 3 cả 2
+			    'Rank_Survey_SMember'[Đánh giá] = "Đạt" &&
+			    'Rank_Survey_SMember'[Miền] = "Miền Bắc" &&
+			    z <= 3 &&
+			    'Rank_Survey_SMember'[% Có tư vấn] >= 0.96, 500000,
+			
+			    0
+			)
+			```
+		formatString: 0
+		lineageTag: d7a47743-3d44-4306-8022-5de35b9e5df5
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng
+		lineageTag: 65288891-b9e2-4cc8-8fa6-90bf280a7a8b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_Survey_SMember[Năm/Tháng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		lineageTag: b19a1746-0fa1-4b0b-8e3c-031301ae5601
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_Survey_SMember[Cửa hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hài lòng'
+		formatString: 0
+		lineageTag: a3c6136c-be7c-423c-8b06-802f4ed04b7f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Hài lòng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column '% Hài lòng/tổng phiếu bán' =
+			
+			DIVIDE(Rank_Survey_SMember[Hài lòng],Rank_Survey_SMember[Tổng phiếu bán])
+		lineageTag: 42816a20-0797-49ac-8c6a-90447e09a679
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Rank_Survey_SMember = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(
+				            FILTER(FACT_NPS_Survey_SMember, NOT FACT_NPS_Survey_SMember[Cửa hàng] IN {"7251", "7045"}),
+				            --FACT_NPS_Survey_SMember[Năm/Tháng_KS],
+				            FACT_NPS_Survey_SMember[Năm/Tháng],
+				            FACT_NPS_Survey_SMember[Cửa hàng],
+				            "Hài lòng",[Số phiếu Hài lòng],
+				            "Có tư vấn", [Số lượng phiếu có tư vấn],
+				            "Không tư vấn", [Số lượng phiếu không tư vấn],
+				            "Tổng số phiếu khảo sát", [Số lượng phiếu tư vấn],
+				            "% Có tư vấn", [Tỷ lệ có tư vấn],
+				            "% Không tư vấn", [Tỷ lệ không tư vấn]
+				        )
+
+	annotation PBI_Id = 883ccfd4c7e44fcea8a2229460766169
+

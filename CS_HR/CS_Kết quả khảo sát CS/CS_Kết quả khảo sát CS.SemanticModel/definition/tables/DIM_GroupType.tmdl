@@ -1,0 +1,33 @@
+table DIM_GroupType
+	lineageTag: 8ae85ff6-08d9-4256-896f-f1feee3d2cbc
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 0f3a87f5-8a7c-4085-a37e-2b872370f64c
+		summarizeBy: none
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Type
+		dataType: string
+		lineageTag: e9888846-2b52-4ef4-a5c1-7c63c34bdd6a
+		summarizeBy: none
+		sourceColumn: Group_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_GroupType = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUQrJOLwwU+HIxIe7ZyrF6kQrGQHF/NIzMh/ubi9QKHu4eylY1Bgo6uThG6QUGwsA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Index = _t, Group_Type = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Index", Int64.Type}, {"Group_Type", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

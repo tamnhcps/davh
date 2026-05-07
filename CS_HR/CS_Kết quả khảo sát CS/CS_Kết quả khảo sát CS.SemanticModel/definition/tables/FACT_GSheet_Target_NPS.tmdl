@@ -1,0 +1,95 @@
+table FACT_GSheet_Target_NPS
+	lineageTag: 5ad1f446-b2d4-4979-8f38-88338091d3e8
+
+	column Miền
+		dataType: string
+		lineageTag: b385b641-f677-446c-9a6c-2246d6d5a204
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đối tượng'
+		dataType: string
+		lineageTag: 9af653ac-b2b1-4ac9-b2ea-b7a6ecb10c73
+		summarizeBy: none
+		sourceColumn: Đối tượng
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: yyyy-mm
+		lineageTag: d367a0f6-5ca3-4006-b204-91baf80e955a
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		variation Variation
+			isDefault
+			relationship: b1d27560-6441-471a-98c8-87e370e0b3ec
+			defaultHierarchy: LocalDateTable_c68f0898-6095-448d-99ae-b14ce613b5f8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Target
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5e48c9f5-8592-4add-ab3c-41248539aee8
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+	column EndDate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 07b554ff-70d0-4c9e-9a69-a3c5c1855f3d
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		variation Variation
+			isDefault
+			relationship: d1d6cedf-51bf-4575-be30-5e7ebc9aa02f
+			defaultHierarchy: LocalDateTable_ca7c3617-5a74-4133-be19-1eabae654f8b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 2037a3ef-b9a2-491f-8812-6081d625da4f
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition FACT_GSheet_Target_NPS = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTA7nc01TSbED-PsVXqrupk9MvtxCEDnt_NPRfYrr_0Kz0ltAXpMRr-hYmc7F1UaugPp-kKsF_wad_e/pub?output=xlsx"), null, true),
+				    Target_Sheet = Source{[Item="Target",Kind="Sheet"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(Target_Sheet, each ([Column2] = "NPS" or [Column2] = "Đối tượng")),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Filtered Rows", [PromoteAllScalars=true]),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Promoted Headers", {"Miền", "Đối tượng"}, "StartDate", "Target"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Unpivoted Other Columns",{{"Miền", type text}, {"Đối tượng", type text}, {"Target", type number}, {"StartDate", type date}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Changed Type", each [StartDate] >= Date.AddMonths(Date.StartOfMonth(Date.From(DateTime.LocalNow())), -4) and [StartDate] <= Date.From(DateTime.LocalNow())),
+				    #"Inserted End of Month" = Table.AddColumn(#"Filtered Rows1", "EndDate", each Date.EndOfMonth([StartDate]), type date),
+				    #"Added Custom" = Table.AddColumn(#"Inserted End of Month", "Date", each List.Dates([StartDate], Duration.Days([EndDate] - [StartDate]) + 1, #duration(1, 0, 0, 0))),
+				    #"Expanded Custom" = Table.ExpandListColumn(#"Added Custom", "Date"),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded Custom",{{"Date", type date}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

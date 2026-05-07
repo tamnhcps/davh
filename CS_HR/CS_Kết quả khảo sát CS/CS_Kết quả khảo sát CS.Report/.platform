@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "CS_Kết quả khảo sát CS"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "70c4a876-813e-49e8-a004-d647f8a25564"
+  }
+}

@@ -1,0 +1,26 @@
+table Update
+	lineageTag: 8a3200ec-5972-43a7-8031-6483bc05a712
+
+	column 'Ngày khảo sát gần nhất'
+		formatString: General Date
+		lineageTag: ba580134-fac6-48c1-9252-11e9e1f705f1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_NPS_TICKET[Ngày khảo sát gần nhất]
+
+		variation Variation
+			isDefault
+			relationship: 16d641e3-8df1-465c-994b-d3887299576d
+			defaultHierarchy: LocalDateTable_dcfa52c7-f399-4695-993b-aa7f55b47432.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Update = calculated
+		mode: import
+		source =
+				var zMax =  MAX( 'FACT_NPS_TICKET'[Ngày khảo sát gần nhất] )
+				RETURN
+				SUMMARIZE( FILTER('FACT_NPS_TICKET','FACT_NPS_TICKET'[Ngày khảo sát gần nhất] = zMax ), 'FACT_NPS_TICKET'[Ngày khảo sát gần nhất] )
+
+	annotation PBI_Id = 19c3ae9c27ff43f1ac0217699775aaec
+

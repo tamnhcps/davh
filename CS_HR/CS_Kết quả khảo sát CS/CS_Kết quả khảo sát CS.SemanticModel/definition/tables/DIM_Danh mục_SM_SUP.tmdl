@@ -1,0 +1,56 @@
+table 'DIM_Danh mục_SM_SUP'
+	lineageTag: 74d9758e-5a0c-4e2f-b378-e096b3ef0827
+
+	column 'Mã nhân viên'
+		dataType: string
+		lineageTag: f0bf441a-f0cc-4563-bd3c-d0b4772be40e
+		summarizeBy: none
+		sourceColumn: Mã nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên nhân viên'
+		dataType: string
+		lineageTag: 3eab8668-1e50-4b2a-b5dc-ac8a94900936
+		summarizeBy: none
+		sourceColumn: Tên nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vị trí'
+		dataType: string
+		lineageTag: 09d6af81-8685-4e8e-9776-14b09f2886aa
+		summarizeBy: none
+		sourceColumn: Vị trí
+
+		annotation SummarizationSetBy = Automatic
+
+	column inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: edc4e3d7-931c-409d-aa43-d110b9a18a40
+		summarizeBy: none
+		sourceColumn: inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đơn vị'
+		dataType: string
+		lineageTag: f6ff6b00-2b00-4877-818d-7e34c5105e3f
+		summarizeBy: none
+		sourceColumn: Đơn vị
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_SM_SUP' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=846a68ee-cfb9-40fd-940b-7f8fd45fb141""#(lf)SELECT #(lf)  ma_nhan_vien AS `Mã nhân viên`,#(lf)  ten_nhan_vien AS `Tên nhân viên`,#(lf)  inactive,#(lf)  BranchName `Đơn vị`,#(lf)  vi_tri AS `Vị trí`#(lf)FROM cellphones-data-platform.cps_DA_General_Transform.dim_employee#(lf)WHERE#(lf) vi_tri IN ('Trưởng cửa hàng', 'Trợ lý cửa hàng')#(lf) AND inactive = FALSE", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

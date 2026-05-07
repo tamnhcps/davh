@@ -1,0 +1,444 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "dfd9bd70c6762c51dea6",
+  "position": {
+    "x": 229.41678520625891,
+    "y": 380.54054054054058,
+    "z": 0,
+    "height": 338.66287339971552,
+    "width": 1050.5832147937413,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Nguồn khảo sát"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Nguồn khảo sát",
+              "nativeQueryRef": "Nguồn",
+              "displayName": "Nguồn"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Mã phiếu"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Mã phiếu",
+              "nativeQueryRef": "Mã phiếu"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Trạng thái"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Trạng thái",
+              "nativeQueryRef": "Trạng thái"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Ngày tạo"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Ngày tạo",
+              "nativeQueryRef": "Ngày khảo sát gần nhất",
+              "displayName": "Ngày khảo sát gần nhất"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Kết quả khảo sát_SMember"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Kết quả khảo sát_SMember",
+              "nativeQueryRef": "Kết quả khảo sát",
+              "displayName": "Kết quả khảo sát"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Phòng ban"
+                    }
+                  },
+                  "Property": "Cửa hàng gộp"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Phòng ban.Cửa hàng gộp",
+              "nativeQueryRef": "Cửa hàng gộp"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Nhân viên"
+                    }
+                  },
+                  "Property": "Mã - Tên nhân viên"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Nhân viên.Mã - Tên nhân viên",
+              "nativeQueryRef": "Mã - Tên nhân viên"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Mã hóa đơn"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Mã hóa đơn",
+              "nativeQueryRef": "Mã hóa đơn"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Ngày mua"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Ngày mua",
+              "nativeQueryRef": "Ngày mua"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Phương thức"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Phương thức",
+              "nativeQueryRef": "Phương thức"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "SĐT"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.SĐT",
+              "nativeQueryRef": "SĐT khách",
+              "displayName": "SĐT khách"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_NPS_Survey_SMember"
+                    }
+                  },
+                  "Property": "Thời gian thực hiện khảo sát"
+                }
+              },
+              "queryRef": "FACT_NPS_Survey_SMember.Thời gian thực hiện khảo sát",
+              "nativeQueryRef": "Thời gian thực hiện khảo sát"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_NPS_Survey_SMember"
+                  }
+                },
+                "Property": "Kết quả khảo sát_SMember"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 0,
+                              "Left": {
+                                "Aggregation": {
+                                  "Expression": {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "FACT_NPS_Survey_SMember"
+                                        }
+                                      },
+                                      "Property": "Kết quả khảo sát_SMember"
+                                    }
+                                  },
+                                  "Function": 3
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "'Không'"
+                                }
+                              }
+                            },
+                            "Annotations": {
+                              "PowerBI.SQExprEvaluationKind": 1,
+                              "PowerBI.SQExprTextOperatorOption": 2
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#FF7878'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "FACT_NPS_Survey_SMember.Kết quả khảo sát_SMember"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Chi tiết phiếu khảo sát theo nhân viên - Tư vấn chính sách Smember'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI'', wf_segoe-ui_normal, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

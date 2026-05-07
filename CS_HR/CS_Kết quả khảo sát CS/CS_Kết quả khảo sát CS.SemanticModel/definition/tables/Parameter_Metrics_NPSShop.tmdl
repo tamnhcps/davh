@@ -1,0 +1,60 @@
+table Parameter_Metrics_NPSShop
+	lineageTag: 2b7688a6-be25-4fd9-ac42-ec4eb843a7e1
+
+	column Parameter_Metrics_NPSShop
+		lineageTag: d5bca797-4bf0-4419-b016-e50355474b14
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Metrics_NPSShop Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Metrics_NPSShop Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Metrics_NPSShop Fields'
+		isHidden
+		lineageTag: 16d15709-c114-4440-b2b9-7be4bc2b69ce
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Metrics_NPSShop Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Metrics_NPSShop Order'
+		isHidden
+		formatString: 0
+		lineageTag: 34a212b4-9d23-4bdb-905b-f309b06c9b43
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Metrics_NPSShop = calculated
+		mode: import
+		source =
+				{
+				    ("SM/SUP", NAMEOF('_Measure'[SM/SUP_show]), 0),
+				    ("Size shop", NAMEOF('_Measure'[SizeShop]), 1),
+				    ("NPS", NAMEOF('_Measure'[NPS_Shop]), 2),
+				    ("%Target NPS", NAMEOF('_Measure'[%Target NPS]), 3),
+				    ("Target", NAMEOF('_Measure'[Target NPS]), 4),
+				    ("Đánh giá", NAMEOF('_Measure'[Đánh giá]), 5),
+				    ("Tổng số phiếu", NAMEOF('_Measure'[Tổng khảo sát]), 6),
+				    ("Hài lòng", NAMEOF('_Measure'[Số phiếu Hài lòng]), 7),
+				    ("Bình thường", NAMEOF('_Measure'[Số phiếu Bình thường]), 8),
+				    ("Nhắc nhở", NAMEOF('_Measure'[Số phiếu Nhắc nhở_HaveTicket]), 10),
+				    ("Không hài lòng", NAMEOF('_Measure'[Số phiếu Không hài lòng]), 9),
+				    ("Vi phạm", NAMEOF('_Measure'[Số phiếu Vi phạm_HaveTicket]), 11),
+				    ("%Vi phạm", NAMEOF('_Measure'[%Vi phạm_Shop]), 12),
+				    ("Chi tiết Vi phạm", NAMEOF('_Measure'[Chi tiết Vi phạm]), 13)
+				}
+
+	annotation PBI_Id = d6cc0eb7b0a0421db23a1ecb59236be2
+
