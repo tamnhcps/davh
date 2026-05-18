@@ -1,0 +1,280 @@
+table Measure
+	lineageTag: a55949cc-ddbc-4e3f-bc32-d19d25c951d5
+
+	measure Update-Filtered = ```
+			
+			--Update
+			VAR zFmt_HeaderStart = 
+				"<a> <span style='color:#000000'> <b> "
+			VAR zFmt_HeaderEnd = 
+				": </b> </a>"
+			VAR zUpdate_time =
+			    [Last_Update]
+			VAR zUpdate = 
+				"<font_update> <span style='color:#000000'>
+			        <u> Cập nhật đến </u>: " & zUpdate_time & 
+			    "</font_update>" 
+			
+			--Thời gian
+			VAR zFil_Ngay =
+			    ISFILTERED( Dim_Date[Date])
+			VAR zNgay =
+			    zFmt_HeaderStart & "Ngày" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( Dim_Date[Date] ), Dim_Date[Date] , ", " ) & "."
+			
+			VAR zFil_NamThang =
+			    ISFILTERED( DIM_Date[Năm/Tháng])
+			VAR zNamThang =
+			    zFmt_HeaderStart & "Năm/Tháng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES(  DIM_Date[Năm/Tháng] ),  DIM_Date[Năm/Tháng] , ", " ) & "."
+			
+			VAR zFil_ThoiGian = 
+				zFil_NamThang + 0
+			
+			--Chủ thể
+			VAR zFil_Mien =
+			    ISFILTERED( 'DIM_BQ_Miền'[Miền] )
+			VAR zMien =
+			    zFmt_HeaderStart & "Miền" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'DIM_BQ_Miền'[Miền] ), 'DIM_BQ_Miền'[Miền], ", " ) & "."
+			
+			VAR zFil_AM =
+			    ISFILTERED( DIM_BQ_Shop[AM] )
+			VAR zAM =
+			    zFmt_HeaderStart & "AM" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( DIM_BQ_Shop[AM] ), DIM_BQ_Shop[AM] , ", " ) & "."
+			
+			VAR zFil_CuaHang =
+			    ISFILTERED( DIM_BQ_Shop[Shop+Size])
+			VAR zCuaHang =
+			    zFmt_HeaderStart & "Cửa hàng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( DIM_BQ_Shop[Shop+Size] ), DIM_BQ_Shop[Shop+Size], ", " ) & "."
+			
+			VAR zFil_ChuThe = 
+			    zFil_Mien + zFil_AM + zFil_CuaHang + 0
+				
+			--Final
+			VAR zFilter =
+			    IF(
+			        zFil_ThoiGian + 
+			        zFil_ChuThe = 0,
+			        BLANK(),
+			        "<br> <u> <span style='color:#000000'> Bộ lọc áp dụng:</u> "
+			            & IF( zFil_NamThang = TRUE, zNamThang, BLANK() )
+			            & IF( zFil_Mien = TRUE, zMien, BLANK() )
+			            & IF( zFil_AM = TRUE, zAM, BLANK() )
+			            & IF( zFil_CuaHang = TRUE, zCuaHang, BLANK() )
+			    )
+			RETURN
+			    "<font_all> <i> <span style='color:#000000'>" & zUpdate & zFilter & "</font_all>"
+			```
+		displayFolder: Other
+		lineageTag: 7a1e1553-fa48-42ca-aa6f-98be2d2d5b51
+
+	measure Last_Update = ```
+			
+			    MAX('FACT_Sale_Cài đặt app_New'[date])
+			```
+		formatString: General Date
+		displayFolder: Other
+		lineageTag: b8fc2ff4-43ba-42b4-aee4-daf4107cd701
+
+	measure 'Số khách mua hàng' = ```
+			
+			    DISTINCTCOUNT('FACT_Sale_Doanh số bán'[phone])
+			```
+		formatString: #,0
+		lineageTag: d313cacc-42c6-4202-972e-89b7fb9401ca
+
+	measure 'Lượt tải app cũ' = ```
+			
+			    CALCULATE(DISTINCTCOUNT('FACT_App_Cài đặt app'[customer_phone]),
+			    'FACT_App_Cài đặt app'[is_first_login] = 1,
+			    'FACT_App_Cài đặt app'[customer_phone] <> BLANK())
+			```
+		formatString: #,0
+		lineageTag: b28ae41a-e59c-48b5-a51d-81e9871335a9
+
+	measure 'Đã có app' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT('FACT_Sale_Doanh số bán'[phone]),
+			        'FACT_Sale_Doanh số bán'[app_already_installed_check] = 1,
+			        'FACT_Sale_Doanh số bán'[phone] <> BLANK())
+			```
+		formatString: #,0
+		lineageTag: 44a0b503-80c6-4219-9661-69eca809f43c
+
+	measure '%Tải app cũ' = ```
+			
+			    [Lượt tải app cũ]/[Số khách mua hàng]
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ac5ed5e8-4be9-474f-9c99-e5f401da9b2c
+
+	measure '%Đã có app' = ```
+			
+			    [Đã có app]/[Số khách mua hàng]
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 494658d1-1516-480e-a8dd-876687707ad0
+
+	measure 'Số lượt tải/Ngày' = [Lượt tải app cũ]/DISTINCTCOUNT(DIM_Date[date])
+		lineageTag: d42cf07a-3a61-4af2-840f-4c8d99394c0a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tổng Lượt tải app' = ```
+			
+			    CALCULATE(DISTINCTCOUNT('FACT_App_Cài đặt app'[customer_phone]),
+			    'FACT_App_Cài đặt app'[is_first_login] = 1,
+			    ALLEXCEPT(DIM_BQ_Shop,DIM_BQ_Shop[Cửa hàng]))
+			
+			```
+		formatString: 0
+		lineageTag: badeaa45-0f81-4ff6-aa89-99abf1bfb5ed
+
+	measure 'Tải app_check' =
+			
+			COUNTROWS(SUMMARIZE(ALLSELECTED(DIM_Phone), DIM_Phone[phone]))
+		formatString: 0
+		lineageTag: 3273fc9c-2b72-4e75-a05b-48c9e4e44f89
+
+	measure 'Lượt tải app' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT('FACT_Sale_Doanh số bán'[phone]),
+			    'FACT_Sale_Doanh số bán'[first_app_login_check] = 1,
+			    'FACT_Sale_Doanh số bán'[phone] <> BLANK(),
+			    'FACT_Sale_Doanh số bán'[flag_phieu_sdt_trung_id_thiet_bi] = 0
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 887e1d67-37f1-4cb8-87d3-fc8c8483c638
+
+	measure 'Chưa có app' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT('FACT_Sale_Doanh số bán'[phone]),
+			        'FACT_Sale_Doanh số bán'[app_already_installed_check] = 0,
+			        'FACT_Sale_Doanh số bán'[phone] <> BLANK())
+			```
+		formatString: #,0
+		lineageTag: d0e6ccad-f490-4182-92c5-d3245798e5cc
+
+	measure '%Tải app' = ```
+			
+			    [Lượt tải app]/[Chưa có app]
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 80fc1119-8d2f-4a92-84e8-5289eef2bdfa
+
+	measure Target =
+			
+			AVERAGE(FACT_Target[Target])
+		lineageTag: fb9fa1c8-85aa-4f0a-b20f-4b37435afee7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%Target Tải app' = DIVIDE([%Tải app], [Target])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 82265b62-e145-402d-9741-23107f7649cb
+
+	measure 'Đánh giá' = ```
+			
+			    IF([%Target Tải app] >=1,"Đạt", "Không Đạt")
+			```
+		lineageTag: c05e71f4-51c3-431c-a5d7-dfdbd1d6c9a9
+
+	measure 'Số cửa hàng' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT('FACT_Sale_Doanh số bán'[store_code])
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: bc41db2c-76d2-4e76-ab94-a3223dec075c
+
+	measure 'Số cửa hàng không đạt' = ```
+			
+			VAR num = 
+			    CALCULATE(
+			    DISTINCTCOUNT('FACT_Sale_Doanh số bán'[store_code]),
+			    FILTER(
+			        SUMMARIZE(
+			            'DIM_BQ_Shop',
+			            DIM_BQ_Shop[Cửa hàng],
+			            "Target",[Target],
+			            "Rate",[%Tải app],
+			            "AvgRate",DIVIDE([%Tải app],[Target])
+			        ),
+			        [AvgRate] < 1
+			    )
+			)
+			RETURN IF(ISBLANK(num),0,num)
+			```
+		formatString: 0
+		lineageTag: 1fdcab33-4f91-4d6f-ae91-a83e58de7930
+
+	measure 'Số cửa hàng đạt' = ```
+			
+			VAR num = 
+			    CALCULATE(
+			    DISTINCTCOUNT('FACT_Sale_Doanh số bán'[store_code]),
+			    FILTER(
+			        SUMMARIZE(
+			            'DIM_BQ_Shop',
+			            'DIM_BQ_Shop'[Cửa hàng],
+			            "Target",[Target],
+			            "Rate",[%Tải app],
+			            "AvgRate",DIVIDE([%Tải app],[Target])
+			        ),
+			        [AvgRate] >= 1
+			    )
+			)
+			RETURN IF(ISBLANK(num),0,num)
+			```
+		formatString: 0
+		lineageTag: 540f267f-7719-4e60-9294-880e1e851c61
+
+	measure %Đạt = DIVIDE([Số cửa hàng đạt],[Số cửa hàng])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 968db573-d4ee-45e0-9ce7-f70671c4c68e
+
+	measure '%Không đạt' = DIVIDE([Số cửa hàng không đạt],[Số cửa hàng])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 4c0c9da5-da5f-45c9-ae98-860e931384d0
+
+	measure 'Thưởng phạt' =
+			
+			CALCULATE(SUM('FACT_Ranking_Shop'[Thưởng/Phạt]))
+		formatString: #,0
+		lineageTag: 187b5ab3-6ad8-403f-b1f5-aa86b9e5dbcc
+
+	measure 'Target tải app_Rank' =
+			
+			AVERAGE(FACT_Ranking_Shop[%Target Tải app])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d0268679-c926-4e90-9e80-9e8cfa215a8a
+
+	column Column
+		isHidden
+		formatString: 0
+		displayFolder: Other
+		lineageTag: b202b5af-25d1-43af-b909-479090fadb90
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 8cf12f627404406e868db3b7fe0cd5a5
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

@@ -1,0 +1,156 @@
+relationship d7a3cc95-43ce-44b8-9f52-575df2c333ce
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Phân quyền_User'.Startdate
+	toColumn: LocalDateTable_0adc3d49-9ffa-4aa0-92dc-191f48d5f539.Date
+
+relationship cc45140b-7869-4b1b-84ba-376ff3aea093
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'FACT_App_Cài đặt app'.updated_time
+	toColumn: LocalDateTable_5c761482-ab32-4b15-bcd9-5af239dd6630.Date
+
+relationship 2afc5e03-20cc-74fe-0015-483fdf4d3eec
+	fromColumn: 'FACT_App_Cài đặt app'.store_code
+	toColumn: DIM_BQ_Shop.'Mã kho'
+
+relationship 1c9e2cee-10a9-bfaf-0108-d41d2607a4c5
+	fromColumn: 'FACT_Sale_Doanh số bán'.store_code
+	toColumn: DIM_BQ_Shop.'Mã kho'
+
+relationship 027df61d-e006-4727-b105-1fe1d1a96211
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_Date.Date
+	toColumn: LocalDateTable_7e3df1b8-3fbe-4f5d-9ab5-408e2da3b603.Date
+
+relationship 4f5ab535-dc57-4904-a450-fa9938ffaacf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_Date.'Cuối tháng'
+	toColumn: LocalDateTable_34999d5d-d72b-4b90-bcaf-e2ead14ef219.Date
+
+relationship 71d43841-52db-4c7f-8b8d-4b6831de8076
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_Date.'Đầu tháng'
+	toColumn: LocalDateTable_27633629-f0d3-465e-8f09-e01a83db623f.Date
+
+relationship 736319d0-3e54-e0f3-9d1a-b327a3bae8fe
+	fromColumn: 'FACT_App_Cài đặt app'.Date
+	toColumn: DIM_Date.Date
+
+relationship 3a9ab00e-70ed-402b-982d-937459a31b2f
+	fromColumn: 'FACT_Sale_Doanh số bán'.date
+	toColumn: DIM_Date.Date
+
+relationship 092c3f5a-656b-06e0-d1dd-90487352dbc1
+	fromColumn: DIM_BQ_Shop.Miền
+	toColumn: DIM_BQ_Miền.Miền
+
+relationship de1e663c-7aef-73f6-2897-53adbc6fcb84
+	fromColumn: 'FACT_App_Cài đặt app'.'Giờ hiệu chỉnh'
+	toColumn: 'DIM_Giờ CS'.'Giờ hiệu chỉnh'
+
+relationship e695c9e2-8502-4b53-9093-c1cfb661bd7b
+	fromColumn: 'FACT_Sale_Doanh số bán'.'Giờ hiệu chỉnh'
+	toColumn: 'DIM_Giờ CS'.'Giờ hiệu chỉnh'
+
+relationship 3a7a67b8-4f9a-44db-8d7b-c8f7dfbd5e99
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'FACT_Sale_Doanh số bán'.CreateDate
+	toColumn: LocalDateTable_32b598b8-c398-436b-95b6-03973380b71c.Date
+
+relationship 7201c798-0a09-0ade-c17b-ae632932c57e
+	isActive: false
+	fromColumn: 'FACT_Sale_Doanh số bán'.store_code
+	toColumn: 'DIM_Phân quyền_Vận hành'.'Mã kho'
+
+relationship eada52de-67ed-8337-c680-e3e31216b356
+	isActive: false
+	fromColumn: 'FACT_App_Cài đặt app'.store_code
+	toColumn: 'DIM_Phân quyền_Vận hành'.'Mã kho'
+
+relationship 40e93c24-5cde-64df-8428-62cbd9ad6187
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'FACT_Sale_Doanh số bán'.phone
+	toColumn: DIM_Phone.phone
+
+relationship 7083b0df-386f-9c2d-8b2f-610c4a5df407
+	fromColumn: 'FACT_App_Cài đặt app'.customer_phone
+	toColumn: DIM_Phone.phone
+
+relationship 8d7fd57e-7903-4d1a-9b96-75024253405a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'FACT_Sale_Doanh số bán'.login_date
+	toColumn: LocalDateTable_4f381816-34d0-4183-8b46-f77754c652b4.Date
+
+relationship 365bb2a1-1866-c1d6-113d-87da0ebd8301
+	fromColumn: 'FACT_Sale_Cài đặt app_New'.date
+	toColumn: DIM_Date.Date
+
+relationship 2f34fb96-3069-01bc-8b9f-66359a39ae0c
+	fromColumn: 'FACT_Sale_Cài đặt app_New'.store_code
+	toColumn: DIM_BQ_Shop.'Mã kho'
+
+relationship 81e05fce-1a3c-c780-bd3b-a740773df2a4
+	isActive: false
+	fromColumn: 'FACT_Sale_Cài đặt app_New'.store_code
+	toColumn: 'DIM_Phân quyền_Vận hành'.'Mã kho'
+
+relationship e164561f-c511-0b70-7744-1e077c4c4e4a
+	fromColumn: 'FACT_Sale_Cài đặt app_New'.'Giờ hiệu chỉnh'
+	toColumn: 'DIM_Giờ CS'.'Giờ hiệu chỉnh'
+
+relationship 234828c3-5e07-476f-b925-93544dce9218
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'FACT_Sale_Cài đặt app_New'.Time
+	toColumn: LocalDateTable_506895a3-957c-4060-955d-5ba50684bd7c.Date
+
+relationship b6dfc6d1-cb02-ef1d-3d1e-ddc068a7c992
+	fromColumn: 'FACT_Sale_Cài đặt app_New'.phone
+	toColumn: DIM_Phone.phone
+
+relationship 14bf40af-fb86-4231-84b5-1333bf0f1c48
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Phân quyền_Nhập tay'.Startdate
+	toColumn: LocalDateTable_0b43af5a-db77-419c-a6dd-c665c330f5bf.Date
+
+relationship 26ad7889-d09d-4478-95f0-ad190d351290
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_Target.'Ngày bắt đầu'
+	toColumn: LocalDateTable_27164dea-5641-48ab-a8ac-3d08edb8b44e.Date
+
+relationship 57d1d601-6196-44ca-a9f2-b0fe5b245eba
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_Target.'Ngày kết thúc'
+	toColumn: LocalDateTable_73a5e9b5-3785-477c-b9d1-2558cf62e005.Date
+
+relationship c82438f9-2bb9-b243-669b-0475ddb1a247
+	fromColumn: FACT_Target.Date
+	toColumn: DIM_Date.Date
+
+relationship AutoDetected_ad617cc8-9cd8-43f9-9bcb-4b415d38c2b6
+	fromColumn: FACT_Target.'Mã kho'
+	toColumn: DIM_BQ_Shop.'Mã kho'
+
+relationship 458d84f9-9e43-cb88-015e-92923ef28f3f
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'DIM_Phân quyền_Vận hành'.'Mã kho'
+	toColumn: DIM_BQ_Shop.'Mã kho'
+
+relationship 3ed080a6-1333-4d93-8980-8bd0408bc9bf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.refresh_time
+	toColumn: LocalDateTable_f218c8f8-a6c3-4ebb-9f03-fff2092a965d.Date
+
+relationship d7ab0731-02fd-4915-a02f-26c7e95368f2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'FACT_Sale_Doanh số bán'.Năm/Tháng
+	toColumn: LocalDateTable_f7802db7-3579-4eb9-9d60-f0c6f4db1291.Date
+
+relationship 77db2df3-eca4-8e85-3066-cf5386691a61
+	fromColumn: FACT_Ranking_Shop.Shop+Size
+	toColumn: DIM_BQ_Shop.Shop+Size
+
+relationship 0f0b3365-c7a6-e3ef-aec6-7804b5bcaae8
+	toCardinality: many
+	fromColumn: FACT_Ranking_Shop.Năm/Tháng
+	toColumn: DIM_Date.Năm/Tháng
+

@@ -1,0 +1,203 @@
+table 'FACT_Sale_Doanh số bán'
+	lineageTag: abcb8b1b-a8ea-4d31-a660-5f436348b9bb
+
+	column date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: cc0ba2ed-3f83-49c2-8ec3-000e72699c4c
+		summarizeBy: none
+		sourceColumn: date
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column store_code
+		dataType: string
+		lineageTag: 217a679a-0d9d-45a9-9ae6-257a820ad664
+		summarizeBy: none
+		sourceColumn: store_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column autocode
+		dataType: string
+		lineageTag: f4c17567-9b44-4f73-9acf-1b5640e5f7a7
+		summarizeBy: none
+		sourceColumn: autocode
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		dataType: string
+		lineageTag: 0433c6c3-8bef-4565-8879-1661c9722688
+		summarizeBy: none
+		sourceColumn: phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column app_already_installed_check
+		dataType: int64
+		formatString: 0
+		lineageTag: ffaec25a-2885-4e0b-8aac-a74264548e97
+		summarizeBy: sum
+		sourceColumn: app_already_installed_check
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Giờ hiệu chỉnh' = IF(OR('FACT_Sale_Doanh số bán'[giocapnhat]<TIME( 8, 0, 0 ),'FACT_Sale_Doanh số bán'[giocapnhat]>TIME( 21, 0, 0 )),8,HOUR('FACT_Sale_Doanh số bán'[CreateDate]))
+		formatString: 0
+		lineageTag: 6eb5d6c1-e2d2-400b-9ff2-64672d68d3aa
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column giocapnhat = FORMAT('FACT_Sale_Doanh số bán'[CreateDate], "hh:mm:ss")
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 25443bfd-a6c6-4efa-873e-66f4aa717bcb
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column CreateDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd hh:nn:ss
+		lineageTag: c74edd1e-a31c-4272-a420-1b0ce0f6c597
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		variation Variation
+			isDefault
+			relationship: 3a7a67b8-4f9a-44db-8d7b-c8f7dfbd5e99
+			defaultHierarchy: LocalDateTable_32b598b8-c398-436b-95b6-03973380b71c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column first_app_login_check
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f272c04-3752-4eeb-8819-738c1cc3f499
+		summarizeBy: sum
+		sourceColumn: first_app_login_check
+
+		annotation SummarizationSetBy = Automatic
+
+	column login_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd hh:nn:ss
+		lineageTag: 1b32d7d0-c6b1-4b0e-b411-b6454d343df5
+		summarizeBy: none
+		sourceColumn: login_date
+
+		variation Variation
+			isDefault
+			relationship: 8d7fd57e-7903-4d1a-9b96-75024253405a
+			defaultHierarchy: LocalDateTable_4f381816-34d0-4183-8b46-f77754c652b4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column Năm/Tháng = STARTOFMONTH('FACT_Sale_Doanh số bán'[date])
+		formatString: General Date
+		lineageTag: 2f97ea92-a6c0-4ad5-a7ab-3ab90a95b6ac
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: d7ab0731-02fd-4915-a02f-26c7e95368f2
+			defaultHierarchy: LocalDateTable_f7802db7-3579-4eb9-9d60-f0c6f4db1291.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column platform
+		dataType: string
+		lineageTag: c1988b02-8ca2-4569-b74e-e74c194d0a90
+		summarizeBy: none
+		sourceColumn: platform
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_pseudo_id
+		dataType: string
+		lineageTag: e8b565fb-26af-4705-b941-79fba980bbc7
+		summarizeBy: none
+		sourceColumn: user_pseudo_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_category
+		dataType: string
+		lineageTag: 51206ef5-fddf-430e-8f45-e3a80c48a457
+		summarizeBy: none
+		sourceColumn: device_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column mobile_brand_name
+		dataType: string
+		lineageTag: 20a786ff-63ce-44fc-979d-812294e6c923
+		summarizeBy: none
+		sourceColumn: mobile_brand_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column mobile_model_name
+		dataType: string
+		lineageTag: e8772c33-82a3-4183-ada6-ca8c8d2318e1
+		summarizeBy: none
+		sourceColumn: mobile_model_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column thu_tu_sdt_tren_cung_id_may
+		dataType: int64
+		formatString: 0
+		lineageTag: 12278623-1995-4edd-8304-1bb61fe3d0cd
+		summarizeBy: sum
+		sourceColumn: thu_tu_sdt_tren_cung_id_may
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_phieu_sdt_trung_id_thiet_bi
+		dataType: int64
+		formatString: 0
+		lineageTag: 4a94fb9e-1aa3-4205-ba49-ee45c329cb28
+		summarizeBy: sum
+		sourceColumn: flag_phieu_sdt_trung_id_thiet_bi
+
+		annotation SummarizationSetBy = Automatic
+
+	column so_sdt_khac_nhau_tren_cung_id_may
+		dataType: int64
+		formatString: 0
+		lineageTag: f0e44f4f-a8a9-4877-ab25-36bd26490482
+		summarizeBy: sum
+		sourceColumn: so_sdt_khac_nhau_tren_cung_id_may
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Sale_Doanh số bán' = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "-- dataset_id=d126f45f-e72b-4ccf-a839-992dea1815aa#(lf)WITH config AS (#(lf)  SELECT 4 AS max_phone_per_device#(lf)),#(lf)#(lf)tax_foreign_bill AS (#(lf)  SELECT DISTINCT#(lf)    UPPER(TRIM(CAST(tax_autocode AS STRING))) AS autocode#(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Tax_ExportBill`,#(lf)  UNNEST([#(lf)    CAST(ImportAutoCode AS STRING),#(lf)    CAST(Code AS STRING)#(lf)  ]) AS tax_autocode#(lf)  WHERE UPPER(TRIM(CAST(SignOfBillNo AS STRING))) = 'C26TCP'#(lf)    AND tax_autocode IS NOT NULL#(lf)    AND TRIM(CAST(tax_autocode AS STRING)) <> ''#(lf)    AND UPPER(TRIM(CAST(tax_autocode AS STRING))) LIKE 'SP.%'#(lf)#(lf)  UNION DISTINCT#(lf)#(lf)  SELECT DISTINCT#(lf)    UPPER(TRIM(CAST(tax_autocode AS STRING))) AS autocode#(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.Tax_ExportBill`,#(lf)  UNNEST([#(lf)    CAST(ImportAutoCode AS STRING),#(lf)    CAST(Code AS STRING)#(lf)  ]) AS tax_autocode#(lf)  WHERE UPPER(TRIM(CAST(SignOfBillNo AS STRING))) = 'C26TCP'#(lf)    AND tax_autocode IS NOT NULL#(lf)    AND TRIM(CAST(tax_autocode AS STRING)) <> ''#(lf)    AND UPPER(TRIM(CAST(tax_autocode AS STRING))) LIKE 'SP.%'#(lf)),#(lf)#(lf)raw_sp_source AS (#(lf)  SELECT DISTINCT#(lf)    CreateDate,#(lf)    date,#(lf)    StoreCode AS store_code,#(lf)    autocode,#(lf)    TRIM(CAST(ContactPhone AS STRING)) AS phone#(lf)  FROM `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction`#(lf)  WHERE issales = 1#(lf)    AND IsB2B = 0#(lf)    AND autocode NOT LIKE ""%#%""#(lf)    AND MethodID IN (14, 57)#(lf)    AND TRIM(CAST(ContactPhone AS STRING)) NOT IN ('0942482682', '0979453264')#(lf)    AND createdate >= ""2025-06-01""#(lf)    AND amount <> 0#(lf)    AND ContactPhone IS NOT NULL#(lf)    AND REGEXP_CONTAINS(TRIM(CAST(ContactPhone AS STRING)), r'^[0-9]+$')#(lf)),#(lf)#(lf)raw_sp_base AS (#(lf)  SELECT#(lf)    s.*#(lf)  FROM raw_sp_source AS s#(lf)  LEFT JOIN tax_foreign_bill AS t#(lf)    ON UPPER(TRIM(CAST(s.autocode AS STRING))) = t.autocode#(lf)  WHERE t.autocode IS NULL#(lf)),#(lf)#(lf)raw_sp AS (#(lf)  SELECT#(lf)    *,#(lf)    ROW_NUMBER() OVER (#(lf)      PARTITION BY phone, date#(lf)      ORDER BY createdate ASC#(lf)    ) AS phone_index#(lf)  FROM raw_sp_base#(lf)),#(lf)#(lf)smember_login_source AS (#(lf)  SELECT#(lf)    CASE#(lf)      WHEN TRIM(CAST(phone AS STRING)) LIKE ""84%""#(lf)        THEN REGEXP_REPLACE(TRIM(CAST(phone AS STRING)), '^84', ""0"")#(lf)      ELSE TRIM(CAST(phone AS STRING))#(lf)    END AS phone,#(lf)    date AS first_login,#(lf)    platform,#(lf)    LOWER(TRIM(CAST(user_pseudo_id AS STRING))) AS user_pseudo_id,#(lf)    device_category,#(lf)    mobile_brand_name,#(lf)    mobile_model_name#(lf)  FROM `cellphones-data-platform.cps_marketing_datamart.smember_first_app_login`#(lf)  WHERE phone IS NOT NULL#(lf)),#(lf)#(lf)raw_first_login_base AS (#(lf)  SELECT#(lf)    first_info.first_login AS createdate,#(lf)    phone,#(lf)    first_info.platform AS platform,#(lf)    DATE(first_info.first_login) AS date,#(lf)    first_info.first_login AS first_login,#(lf)    device_info.user_pseudo_id AS user_pseudo_id,#(lf)    device_info.device_category AS device_category,#(lf)    device_info.mobile_brand_name AS mobile_brand_name,#(lf)    device_info.mobile_model_name AS mobile_model_name#(lf)  FROM (#(lf)    SELECT#(lf)      phone,#(lf)#(lf)      ARRAY_AGG(#(lf)        STRUCT(#(lf)          first_login,#(lf)          platform#(lf)        )#(lf)        ORDER BY first_login ASC#(lf)        LIMIT 1#(lf)      )[SAFE_OFFSET(0)] AS first_info,#(lf)#(lf)      ARRAY_AGG(#(lf)        IF(#(lf)          user_pseudo_id IS NOT NULL AND TRIM(user_pseudo_id) <> '',#(lf)          STRUCT(#(lf)            user_pseudo_id,#(lf)            device_category,#(lf)            mobile_brand_name,#(lf)            mobile_model_name#(lf)          ),#(lf)          NULL#(lf)        )#(lf)        IGNORE NULLS#(lf)        ORDER BY first_login ASC#(lf)        LIMIT 1#(lf)      )[SAFE_OFFSET(0)] AS device_info#(lf)#(lf)    FROM smember_login_source#(lf)    WHERE phone IS NOT NULL#(lf)    GROUP BY phone#(lf)  )#(lf)),#(lf)#(lf)device_phone_rank AS (#(lf)  SELECT#(lf)    b.*,#(lf)    COUNT(DISTINCT phone) OVER (#(lf)      PARTITION BY user_pseudo_id#(lf)    ) AS phone_count_per_device,#(lf)#(lf)    DENSE_RANK() OVER (#(lf)      PARTITION BY user_pseudo_id#(lf)      ORDER BY first_login ASC, phone ASC#(lf)    ) AS phone_rank_per_device#(lf)  FROM raw_first_login_base AS b#(lf)  WHERE user_pseudo_id IS NOT NULL#(lf)    AND TRIM(user_pseudo_id) <> ''#(lf)),#(lf)#(lf)raw_first_login AS (#(lf)  SELECT#(lf)    f.*,#(lf)    COALESCE(r.phone_count_per_device, 0) AS phone_count_per_device,#(lf)    COALESCE(r.phone_rank_per_device, 0) AS phone_rank_per_device,#(lf)    CASE#(lf)      WHEN r.user_pseudo_id IS NULL THEN 0#(lf)      WHEN r.phone_rank_per_device > cfg.max_phone_per_device THEN 1#(lf)      ELSE 0#(lf)    END AS is_duplicate_device_phone#(lf)  FROM raw_first_login_base AS f#(lf)  CROSS JOIN config AS cfg#(lf)  LEFT JOIN device_phone_rank AS r#(lf)    ON f.phone = r.phone#(lf)),#(lf)#(lf)raw_root AS (#(lf)  WITH a1 AS (#(lf)    SELECT#(lf)      a.*,#(lf)      b.platform,#(lf)      ABS(DATE_DIFF(a.createdate, b.first_login, SECOND)) AS gap#(lf)    FROM raw_sp AS a#(lf)    LEFT JOIN raw_first_login AS b#(lf)      ON a.phone = b.phone#(lf)  )#(lf)  SELECT#(lf)    a.*,#(lf)    ROW_NUMBER() OVER (#(lf)      PARTITION BY a.phone, a.date#(lf)      ORDER BY a.gap ASC#(lf)    ) AS login_index#(lf)  FROM a1 AS a#(lf)),#(lf)#(lf)final_root AS (#(lf)  SELECT#(lf)    date,#(lf)    phone,#(lf)    autocode,#(lf)    phone_index,#(lf)    platform#(lf)  FROM raw_root#(lf)  WHERE login_index = 1#(lf)),#(lf)#(lf)cte AS (#(lf)  SELECT#(lf)    a.* EXCEPT(phone_index),#(lf)#(lf)    CASE#(lf)      WHEN c.date IS NULL THEN 0#(lf)      WHEN a.date > c.date THEN 1#(lf)      WHEN a.date < c.date THEN 0#(lf)      WHEN a.date = c.date THEN#(lf)        CASE#(lf)          WHEN DATE_DIFF(a.createdate, c.createdate, MINUTE) > 0#(lf)           AND DATE_DIFF(a.createdate, c.createdate, MINUTE) <= 120 THEN 0#(lf)          WHEN a.phone_index <= b.phone_index THEN 0#(lf)          ELSE 1#(lf)        END#(lf)    END AS app_already_installed_check,#(lf)#(lf)    CASE#(lf)      WHEN a.date = c.date#(lf)       AND a.autocode = b.autocode#(lf)       AND COALESCE(c.is_duplicate_device_phone, 0) = 0#(lf)      THEN 1#(lf)      ELSE 0#(lf)    END AS first_app_login_check,#(lf)#(lf)    c.first_login AS login_date,#(lf)    c.platform,#(lf)#(lf)    c.user_pseudo_id,#(lf)    c.device_category,#(lf)    c.mobile_brand_name,#(lf)    c.mobile_model_name,#(lf)#(lf)    COALESCE(c.phone_rank_per_device, 0) AS thu_tu_sdt_tren_cung_id_may,#(lf)    COALESCE(c.is_duplicate_device_phone, 0) AS flag_phieu_sdt_trung_id_thiet_bi,#(lf)    COALESCE(c.phone_count_per_device, 0) AS so_sdt_khac_nhau_tren_cung_id_may#(lf)#(lf)  FROM raw_sp AS a#(lf)  LEFT JOIN final_root AS b#(lf)    ON a.date = b.date#(lf)   AND a.phone = b.phone#(lf)  LEFT JOIN raw_first_login AS c#(lf)    ON a.phone = c.phone#(lf))#(lf)#(lf)SELECT *#(lf)FROM cte#(lf)WHERE date NOT BETWEEN DATE(2025, 10, 09) AND DATE(2025, 10, 15)", null, [EnableFolding=true]),
+				    #"Sorted Rows" = Table.Sort(Source,{{"CreateDate", Order.Descending}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Sorted Rows",{{"login_date", type datetime}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

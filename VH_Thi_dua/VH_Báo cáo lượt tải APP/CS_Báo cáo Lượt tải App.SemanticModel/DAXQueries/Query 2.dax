@@ -1,0 +1,43 @@
+DEFINE
+    VAR __Base =
+        SELECTCOLUMNS(
+            FILTER(
+                'FACT_Sale_Doanh số bán',
+                NOT ISBLANK('FACT_Sale_Doanh số bán'[phone])
+                    && TRIM('FACT_Sale_Doanh số bán'[phone] & "") <> ""
+            ),
+            "phone", TRIM('FACT_Sale_Doanh số bán'[phone] & ""),
+            "user_pseudo_id", TRIM('FACT_Sale_Doanh số bán'[user_pseudo_id] & ""),
+            "device_category", TRIM('FACT_Sale_Doanh số bán'[device_category] & ""),
+            "mobile_brand_name", TRIM('FACT_Sale_Doanh số bán'[mobile_brand_name] & ""),
+            "mobile_model_name", TRIM('FACT_Sale_Doanh số bán'[mobile_model_name] & "")
+        )
+
+    VAR __PhoneLevel =
+        GROUPBY(
+            __Base,
+            [phone],
+            "is_fill_du_4_cot",
+                MAXX(
+                    CURRENTGROUP(),
+                    IF(
+                        [user_pseudo_id] <> ""
+                            && [device_category] <> ""
+                            && [mobile_brand_name] <> ""
+                            && [mobile_model_name] <> "",
+                        1,
+                        0
+                    )
+                )
+        )
+
+EVALUATE
+ROW(
+    "total_phone", COUNTROWS(__PhoneLevel),
+    "phone_da_fill_du_4_cot", COUNTROWS(FILTER(__PhoneLevel, [is_fill_du_4_cot] = 1)),
+    "phone_chua_fill_du_4_cot", COUNTROWS(FILTER(__PhoneLevel, [is_fill_du_4_cot] = 0)),
+    "pct_phone_da_fill_du", DIVIDE(
+        COUNTROWS(FILTER(__PhoneLevel, [is_fill_du_4_cot] = 1)),
+        COUNTROWS(__PhoneLevel)
+    )
+)

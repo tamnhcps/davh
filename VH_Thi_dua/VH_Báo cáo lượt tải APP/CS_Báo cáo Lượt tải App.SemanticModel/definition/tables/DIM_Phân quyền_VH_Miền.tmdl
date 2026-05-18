@@ -1,0 +1,31 @@
+table 'DIM_Phân quyền_VH_Miền'
+	lineageTag: 7fcbb161-3e70-40d0-89ed-db2e371b9d41
+
+	column Miền
+		dataType: string
+		lineageTag: 561430fa-fc06-4b05-b971-6eac3564fd50
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tên
+		dataType: string
+		lineageTag: 5810c08e-6d22-4fc4-897e-4f9b1c8c0b51
+		summarizeBy: none
+		sourceColumn: Tên
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_VH_Miền' = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8s18uLsxT8Hp4a71yUo6Sv4BCr6eD3c3+IFE1jkrxerAlfgl5qIo8HP0VYqNBQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Miền = _t, Tên = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Miền", type text}, {"Tên", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

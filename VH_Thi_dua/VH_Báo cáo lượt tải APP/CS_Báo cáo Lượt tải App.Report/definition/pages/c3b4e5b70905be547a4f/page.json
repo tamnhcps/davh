@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "c3b4e5b70905be547a4f",
+  "displayName": "CHI TIẾT",
+  "displayOption": "FitToPage",
+  "height": 740,
+  "width": 1280,
+  "visibility": "HiddenInViewMode"
+}

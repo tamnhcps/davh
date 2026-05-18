@@ -1,0 +1,33 @@
+table DIM_Phone
+	lineageTag: aa706fe2-a2f3-41cb-9357-b9e573983cac
+
+	column formatted_phone =
+			
+			"* * * * * " & right(DIM_Phone[phone], 5)
+		lineageTag: 0bb90d1e-d88c-4b7d-b413-aee1e7347529
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		lineageTag: ed0cd5a7-df49-4d28-bb07-94df12e49d3f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[phone]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_Phone = calculated
+		mode: import
+		source = ```
+				
+				SUMMARIZE(
+				    UNION(
+				        CALCULATETABLE(ALLSELECTED('FACT_Sale_Doanh số bán'[phone]), 'FACT_Sale_Doanh số bán'[phone] <> BLANK()),
+				        CALCULATETABLE(ALLSELECTED('FACT_App_Cài đặt app'[customer_phone]), 'FACT_App_Cài đặt app'[customer_phone] <> BLANK())),
+				        'FACT_Sale_Doanh số bán'[phone])
+				        
+				```
+
+	annotation PBI_Id = 1f32a6b1499840c4a22690dd47e5af5a
+

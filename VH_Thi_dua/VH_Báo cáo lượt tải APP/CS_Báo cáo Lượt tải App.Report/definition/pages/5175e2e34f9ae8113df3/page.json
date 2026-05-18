@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "5175e2e34f9ae8113df3",
+  "displayName": "THI ĐUA",
+  "displayOption": "FitToPage",
+  "height": 740,
+  "width": 1280,
+  "visibility": "HiddenInViewMode"
+}

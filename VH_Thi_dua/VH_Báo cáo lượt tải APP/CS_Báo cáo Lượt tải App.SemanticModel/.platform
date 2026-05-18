@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "CS_Báo cáo Lượt tải App"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e784cf33-aabe-4a16-8285-eb6934e7d64b"
+  }
+}

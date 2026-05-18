@@ -1,0 +1,130 @@
+table DIM_BQ_Shop
+	lineageTag: 1bc91dc3-b2e1-44e9-b361-b1640d317940
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 20f04d0a-e40d-46e2-aa66-d2a7e54c6613
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: 591be9c6-96d5-45a3-afc5-db9ec157525e
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size
+		dataType: string
+		lineageTag: 390a179c-4922-49aa-949a-dca301d7951e
+		summarizeBy: none
+		sourceColumn: Size
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM
+		dataType: string
+		lineageTag: 2b6ada45-d27a-4266-ae95-066d3a135aee
+		summarizeBy: none
+		sourceColumn: AM
+
+		annotation SummarizationSetBy = Automatic
+
+	column RSM
+		dataType: string
+		lineageTag: 3bf24ea1-d7ed-4593-ae61-ffc74f3e1439
+		summarizeBy: none
+		sourceColumn: RSM
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã kho'
+		dataType: string
+		lineageTag: 9060be3b-24ca-4358-ab29-2f1d8295d3e6
+		summarizeBy: none
+		sourceColumn: Mã kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại kho'
+		dataType: string
+		lineageTag: 46ac4dfe-649d-461c-919b-b4ab1ddf5cac
+		summarizeBy: none
+		sourceColumn: Loại kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Địa chỉ kho'
+		dataType: string
+		lineageTag: 05e8c9d1-16c2-41d9-96ed-00bc7a496c8f
+		summarizeBy: none
+		sourceColumn: Địa chỉ kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shop+Size = if([Cửa hàng]<>BLANK(),[Cửa hàng]&" ("&[Size]&")",BLANK())
+		lineageTag: 46cacdac-a231-470f-9501-541c3b6f866b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vùng
+		dataType: string
+		lineageTag: b24ba1d1-8f96-4a1a-9794-a8364907c1a4
+		summarizeBy: none
+		sourceColumn: Vùng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hara ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 180bdc10-9253-4fbb-8296-73b04aaa57b6
+		summarizeBy: count
+		sourceColumn: Hara ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quận huyện'
+		dataType: string
+		lineageTag: e735058a-9de0-4813-9956-d99ab389fcdc
+		summarizeBy: none
+		sourceColumn: Quận huyện
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tỉnh
+		dataType: string
+		lineageTag: 75f5ab68-5ee9-4d4c-a47f-2f58778bacd5
+		summarizeBy: none
+		sourceColumn: Tỉnh
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_BQ_Shop = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=d126f45f-e72b-4ccf-a839-992dea1815aa""#(lf)SELECT#(lf)  s.ma_kho AS `Mã kho`,#(lf)  s.cua_hang AS `Cửa hàng`,#(lf)  d.am AS `AM`,#(lf)  d.rsm AS `RSM`,#(lf)  d.size AS `Size`,#(lf)  d.vung AS `Vùng`,#(lf)  d.quan_huyen AS `Quận huyện`,#(lf)  s.loai_kho AS `Loại kho`,#(lf)  s.dia_chi_kho AS `Địa chỉ kho`,#(lf)  d.hara_id AS `Hara ID`,#(lf)  s.mien AS `Miền`#(lf)FROM#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_storage` s#(lf)LEFT JOIN `cellphones-data-platform.cps_DA_General_Transform.dim_department` d#(lf)  ON d.bo_phan = s.cua_hang#(lf)WHERE#(lf)  s.cong_ty <> 'DTV' or s.cong_ty is null", null, [EnableFolding=true]),
+				    #"Filtered Rows1" = Table.SelectRows(Source, each Text.StartsWith([Cửa hàng], "CPS-")),
+				    #"Filtered Rows3" = Table.SelectRows(#"Filtered Rows1", each not Text.EndsWith([Mã kho], "-C")),
+				    #"Inserted Text Between Delimiters" = Table.AddColumn(#"Filtered Rows3", "Tỉnh", each Text.BetweenDelimiters([Cửa hàng], "-", "-"), type text),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Text Between Delimiters", each not Text.Contains([Mã kho], "HCM.HM")),
+				    #"Filtered Rows2" = Table.SelectRows(#"Filtered Rows", each ([Loại kho] = "BÁN")),
+				    #"Added Conditional Column" = Table.AddColumn(#"Filtered Rows2", "Custom", each if [Tỉnh] = "HCM" then "HCM" else if [Tỉnh] = "HNO" then "HNO" else "KHÁC", type text),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Conditional Column",{"Tỉnh"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Custom", "Tỉnh"}}),
+				    #"Filtered Rows4" = Table.SelectRows(#"Renamed Columns", each ([AM] <> null) and ([Cửa hàng] <> "CPS-HCM-SHOPONLINE" and [Cửa hàng] <> "CPS-HNO-SHOPONLINE") and ([Mã kho] <> "HCM.156DT747")),
+				    #"Sorted Rows" = Table.Sort(#"Filtered Rows4",{{"Cửa hàng", Order.Ascending}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Sorted Rows", {"Cửa hàng"})
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

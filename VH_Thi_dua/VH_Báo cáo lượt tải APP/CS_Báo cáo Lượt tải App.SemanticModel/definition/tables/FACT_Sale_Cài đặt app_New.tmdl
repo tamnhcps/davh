@@ -1,0 +1,108 @@
+table 'FACT_Sale_Cài đặt app_New'
+	lineageTag: ade7f688-fe9d-4578-ba48-50a594814620
+
+	measure Measure =
+			
+			CALCULATE(DISTINCTCOUNT('FACT_Sale_Cài đặt app_New'[phone]),
+			'FACT_Sale_Cài đặt app_New'[phone] <> BLANK(),
+			'FACT_Sale_Cài đặt app_New'[first_app_login_check] = 1)
+		formatString: 0
+		lineageTag: d783fda5-df53-4c07-b14b-47bb0825b593
+
+	column phone
+		lineageTag: 8f61f5fb-81f7-49a2-849c-9eb6e8ffca8d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[phone]
+
+		annotation SummarizationSetBy = Automatic
+
+	column app_already_installed_check
+		formatString: 0
+		lineageTag: 753177f9-a0b2-4524-9d4f-0b48a5125734
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[app_already_installed_check]
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_app_login_check
+		formatString: 0
+		lineageTag: 0a7d5ad3-9166-4e03-be38-c7d9f237fb84
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[first_app_login_check]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Time
+		formatString: General Date
+		lineageTag: aa8a873d-677d-4707-9475-12f1c7d90b05
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Time]
+
+		variation Variation
+			isDefault
+			relationship: 234828c3-5e07-476f-b925-93544dce9218
+			defaultHierarchy: LocalDateTable_506895a3-957c-4060-955d-5ba50684bd7c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		formatString: General Date
+		lineageTag: c1485a67-88d1-418d-85a9-dc4304324c28
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column giocapnhat = ```
+			TIME(HOUR('FACT_Sale_Cài đặt app_New'[Time]), MINUTE('FACT_Sale_Cài đặt app_New'[Time]), SECOND('FACT_Sale_Cài đặt app_New'[Time]))
+			
+			```
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 4dacfb0b-61dd-4c89-abdf-88f68dc1df59
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column 'Giờ hiệu chỉnh' =
+			
+			VAR giowcapnhat = TIME(HOUR('FACT_Sale_Cài đặt app_New'[Time]), MINUTE('FACT_Sale_Cài đặt app_New'[Time]), SECOND('FACT_Sale_Cài đặt app_New'[Time]))
+			
+			RETURN
+			IF(OR(giowcapnhat<TIME( 8, 0, 0 ),giowcapnhat>TIME( 21, 0, 0 )),8,HOUR('FACT_Sale_Cài đặt app_New'[Time]))
+		formatString: 0
+		lineageTag: af801427-fa71-4f2d-bb98-e1e2155d0f3f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_code
+		lineageTag: 24ac969f-1a4e-4272-9a99-29fc654f01d5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[store_code]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Sale_Cài đặt app_New' = calculated
+		mode: import
+		source = ```
+				
+				    SUMMARIZE('FACT_Sale_Doanh số bán',
+				    'FACT_Sale_Doanh số bán'[phone],
+				    'FACT_Sale_Doanh số bán'[store_code],
+				    'FACT_Sale_Doanh số bán'[date],
+				    'FACT_Sale_Doanh số bán'[app_already_installed_check],
+				    'FACT_Sale_Doanh số bán'[first_app_login_check],
+				    "Time",MAX('FACT_Sale_Doanh số bán'[login_date]))
+				```
+
+	annotation PBI_Id = 901ceb9d070d4267a94b45801d0af7d7
+

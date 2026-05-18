@@ -1,0 +1,27 @@
+table 'DIM_Giờ CS'
+	lineageTag: a3dfcf05-a660-41ff-85ef-647a1647d1fc
+
+	column 'Giờ hiệu chỉnh'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9df3d802-43d5-4766-a44c-3c0cff0f9751
+		summarizeBy: none
+		sourceColumn: Giờ hiệu chỉnh
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Giờ CS' = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("Jcy5EQAgDMTAXi4mwOavxeP+24BBiTZThLayhM6vVTBwaNBhwIQFTIyLc/F3yQs=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [giohieuchinh = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"giohieuchinh", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"giohieuchinh", "Giờ hiệu chỉnh"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

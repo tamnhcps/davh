@@ -1,0 +1,45 @@
+table DIM_Note
+	lineageTag: e981d984-ee31-48d4-b13c-c3ab645573ca
+
+	column 'Lượt tải app'
+		dataType: string
+		lineageTag: 5f947725-f93f-470b-b3da-f2bffd04d78a
+		summarizeBy: none
+		sourceColumn: Lượt tải app
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lượt tải được tính dựa trên thời gian đăng nhập app lần đầu của khách hàng so với thời gian mua hàng tại cửa hàng'
+		dataType: string
+		lineageTag: 43a49d8b-e543-4014-b3ca-05694c2c846e
+		summarizeBy: none
+		sourceColumn: Lượt tải được tính dựa trên thời gian đăng nhập app lần đầu của khách hàng so với thời gian mua hàng tại cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 0
+		dataType: int64
+		formatString: 0
+		lineageTag: bf79b39d-a1e5-44f2-bba3-2c6fd16bccbf
+		summarizeBy: sum
+		sourceColumn: 0
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_Note = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("hZBBSsNAGIWv8ggIFQreQZe6EOqudDFGyQy2k2AnvYAXaHEpQksWBSVQcZdZuJjQe/w38Z8kDUlAXCXzz3tvvvdPp8HN8UA2MzBUZAoiSYLxYFZuqmMI43It8UD2S8A8uw8NI8m+K0RKaJaVLzqCllTkiQ/CnIq9n/MnRUh2L/Ak3S6UkG7L0mWMFdk31YtZpKK55td3yvvyZhLMxtOgXLsMoftuUCdkN5hXgGxp4lviSKoayGOwz5D9ZFkfdeW2cZXm46/rBKY4hbeZVPzoLk4HdWTkY4xEKtakmNzi0u207299Osr10HtePXZ29+fS/f4ucCWPB9G2rSyD/t0jGzr4Xt33/1so7MoxuhcxIrKvCxYV2cnXF/l6p/+lSFmk6lW3y+Gqs18=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Tên cột" = _t, #"Ý nghĩa " = _t]),
+				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 0, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "STT"}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Renamed Columns", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Lượt tải app", type text}, {"Lượt tải được tính dựa trên thời gian đăng nhập app lần đầu của khách hàng so với thời gian mua hàng tại cửa hàng", type text}, {"0", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

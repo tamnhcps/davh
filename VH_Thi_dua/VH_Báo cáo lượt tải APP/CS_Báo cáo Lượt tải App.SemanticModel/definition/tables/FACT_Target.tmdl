@@ -1,0 +1,329 @@
+table FACT_Target
+	lineageTag: 0d87fbf1-9385-4ff4-8ba1-07a92ffeb9a7
+
+	column 'Ngày bắt đầu'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ebd6eaf9-2c7e-4c23-b329-d04b4ce5f664
+		summarizeBy: none
+		sourceColumn: Ngày bắt đầu
+
+		variation Variation
+			isDefault
+			relationship: 26ad7889-d09d-4478-95f0-ad190d351290
+			defaultHierarchy: LocalDateTable_27164dea-5641-48ab-a8ac-3d08edb8b44e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ngày kết thúc'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a3c4e1d4-defe-4b66-8205-11daa3d0cfb8
+		summarizeBy: none
+		sourceColumn: Ngày kết thúc
+
+		variation Variation
+			isDefault
+			relationship: 57d1d601-6196-44ca-a9f2-b0fe5b245eba
+			defaultHierarchy: LocalDateTable_73a5e9b5-3785-477c-b9d1-2558cf62e005.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Target
+		dataType: double
+		lineageTag: 350f9ac7-8818-4760-9cc8-bf72727beab2
+		summarizeBy: sum
+		sourceColumn: Target
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Năm
+		dataType: double
+		lineageTag: c4bed280-abca-4249-a5c9-d4f1eeeaf3e6
+		summarizeBy: sum
+		sourceColumn: Năm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Tháng
+		dataType: double
+		lineageTag: 9629977f-d4e6-4b59-8999-69d0dc4f3034
+		summarizeBy: sum
+		sourceColumn: Tháng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Ngày trong tháng'
+		dataType: string
+		lineageTag: c3606017-8669-48bd-933e-b7de55c90b1c
+		summarizeBy: none
+		sourceColumn: Ngày trong tháng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngày
+		dataType: double
+		lineageTag: 1369f48e-506c-4e02-9b15-1daac53e02ed
+		summarizeBy: sum
+		sourceColumn: Ngày
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsTargetDate
+		dataType: double
+		lineageTag: aa0f9881-334f-45c0-8aac-d7bde9d26d1c
+		summarizeBy: sum
+		sourceColumn: IsTargetDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 19d56efb-4f9a-4a39-8f60-5773849bd257
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Mã kho'
+		dataType: string
+		lineageTag: 9695093a-eb2c-4bfb-a51a-a5910b91a596
+		summarizeBy: none
+		sourceColumn: Mã kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Báo cáo'
+		dataType: string
+		lineageTag: 9065c86e-3988-4ab0-8e72-9a1b1ed11227
+		summarizeBy: none
+		sourceColumn: Báo cáo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: 64cffb6c-55b4-4cd7-95c7-a20a59dd0f2a
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tiêu chí'
+		dataType: string
+		lineageTag: 969f440a-e753-46a9-a027-055c9aeaed4b
+		summarizeBy: none
+		sourceColumn: Tiêu chí
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mức thưởng'
+		dataType: string
+		lineageTag: 2b3ab988-103f-4b3f-9b84-54de42e1b2d5
+		summarizeBy: none
+		sourceColumn: Mức thưởng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column8
+		dataType: string
+		lineageTag: 11db98ba-6a88-41c7-bace-717a9e05bf0d
+		summarizeBy: none
+		sourceColumn: Column8
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column9
+		dataType: string
+		lineageTag: 89a15c18-e93a-46b8-8cfe-3689b93c4fbc
+		summarizeBy: none
+		sourceColumn: Column9
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column10
+		dataType: string
+		lineageTag: 5c55b156-42af-47bf-9a87-b01b41a62a2a
+		summarizeBy: none
+		sourceColumn: Column10
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column11
+		dataType: string
+		lineageTag: 65e7bf83-8922-43ed-9433-4413cfdb6a03
+		summarizeBy: none
+		sourceColumn: Column11
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column12
+		dataType: string
+		lineageTag: 8324c92f-4e9b-40d4-948e-cb5ff42b434c
+		summarizeBy: none
+		sourceColumn: Column12
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column13
+		dataType: string
+		lineageTag: 4c59e985-b0f5-451c-959e-8ae9ecd7a24d
+		summarizeBy: none
+		sourceColumn: Column13
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column14
+		dataType: string
+		lineageTag: 3fbe2530-71a9-4121-802b-291c7aa41a95
+		summarizeBy: none
+		sourceColumn: Column14
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column15
+		dataType: string
+		lineageTag: 79e27706-d703-4320-960d-0c902e528aaa
+		summarizeBy: none
+		sourceColumn: Column15
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column16
+		dataType: string
+		lineageTag: 45956ef1-ce9a-493c-bb4d-6796722807a7
+		summarizeBy: none
+		sourceColumn: Column16
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column17
+		dataType: string
+		lineageTag: 0b0e9081-d9c5-4017-9e2f-fb383b050116
+		summarizeBy: none
+		sourceColumn: Column17
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column18
+		dataType: string
+		lineageTag: a269fb38-a3d2-4ba6-becc-5cfa755f4e6f
+		summarizeBy: none
+		sourceColumn: Column18
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column19
+		dataType: string
+		lineageTag: 77194e71-1fac-4373-a1eb-71e13e3b81f4
+		summarizeBy: none
+		sourceColumn: Column19
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column20
+		dataType: string
+		lineageTag: c11ceff1-370a-402d-b8a3-5525f2108392
+		summarizeBy: none
+		sourceColumn: Column20
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column21
+		dataType: string
+		lineageTag: 1c089224-7879-4648-b865-a2f2e6ba5b7e
+		summarizeBy: none
+		sourceColumn: Column21
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column22
+		dataType: string
+		lineageTag: 5fb73399-94e3-4280-9c44-5204b9cd7fd7
+		summarizeBy: none
+		sourceColumn: Column22
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column23
+		dataType: string
+		lineageTag: e8bdade3-9a7f-4d40-b519-e8eeab6edfa0
+		summarizeBy: none
+		sourceColumn: Column23
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column24
+		dataType: string
+		lineageTag: 904684a5-3008-4552-9904-93e6a764a9d3
+		summarizeBy: none
+		sourceColumn: Column24
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column25
+		dataType: string
+		lineageTag: d65a7f08-a624-4c9d-aed8-8fdf79f03f84
+		summarizeBy: none
+		sourceColumn: Column25
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column26
+		dataType: string
+		lineageTag: 62a2cf3e-43ce-4eb6-88c7-c4159285a0ff
+		summarizeBy: none
+		sourceColumn: Column26
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_Target = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTA7nc01TSbED-PsVXqrupk9MvtxCEDnt_NPRfYrr_0Kz0ltAXpMRr-hYmc7F1UaugPp-kKsF_wad_e/pub?output=xlsx"), null, true),
+				    Target_Sheet = Source{[Item="Target_CS",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Target_Sheet, [PromoteAllScalars=true]),
+				    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each ([Báo cáo] = "TAI_APP")),
+				    #"Added Custom" = Table.AddColumn(#"Filtered Rows", "Năm", each Date.Year([Ngày bắt đầu]), type number),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"Ngày bắt đầu", type date}, {"Ngày kết thúc", type date}}),
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type1", "Tháng", each Date.Month([Ngày bắt đầu]), type number),
+				    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "Ngày trong tháng", each Date.Day([Ngày kết thúc])),
+				    #"Filtered Rows1" = Table.SelectRows(#"Added Custom2", each ([Năm] >= 2024)),
+				    #"Added Custom4" = Table.AddColumn(#"Filtered Rows1", "Custom", each #"DIM_Date"),
+				    #"Expanded Custom" = Table.ExpandTableColumn(#"Added Custom4", "Custom", {"Ngày"}, {"Ngày"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Custom",{{"Ngày", type number}}),
+				    #"Added Custom6" = Table.AddColumn(#"Changed Type", "Date", each #date([Năm],[Tháng],[Ngày]), type date),
+				    #"Added Custom5" = Table.AddColumn(#"Added Custom6", "IsTargetDate", each if [Ngày] > [Ngày trong tháng] then null else if [Date] < [Ngày bắt đầu] then null else 1, type number),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Custom5", each ([IsTargetDate] = 1)),
+				    #"Removed Duplicates" = Table.Distinct(#"Filtered Rows2"),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Duplicates", {"Miền"}, DIM_BQ_Shop, {"Tỉnh"}, "DIM_BQ_Shop", JoinKind.LeftOuter),
+				    #"Expanded DIM_BQ_Shop" = Table.ExpandTableColumn(#"Merged Queries", "DIM_BQ_Shop", {"Mã kho"}, {"Mã kho"}),
+				    #"Sorted Rows" = Table.Sort(#"Expanded DIM_BQ_Shop",{{"Ngày bắt đầu", Order.Descending}})
+				in
+				    #"Sorted Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
