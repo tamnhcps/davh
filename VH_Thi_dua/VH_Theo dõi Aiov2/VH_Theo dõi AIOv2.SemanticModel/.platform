@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "VH_Theo dõi AIOv2"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3f3cf1f8-0fd8-4c6e-be7b-9ec1f7bb87bd"
+  }
+}

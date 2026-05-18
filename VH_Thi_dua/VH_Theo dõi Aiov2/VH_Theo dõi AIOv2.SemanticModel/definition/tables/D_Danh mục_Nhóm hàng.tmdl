@@ -1,0 +1,159 @@
+table 'D_Danh mục_Nhóm hàng'
+	lineageTag: 939e3645-e132-45ae-80eb-f5bc2f97e5f2
+
+	column 'Nhóm hàng'
+		dataType: string
+		lineageTag: 71a6d3b1-c285-4fd3-ace6-9c9ae16df629
+		summarizeBy: none
+		sourceColumn: Nhóm hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm hàng cấp 1'
+		dataType: string
+		lineageTag: 7e54d599-de10-48c6-a501-38107442ba1c
+		summarizeBy: none
+		sourceColumn: Nhóm hàng cấp 1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm hàng cấp 2'
+		dataType: string
+		lineageTag: d43515ac-dd93-44a4-84c0-8b1ebde4c3e0
+		summarizeBy: none
+		sourceColumn: Nhóm hàng cấp 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngành hàng'
+		dataType: string
+		lineageTag: be6e3249-33af-447e-88b8-b6dfb94742f7
+		summarizeBy: none
+		sourceColumn: Ngành hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thuộc tính'
+		dataType: string
+		lineageTag: d708f6cd-626e-4078-a39e-f0212d4fae49
+		summarizeBy: none
+		sourceColumn: Thuộc tính
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c04c236-bd0b-4a68-b1fb-7db1e8527319
+		summarizeBy: none
+		sourceColumn: Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level1
+		dataType: string
+		lineageTag: 2763c33a-e32b-4ac8-8d32-4595f81c82c2
+		summarizeBy: none
+		sourceColumn: Level1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level2
+		dataType: string
+		lineageTag: 7b2421b8-db3e-4510-8438-f1d7c8c98127
+		summarizeBy: none
+		sourceColumn: Level2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level3
+		dataType: string
+		lineageTag: 15710bd7-cf25-4e91-8ab1-2101855276b3
+		summarizeBy: none
+		sourceColumn: Level3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level4
+		dataType: string
+		lineageTag: ddd1137d-46a5-43f9-aed1-da0851997271
+		summarizeBy: none
+		sourceColumn: Level4
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bán kèm'
+		dataType: int64
+		formatString: 0
+		lineageTag: f7c7dc71-cf03-4f09-ab8c-0707e298b40b
+		summarizeBy: none
+		sourceColumn: Bán kèm
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubBrand
+		dataType: string
+		lineageTag: 8ac156fb-f9ed-40a3-8d33-925187c194d7
+		summarizeBy: none
+		sourceColumn: SubBrand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 2c4ebdb6-c9b6-4a63-a6c1-d4794549663c
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thi đua S-Star'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5603b9d9-cc8f-45db-afd4-2520a2eaa935
+		summarizeBy: none
+		sourceColumn: Thi đua S-Star
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm S-Star'
+		dataType: string
+		lineageTag: 71deff67-fc79-4b22-b63a-3a187233285b
+		summarizeBy: none
+		sourceColumn: Nhóm S-Star
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hệ số thi đua phụ kiện'
+		dataType: double
+		lineageTag: 72b8863a-56d9-4d34-be0c-e10287d2609e
+		summarizeBy: none
+		sourceColumn: Hệ số thi đua phụ kiện
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Nhóm S-Star_Index'
+		dataType: int64
+		formatString: 0
+		lineageTag: dc8d72a7-82b4-403b-aa5c-cea88cc151bb
+		summarizeBy: none
+		sourceColumn: Nhóm S-Star_Index
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D_Danh mục_Nhóm hàng' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=8cc95609-f041-4368-a7a2-25617b22271a""#(lf)Select #(lf)nhom_hang#(tab)`Nhóm hàng`,#(tab)#(tab)#(lf)nhom_hang_cap_1 `Nhóm hàng cấp 1`,#(tab)#(tab)#(tab)#(lf)case when nhom_hang in ('TIVI', 'Máy Ảnh') then 'ĐIỆN MÁY' else nhom_hang_cap_2 end as#(tab)`Nhóm hàng cấp 2`,#(tab)#(tab)#(lf)case when nhom_hang in ('DỊCH VỤ','Nhóm hàng Voucher','VC SAMSUNG','SAMSUNG BH') then 'DỊCH VỤ'#(lf)when nhom_hang in ('CÔNG CỤ DỤNG CỤ','HÀNG HÓA','Đồng phục - kho HC') then 'HÀNG HÓA'#(lf)when nhom_hang = 'CHUA SỬ DỤNG' then 'HÀNG HÓA ĐƠN'#(lf)when nhom_hang in ('LAPTOP CŨ','LAPTOP CTM','SURFACE CTM','LAPTOP BH','PC_SSD') then 'LAPTOP'#(lf)when nhom_hang in ('LINH KIỆN','PC_CASE','PC_CPU','PC_KHÁC','PC_MAIN','PC_NGUỒN','PC_Ổ CỨNG','PC_RAM','PC_TẢN NHIỆT','PC_VGA','PC_VỎ') then 'LINH KIỆN'#(lf)when nhom_hang in ('PHỤ KIỆN','PHỤ KIỆN SALE','PK - XẢ TỒN','PKDEMO') then 'PHỤ KIỆN'#(lf)when nhom_hang in ('APPLE WATCH CTM','APPLE WATCH CŨ','APPLE WATCH BH') then 'SMARTWATCH'#(lf)else nganh_hang end as `Ngành hàng`,#(tab)#(tab)#(tab)#(lf)thuoc_tinh `Thuộc tính`,#(tab)#(tab)#(tab)#(lf)level Level,#(tab)#(tab)#(tab)#(lf)level1 Level1,#(tab)#(tab)#(tab)#(lf)case when nhom_hang in ('TIVI', 'Máy Ảnh') then 'ĐIỆN MÁY' else level2 end as Level2,#(tab)#(tab)#(tab)#(lf)Level3 Level3,#(tab)#(tab)#(tab)#(lf)Level4 Level4,#(tab)#(tab)#(tab)#(lf)ban_kem#(tab)`Bán kèm`,#(tab)#(tab)#(lf)sub_brand SubBrand,#(lf)brand#(tab)Brand,#(tab)#(tab)#(lf)thi_dua_s_star `Thi đua S-Star`,#(tab)#(tab)#(tab)#(lf)nhom_s_star#(tab)`Nhóm S-Star`,#(tab)#(tab)#(lf)he_so_thi_dua_phu_kien `Hệ số thi đua phụ kiện`,#(tab)#(tab)#(tab)#(lf)nhom_s_star_index `Nhóm S-Star_Index`#(tab)#(tab)#(tab)#(lf)from `cellphones-data-platform.cps_DA_General_Transform.dim_product_group`#(lf)where not nhom_hang in ('DỊCH VỤ LAPTOP','KIỂM TRA NHÓM HÀNG  - ACITON SỬA','PHỤ KIỆN MACBOOK','DÁN MÀN HÌNH','DỊCH VỤ TIVI','LINH KIỆN LAPTOP','LAPTOP_MÀN HÌNH','LAPTOP_PIN LINH KIỆN','LAPTOP_BÀN PHÍM','LAPTOP_MAIN','LAPTOP_RAM','LAPTOP_Ổ CỨNG','LAPTOP_KHÁC','LAPTOP_LOA','LAPTOP_VỎ MÁY','DÁN VA ĐẬP','DÁN VA ĐẬP CAO CẤP','erp test nhóm hàng','IPHONECTM','LAPTOP_PIN CHÍNH HÃNG','MÀN HÌNH ANDROID','MÀN HÌNH APPLE','ỐP BAO DA', 'HÀNG BẢO HÀNH', 'ĐIỆN TỬ', 'CŨ', 'DTH CŨ', 'CTM')", null, [EnableFolding=true]),
+				    #"Uppercased Text" = Table.TransformColumns(Source,{{"Nhóm hàng", Text.Upper, type text}})
+				in
+				    #"Uppercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

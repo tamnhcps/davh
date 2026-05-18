@@ -1,0 +1,48 @@
+table Parameter
+	lineageTag: bfb91105-7416-4883-a431-2e89b9f7a223
+
+	column Parameter
+		lineageTag: ff0f3ae3-047b-427c-b877-91daaa7a0328
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: d4db5184-8efe-46e9-98ff-acd7c024dde9
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 21dc503c-9410-4707-8129-5c40b6e35ae7
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter = calculated
+		mode: import
+		source =
+				{
+				    ("Thời gian trung bình", NAMEOF('0. Measure'[Avg_CompletionTime_]), 0),
+				    ("Tỷ Trọng SP AioV2", NAMEOF('0. Measure'[TyTrong SP_AioV2]), 1)
+				}
+
+	annotation PBI_Id = ea35ba44658e48c1a84d0471b5a353d2
+

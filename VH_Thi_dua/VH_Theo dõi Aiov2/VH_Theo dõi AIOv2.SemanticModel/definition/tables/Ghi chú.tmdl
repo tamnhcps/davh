@@ -1,0 +1,46 @@
+table 'Ghi chú'
+	lineageTag: d638fb38-8f47-4c15-bbb6-29e733ada90d
+
+	column 'Diễn giải'
+		dataType: string
+		lineageTag: 0371c1de-97cd-4357-bddd-f5b5e3f070d8
+		summarizeBy: none
+		sourceColumn: Diễn giải
+
+		annotation SummarizationSetBy = Automatic
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: b125c141-eba8-44bf-9ddf-925d3e42d428
+		summarizeBy: sum
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kí hiệu'
+		dataType: string
+		lineageTag: 278663f1-9c42-446e-aebc-d943e3923997
+		summarizeBy: none
+		sourceColumn: Kí hiệu
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ghi chú' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				  Source = Excel.Workbook(Web.Contents(#"Table"), null, true),
+				    XLDH_New_Sheet = Source{[Item="NOTE_BC AIOv2",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(XLDH_New_Sheet,{{"Column1", type text}, {"Column2", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"STT", Int64.Type}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type1","Số phiếu tạo trên desktop có HTTT hỗ trợ được trên AIO v2","Số phiếu tạo trên desktop có HTTT hỗ trợ được trên AIO v2 (Nếu Số phiếu có từ 2 HTTT trờ lên trong đó ít nhất 1 HTTT mà AIO v2 không hỗ trợ được thì sẻ không đếm vào Desktop hỗ trợ HTTT AIO v2)",Replacer.ReplaceText,{"Diễn giải"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

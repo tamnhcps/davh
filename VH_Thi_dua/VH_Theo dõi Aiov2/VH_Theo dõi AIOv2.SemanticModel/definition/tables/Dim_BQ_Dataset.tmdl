@@ -1,0 +1,113 @@
+table Dim_BQ_Dataset
+	lineageTag: 683fd89d-a425-4a18-8b9c-d38bfc54f827
+
+	column 'Id dataset'
+		dataType: string
+		lineageTag: c20946b0-bb49-4445-87e4-36da56d5eee8
+		summarizeBy: none
+		sourceColumn: Id dataset
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên dataset'
+		dataType: string
+		lineageTag: ecd1bdcf-7b7a-4641-9aa5-174ce7756d02
+		summarizeBy: none
+		sourceColumn: Tên dataset
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mô tả'
+		dataType: string
+		lineageTag: 733622d2-1d1c-4fd4-8378-5caa9a01b022
+		summarizeBy: none
+		sourceColumn: Mô tả
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bật cập nhật'
+		dataType: string
+		lineageTag: 0813e426-3e9a-49cd-b8b3-420384ec4695
+		summarizeBy: none
+		sourceColumn: Bật cập nhật
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian cập nhật'
+		dataType: string
+		lineageTag: 9d9cc15f-c13d-4088-8d55-2243b6558043
+		summarizeBy: none
+		sourceColumn: Thời gian cập nhật
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tần suất cập nhật'
+		dataType: string
+		lineageTag: d4e98e13-34ff-4b4c-a6ca-49643b946c9a
+		summarizeBy: none
+		sourceColumn: Tần suất cập nhật
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên chỉ số'
+		dataType: string
+		lineageTag: b799f446-e9e4-4803-8553-645124d9c093
+		summarizeBy: none
+		sourceColumn: Tên chỉ số
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mô tả chỉ số'
+		dataType: string
+		lineageTag: c4533e78-f290-4a3b-bff8-4f82f14adaa6
+		summarizeBy: none
+		sourceColumn: Mô tả chỉ số
+
+		annotation SummarizationSetBy = Automatic
+
+	column DAX
+		dataType: string
+		lineageTag: ba95d9c4-d700-4558-8094-63cddd584439
+		summarizeBy: none
+		sourceColumn: DAX
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hiển thị'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e4223aae-d823-4f48-8aee-201821cf547d
+		summarizeBy: none
+		sourceColumn: Hiển thị
+
+		annotation SummarizationSetBy = Automatic
+
+	column measureGroupName
+		dataType: string
+		lineageTag: 9ee4f09b-2db3-4dfb-ba23-da674554cea2
+		summarizeBy: none
+		sourceColumn: measureGroupName
+
+		annotation SummarizationSetBy = Automatic
+
+	column cubeName
+		dataType: string
+		lineageTag: fe937bf1-ace5-413f-9465-5e68059100c7
+		summarizeBy: none
+		sourceColumn: cubeName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_BQ_Dataset = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=9a5347f2-fcf5-467a-9b55-a7d142ac9534”#(lf)#(lf)select#(lf)  dts.Id as `Id dataset`,#(lf)  dts.name as `Tên dataset`,#(lf)  dts.description as `Mô tả`,#(lf)  if( enabled = true, 'Yes', 'No' ) as `Bật cập nhật`,#(lf)  string_agg(distinct(json_times), ', ') as `Thời gian cập nhật`,#(lf)  case#(lf)    when count(distinct(json_days)) = 7 then 'Everyday'#(lf)    else string_agg(distinct(json_days), ', ')#(lf)  end as `Tần suất cập nhật`,#(lf)  m.measureCaption as `Tên chỉ số`,#(lf)  m.description as `Mô tả chỉ số`,#(lf)  m.expression as `DAX`,#(lf)  m.measureIsVisible as `Hiển thị`,#(lf)  m.measureGroupName,#(lf)  m.cubeName#(lf)from#(lf)  `cellphones-data-platform.cps_powerbi_metadata_dwh.datasets` dts#(lf)  left join `cellphones-data-platform.cps_powerbi_metadata_dwh.measure_information` m#(lf)    on dts.id = m.datasetId#(lf)  left join `cellphones-data-platform.cps_powerbi_metadata_dwh.refresh_schedule` rs#(lf)    on dts.id = rs.datasetId#(lf)  ,unnest(times) as `json_times`#(lf)  ,unnest(days) as `json_days`#(lf)where#(lf)  dts.id = 'aebc6190-e841-431d-81c2-4c0094c42fb9'#(lf)--Để tạm, sau khi publish đổi ID của báo cáo#(lf)group by#(lf)  1,2,3,4,7,8,9,10,11,12", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

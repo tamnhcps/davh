@@ -1,0 +1,44 @@
+table 'D_Danh mục_QLNH'
+	lineageTag: 746f5886-221b-40c4-a1fe-27501a0982f5
+
+	column QLNH
+		dataType: string
+		lineageTag: dc84b255-fd19-416e-b2b7-e29540cb64ce
+		summarizeBy: none
+		sourceColumn: QLNH
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày bắt đầu'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 160ef6b6-9333-4978-9f81-657c377f199f
+		summarizeBy: none
+		sourceColumn: Ngày bắt đầu
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_inactive
+		dataType: int64
+		formatString: 0
+		lineageTag: 2becaba5-ae33-4996-a87a-ec0e2fd06e92
+		summarizeBy: sum
+		sourceColumn: is_inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D_Danh mục_QLNH' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)Select #(lf)qlnh as `QLNH`#(lf),min(start) as `Ngày bắt đầu`#(lf),is_inactive#(lf)from cellphones-data-platform.cps_DA_General_Transform.qlnh_kpi#(lf)where is_inactive=0#(lf)group by qlnh,is_inactive", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

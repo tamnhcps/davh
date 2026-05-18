@@ -1,0 +1,48 @@
+table Parameter_HTTT
+	lineageTag: bbc60ac4-574e-4e1a-afc8-4b40bcc2d6e8
+
+	column Parameter_HTTT
+		lineageTag: 602a74e9-2273-490d-a2be-1c2f01756427
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_HTTT Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_HTTT Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_HTTT Fields'
+		isHidden
+		lineageTag: 2192fb38-4c0d-4bd5-a152-e9f3bb83d5db
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_HTTT Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_HTTT Order'
+		isHidden
+		formatString: 0
+		lineageTag: b4c227fa-02da-440c-8193-0e7a7e3cbad5
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_HTTT = calculated
+		mode: import
+		source =
+				{
+				    ("HTTT", NAMEOF('F_StoreBills'[PaymentType]), 0),
+				    ("Chi tiết HTTT", NAMEOF('F_StoreBills'[PaymentName]), 1)
+				}
+
+	annotation PBI_Id = bec7bf46c635448fa0cde91872548768
+

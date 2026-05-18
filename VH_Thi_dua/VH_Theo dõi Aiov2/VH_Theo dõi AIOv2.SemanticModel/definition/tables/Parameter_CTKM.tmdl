@@ -1,0 +1,49 @@
+table Parameter_CTKM
+	lineageTag: bba4440a-8ad6-4097-8265-b6d395afd93a
+
+	column Parameter_DH_CXL
+		lineageTag: d3409b82-02e7-4d1c-92b3-4c72b04e0ad1
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_DH_CXL Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_DH_CXL Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_DH_CXL Fields'
+		isHidden
+		lineageTag: 3034e7d6-4773-444a-97ec-de046741672c
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_DH_CXL Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_DH_CXL Order'
+		isHidden
+		formatString: 0
+		lineageTag: 3e8b5e07-d70d-4b85-b5c9-ca50cc169a75
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_CTKM = calculated
+		mode: import
+		source =
+				{
+				    ("Dùng CTKM Combo", NAMEOF([TyTrong combo CTKM]), 0),
+				    ("Chọn CTKM thủ công", NAMEOF([TyTrong có CTKM]), 1),
+				    ("Không có CTKM", NAMEOF([TyTrong không CTKM]), 2)
+				}
+
+	annotation PBI_Id = 6de29a27b4e4433d96843a00865c2504
+

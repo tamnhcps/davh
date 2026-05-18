@@ -1,0 +1,48 @@
+role 'Vận hành_AM'
+	modelPermission: read
+
+	tablePermission 'D_Danh mục_Ngày' = 'D_Danh mục_Ngày'[Date]>=LOOKUPVALUE('D_Phân quyền_User'[Startdate],'D_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission 'DIM_Phân quyền_Vận hành' = ```
+			VAR zName = 
+			    LOOKUPVALUE(
+			        'D_Phân quyền_User'[Tên],
+			        'D_Phân quyền_User'[Mail], 
+			        USERPRINCIPALNAME()
+			    )
+			
+			VAR zTable_AddColumns = 
+			    ADDCOLUMNS(
+			        'DIM_Phân quyền_Vận hành',
+			        "zPath",
+			        LOOKUPVALUE(
+			            'D_Phân quyền_User'[Path],
+			            'D_Phân quyền_User'[Tên], 
+			            'DIM_Phân quyền_Vận hành'[Leader]
+			        )
+			    )
+			
+			VAR zFilteredTable = 
+			    FILTER(
+			        zTable_AddColumns,
+			        PATHCONTAINS([zPath], zName)
+			    )
+			
+			VAR zDistinctStores = 
+			    DISTINCT(
+			        SELECTCOLUMNS(
+			            zFilteredTable,
+			            "Cửa hàng", 'DIM_Phân quyền_Vận hành'[Cửa hàng]
+			        )
+			    )
+			
+			RETURN
+			IF(
+			    LOOKUPVALUE('D_Phân quyền_User'[Title], 'D_Phân quyền_User'[Mail], USERPRINCIPALNAME()) = "AM",
+			    [Cửa hàng] IN zDistinctStores,
+			    TRUE
+			)
+			```
+
+	annotation PBI_Id = 9cc06f1a6627490e8f06c026465659b9
+

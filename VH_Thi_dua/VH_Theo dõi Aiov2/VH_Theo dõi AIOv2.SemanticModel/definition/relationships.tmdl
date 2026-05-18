@@ -1,0 +1,41 @@
+relationship AutoDetected_8792417b-ec6a-4678-8911-725cd3aed05c
+	fromColumn: 'D_Danh mục_Sản phẩm'.'Nhóm hàng'
+	toColumn: 'D_Danh mục_Nhóm hàng'.'Nhóm hàng'
+
+relationship AutoDetected_1dc61eb5-aae5-4da8-a87a-46aef2ff7f43
+	fromColumn: 'D_Danh mục_Phòng ban'.Miền
+	toColumn: 'D_Danh mục_Miền'.Miền
+
+relationship 246d296e-5ff0-a227-358d-3113f8eee485
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'D_Danh mục_Kho'.'Cửa hàng'
+	toColumn: 'D_Danh mục_Phòng ban'.'Cửa hàng'
+
+relationship AutoDetected_c376dd2d-68f7-4721-8a77-6ce230f3fbf8
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'D_Phân quyền_Vận hành_Vùng'.Miền
+	toColumn: 'D_Danh mục_Miền'.Miền
+
+relationship AutoDetected_da756dce-1826-4499-9aa3-5a273ba0d0df
+	fromColumn: 'D_Danh Mục_QLNH_Quá trình làm việc'.Miền
+	toColumn: 'D_Danh mục_Miền'.Miền
+
+relationship 052664b2-6038-be32-14c3-201aa50cb861
+	fromColumn: F_StoreBills.Date
+	toColumn: 'D_Danh mục_Ngày'.Date
+
+relationship 5b28e340-9365-95b3-7ce4-824bd407ddd1
+	fromColumn: F_StoreBills.OrderSource
+	toColumn: 'D_Danh mục_Nguồn đơn hàng'.OrderSource
+
+relationship d3cc6910-9f7f-e45c-0666-edd3f437ac70
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	fromColumn: 'DIM_Phân quyền_Vận hành'.'Cửa hàng'
+	toColumn: 'D_Danh mục_Phòng ban'.'Cửa hàng'
+
+relationship 0b55cb07-a37c-3b80-908c-56d50050732b
+	fromColumn: F_StoreBills.BranchName
+	toColumn: 'D_Danh mục_Phòng ban'.'Cửa hàng'
+

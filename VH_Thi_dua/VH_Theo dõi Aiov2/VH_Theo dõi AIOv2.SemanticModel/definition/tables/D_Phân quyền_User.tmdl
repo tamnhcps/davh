@@ -1,0 +1,95 @@
+table 'D_Phân quyền_User'
+	lineageTag: a6b3d9b8-a15a-413c-9cca-460af76ecccc
+
+	column Tên
+		dataType: string
+		lineageTag: 161667ed-d884-4e1b-b540-6408a6b98a3e
+		summarizeBy: none
+		sourceColumn: Tên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mail
+		dataType: string
+		lineageTag: 09beebf3-9d3c-4631-a70a-037746df4d72
+		summarizeBy: none
+		sourceColumn: Mail
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 76ae7118-40eb-4e1a-85fa-50fbe08a2e3b
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Workspace
+		dataType: string
+		lineageTag: 0bc61d5e-976e-486a-a1d9-c20eed4dfeeb
+		summarizeBy: none
+		sourceColumn: Workspace
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khu vực'
+		dataType: string
+		lineageTag: 1a91cc51-ec6c-419d-845b-767b6c70e0d0
+		summarizeBy: none
+		sourceColumn: Khu vực
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		dataType: string
+		lineageTag: 932d802a-3776-40e2-9a6b-95b452dfddd5
+		summarizeBy: none
+		sourceColumn: Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader
+		dataType: string
+		lineageTag: 8870a9c3-de54-4c69-a06d-c5fdd924b883
+		summarizeBy: none
+		sourceColumn: Leader
+
+		annotation SummarizationSetBy = Automatic
+
+	column Startdate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fde57598-1301-415e-b119-0f60b6cef116
+		summarizeBy: none
+		sourceColumn: Startdate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Path =
+			
+			PATH (
+			    'D_Phân quyền_User'[Tên],
+			    'D_Phân quyền_User'[Leader]
+			)
+		lineageTag: 9e1d8375-6d8c-42e8-ab9a-2810a8b2d7b6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D_Phân quyền_User' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)SELECT #(lf)    ten AS `Tên`,#(lf)    mail AS Mail,#(lf)    CASE #(lf)        WHEN title = 'QLNH - 6M' THEN 'QLNH'#(lf)        ELSE title#(lf)    END AS `Title`, #(lf)    workspace AS `Workspace`,#(lf)    khu_vuc AS `Khu vực`,#(lf)    `group` `Group`,#(lf)    leader AS `Leader`,#(lf)    so_thang AS `Startdate`#(lf)FROM #(lf)    `cellphones-data-platform.cps_DA_General_Transform.phan_quyen_bi_user`", null, [EnableFolding=true]),
+				    #"Removed Duplicates" = Table.Distinct(Source)
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
