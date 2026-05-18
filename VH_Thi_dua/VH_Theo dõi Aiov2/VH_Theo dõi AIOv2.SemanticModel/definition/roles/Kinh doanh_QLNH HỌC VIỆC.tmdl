@@ -1,0 +1,35 @@
+role 'Kinh doanh_QLNH HỌC VIỆC'
+	modelPermission: read
+
+	tablePermission 'D_Danh mục_Ngày' = 'D_Danh mục_Ngày'[Date]>=LOOKUPVALUE('D_Phân quyền_User'[Startdate],'D_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission 'D_Phân Quyền_Kinh doanh' = ```
+			var zName = 
+			    lookupvalue( 
+			        'D_Phân quyền_User'[Tên]
+			        ,'D_Phân quyền_User'[Mail], userprincipalname()
+			    )
+			var zTable_AddColumns =
+			    addcolumns(
+			        'D_Phân Quyền_Kinh doanh'
+			        ,"zPath"
+			        ,lookupvalue(
+			            'D_Phân quyền_User'[Path]
+			            ,'D_Phân quyền_User'[Tên], 'D_Phân Quyền_Kinh doanh'[QLNH HỌC VIỆC]
+			        )
+			    )
+			
+			return
+			    [Phân quyền_Kinh doanh]
+			    in
+			    summarize(
+			        filter(
+			            zTable_AddColumns
+			            ,pathcontains([zPath],zName)
+			        )
+			        ,'D_Phân Quyền_Kinh doanh'[Phân quyền_Kinh doanh]
+			    )
+			```
+
+	annotation PBI_Id = cc046de90f1644fabac3919269ad101f
+

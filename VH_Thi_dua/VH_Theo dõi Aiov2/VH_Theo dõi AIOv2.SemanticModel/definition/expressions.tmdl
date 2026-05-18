@@ -1,0 +1,143 @@
+expression fxCalendar = ```
+		let
+		  fnDateTable = (StartDate as date, EndDate as date, optional FYStartMonthNum as number, optional Holidays as list, optional WDStartNum as number ) as table =>
+		  let
+		    FYStartMonth = if List.Contains( {1..12}, FYStartMonthNum ) then FYStartMonthNum else 1,
+		    StartOfWeekDayName = Text.Proper( Text.Start( Date.DayOfWeekName( #date(2021, 2,1) ), 3)),
+		    WDStart = if List.Contains( {0, 1}, WDStartNum ) then WDStartNum else 0,
+		    CurrentDate = Date.From(DateTime.FixedLocalNow()),
+		    DayCount = Duration.Days(Duration.From(EndDate - StartDate))+1,
+		    Source = List.Dates(StartDate,DayCount,#duration(1,0,0,0)),
+		    AddToday = if EndDate < CurrentDate then List.Combine( {Source, {CurrentDate}}) else Source,
+		    TableFromList = Table.FromList(AddToday, Splitter.SplitByNothing()),
+		    ChangedType = Table.TransformColumnTypes(TableFromList,{{"Column1", type date}}),
+		    RenamedColumns = Table.RenameColumns(ChangedType,{{"Column1", "Date"}}),
+		    InsertDateKey = Table.AddColumn(RenamedColumns, "DateKey", each Date.Year([Date]) * 10000 + Date.Month([Date]) * 100 + Date.Day([Date]), type number),
+		    InsertYear = Table.AddColumn(InsertDateKey, "Năm", each Date.Year([Date]), Int64.Type),
+		    InsertQuarter = Table.AddColumn(InsertYear, "Quý", each Date.QuarterOfYear([Date]), Int64.Type),
+		    InsertYearQuarter = Table.AddColumn(InsertQuarter, "Năm/Quý", each Number.ToText([Năm])&"/Q" & Number.ToText([Quý]), type text),
+		    InsertYearQuarterIndex = Table.AddColumn(InsertYearQuarter,"Năm/Quý_Index",each -100*Date.Year([Date])-Number.RoundUp(Date.Month([Date])/3,0), type number),
+		    InsertMonth = Table.AddColumn(InsertYearQuarterIndex, "Tháng", each Date.Month([Date]), Int64.Type),
+		    InsertYearMonth = Table.AddColumn(InsertMonth, "Năm/Tháng", each Number.ToText([Năm])&"/"&(if [Tháng]<10 then "0"& Number.ToText([Tháng]) else Number.ToText([Tháng])), type text),
+		    InsertYearMonthIndex = Table.AddColumn(InsertYearMonth,"Năm/Tháng_Index", each -100*Date.Year([Date]) - Date.Month([Date]), type number),
+		    InsertMonthEnding = Table.AddColumn(InsertYearMonthIndex, "Cuối tháng", each Date.EndOfMonth([Date]), type date),
+		    InsertMonthStarting = Table.AddColumn(InsertMonthEnding, "Đầu tháng", each Date.StartOfMonth([Date]), type date),
+		    InsertYearMonthWeek = Table.AddColumn(InsertMonthStarting,"Năm/Tháng/Tuần", each Number.ToText([Năm])&"/" & (if [Tháng]<10 then "0"& Number.ToText([Tháng]) else Number.ToText([Tháng])) &"/" & (if Date.Day([Date])<8 then "W1" else if Date.Day([Date])<15 then "W2" else if Date.Day([Date])<22 then "W3" else if Date.Day([Date])<29 then "W4" else "W5"), type text),
+		    InsertYearMonthWeekIndex = Table.AddColumn(InsertYearMonthWeek,"Năm/Tháng/Tuần_Index", each -100*Date.Year([Date]) - Date.Month([Date]) - (if Date.Day([Date])<8 then 0.1 else if Date.Day([Date])<15 then 0.2 else if Date.Day([Date])<22 then 0.3 else if Date.Day([Date])<29 then 0.4 else 0.5), type number),
+		    InsertWeek = Table.AddColumn(InsertYearMonthWeekIndex,"Tuần", each fxGetISO8601Week([Date]), Int64.Type), // Date.WeekOfYear([Date],Day.Monday)
+		    InsertYearWeek = Table.AddColumn(InsertWeek, "Năm/Tuần", each Number.ToText(Date.Year( Date.AddDays( [Date], 26 - [Tuần] ) ))&"/"&(if [Tuần]<10 then "0"& Number.ToText([Tuần]) else Number.ToText([Tuần])), type text),
+		    InsertYearWeekIndex = Table.AddColumn(InsertYearWeek,"Năm/Tuần_Index", each -100*Date.Year( Date.AddDays( [Date], 26 - [Tuần] ) ) - [Tuần], type number),
+		    InsertWeekdayIndexRAW = Table.AddColumn(InsertYearWeekIndex, "Thứ_Index_RAW", each Date.DayOfWeek([Date]) + WDStart+1, Int64.Type),
+		    InsertWeekday = Table.AddColumn(InsertWeekdayIndexRAW, "Thứ", each if [Thứ_Index_RAW]=1 then "Chủ Nhật" else "Thứ "& Number.ToText([Thứ_Index_RAW]), type text),
+		    InsertWeekdayIndex = Table.AddColumn(InsertWeekday, "Thứ_Index", each if [Thứ_Index_RAW]=1 then 8 else [Thứ_Index_RAW], Int64.Type),
+		    InsertWeekend = Table.AddColumn(InsertWeekdayIndex, "Cuối tuần", each if [Thứ_Index]<=6 then "Trong tuần" else "Cuối tuần", type text),
+		    InsertDay = Table.AddColumn(InsertWeekend, "Ngày", each Date.Day([Date]), Int64.Type),
+		    InsertIsHoliday = Table.AddColumn( InsertDay, "IsHoliday", each if Holidays = null then "Unknown" else List.Contains( Holidays, [Date] ), if Holidays = null then type text else type logical)
+		  in
+		    InsertIsHoliday,
+		  documentation = [
+		    Documentation.Name =  " fxCalendar", 
+		    Documentation.Description = " Date table function to create an ISO-8601 calendar", 
+		    Documentation.LongDescription = " Date table function to create an ISO-8601 calendar", 
+		    Documentation.Category = " Table", 
+		    Documentation.Version = " 1.28: Fixed fiscal years when FYStartMonth =1",
+		    Documentation.Source = " local", 
+		    Documentation.Author = " Melissa de Korte", 
+		    Documentation.Examples = { [Description =  " See: https://forum.enterprisedna.co/t/extended-date-table-power-query-m-function/6390", 
+		      Code = " Optional paramters: #(lf)
+		      (FYStartMonthNum) Month number the fiscal year starts, Januari if omitted #(lf) 
+		      (Holidays) Select a query (and column) that contains a list of holiday dates #(lf) 
+		      (WDStartNum) Switch default weekday numbering from 0-6 to 1-7 by entering a 1 #(lf)
+		      #(lf)
+		      Important to note: #(lf)
+		      [Fiscal Week] starts on a Monday and can contain less than 7 days in a First- and/or Last Week of a FY #(lf)
+		      [IsWorkingDay] does not take holiday dates into account  #(lf)
+		      [IsBusinessDay] does take optional holiday dates into account  #(lf)
+		      [IsPYTD] and [IsPFYTD] compare Previous [Ngày] with the Current [Ngày] number, so dates don't align in leap years", 
+		      Result = " " ] }
+		    ],
+		  Custom = Value.ReplaceType(fnDateTable, Value.ReplaceMetadata(Value.Type(fnDateTable), documentation))
+		in
+		  Custom
+		```
+	lineageTag: 12d81192-1f5a-4f23-bc12-09f6b0ac5cff
+	queryGroup: 'Danh mục'
+
+	annotation PBI_ResultType = Function
+
+expression MinYear =
+		let
+		  Source = Date.Year(DateTime.FixedLocalNow())-3
+		in
+		    Source
+	lineageTag: b2f5aafd-ec3e-42f8-b027-7ca6c272f4dc
+	queryGroup: 'Danh mục'
+
+	annotation PBI_ResultType = Number
+
+expression MaxYear =
+		let
+		  Source = Date.Year(DateTime.FixedLocalNow())+1
+		in
+		  Source
+	lineageTag: 7a9035e5-e6a4-4150-8db0-f97f747fa99e
+	queryGroup: 'Danh mục'
+
+	annotation PBI_ResultType = Number
+
+expression fxGetISO8601Week =
+		let
+		    getISO8601Week = (someDate as date) =>
+		    let
+		        getNaiveWeek = (inDate as date) =>
+		            let
+		                // monday = 1, sunday = 7
+		                weekday = 1 + Date.DayOfWeek(inDate, Day.Monday),
+		                weekdayOfJan4th = 1 + Date.DayOfWeek(#date(Date.Year(inDate), 1, 4), Day.Monday),
+		                ordinal = Date.DayOfYear(inDate),
+		                naiveWeek = Number.RoundDown(
+		                    (ordinal - weekday + 10) / 7
+		                )
+		            in
+		                naiveWeek,
+		        thisYear = Date.Year(someDate),
+		        priorYear = thisYear - 1,
+		        nwn = getNaiveWeek(someDate),
+		        lastWeekOfPriorYear =
+		        getNaiveWeek(#date(priorYear, 12, 28)),
+		
+		        // http://stackoverflow.com/a/34092382/2014893
+		        lastWeekOfThisYear =
+		            getNaiveWeek(#date(thisYear, 12, 28)),
+		
+		        weekNumber =
+		            if
+		                nwn < 1
+		            then
+		                lastWeekOfPriorYear
+		            else
+		                if
+		                    nwn > lastWeekOfThisYear
+		                then
+		                    1
+		                else
+		                    nwn
+		    in
+		        weekNumber
+		in
+		    getISO8601Week
+	lineageTag: da5a1224-6f2a-463c-b538-f2a68d7a078b
+	queryGroup: 'Danh mục'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+
+expression Table = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQvBZIde3oIQvYz7b75PrKr3qhGOsL6xIPHo2p1qnC8zw2Xsp6iqAJQ8i-A4FuFQ0L8FkI-fNMREQdS/pub?output=xlsx" meta [IsParameterQuery=true, List={"https://docs.google.com/spreadsheets/d/e/2PACX-1vQvBZIde3oIQvYz7b75PrKr3qhGOsL6xIPHo2p1qnC8zw2Xsp6iqAJQ8i-A4FuFQ0L8FkI-fNMREQdS/pub?output=xlsx"}, DefaultValue=..., Type="Text", IsParameterQueryRequired=true]
+	lineageTag: a0cdf643-3297-4fd1-906c-860e0c234992
+	queryGroup: 'Danh mục'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

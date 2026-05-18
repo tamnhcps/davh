@@ -1,0 +1,424 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 468.51202745095441,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 2137.859869716478,
+            "y": 373.1267818921765
+          },
+          "nodeIndex": "Parameter_DanhMucChiTiet",
+          "nodeLineageTag": "1287839c-c84f-48f5-aef5-87adcceb8a5e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 2421.859869716478,
+            "y": 373.1267818921765
+          },
+          "nodeIndex": "Parameter_ThoiGian",
+          "nodeLineageTag": "97614ab2-f02a-4e5e-893d-0f07718f5efe",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 21
+        },
+        {
+          "location": {
+            "x": 2705.859869716478,
+            "y": 373.1267818921765
+          },
+          "nodeIndex": "Parameter_CR",
+          "nodeLineageTag": "8f7e9968-ff31-4227-b38b-e922664c67e1",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 22
+        },
+        {
+          "location": {
+            "x": 2989.859869716478,
+            "y": 373.1267818921765
+          },
+          "nodeIndex": "Ghi chú",
+          "nodeLineageTag": "d638fb38-8f47-4c15-bbb6-29e733ada90d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 23
+        },
+        {
+          "location": {
+            "x": 1306.7611077310191,
+            "y": 683.21290945572036
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "9e7076a6-ab1c-4c6c-9f47-cbf6f68283ba",
+          "size": {
+            "height": 269.15443820662256,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 376.80329706190673,
+            "y": 422.34325034279811
+          },
+          "nodeIndex": "F_StoreBills",
+          "nodeLineageTag": "b9351053-d8f0-4a4d-819e-b0edf51158af",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 3273.859869716478,
+            "y": 299.1267818921765
+          },
+          "nodeIndex": "0. Measure",
+          "nodeLineageTag": "34ce4b1e-5d82-4037-9f3e-3f31604daba7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 3557.859869716478,
+            "y": 373.1267818921765
+          },
+          "nodeIndex": "Parameter_CTKM",
+          "nodeLineageTag": "bba4440a-8ad6-4097-8265-b6d395afd93a",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 89.778452290158612,
+            "y": 147.04720308741952
+          },
+          "nodeIndex": "D_Danh mục_Ngày",
+          "nodeLineageTag": "5d0e1395-9919-4bf0-91e7-0b5ba1deb1e9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 500.82637027312791
+          },
+          "nodeIndex": "D_Danh mục_Nhân viên",
+          "nodeLineageTag": "752987ae-73bb-424d-a3e3-6aac4bf53e86",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 2213.4613849326061,
+            "y": 5.2813407042528695
+          },
+          "nodeIndex": "D_Danh mục_Nhóm hàng",
+          "nodeLineageTag": "939e3645-e132-45ae-80eb-f5bc2f97e5f2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 591.46691488409556,
+            "y": 1233.3654224450192
+          },
+          "nodeIndex": "D_Danh mục_Kho",
+          "nodeLineageTag": "8ef10c13-070a-4d15-a305-4c395c28882b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 757.44753421256348,
+            "y": 360.41015336983378
+          },
+          "nodeIndex": "D_Danh mục_Phòng ban",
+          "nodeLineageTag": "20a00465-83ab-4201-99df-d0e5e2bd83cb",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 1619.8598697164782,
+            "y": 249.1267818921765
+          },
+          "nodeIndex": "D_Danh mục_Sản phẩm",
+          "nodeLineageTag": "be075165-ec3b-4b86-bb3e-a2c447c41708",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 1049.9206448155235,
+            "y": 129.71038773695841
+          },
+          "nodeIndex": "D_Danh mục_Miền",
+          "nodeLineageTag": "958eb045-e37f-4657-be91-45cae597d753",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 1019.8283593393844,
+            "y": 885.09406546054424
+          },
+          "nodeIndex": "D_Danh mục_Nguồn đơn hàng",
+          "nodeLineageTag": "e9aa4e4b-8f14-4495-aecd-5050827b45af",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 1909.3322076824306,
+            "y": 706.62257173276862
+          },
+          "nodeIndex": "D_Phân quyền_User",
+          "nodeLineageTag": "a6b3d9b8-a15a-413c-9cca-460af76ecccc",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 24
+        },
+        {
+          "location": {
+            "x": 1420.0340416902295,
+            "y": 2.7398364178418397
+          },
+          "nodeIndex": "D_Phân quyền_Vận hành_Vùng",
+          "nodeLineageTag": "9794d280-d165-4ff8-89a0-db9f3bc3ec35",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 4409.859869716478,
+            "y": 373.1267818921765
+          },
+          "nodeIndex": "D_Danh mục_QLNH",
+          "nodeLineageTag": "746f5886-221b-40c4-a1fe-27501a0982f5",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 4693.859869716478,
+            "y": 299.1267818921765
+          },
+          "nodeIndex": "D_Phân Quyền_Kinh doanh",
+          "nodeLineageTag": "dc1d975c-de47-4e7a-a48d-b0b4d774d243",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 1335.8598697164782,
+            "y": 216.17267407763507
+          },
+          "nodeIndex": "D_Danh Mục_QLNH_Quá trình làm việc",
+          "nodeLineageTag": "ae16e50c-9523-4271-82da-05d817084c2c",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 4977.859869716478,
+            "y": 373.1267818921765
+          },
+          "nodeIndex": "Parameter_CR_Time",
+          "nodeLineageTag": "a2530db8-7817-4417-8eb2-492190b06ecf",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 5211.859869716478,
+            "y": 373.12678189217655
+          },
+          "nodeIndex": "Parameter_HTTT",
+          "nodeLineageTag": "bbc60ac4-574e-4e1a-afc8-4b40bcc2d6e8",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 5445.859869716478,
+            "y": 429.54703273027212
+          },
+          "nodeIndex": "Dim_BQ_Dataset",
+          "nodeLineageTag": "683fd89d-a425-4a18-8b9c-d38bfc54f827",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {},
+          "nodeIndex": "Parameter",
+          "nodeLineageTag": "bfb91105-7416-4883-a431-2e89b9f7a223",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 36.498529382556974,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 50
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 472.19574583757651,
+            "y": 186.162332431442
+          },
+          "nodeIndex": "F_StoreBills",
+          "nodeLineageTag": "b9351053-d8f0-4a4d-819e-b0edf51158af",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 144.84176112329146
+          },
+          "nodeIndex": "D_Danh mục_Ngày",
+          "nodeLineageTag": "5d0e1395-9919-4bf0-91e7-0b5ba1deb1e9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 793.28499194492883,
+            "y": 0
+          },
+          "nodeIndex": "D_Danh mục_Nguồn đơn hàng",
+          "nodeLineageTag": "e9aa4e4b-8f14-4495-aecd-5050827b45af",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 358.69571650466895,
+            "y": 561.3636654313201
+          },
+          "nodeIndex": "D_Danh mục_Phòng ban",
+          "nodeLineageTag": "20a00465-83ab-4201-99df-d0e5e2bd83cb",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 901,
+            "y": 489
+          },
+          "nodeIndex": "D_Danh mục_Nhóm hàng",
+          "nodeLineageTag": "939e3645-e132-45ae-80eb-f5bc2f97e5f2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 1",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Layout 1",
+  "defaultDiagram": "All tables"
+}

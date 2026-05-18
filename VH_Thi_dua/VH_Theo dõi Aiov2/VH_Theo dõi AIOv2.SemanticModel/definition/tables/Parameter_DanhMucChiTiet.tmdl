@@ -1,0 +1,54 @@
+table Parameter_DanhMucChiTiet
+	lineageTag: 1287839c-c84f-48f5-aef5-87adcceb8a5e
+
+	column Parameter_Phongban
+		lineageTag: cdf00de4-749d-4848-909a-4ae695d352fd
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Phongban Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Phongban Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Phongban Fields'
+		isHidden
+		lineageTag: 06071749-a4db-4746-8980-49a4961dbf57
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Phongban Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Phongban Order'
+		isHidden
+		formatString: 0
+		lineageTag: 835bc385-8cca-4353-aba8-b8bc687eb576
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_DanhMucChiTiet = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('D_Danh mục_Phòng ban'[Miền]), 0),
+				    // ("Tỉnh/TP", NAMEOF('D_Danh mục_Phòng ban'[Province]), 1),
+				    // ("Quận/Huyện", NAMEOF('D_Danh mục_Phòng ban'[District]), 2),
+				    ("RSM", NAMEOF('D_Danh mục_Phòng ban'[RSM]), 3),
+				    ("AM", NAMEOF('D_Danh mục_Phòng ban'[AM]), 4),
+				    ("Cửa hàng", NAMEOF('D_Danh mục_Phòng ban'[Shop_size]), 5),
+				    ("Phiếu bán lẻ", NAMEOF(F_StoreBills[AutoCode]), 6),
+				    ("Theo khung giờ", NAMEOF('F_StoreBills'[Khung giờ]), 7)
+				}
+
+	annotation PBI_Id = 99475b1211ce48afb4a323d06c167ccf
+

@@ -1,0 +1,7 @@
+role 'Kinh doanh_Máy cũ'
+	modelPermission: read
+
+	tablePermission 'D_Danh mục_Ngày' = 'D_Danh mục_Ngày'[Date]>=LOOKUPVALUE('D_Phân quyền_User'[Startdate],'D_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	annotation PBI_Id = e6e0b8b602244326a2758d307fff2660
+

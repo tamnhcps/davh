@@ -1,0 +1,68 @@
+table Parameter_CR_Time
+	lineageTag: a2530db8-7817-4417-8eb2-492190b06ecf
+
+	column Parameter_CR_Time
+		lineageTag: c8c93450-e62d-487c-be97-8cf504b76505
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_CR_Time Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_CR_Time Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_CR_Time Fields'
+		isHidden
+		lineageTag: 1e2ac09a-58c9-4b87-98a8-36379d9f1894
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_CR_Time Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_CR_Time Order'
+		isHidden
+		formatString: 0
+		lineageTag: ee0fe3e6-4c42-4ade-bd3e-9c63d70bd2e0
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_CR_Time = calculated
+		mode: import
+		source =
+				{
+				    ("Slg SP", NAMEOF('0. Measure'[Slg SP]), 0),
+				    ("Slg SP g%", NAMEOF('0. Measure'[Slg SP g%]), 1),
+				    ("Slg SP AIOv2", NAMEOF('0. Measure'[Slg SP_AioV2]), 2),
+				    ("Slg SP có thể T.toán AIO", NAMEOF('0. Measure'[Slg SP_issupport]), 2),
+				    ("Slg SP AIOv2 g%", NAMEOF('0. Measure'[Slg SP_AioV2 g%]), 3),
+				    ("Tỷ trọng SP AIOv2", NAMEOF('0. Measure'[TyTrong SP_AioV2]), 4),
+				    ("Tỷ trọng SP AIOv2 g%", NAMEOF('0. Measure'[TyTrong SP_AioV2 g%]), 5),
+				    ("Tỷ trong SP có thể T.toán AIO", NAMEOF('0. Measure'[TyTrong SP_issupport]), 6),
+				    ("Tỷ trong SP có thể T.toán AIO g%", NAMEOF('0. Measure'[TyTrong SP_issupport g%]), 7),
+				    ("Tỷ trọng SP Desktop PG tạo", NAMEOF('0. Measure'[TyTrong SP_SepDesktop_PG]), 8),
+				    ("Tỷ trọng SP Desktop PG tạo g%", NAMEOF('0. Measure'[TyTrong SP_SepDesktop_PG g%]), 9),
+				    ("Trung bình thời gian", NAMEOF('0. Measure'[Avg_CompletionTime]), 10),
+				    ("Trung bình thời gian g%", NAMEOF('0. Measure'[Avg_CompletionTime g%]), 11),
+				    ("Tỷ trọng chọn CTKM thủ công", NAMEOF('0. Measure'[TyTrong có CTKM]), 12),
+				    ("Tỷ trọng chọn CTKM thủ công g%", NAMEOF('0. Measure'[TyTrong có CTKM g%]), 13),
+				    ("Tỷ trọng đơn không CTKM", NAMEOF('0. Measure'[TyTrong không CTKM]), 14),
+				    ("Tỷ trọng đơn không CTKM g%", NAMEOF('0. Measure'[TyTrong không CTKM g%]), 15),
+				    ("Tỷ trọng đơn dùng combo CTKM", NAMEOF('0. Measure'[TyTrong combo CTKM]), 16),
+				    ("Tỷ trọng đơn dùng combo CTKM g%", NAMEOF('0. Measure'[TyTrong combo CTKM g%]), 17),
+				    ("Target Tỷ trọng SP AIOv2", NAMEOF('0. Measure'[Target TyTrong SP_AioV2]), 18),
+				    ("Đánh giá Tỷ trọng SP AIOv2", NAMEOF('0. Measure'[Đánh giá SP_AioV2]), 19)
+				
+				}
+
+	annotation PBI_Id = c6320eb94b954fe69bc286853b8d75d1
+

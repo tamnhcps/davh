@@ -1,0 +1,304 @@
+table F_StoreBills
+	lineageTag: b9351053-d8f0-4a4d-819e-b0edf51158af
+
+	column BranchId
+		dataType: int64
+		formatString: 0
+		lineageTag: 921d1838-a8c4-456c-8548-6d5ba5ebf626
+		summarizeBy: count
+		sourceColumn: BranchId
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchName
+		dataType: string
+		lineageTag: 0dc32ce7-b1ac-4ce3-bbcf-188fa772ee48
+		summarizeBy: none
+		sourceColumn: BranchName
+
+		annotation SummarizationSetBy = Automatic
+
+	column PaymentType
+		dataType: string
+		lineageTag: 2951007c-6dd2-481b-8f17-59af3baa9bb9
+		summarizeBy: none
+		sourceColumn: PaymentType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 157eb38e-a252-4f27-a5dc-6d47e09da8fa
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PaymentName
+		dataType: string
+		lineageTag: 93afff54-45ec-460c-be61-6f4900c64eb3
+		summarizeBy: none
+		sourceColumn: PaymentName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: f7398a2b-c6ab-4c9b-a89a-bc8e99490ff4
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column AutoCode
+		dataType: string
+		lineageTag: dde29379-9a86-419a-be90-6012949c1c86
+		summarizeBy: none
+		sourceColumn: AutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column RefAutoCode
+		dataType: string
+		lineageTag: 417ce2f6-8f10-460c-b235-7e149549bfff
+		summarizeBy: none
+		sourceColumn: RefAutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column client_session_id
+		dataType: string
+		lineageTag: 01e14b36-9908-4c34-b20a-c9443e05fe12
+		summarizeBy: none
+		sourceColumn: client_session_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c738dafc-29c6-486a-8c57-0990d830bf83
+		summarizeBy: sum
+		sourceColumn: branch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_name
+		dataType: string
+		lineageTag: 4bf32a71-a947-4190-a585-0441fbf802ab
+		summarizeBy: none
+		sourceColumn: event_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column current_key
+		dataType: string
+		lineageTag: 0c42b7c8-d151-4766-9838-249052ac5bee
+		summarizeBy: none
+		sourceColumn: current_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column save_event_time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 97cc8780-eecd-49e5-a5f8-342f96a1f2f9
+		summarizeBy: none
+		sourceColumn: save_event_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_event_time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 200a3735-bed9-4295-89e7-e9244c657b57
+		summarizeBy: none
+		sourceColumn: first_event_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column completion_time_minutes
+		dataType: double
+		lineageTag: 7819b0e2-2cb4-41b9-9ab2-28bbca14080d
+		summarizeBy: sum
+		sourceColumn: completion_time_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column minuteRange
+		dataType: string
+		lineageTag: fc1c44bb-7afe-4111-bf01-ca761d647544
+		summarizeBy: none
+		sourceColumn: minuteRange
+		sortByColumn: minuteRangeOrder
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column minuteRangeOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: d2ef51aa-e151-49a4-bedc-0adadbf77954
+		summarizeBy: sum
+		sourceColumn: minuteRangeOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column title_emp
+		dataType: string
+		lineageTag: 9e33659b-652b-4748-a2ea-3ba06c15d528
+		summarizeBy: none
+		sourceColumn: title_emp
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_emp
+		dataType: string
+		lineageTag: 361dcf94-6708-404b-930b-35922aab9e0f
+		summarizeBy: none
+		sourceColumn: department_emp
+
+		annotation SummarizationSetBy = Automatic
+
+	column msnv
+		dataType: string
+		lineageTag: 64771fdd-54bf-4f24-88c1-47861941eda3
+		summarizeBy: none
+		sourceColumn: msnv
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_name
+		dataType: string
+		lineageTag: 58dfaf00-c9a3-4e00-82ee-e9fb6f74abdb
+		summarizeBy: none
+		sourceColumn: full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_aio
+		dataType: int64
+		formatString: 0
+		lineageTag: 2d165ab6-5305-4782-8c48-5622e188ba76
+		summarizeBy: sum
+		sourceColumn: is_aio
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_aio_support
+		dataType: int64
+		formatString: 0
+		lineageTag: 0dcb8e9e-4aad-4cf7-bf35-dc6d02beee06
+		summarizeBy: sum
+		sourceColumn: is_aio_support
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_online
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5b9c9d81-cb17-4590-b3b9-56b7d5f17500
+		summarizeBy: none
+		sourceColumn: is_online
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderSource =
+			
+			VAR department =
+			    SWITCH (
+			        TRUE (),
+			        'F_StoreBills'[department_emp]
+			            IN {
+			                "CSKH - Hotline",
+			                "Nhóm Hotline CellphoneS",
+			                "Phòng chăm sóc khách hàng"
+			            }, "Hotline",
+			        'F_StoreBills'[department_emp]
+			            IN {
+			                "Nhóm chatline CellphoneS",
+			                "Nhóm CTV Chatline CellphoneS",
+			                "Nhóm Facebook CellphoneS"
+			            }, "Chatline",
+			        "Shop"
+			    )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        F_StoreBills[is_online] = TRUE()
+			            && department = "Hotline", "Đơn Hotline xử lý",
+			        F_StoreBills[is_online] = TRUE()
+			            && department = "Chatline", "Đơn Chatline xử lý",
+			        F_StoreBills[is_online] = TRUE()
+			            && department = "Shop", "Đơn Shop xử lý",
+			        F_StoreBills[is_online] = FALSE ()
+			            && department = "Hotline", "Đơn KH gọi Hotline",
+			        F_StoreBills[is_online] = FALSE ()
+			            && department = "Chatline", "Đơn KH nhắn tin Chatline",
+			        F_StoreBills[is_online] = FALSE ()
+			            && department = "Shop", "Đơn Offline",
+			        BLANK ()
+			    )
+		lineageTag: bd4f3160-dc69-4237-b591-2e241bf0c459
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_PG = ```
+			IF(CONTAINSSTRING(F_StoreBills[title_emp], "PG"),1,0) 
+			```
+		formatString: 0
+		lineageTag: 9441cffa-8753-4d2f-a68d-d33408d3fd09
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnlineNo
+		dataType: string
+		lineageTag: 8374fcad-3183-4d3d-a1fb-849f483c053d
+		summarizeBy: none
+		sourceColumn: OnlineNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column size = RELATED('D_Danh mục_Phòng ban'[Size])
+		lineageTag: 4a55ddf8-088d-4bfa-a456-b234582e22ac
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khung giờ'
+		dataType: string
+		lineageTag: 904e7326-36ef-4840-846d-6ee96cb3dcfc
+		summarizeBy: none
+		sourceColumn: Khung giờ
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khung giờ Order'
+		dataType: int64
+		formatString: 0
+		lineageTag: 44a5b41a-3d2c-4d79-8b02-01985bec380f
+		summarizeBy: sum
+		sourceColumn: Khung giờ Order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_StoreBills = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "-- BigQuery: Tổng hợp AIO V2 vs SepDesktop + PaymentType theo schema HCM và HN#(lf)WITH#(lf)#(lf)-- HCM: Tỷ lệ AIOV2 theo branch#(lf)hcm_branch_stats AS (#(lf)  SELECT#(lf)    DATE(a.CreatedDate) Date,#(lf)#(lf)    CASE#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 8#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 10 THEN '8h - 10h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 10#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 12 THEN '10h - 12h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 12#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 14 THEN '12h - 14h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 14#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 16 THEN '14h - 16h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 16#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 18 THEN '16h - 18h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 18#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 20 THEN '18h - 20h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 20#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 22 THEN '20h - 22h'#(lf)      ELSE '22h - 8h'#(lf)    END AS `Khung giờ`,#(lf)#(lf)    CASE#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 8#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 10 THEN 1#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 10#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 12 THEN 2#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 12#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 14 THEN 3#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 14#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 16 THEN 4#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 16#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 18 THEN 5#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 18#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 20 THEN 6#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 20#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 22 THEN 7#(lf)      ELSE 8#(lf)    END AS `Khung giờ Order`,#(lf)#(lf)    a.BranchId,#(lf)    s.BranchName,#(lf)    ie.Name,#(lf)    empTitle.Name AS title_emp,#(lf)    departmentEmp.Name AS department_emp,#(lf)    UPPER(sper.Code) AS msnv,#(lf)    sper.FullName AS full_name,#(lf)    a.AutoCode,#(lf)    a.RefAutoCode,#(lf)    a.OrderIdentifier,#(lf)    CASE#(lf)      WHEN a.OrderIdentifier <> ""None"" THEN 1#(lf)      ELSE 0#(lf)    END AS is_aio,#(lf)    ep.Name PaymentType,#(lf)    CASE#(lf)      WHEN p.PaymentType LIKE '%SUBD%' THEN 'Cấn trừ cọc'#(lf)      ELSE p.PaymentName#(lf)    END AS PaymentName,#(lf)#(lf)    MIN(#(lf)      CASE#(lf)        WHEN PaymentType LIKE ""%FEE%"" THEN 1#(lf)        WHEN PaymentType = ""SUBDE"" THEN 1#(lf)        WHEN PaymentType IN (""CARD"", ""CASH"", ""PAYPOS"", ""TRANSFER"") THEN 1#(lf)        WHEN PaymentType = ""ELWA"" AND paymentName IN ('MOMO', 'VNPAY', 'MOMO - Ví thông thường') THEN 1#(lf)        WHEN Paymenttype = ""PAYDEPT""#(lf)          AND LOWER(PaymentName) IN (#(lf)            'khách hàng thu sau giao nhận',#(lf)            'khách lẻ giao hàng lazada',#(lf)            'khách lẻ giao hàng ahamove',#(lf)            'khách lẻ nhất tín express',#(lf)            'khách lẻ giao hàng tiết kiệm',#(lf)            'cod - giao hàng ahamove',#(lf)            'cod - giao hàng lazada',#(lf)            'cod - giao hàng nhất tín express',#(lf)            'cod - giao hàng nội bộ',#(lf)            'cod - giao hàng tiết kiệm'#(lf)          ) THEN 1#(lf)        ELSE 0#(lf)      END#(lf)    ) OVER (PARTITION BY a.AutoCode) AS is_aio_support,#(lf)#(lf)    o.OnlineNo,#(lf)    CASE#(lf)      WHEN o.OnlineNo LIKE 'W%' THEN TRUE#(lf)      ELSE FALSE#(lf)    END AS is_online#(lf)#(lf)  FROM `cellphones-data-platform.postgres_data_sale_s12869_dwh.StoreBills` a#(lf)  JOIN `cellphones-data-platform.postgres_data_sale_s12869_dwh.PaymentDetails` AS p#(lf)    ON p.StoreBillId = a.Id#(lf)  JOIN `cellphones-data-platform.cps_DA_General_Transform.dim_storage` s#(lf)    ON a.BranchId = s.BranchID#(lf)  JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_ImportExportMethod` ie#(lf)    ON a.MethodId = ie.Id#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_PaymentType` ep#(lf)    ON ep.Code = p.PaymentType#(lf)  LEFT JOIN `cellphones-data-platform.postgres_data_sale_s12869_dwh.Orders` o#(lf)    ON a.OrderCode = o.OrderCode#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` sper#(lf)    ON sper.Id = COALESCE(o.CreatedBy, a.CreatedBy)#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` eeCreate#(lf)    ON eeCreate.Id = sper.Id#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_EmployeeTitle` empTitle#(lf)    ON empTitle.Id = eeCreate.TitleId#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department` departmentEmp#(lf)    ON departmentEmp.Id = eeCreate.DepartmentId#(lf)  WHERE#(lf)    a.MethodId IN (14, 57, 58)#(lf)    AND DATE(a.CreatedDate) >= '2025-07-01'#(lf)    AND DATE(p.CreatedDate) >= '2025-07-01'#(lf)    AND p.PaymentType NOT LIKE '%FEE%'#(lf)),#(lf)#(lf)-- HN: Tỷ lệ AIOV2 theo branch#(lf)hn_branch_stats AS (#(lf)  SELECT#(lf)    DATE(a.CreatedDate) Date,#(lf)#(lf)    CASE#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 8#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 10 THEN '8h - 10h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 10#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 12 THEN '10h - 12h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 12#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 14 THEN '12h - 14h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 14#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 16 THEN '14h - 16h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 16#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 18 THEN '16h - 18h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 18#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 20 THEN '18h - 20h'#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 20#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 22 THEN '20h - 22h'#(lf)      ELSE '22h - 8h'#(lf)    END AS `Khung giờ`,#(lf)#(lf)    CASE#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 8#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 10 THEN 1#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 10#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 12 THEN 2#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 12#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 14 THEN 3#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 14#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 16 THEN 4#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 16#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 18 THEN 5#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 18#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 20 THEN 6#(lf)      WHEN EXTRACT(HOUR FROM a.CreatedDate) >= 20#(lf)       AND EXTRACT(HOUR FROM a.CreatedDate) < 22 THEN 7#(lf)      ELSE 8#(lf)    END AS `Khung giờ Order`,#(lf)#(lf)    a.BranchId,#(lf)    s.BranchName,#(lf)    ie.Name,#(lf)    empTitle.Name AS title_emp,#(lf)    departmentEmp.Name AS department_emp,#(lf)    UPPER(sper.Code) AS msnv,#(lf)    sper.FullName AS full_name,#(lf)    a.AutoCode,#(lf)    a.RefAutoCode,#(lf)    a.OrderIdentifier,#(lf)    CASE#(lf)      WHEN a.OrderIdentifier <> ""None"" THEN 1#(lf)      ELSE 0#(lf)    END AS is_aio,#(lf)    ep.Name PaymentType,#(lf)    CASE#(lf)      WHEN p.PaymentType LIKE '%SUBD%' THEN 'Cấn trừ cọc'#(lf)      ELSE p.PaymentName#(lf)    END AS PaymentName,#(lf)#(lf)    MIN(#(lf)      CASE#(lf)        WHEN PaymentType LIKE ""%FEE%"" THEN 1#(lf)        WHEN PaymentType = ""SUBDE"" THEN 1#(lf)        WHEN PaymentType IN (""CARD"", ""CASH"", ""PAYPOS"", ""TRANSFER"") THEN 1#(lf)        WHEN PaymentType = ""ELWA"" AND paymentName IN ('MOMO', 'VNPAY', 'MOMO - Ví thông thường') THEN 1#(lf)        WHEN Paymenttype = ""PAYDEPT""#(lf)          AND LOWER(PaymentName) IN (#(lf)            'khách hàng thu sau giao nhận',#(lf)            'khách lẻ giao hàng lazada',#(lf)            'khách lẻ giao hàng ahamove',#(lf)            'khách lẻ nhất tín express',#(lf)            'khách lẻ giao hàng tiết kiệm',#(lf)            'cod - giao hàng ahamove',#(lf)            'cod - giao hàng lazada',#(lf)            'cod - giao hàng nhất tín express',#(lf)            'cod - giao hàng nội bộ',#(lf)            'cod - giao hàng tiết kiệm'#(lf)          ) THEN 1#(lf)        ELSE 0#(lf)      END#(lf)    ) OVER (PARTITION BY a.AutoCode) AS is_aio_support,#(lf)#(lf)    o.OnlineNo,#(lf)    CASE#(lf)      WHEN o.OnlineNo LIKE 'W%' THEN TRUE#(lf)      ELSE FALSE#(lf)    END AS is_online#(lf)#(lf)  FROM `cellphones-data-platform.postgres_data_sale_s3759_dwh.StoreBills` a#(lf)  JOIN `cellphones-data-platform.postgres_data_sale_s3759_dwh.PaymentDetails` AS p#(lf)    ON p.StoreBillId = a.Id#(lf)  JOIN `cellphones-data-platform.cps_DA_General_Transform.dim_storage` s#(lf)    ON a.BranchId = s.BranchID#(lf)  JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_ImportExportMethod` ie#(lf)    ON a.MethodId = ie.Id#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_PaymentType` ep#(lf)    ON ep.Code = p.PaymentType#(lf)  LEFT JOIN `cellphones-data-platform.postgres_data_sale_s3759_dwh.Orders` o#(lf)    ON a.OrderCode = o.OrderCode#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` sper#(lf)    ON sper.Id = COALESCE(o.CreatedBy, a.CreatedBy)#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` eeCreate#(lf)    ON eeCreate.Id = sper.Id#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_EmployeeTitle` empTitle#(lf)    ON empTitle.Id = eeCreate.TitleId#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department` departmentEmp#(lf)    ON departmentEmp.Id = eeCreate.DepartmentId#(lf)  WHERE#(lf)    a.MethodId IN (14, 57, 58)#(lf)    AND DATE(a.CreatedDate) >= '2025-07-01'#(lf)    AND DATE(p.CreatedDate) >= '2025-07-01'#(lf)    AND p.PaymentType NOT LIKE '%FEE%'#(lf)),#(lf)#(lf)-- Lấy dữ liệu event trên app AIOv2#(lf)filtered AS (#(lf)  SELECT#(lf)    client_session_id,#(lf)    event_name,#(lf)    event_time,#(lf)    branch_id,#(lf)    current_key#(lf)  FROM `cellphones-data-platform.cps_erp_prod_tracking_mongodb.Collects`#(lf)  WHERE#(lf)    DATE(event_time) >= DATE('2025-07-01')#(lf)    AND current_key <> ""None""#(lf)),#(lf)#(lf)-- Lấy thời gian xảy ra event đầu tiên trên app AIOv2#(lf)session_first AS (#(lf)  SELECT#(lf)    client_session_id,#(lf)    branch_id,#(lf)    current_key,#(lf)    MIN(TIMESTAMP(event_time)) AS first_event_time#(lf)  FROM filtered#(lf)  GROUP BY#(lf)    client_session_id,#(lf)    branch_id,#(lf)    current_key#(lf)),#(lf)#(lf)-- Lấy thời gian xảy ra event lưu đơn trên app AIOv2#(lf)save_events AS (#(lf)  SELECT#(lf)    f.client_session_id,#(lf)    f.branch_id,#(lf)    f.event_name,#(lf)    f.current_key,#(lf)    TIMESTAMP(f.event_time) AS save_event_time,#(lf)    sf.first_event_time,#(lf)    TIMESTAMP_DIFF(TIMESTAMP(f.event_time), sf.first_event_time, SECOND) / 60.0 AS completion_time_minutes#(lf)  FROM filtered f#(lf)  JOIN session_first sf#(lf)    ON f.client_session_id = sf.client_session_id#(lf)  WHERE#(lf)    f.event_name IN (#(lf)      'SaveStoreBillWithComboPromotion',#(lf)      'SaveStoreBillWithPromotion',#(lf)      'SaveStoreBillWithOutPromotion'#(lf)    )#(lf)),#(lf)#(lf)-- Nhóm theo thời gian được tính#(lf)completion_time_minutes AS (#(lf)  SELECT#(lf)    *,#(lf)    CASE#(lf)      WHEN completion_time_minutes < 3 THEN '0-3 phút'#(lf)      WHEN completion_time_minutes < 5 THEN '3-5 phút'#(lf)      WHEN completion_time_minutes < 10 THEN '5-10 phút'#(lf)      WHEN completion_time_minutes < 15 THEN '10-15 phút'#(lf)      WHEN completion_time_minutes < 30 THEN '15-30 phút'#(lf)      ELSE '30+ phút'#(lf)    END AS minuteRange,#(lf)    CASE#(lf)      WHEN completion_time_minutes < 3 THEN 1#(lf)      WHEN completion_time_minutes < 5 THEN 2#(lf)      WHEN completion_time_minutes < 10 THEN 3#(lf)      WHEN completion_time_minutes < 15 THEN 4#(lf)      WHEN completion_time_minutes < 30 THEN 5#(lf)      ELSE 6#(lf)    END AS minuteRangeOrder#(lf)  FROM save_events#(lf))#(lf)#(lf)-- Xem thống kê theo chi nhánh#(lf)SELECT DISTINCT * EXCEPT(OrderIdentifier)#(lf)FROM (#(lf)  SELECT * FROM hcm_branch_stats#(lf)  UNION ALL#(lf)  SELECT * FROM hn_branch_stats#(lf)) a#(lf)LEFT JOIN completion_time_minutes b#(lf)  ON a.OrderIdentifier = b.current_key#(lf) AND a.BranchId = b.branch_id#(lf)WHERE msnv <> 'ADMIN'", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

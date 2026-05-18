@@ -1,0 +1,59 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Danh mục'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["D_Danh mục_Ngày","D_Danh mục_Nhân viên","D_Danh mục_Nhóm hàng","D_Danh mục_Kho","D_Danh mục_Phòng ban","D_Danh mục_Sản phẩm","D_Danh mục_Miền","D_Danh mục_Nguồn đơn hàng","D_Phân quyền_User","D_Phân quyền_Vận hành_Vùng","fxCalendar","MinYear","MaxYear","fxGetISO8601Week","Table","Ghi chú","F_StoreBills","D_Danh mục_QLNH","D_Phân Quyền_Kinh doanh","D_Danh Mục_QLNH_Quá trình làm việc","Dim_BQ_Dataset"]
+
+annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
+
+ref table 'D_Danh mục_Ngày'
+ref table 'D_Danh mục_Nhân viên'
+ref table 'D_Danh mục_Nhóm hàng'
+ref table 'D_Danh mục_Kho'
+ref table 'D_Danh mục_Phòng ban'
+ref table 'D_Danh mục_Sản phẩm'
+ref table 'D_Danh mục_Miền'
+ref table 'D_Danh mục_Nguồn đơn hàng'
+ref table '0. Measure'
+ref table Parameter_ThoiGian
+ref table Parameter_DanhMucChiTiet
+ref table Parameter_CR
+ref table 'Ghi chú'
+ref table 'D_Phân quyền_User'
+ref table 'DIM_Phân quyền_Vận hành'
+ref table 'D_Phân quyền_Vận hành_Vùng'
+ref table F_StoreBills
+ref table Parameter_CTKM
+ref table 'D_Danh mục_QLNH'
+ref table 'D_Phân Quyền_Kinh doanh'
+ref table 'D_Danh Mục_QLNH_Quá trình làm việc'
+ref table Parameter_CR_Time
+ref table Parameter_HTTT
+ref table Dim_BQ_Dataset
+ref table Parameter
+
+ref role Chung
+ref role 'Vận hành_AM'
+ref role 'Vận hành_Cửa hàng'
+ref role 'Vận hành_OP'
+ref role BOD
+ref role 'Kinh doanh_Máy cũ'
+ref role 'Kinh doanh_PK_Củ cáp'
+ref role 'Kinh doanh_PK_Ốp bao da'
+ref role 'Kinh doanh_QLNH'
+ref role 'Kinh doanh_QLNH HỌC VIỆC'
+ref role 'Kinh doanh_Quản lý vùng'
+ref role 'Kinh doanh_TLKD'
+
+ref cultureInfo en-US
+

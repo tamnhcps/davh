@@ -1,0 +1,833 @@
+table '0. Measure'
+	lineageTag: 34ce4b1e-5d82-4037-9f3e-3f31604daba7
+
+	measure 'Slg SP' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]))
+		formatString: #,0
+		lineageTag: 5b4d208d-56e8-454d-b73e-445f42d099e4
+
+	measure 'Slg SP_AioV2' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    F_StoreBills[is_aio] = 1)
+		formatString: #,0
+		lineageTag: c5bb4f93-fd5e-4586-941c-6935d2c0e449
+
+	measure 'Slg SP_SepDesktop' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    F_StoreBills[is_aio] = 0)
+		formatString: 0
+		lineageTag: 70d270ef-2c00-4a01-81c1-cb40c82ff447
+
+	measure 'TyTrong SP_SepDesktop' =
+			
+			DIVIDE([Slg SP_SepDesktop], [Slg SP],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ec4bfa38-3018-46b9-afc4-3fd86413e6ab
+
+	measure 'TyTrong SP_AioV2' =
+			
+			DIVIDE([Slg SP_AioV2], [Slg SP_issupport],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b6100a7e-d8d7-4c8a-854b-98624b75a3ab
+
+	measure 'Slg SP_issupport' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    // F_StoreBills[is_aio] = 0,
+			    F_StoreBills[is_aio_support] = 1)
+		formatString: 0
+		lineageTag: 4fa59f06-486c-4685-af0c-b277deb2734e
+
+	measure 'TyTrong SP_issupport' =
+			
+			DIVIDE([Slg SP_issupport], [Slg SP],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 12d9d776-b327-42af-b61d-94663595a752
+
+	measure 'Slg DH_AioV2' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    F_StoreBills[is_aio] = 1,
+			    F_StoreBills[RefAutoCode] <> "None")
+		formatString: 0
+		lineageTag: 886bf728-b5a4-457a-b122-86131e779294
+
+	measure Avg_CompletionTime = ```
+			
+			VAR _avg = 
+			    CALCULATE(
+			        AVERAGE(F_StoreBills[completion_time_minutes]),
+			        SUMMARIZE(F_StoreBills,F_StoreBills[client_session_id]))
+			VAR _second = _avg*60
+			VAR _day = INT(_second / 86400)
+			VAR _hour = INT(MOD(_second, 86400) / 3600)
+			VAR _min = INT(MOD(_second, 3600) / 60)
+			VAR _sec = MOD(_second, 60)
+			VAR _final_result = 
+			IF(_day = BLANK() || _day = 0, BLANK(), FORMAT(_day, "0") & " ngày ") &
+			FORMAT(_hour, "00") & ":" &
+			FORMAT(_min, "00") & ":" &
+			FORMAT(_sec, "00")
+			RETURN
+			IF(
+			    _avg > 0,
+			    _final_result,
+			    BLANK()
+			)
+			```
+		lineageTag: 7b908e60-4ea8-42c5-9261-a3a7bc86bc8d
+
+	measure Avg_CompletionTime_ = ```
+			
+			VAR _avg = 
+			    CALCULATE(
+			        AVERAGE(F_StoreBills[completion_time_minutes]),
+			        SUMMARIZE(F_StoreBills,F_StoreBills[client_session_id]))
+			VAR _second = _avg*60
+			VAR _day = INT(_second / 86400)
+			VAR _hour = INT(MOD(_second, 86400) / 3600)
+			VAR _min = INT(MOD(_second, 3600) / 60)
+			VAR _sec = MOD(_second, 60)
+			VAR _final_result = 
+			IF(_day = BLANK() || _day = 0, BLANK(), FORMAT(_day, "0") & " ngày ") &
+			FORMAT(_hour, "00") & ":" &
+			FORMAT(_min, "00") & ":" &
+			FORMAT(_sec, "00")
+			RETURN
+			_avg
+			```
+		formatString: #,0.00
+		lineageTag: da18e467-e9e5-418a-b5b6-d0f004ee26ad
+
+	measure 'Slg combo CTKM' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    F_StoreBills[is_aio] = 1,
+			    F_StoreBills[event_name] = "SaveStoreBillWithComboPromotion")
+		formatString: 0
+		lineageTag: 9f778fe0-963d-493f-9a55-e9840ee3376a
+
+	measure 'Slg có CTKM' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    F_StoreBills[is_aio] = 1,
+			    F_StoreBills[event_name] = "SaveStoreBillWithPromotion")
+		formatString: 0
+		lineageTag: bac52caa-d76b-4fac-9c50-4f82a317a0b3
+
+	measure 'Slg không CTKM' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    F_StoreBills[is_aio] = 1,
+			    F_StoreBills[event_name] = "SaveStoreBillWithOutPromotion")
+		formatString: 0
+		lineageTag: d6d2f7c8-2595-4d39-b5bf-039457c270d0
+
+	measure 'TyTrong có CTKM' =
+			
+			DIVIDE(
+			    [Slg có CTKM],
+			    [Slg SP_AioV2],
+			    BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6d4ffd5b-86ee-41c6-9edc-86544d1d5a79
+
+	measure 'TyTrong không CTKM' =
+			
+			DIVIDE(
+			    [Slg không CTKM],
+			    [Slg SP_AioV2],
+			    BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5df8e13f-0d07-4794-aa41-93e244fd48cc
+
+	measure 'TyTrong combo CTKM' =
+			
+			DIVIDE(
+			    [Slg combo CTKM],
+			    [Slg SP_AioV2],
+			    BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1378c49f-04a7-4c2b-9ad7-e976893273cb
+
+	measure 'Slg SP_AioV2 g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP_AioV2 =
+			    [Slg SP_AioV2]
+			
+			VAR SP_AioV2_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [Slg SP_AioV2],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [Slg SP_AioV2],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [Slg SP_AioV2],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP_AioV2), BLANK(),
+			        SP_AioV2_LM <> 0, DIVIDE(SP_AioV2, SP_AioV2_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3a5e577a-b1ea-4946-b429-2a513b1d454f
+
+	measure 'TyTrong SP_AioV2 g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [TyTrong SP_AioV2]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [TyTrong SP_AioV2],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [TyTrong SP_AioV2],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [TyTrong SP_AioV2],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: dbb13fc5-ab41-40ed-9baa-892b56140be5
+
+	measure 'TyTrong có CTKM g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [TyTrong có CTKM]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [TyTrong có CTKM],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [TyTrong có CTKM],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [TyTrong có CTKM],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 13650833-222f-4429-9163-5431e84aa448
+
+	measure 'TyTrong không CTKM g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [TyTrong không CTKM]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [TyTrong không CTKM],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [TyTrong không CTKM],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [TyTrong không CTKM],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e2553629-3f75-4710-832f-270177b42e6c
+
+	measure 'TyTrong combo CTKM g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [TyTrong combo CTKM]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [TyTrong combo CTKM],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [TyTrong combo CTKM],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [TyTrong combo CTKM],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 947d9cee-8d7b-483c-a6df-695e39944788
+
+	measure 'TyTrong SP_AioV2 LP' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP_AioV2_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [TyTrong SP_AioV2],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [TyTrong SP_AioV2],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [TyTrong SP_AioV2],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SP_AioV2_LM
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f46bed2d-7935-47a9-97b1-456b5b6bff28
+
+	measure 'Thời gian cập nhật' =
+			
+			CALCULATE(MAX( 'F_StoreBills'[Date] ), ALL())
+		formatString: General Date
+		lineageTag: de3cc149-94fb-414f-b2b5-1d287e9566a7
+
+	measure 'Slg SP g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [Slg SP]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			
+			        -- Ngày hoặc Theo khung giờ: so với ngày trước
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [Slg SP],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        -- Năm/Tháng: so với tháng trước
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [Slg SP],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        -- Năm/Tuần: so với tuần trước theo logic index hiện tại
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [Slg SP],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 25c71bef-29f4-46b6-9d53-62358a38821b
+
+	measure 'TyTrong SP_issupport g%' =
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [TyTrong SP_issupport]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [TyTrong SP_issupport],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [TyTrong SP_issupport],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [TyTrong SP_issupport],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d164dd0d-21e1-4a40-91df-4056c3cd7055
+
+	measure 'Avg_CompletionTime g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [Avg_CompletionTime_]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [Avg_CompletionTime_],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [Avg_CompletionTime_],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [Avg_CompletionTime_],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: addbf95c-ad60-4cc6-be54-1237e70d3dfc
+
+	measure 'Slg DH' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    F_StoreBills[RefAutoCode] <> "None")
+		formatString: 0
+		lineageTag: 526972e9-88ab-46b8-bb54-0901d7e04b2e
+
+	measure 'TyTrong DH_AioV2' =
+			
+			DIVIDE([Slg DH_AioV2], [Slg DH],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1652ad74-ca92-4b7c-a7fd-ead122072c4d
+
+	measure 'TyTrong DH_AioV2 g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [TyTrong DH_AioV2]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [TyTrong DH_AioV2],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [TyTrong DH_AioV2],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [TyTrong DH_AioV2],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 40c77bd6-17a8-48c2-9a99-a3464c95bb08
+
+	measure _Update = ```
+			
+			-- Cập nhật
+			VAR zFmt_HeaderStart = "<a> <span style='color: LightBlack; font-size:12px'> <b> "
+			VAR zFmt_HeaderEnd = ": </b> </span></a>"
+			VAR zUpdate_time = [Thời gian cập nhật]
+			VAR zUpdate = "<font_update> <span style='color: LightBlack; font-size:12px'> <u> Thời gian cập nhật </u>: " & zUpdate_time & "</span></font_update>"
+			
+			-- Thời gian
+			VAR zFil_NamThang = ISFILTERED('D_Danh mục_Ngày'[Năm/Tháng])
+			VAR zNamThang = zFmt_HeaderStart & "Năm - Tháng" & zFmt_HeaderEnd & CONCATENATEX(VALUES('D_Danh mục_Ngày'[Năm/Tháng]), 'D_Danh mục_Ngày'[Năm/Tháng], ", ") & "."
+			
+			VAR zFil_Date = ISFILTERED('D_Danh Mục_Ngày'[date])
+			VAR zDate = zFmt_HeaderStart & "Ngày" & zFmt_HeaderEnd & CONCATENATEX(VALUES('D_Danh Mục_Ngày'[date]), 'D_Danh Mục_Ngày'[date], ", ") & "."
+			
+			VAR zFil_ThoiGian = zFil_NamThang
+			
+			-- Địa lý
+			VAR zFil_Mien = ISFILTERED('D_Danh mục_Phòng ban'[Miền])
+			VAR zMien = zFmt_HeaderStart & "Miền" & zFmt_HeaderEnd & CONCATENATEX(VALUES('D_Danh mục_Phòng ban'[Miền]), 'D_Danh mục_Phòng ban'[Miền], ", ") & "."
+			
+			-- Cửa hàng
+			VAR zFil_AM = ISFILTERED('D_Danh mục_Phòng ban'[AM])
+			VAR zAM = zFmt_HeaderStart & "AM" & zFmt_HeaderEnd & CONCATENATEX(VALUES('D_Danh mục_Phòng ban'[AM]), 'D_Danh mục_Phòng ban'[AM], ", ") & "."
+			
+			VAR zFil_Shop = ISFILTERED('D_Danh mục_Phòng ban'[Cửa hàng])
+			VAR zShop = zFmt_HeaderStart & "Size" & zFmt_HeaderEnd & CONCATENATEX(VALUES('D_Danh Mục_Phòng Ban'[Cửa hàng]), 'D_Danh Mục_Phòng Ban'[Cửa hàng], ", ") & "."
+			
+			VAR zFil_ChuThe = zFil_Mien + zFil_AM + zFil_Shop
+			
+			-- Phân loại & DMC3
+			VAR zFil_HTTT = ISFILTERED(F_StoreBills[PaymentName])
+			VAR zHTTT = zFmt_HeaderStart & "HTTT" & zFmt_HeaderEnd & CONCATENATEX(VALUES(F_StoreBills[PaymentName]), F_StoreBills[PaymentName], ", ") & "."
+			
+			VAR zFil_PhuongThuc = ISFILTERED(F_StoreBills[Name])
+			VAR zPhuongThuc = zFmt_HeaderStart & "Phương thức" & zFmt_HeaderEnd & CONCATENATEX(VALUES(F_StoreBills[Name]), F_StoreBills[Name], ", ") & "."
+			
+			VAR zFil_Nguon = ISFILTERED(F_StoreBills[OrderSource])
+			VAR zNguon = zFmt_HeaderStart & "Nguồn" & zFmt_HeaderEnd & CONCATENATEX(VALUES(F_StoreBills[OrderSource]), F_StoreBills[OrderSource], ", ") & "."
+			
+			VAR zFil_Lendoi = ISFILTERED(F_StoreBills[is_PG])
+			VAR zLendoi_ = zFmt_HeaderStart & "Người tạo đơn" & zFmt_HeaderEnd & CONCATENATEX(VALUES(F_StoreBills[is_PG]), F_StoreBills[is_PG], ", ") & "."
+			
+			VAR zFil_para = ISFILTERED(Parameter_CR[Parameter_CR Fields])
+			VAR zpara = zFmt_HeaderStart & "Parameter" & zFmt_HeaderEnd & CONCATENATEX(VALUES(Parameter_CR[Parameter_CR Fields]), Parameter_CR[Parameter_CR Fields], ", ") & "."
+			
+			VAR zFil_measure = zFil_HTTT + zFil_PhuongThuc + zFil_para + zFil_Nguon
+			
+			-- Kết quả cuối cùng
+			VAR zFilter =
+			    IF(
+			        zFil_ThoiGian + zFil_ChuThe + zFil_measure = 0,
+			        BLANK(),
+			        "<br> <u> <span style='color: LightBlack; font-size:12px'> Bộ lọc áp dụng:</u> "
+			            & IF(zFil_NamThang, zNamThang, BLANK())
+			            & IF(zFil_Mien, zMien, BLANK())
+			            & IF(zFil_AM, zAM, BLANK())
+			            & IF(zFil_Shop, zShop, BLANK())
+			            & IF(zFil_HTTT, zHTTT, BLANK())
+			            & IF(zFil_PhuongThuc, zPhuongThuc, BLANK())
+			            & IF(zFil_Nguon, zNguon, BLANK())
+			            & IF(zFil_Lendoi, zLendoi_, BLANK())
+			            & IF(zFil_para, zpara, BLANK())
+			    )
+			
+			RETURN
+			    "<font_all> <i> <span style='color: #000000; font-size:12px'>" 
+			        & zUpdate & zFilter 
+			    & "</span></i></font_all>"
+			
+			```
+		lineageTag: 6a383aa2-df3b-4c00-ae69-5a6fc7c08563
+
+	measure 'Slg SP_SepDesktop_PG' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(F_StoreBills[AutoCode]),
+			    F_StoreBills[is_aio] = 0,
+			    F_StoreBills[is_PG] = 1)
+		formatString: 0
+		lineageTag: 422008c7-f2d0-4929-9d7f-7ea1d1c8b0df
+
+	measure 'TyTrong SP_SepDesktop_PG' =
+			
+			DIVIDE([Slg SP_SepDesktop_PG], [Slg SP],BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c3bc4f4e-801c-4328-bc3e-0accc262b61c
+
+	measure 'TyTrong SP_SepDesktop_PG g%' = ```
+			
+			VAR SelectedPeriod =
+			    SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			
+			VAR SelectedWeekIndex =
+			    MAX('D_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR SP =
+			    [TyTrong SP_SepDesktop_PG]
+			
+			VAR SP_LM =
+			    SWITCH(
+			        TRUE(),
+			        SelectedPeriod IN { 0, 3 },
+			            CALCULATE(
+			                [TyTrong SP_SepDesktop_PG],
+			                DATEADD('D_Danh mục_Ngày'[Date], -1, DAY)
+			            ),
+			
+			        SelectedPeriod = 2,
+			            CALCULATE(
+			                [TyTrong SP_SepDesktop_PG],
+			                PARALLELPERIOD('D_Danh mục_Ngày'[Date], -1, MONTH)
+			            ),
+			
+			        SelectedPeriod = 1,
+			            CALCULATE(
+			                [TyTrong SP_SepDesktop_PG],
+			                FILTER(
+			                    ALL('D_Danh mục_Ngày'),
+			                    'D_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1
+			                )
+			            )
+			    )
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(SP), BLANK(),
+			        SP_LM <> 0, DIVIDE(SP, SP_LM, BLANK()) - 1,
+			        BLANK()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 13198b5f-750b-444a-98a7-10ba6e082630
+
+	measure 'Target TyTrong SP_AioV2' = ```
+			
+			VAR size = SELECTEDVALUE('D_Danh mục_Phòng ban'[Size])
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    size in {"A", "S"}, 0.6,
+			    0.7)
+			
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 68268f8a-6366-4212-ae01-d1d34004402b
+
+	measure 'Đánh giá SP_AioV2' =
+			
+			IF([TyTrong SP_AioV2] > [Target TyTrong SP_AioV2],"Đạt", "Không đạt")
+		lineageTag: 6d5c7811-51ca-4fae-ac52-64ea7379b639
+
+	measure 'Slg SP_Issup_notAIO' = [Slg SP_issupport] - [Slg SP_AioV2]
+		formatString: #,0
+		lineageTag: 1fd3df05-76a7-4ebb-a9d0-b6545ea23e95
+
+	column Column
+		formatString: 0
+		lineageTag: c116a164-16a6-4a62-94d5-1d8a48daed77
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '0. Measure' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 63385d798f154b4594b6673840dd6aff
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

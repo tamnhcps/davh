@@ -1,0 +1,55 @@
+table Parameter_CR
+	lineageTag: 8f7e9968-ff31-4227-b38b-e922664c67e1
+
+	column Parameter_CR
+		lineageTag: 98b851fd-108f-405f-a89d-6bb526b20d8f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_CR Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_CR Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_CR Fields'
+		lineageTag: dffbccae-3fbb-4726-96bd-8aee054913d7
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_CR Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_CR Order'
+		formatString: 0
+		lineageTag: 2e50daff-20f2-4982-a751-e56825bcf082
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_CR = calculated
+		mode: import
+		source =
+				{
+				    ("SL SP", NAMEOF([Slg SP]), 0),
+				    ("SL SP AioV2", NAMEOF([Slg SP_AioV2]), 1),
+				    ("SL SP Desktop hỗ trợ HTTT AioV2", NAMEOF([Slg SP_issupport]), 1),
+				    ("SL SP Desktop", NAMEOF([Slg SP_SepDesktop]), 2),
+				    ("Tỷ trọng SP AioV2", NAMEOF([TyTrong SP_AioV2]), 3),
+				    ("Tỷ trọng SP Desktop", NAMEOF([TyTrong SP_SepDesktop]), 4),
+				    ("Tỷ trọng SP Desktop hỗ trợ HTTT AioV2", NAMEOF([TyTrong SP_issupport]), 5),
+				    ("Tỷ trọng chọn CTKM thủ công", NAMEOF([TyTrong có CTKM]), 6),
+				    ("Tỷ trọng đơn không CTKM", NAMEOF([TyTrong không CTKM]), 7),
+				    ("Tỷ trọng đơn dùng combo CTKM", NAMEOF([TyTrong combo CTKM]), 8),
+				    ("Trb thời gian", NAMEOF([Avg_CompletionTime]), 9)
+				}
+
+	annotation PBI_Id = b5699592154f4b959dc1b801bffb8e3c
+

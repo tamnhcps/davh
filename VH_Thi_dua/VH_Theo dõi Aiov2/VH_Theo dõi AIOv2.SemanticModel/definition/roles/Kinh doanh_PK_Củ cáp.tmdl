@@ -1,0 +1,39 @@
+role 'Kinh doanh_PK_Củ cáp'
+	modelPermission: read
+
+	tablePermission 'D_Danh mục_Ngày' = 'D_Danh mục_Ngày'[Date]>=LOOKUPVALUE('D_Phân quyền_User'[Startdate],'D_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission 'D_Phân Quyền_Kinh doanh' =
+			IF(
+			    LOOKUPVALUE(
+			        'D_Phân quyền_User'[Title],
+			        'D_Phân quyền_User'[Mail], USERPRINCIPALNAME()
+			    ) = "QLNH",
+			    [PK_Củ cáp]
+			        IN DISTINCT(
+			            SELECTCOLUMNS(
+			                FILTER(
+			                    ADDCOLUMNS(
+			                        CROSSJOIN(
+			                            FILTER(
+			                                'D_Phân Quyền_Kinh doanh',
+			                                'D_Phân Quyền_Kinh doanh'[PK_Củ cáp]
+			                                    = LOOKUPVALUE(
+			                                        'D_Phân quyền_User'[Tên],
+			                                        'D_Phân quyền_User'[Mail], USERPRINCIPALNAME()
+			                                    )
+			                            ),
+			                            'D_Phân quyền_User'
+			                        ),
+			                        "Path leader", PATHCONTAINS( 'D_Phân quyền_User'[Path], 'D_Phân Quyền_Kinh doanh'[PK_Củ cáp] )
+			                    ),
+			                    [Path leader]
+			                ),
+			                "PK", 'D_Phân quyền_User'[Tên]
+			            )
+			        ),
+			    TRUE
+			)
+
+	annotation PBI_Id = 9c1843463b1747129d90f03cb7390d5d
+

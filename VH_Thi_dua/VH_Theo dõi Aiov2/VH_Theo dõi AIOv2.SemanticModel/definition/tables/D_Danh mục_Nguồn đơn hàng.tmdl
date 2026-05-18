@@ -1,0 +1,67 @@
+table 'D_Danh mục_Nguồn đơn hàng'
+	excludeFromModelRefresh
+	lineageTag: e9aa4e4b-8f14-4495-aecd-5050827b45af
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 9eb4b91a-7a55-4e31-bb4a-1b3aadbccd13
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderSource
+		dataType: string
+		lineageTag: 3acb00a8-6104-477d-bcbb-cae1ab2264ae
+		summarizeBy: none
+		sourceColumn: OrderSource
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department_lv1
+		dataType: string
+		lineageTag: cecee23d-5c8f-412b-bc66-014d6745f5af
+		summarizeBy: none
+		sourceColumn: Department_lv1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department_lv2
+		dataType: string
+		lineageTag: 75ea0f1c-4e78-4e80-a4d3-f1c1d0fc8237
+		summarizeBy: none
+		sourceColumn: Department_lv2
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderType_lv1
+		dataType: string
+		lineageTag: c3b71d6b-77c2-4345-ab57-1928cb18aff7
+		summarizeBy: none
+		sourceColumn: OrderType_lv1
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderType_lv2
+		dataType: string
+		lineageTag: 77266672-f7ea-4bba-b7ed-7d48a67af9d9
+		summarizeBy: none
+		sourceColumn: OrderType_lv2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D_Danh mục_Nguồn đơn hàng' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUToy4djCPAWP/JKczLxUhYqHu9cq5BzeC5RwDgYSUHEgyz8PyghPTVKK1YlWMoJrds5IxK4bJoFNuzFce3BGfgGyVhAfQWFoNIFr9PZQSH+4uzdTAeFKXI6GCYEMMEU2IC/j4a71eQolmQhv4HM9XAxkkBncIP+0NKgCNMejisfGAgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, OrderSource = _t, Department_lv1 = _t, Department_lv2 = _t, OrderType_lv1 = _t, OrderType_lv2 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
