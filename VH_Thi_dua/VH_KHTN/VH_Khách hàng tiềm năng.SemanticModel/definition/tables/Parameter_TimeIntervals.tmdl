@@ -1,0 +1,49 @@
+table Parameter_TimeIntervals
+	lineageTag: 8f209858-ebf0-477d-b9b8-f7894493e12e
+
+	column Parameter_TimeIntervals
+		lineageTag: 6d3db895-25e3-491c-909b-d9fd0b118a4b
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_TimeIntervals Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_TimeIntervals Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_TimeIntervals Fields'
+		isHidden
+		lineageTag: 273408dc-62b8-407c-9280-afeff9e1703b
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_TimeIntervals Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_TimeIntervals Order'
+		isHidden
+		formatString: 0
+		lineageTag: 6cc87442-a908-4d42-ac3f-522518d12a09
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_TimeIntervals = calculated
+		mode: import
+		source =
+				{
+				    ("Ngày", NAMEOF('Dim_Date'[date]), 0),
+				    ("Tuần", NAMEOF('Dim_Date'[YearWeek]), 1),
+				    ("Tháng", NAMEOF('Dim_Date'[yearMonth]), 2)
+				}
+
+	annotation PBI_Id = 4b3b55de65d44cacb3546adfc821936c
+

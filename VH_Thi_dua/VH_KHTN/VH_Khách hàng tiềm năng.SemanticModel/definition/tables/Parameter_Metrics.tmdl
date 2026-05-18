@@ -1,0 +1,66 @@
+table Parameter_Metrics
+	lineageTag: 3b4714e3-2929-4946-9753-025a8ee9324c
+
+	column Parameter_Metrics
+		lineageTag: e6e0287c-b019-4eb5-8626-6fc454375160
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Metrics Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Metrics Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Metrics Fields'
+		isHidden
+		lineageTag: 683d31d8-b248-48b2-af1a-a28e4b75e1bb
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Metrics Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Metrics Order'
+		isHidden
+		formatString: 0
+		lineageTag: 2979810b-a558-48b6-85ec-74adddd03276
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Metrics = calculated
+		mode: import
+		source =
+				{
+				    ("Tổng lượt khách", NAMEOF('Measure'[Store_Total opportunities]), 0),
+				    ("Tỷ lệ chuyển đổi", NAMEOF('Measure'[Store_Conversion by Opportunities]), 1),
+				    ("Tỷ lệ không mua", NAMEOF('Measure'[Store_Visit miss]), 2),
+				    ("Target", NAMEOF('Measure'[Store_Target test]), 3),
+				    ("%TA", NAMEOF('Measure'[KHTN_TA_Rate]), 4),
+				    ("Đánh giá", NAMEOF('Measure'[KHTN_Evaluation]), 5),
+				    ("Tổng KHTN", NAMEOF('Measure'[KHTN_Customer]), 6),
+				    ("%KHTN/Không mua", NAMEOF('Measure'[%KHTN_Customer_miss]), 7),
+				    ("Đang chăm sóc", NAMEOF('Measure'[KHTN_Customer_Caring]), 8),
+				    ("Đang chăm sóc quá hạn", NAMEOF('Measure'[KHTN_Customer_Caring_IsOverDue]), 8),
+				    ("Đang chăm sóc còn hạn", NAMEOF('Measure'[KHTN_Customer_Caring_NoOverDue]), 8),
+				    ("Đã có đơn hàng", NAMEOF('Measure'[KHTN_Customer_OrderPlaced]), 9),
+				    ("Đã mua hàng", NAMEOF('Measure'[KHTN_Customer_Purchased]), 10),
+				    ("Ngừng chăm sóc", NAMEOF('Measure'[KHTN_Customer_StopCaring]), 11),
+				    ("%Đang chăm sóc", NAMEOF('Measure'[%KHTN_Customer_Caring]), 12),
+				    ("%Đang chăm sóc quá hạn", NAMEOF('Measure'[%KHTN_Customer_Caring_IsOverDue]), 12),
+				    ("%Đang chăm sóc còn hạn", NAMEOF('Measure'[%KHTN_Customer_Caring_NoOverDue]), 12),
+				    ("%Đã có đơn hàng", NAMEOF('Measure'[%KHTN_Customer_OrderPlaced]), 13),
+				    ("%Đã mua hàng", NAMEOF('Measure'[%KHTN_Customer_Purchased]), 14),
+				    ("%Ngừng chăm sóc", NAMEOF('Measure'[%KHTN_Customer_StopCaring]), 15)
+				}
+
+	annotation PBI_Id = f6eb8c7243c74180aa99eeabb76e52ed
+

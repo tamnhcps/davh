@@ -1,0 +1,103 @@
+table FACT_Target
+	lineageTag: ef2bc6f7-cf4d-4342-8f87-4892fe9f4dcc
+
+	column Miền
+		dataType: string
+		lineageTag: d3dd5024-2b97-40a1-ad7c-f254faa63ace
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: bca541ca-0688-40a4-9924-26cedb6ae742
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate = DATE(LEFT(FACT_Target[Month],4),RIGHT(FACT_Target[Month],2),1)
+		formatString: Short Date
+		lineageTag: e4b0d4c1-4989-4872-a8ed-5e06fcb3dadf
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 47fcd44f-bbf8-4d06-a791-acd15d42204a
+			defaultHierarchy: LocalDateTable_13254d03-cb5b-4fd8-baeb-e045f21f3d54.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: a64b88e8-d17a-4ded-b1a9-46c18cd9f110
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Type
+		dataType: string
+		lineageTag: 7127d2bf-ab07-4799-aaaf-7a029cd3ce8a
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 06f23553-685d-4b6d-82c3-3870720e3c58
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: double
+		lineageTag: f54d9a87-cd99-4dfb-a144-6aee2429c57a
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FACT_Target = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTA7nc01TSbED-PsVXqrupk9MvtxCEDnt_NPRfYrr_0Kz0ltAXpMRr-hYmc7F1UaugPp-kKsF_wad_e/pub?output=xlsx"), null, true),
+				    Target_Sheet = Source{[Item="Target_CS",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Target_Sheet, [PromoteAllScalars=true]),
+				    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each ([Báo cáo] = "KHTN")),
+				    #"Inserted Last Characters" = Table.AddColumn(#"Filtered Rows", "Region", each Text.End(Text.From([Miền], "en-US"), 3), type text),
+				    #"Inserted Year" = Table.AddColumn(#"Inserted Last Characters", "Năm", each Date.Year([Ngày bắt đầu]), Int64.Type),
+				    #"Inserted Month" = Table.AddColumn(#"Inserted Year", "Tháng", each Date.Month([Ngày bắt đầu]), Int64.Type),
+				    #"Inserted Day" = Table.AddColumn(#"Inserted Month", "No days", each Date.Day([Ngày kết thúc]), Int64.Type),
+				    #"Added Custom2" = Table.AddColumn(#"Inserted Day", "Custom", each DIM_Ngày),
+				    #"Expanded Custom" = Table.ExpandTableColumn(#"Added Custom2", "Custom", {"Ngày"}, {"Ngày"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded Custom",{{"Ngày", Int64.Type}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Changed Type1", "IsTargetDate", each if [Ngày] > [No days] then null else 1),
+				    #"Filtered Rows1" = Table.SelectRows(#"Added Conditional Column", each ([IsTargetDate] = 1)),
+				    #"Added Custom3" = Table.AddColumn(#"Filtered Rows1", "Date", each #date([Năm],[Tháng],[Ngày]), type date),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom3",{{"Báo cáo", "Type"}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Renamed Columns",{"Miền", "Type", "Target", "Region", "Date"}),
+				    #"Added Custom Column" = Table.AddColumn(#"Removed Other Columns", "Month", each Text.Combine({Date.ToText([Date], "yyyy"), "-", Date.ToText([Date], "MM")}), type text),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom Column",{{"Target", type number}}),
+				    #"Sorted Rows" = Table.Sort(#"Changed Type",{{"Date", Order.Descending}})
+				in
+				    #"Sorted Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

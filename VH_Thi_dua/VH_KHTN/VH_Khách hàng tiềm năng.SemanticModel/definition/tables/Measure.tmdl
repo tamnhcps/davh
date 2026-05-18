@@ -1,0 +1,480 @@
+table Measure
+	lineageTag: a55949cc-ddbc-4e3f-bc32-d19d25c951d5
+
+	/// Tổng lượt khách 
+	measure 'Store_Total opportunities' =
+			
+			var _z = SUM ( FACT_Palexy_Store[total_opportunities] ) - SUM ( FACT_Palexy_Store[visit_asp] ) - SUM ( FACT_Palexy_Store[visit_SO_TH] ) - SUM ( FACT_Palexy_Store[visit_thecao] ) - SUM ( FACT_Palexy_Store[visit_loai_tru] )
+			
+			RETURN IF(_z < 0, [Store_Sales transaction], _z)
+		lineageTag: c7a9f338-38e6-4e28-bb95-7a1bccb5ee76
+
+	/// Target khách hàng tiềm năng của cửa hàng theo ngày
+	measure 'Store_Target daily' =
+			
+			--ROUND([Store_Total opportunities]*[Store_Visit miss]*[Store_Target], 0)
+			SUM(FACT_Palexy_Store[Target_daily])
+		formatString: #,0
+		lineageTag: 308b92fc-02a7-4c25-8ace-4b90f9a250a8
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Số lượng khách hàng đã có đơn hàng
+	measure KHTN_Customer_OrderPlaced = CALCULATE(DISTINCTCOUNT(FACT_PotentialCustomers[AutoCode]), FACT_PotentialCustomers[StatusName] = "Đã có đơn hàng")
+		formatString: #,0
+		lineageTag: b757f048-1e4b-405b-b59d-40de668ada62
+
+	/// Số lượng khách hàng đã mua hàng
+	measure KHTN_Customer_Purchased = CALCULATE(DISTINCTCOUNT(FACT_PotentialCustomers[AutoCode]), FACT_PotentialCustomers[StatusName] = "Đã mua hàng")
+		formatString: #,0
+		lineageTag: 94be8160-3c49-4b23-8cba-d4bc605c1939
+
+	/// Số lượng khách hàng đang chăm sóc
+	/// 
+	measure KHTN_Customer_Caring = CALCULATE(DISTINCTCOUNT(FACT_PotentialCustomers[AutoCode]), FACT_PotentialCustomers[StatusName] = "Đang chăm sóc")
+		formatString: #,0
+		lineageTag: 95caf3da-732f-4916-8a0b-50f4ec8fbf2c
+
+	/// Số lượng khách hàng ngừng chăm sóc
+	measure KHTN_Customer_StopCaring = CALCULATE(DISTINCTCOUNT(FACT_PotentialCustomers[AutoCode]), FACT_PotentialCustomers[StatusName] = "Ngừng chăm sóc")
+		formatString: #,0
+		lineageTag: 1beb84a0-24d0-4a8a-9564-b3291592bff9
+
+	/// Số lượng khách hàng tiềm năng
+	measure KHTN_Customer = DISTINCTCOUNT(FACT_PotentialCustomers[AutoCode])
+		formatString: #,0
+		lineageTag: 561a9d89-fc0e-444d-8b64-472e832911b3
+
+	/// Tổng doanh thu thuần 
+	measure 'Store_Sales transaction' =
+			
+			SUM ( FACT_Palexy_Store[net_sales_transactions] )
+		lineageTag: 219f851f-7515-4f2e-a558-6b6f834e399a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Tỷ lệ chuyển đổi mua hàng (CR)
+	measure 'Store_Conversion by Opportunities' = ```
+			
+			VAR _y = [Store_Conversion by Opportunities_plx] * 100
+			VAR _x = (_y - TRUNC(_y)) / 100
+			VAR _z =
+			    DIVIDE(
+			        [Store_Sales transaction],
+			        [Store_Total opportunities],
+			        BLANK()
+			    )
+			RETURN
+			    IF(
+			        _z > 0.95,
+			        0.95 + _x,
+			        _z
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8552f5bc-c2fc-47c4-83cf-2555370e96fd
+
+	/// Tỷ lệ khách hàng không mua
+	measure 'Store_Visit miss' = IF( (1-[Store_Conversion by Opportunities]) <= 0, 0.1, 1-[Store_Conversion by Opportunities])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 78151d32-3a67-45bc-9616-da6590e8089b
+
+	/// Tỷ lệ thu thập khách hàng tiềm năng (%TA)
+	measure KHTN_TA_Rate = DIVIDE([%KHTN_Customer_miss],0.31)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0565969e-a123-4d2c-80f1-db7fe91e7b95
+
+	/// Đánh giá chỉ số thu thập khách hàng tiềm năng (%TA)
+	measure KHTN_Evaluation =
+			
+			SWITCH(TRUE(),
+			[KHTN_TA_Rate] >= 1, "Đạt",
+			[KHTN_TA_Rate] = 0 && [Store_Target daily] > 0 , "Không đạt",
+			[KHTN_TA_Rate] = BLANK() && [Store_Target daily] = 0 , "Hoàn thành",
+			[KHTN_TA_Rate] = BLANK() , BLANK(),
+			"Không đạt")
+		lineageTag: 758ef920-affa-43f4-af64-97ea8835b9d1
+
+	measure KHTN_Last_Update = CALCULATE(MAX(FACT_PotentialCustomers[CreatedByDate]),ALL())
+		formatString: General Date
+		lineageTag: 9b063ae4-d8da-4721-9b6e-12197a56cd63
+
+	measure KHTN_Evaluation_notachieve =
+			
+			var zT0 = CALCULATETABLE( SUMMARIZE( DIM_BQ_Department, DIM_BQ_Department[Shop+Size] ) )
+			var zT1 = ADDCOLUMNS( zT0, "zDanhGia", [KHTN_Evaluation] )
+			return COUNTX( FILTER( zT1, [zDanhGia] = "Không đạt"), DIM_BQ_Department[Shop+Size] )
+		formatString: 0
+		lineageTag: 18ef5068-d52b-4a1a-a996-08e33ef6d63c
+
+	/// Target khách hàng tiềm năng của cửa hàng
+	measure Store_Target = VALUES( FACT_Target[Target])
+		lineageTag: 7e4ef97e-49eb-4b86-ab71-9bf5338c8698
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store_Target daily_chart' = SUM(FACT_Palexy_Store[Target_daily])
+		lineageTag: 61cb6e2b-679e-4f71-a3dc-4729e5e689b8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Tỷ lệ không mua
+	measure %KHTN_Customer_miss =
+			
+			DIVIDE(
+			    [KHTN_Customer],
+			    [Store_Visit miss] * [Store_Total opportunities],
+			    BLANK()
+			)
+			
+			//DIVIDE(IF(ISBLANK([KHTN_Customer]), 0, [KHTN_Customer]), [Store_Total miss], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 16c08f43-15c8-4b3e-8ca2-cf63afa6061f
+
+	/// Tỷ lệ đã có đơn hàng
+	measure %KHTN_Customer_OrderPlaced = DIVIDE([KHTN_Customer_OrderPlaced], [KHTN_Customer], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8965345e-7470-491f-885f-9a530bc59f9e
+
+	/// Tỷ lệ ngừng chăm sóc
+	measure %KHTN_Customer_StopCaring = DIVIDE([KHTN_Customer_StopCaring], [KHTN_Customer], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4c967d27-8ce9-42cf-845a-b9a1bef657b0
+
+	/// Tỷ lệ đã mua hàng
+	measure %KHTN_Customer_Purchased = DIVIDE([KHTN_Customer_Purchased], [KHTN_Customer], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d49ab573-d505-43ae-a865-4e49b26c3f4f
+
+	/// Tổng khách không mua
+	measure 'Store_Total miss' = ROUND([Store_Total opportunities]*[Store_Visit miss], 0)
+		lineageTag: 619d2880-6636-48ca-8628-92df01a5a299
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Tỷ lệ đang chăm sóc
+	measure %KHTN_Customer_Caring = DIVIDE([KHTN_Customer_Caring], [KHTN_Customer], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e562bd45-6e4e-483d-a95c-3479d43fc4e9
+
+	measure 'Store_Visit miss_real' = IF( (1-[Store_Conversion by Opportunities]) <= 0, 0, 1-[Store_Conversion by Opportunities])
+		lineageTag: c926507d-bf50-48cd-b7f9-bc92a7a7eb81
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Tổng khách không mua
+	measure 'Store_Total miss_real' = ROUND([Store_Total opportunities]*[Store_Visit miss_real], 0)
+		formatString: #,0
+		lineageTag: 0d0f49c1-7663-4eb0-89d8-9288ab4d8c44
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Số lượng khách hàng đã có Order
+	/// 
+	measure KHTN_Customer_Order =
+			//DISTINCTCOUNT(FACT_PotentialCustomers[OrderAutoCode])
+			COUNTROWS(
+			    SUMMARIZE(
+			        FILTER(
+			            FACT_PotentialCustomers,
+			            FACT_PotentialCustomers[OrderAutoCode] <> BLANK()
+			        ),
+			        FACT_PotentialCustomers[OrderAutoCode]
+			    )
+			)
+		formatString: 0
+		lineageTag: a7128ca0-89e4-4c93-ae70-b2090a8e56c7
+
+	measure KHTN_Customer_SP =
+			//DISTINCTCOUNT(FACT_PotentialCustomers[SpAutoCode])
+			COUNTROWS(
+			    SUMMARIZE(
+			        FILTER(
+			            FACT_PotentialCustomers,
+			            FACT_PotentialCustomers[SpAutoCode] <> BLANK()
+			        ),
+			        FACT_PotentialCustomers[SpAutoCode]
+			    )
+			)
+		formatString: 0
+		lineageTag: 764b1fd2-9d15-4834-873f-f0444262b6a6
+
+	/// Số lượng khách hàng đã có đơn SP
+	measure KHTN_Customer_noSP =
+			
+			COUNTROWS(
+			    SUMMARIZE(
+			        FILTER(
+			            FACT_PotentialCustomers,
+			            FACT_PotentialCustomers[TotalAmount] > 0
+			        ),
+			        FACT_PotentialCustomers[SpAutoCode]
+			    )
+			)
+		formatString: 0
+		lineageTag: c9a0649f-c0f4-44ee-afb7-66ef55273016
+
+	/// Số lượng khách hàng đã có đơn DH
+	measure KHTN_Customer_noDH =
+			
+			COUNTROWS(
+			    SUMMARIZE(
+			        FILTER(
+			            FACT_PotentialCustomers,
+			            FACT_PotentialCustomers[StatusName] = "Đã có đơn hàng"
+			        ),
+			        FACT_PotentialCustomers[OrderAutoCode]
+			    )
+			)
+		formatString: 0
+		lineageTag: d5621c15-74de-4ccb-8232-c6cfbfee6846
+
+	/// Doanh thu
+	measure KHTN_Customer_TotalAmount =
+			
+			var ta =
+			SUMMARIZE(
+			        FILTER(
+			            FACT_PotentialCustomers,
+			            FACT_PotentialCustomers[StatusName] = "Đã mua hàng"
+			            && FACT_PotentialCustomers[TotalAmount] > 0
+			        ),
+			        FACT_PotentialCustomers[SpAutoCode],
+			        "Amount", SUM(FACT_PotentialCustomers[TotalAmount])
+			    )
+			return SUMX(ta, SUM([Amount]))
+		formatString: #,0
+		lineageTag: 62ddb697-201b-41eb-a9a9-07e8b2f870ca
+
+	measure %KHTN_Customer_miss_real = DIVIDE(IF(ISBLANK([KHTN_Customer]), 0, [KHTN_Customer]), [Store_Total miss_real], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 778001d6-0728-4bc5-827a-1b151d6df5fc
+
+	/// Số ngày trung bình khách đến mua hàng
+	/// 
+	measure KHTN_Customer_processedDay =
+			
+			var ta =
+			SUMMARIZE(
+			        FILTER(
+			            FACT_PotentialCustomers,
+			            FACT_PotentialCustomers[StatusName] = "Đã mua hàng"
+			            && FACT_PotentialCustomers[TotalAmount] > 0
+			        ),
+			        FACT_PotentialCustomers[SpAutoCode],
+			        "avgDay", AVERAGE(FACT_PotentialCustomers[processedDay])
+			    )
+			return AVERAGEX(ta, SUM([avgDay]))
+		lineageTag: 9f5c62b3-ea68-4525-9c33-74685cd7d503
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Số lượng khách hàng đang chăm sóc quá hạn
+	/// 
+	measure KHTN_Customer_Caring_IsOverDue = ```
+			
+			    CALCULATE(DISTINCTCOUNT(FACT_PotentialCustomers[AutoCode]), 
+			        FACT_PotentialCustomers[StatusName] = "Đang chăm sóc"
+			        && FACT_PotentialCustomers[IsOverDue] = 1)
+			```
+		formatString: 0
+		lineageTag: a645b08d-ddb9-49bf-85c4-0accb78cf1a4
+
+	/// Số lượng khách hàng đang chăm sóc còn hạn
+	/// 
+	measure KHTN_Customer_Caring_NoOverDue = ```
+			
+			    CALCULATE(DISTINCTCOUNT(FACT_PotentialCustomers[AutoCode]), 
+			        FACT_PotentialCustomers[StatusName] = "Đang chăm sóc"
+			        && FACT_PotentialCustomers[IsOverDue] = 0)
+			```
+		formatString: 0
+		lineageTag: 193baca2-335d-471a-a1c7-d8a9d0b999fe
+
+	/// Tỷ lệ đang chăm sóc quá hạn
+	measure %KHTN_Customer_Caring_IsOverDue = DIVIDE([KHTN_Customer_Caring_IsOverDue], [KHTN_Customer], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d3a0fb58-f13d-43d0-ae19-8571d68c0513
+
+	/// Tỷ lệ đang chăm sóc còn hạn
+	measure %KHTN_Customer_Caring_NoOverDue = DIVIDE([KHTN_Customer_Caring_NoOverDue], [KHTN_Customer], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 875610a8-6da0-420d-b5be-cf53a5d8ba6a
+
+	measure 'Store_Sales transaction by phone' =
+			
+			SUM ( FACT_Palexy_Store[transaction_by_phone] )
+		lineageTag: af3ef910-74b8-41dc-8ad6-471337fc8194
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store_Conversion by Opportunities_plx' = ```
+			
+			DIVIDE (
+			    [Store_Sales transaction],
+			    [Store_Total opportunities_plx],
+			    BLANK ()
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0f25132d-3018-44c9-855c-9f61aaf14244
+
+	measure 'Store_Total opportunities_plx' =
+			
+			SUM ( FACT_Palexy_Store[total_opportunities_new] )
+		formatString: #,0
+		lineageTag: 5fd803fb-ade4-4576-845f-3b5f06062eac
+
+	measure 'Store_Target test' = [Store_Visit miss] * 0.31 *[Store_Total opportunities]
+		lineageTag: b19a360f-5ae7-4ad0-8679-63c32014bf11
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store_Visit miss_PLX' = ```
+			
+			VAR _cr_plx =
+			    [Store_Conversion by Opportunities_plx]
+			RETURN
+			    IF(
+			        ISBLANK(_cr_plx),
+			        BLANK(),
+			        MAX(0, 1 - _cr_plx)
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: PLX
+		lineageTag: f0cda9cb-8240-41b0-a086-a5e3faba1a78
+
+	measure 'Store_Total miss_PLX' = ```
+			
+			ROUND(
+			    [Store_Total opportunities_plx] * [Store_Visit miss_PLX],
+			    0
+			)
+			
+			```
+		displayFolder: PLX
+		lineageTag: f51555d2-c633-405d-87b4-3612fd0b4f87
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure %KHTN_Customer_miss_PLX = ```
+			
+			DIVIDE(
+			    [KHTN_Customer],
+			    [Store_Total miss_PLX],
+			    BLANK()
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: PLX
+		lineageTag: b45dfdb3-727e-4052-acd0-e6ead5889810
+
+	measure KHTN_TA_Rate_PLX = ```
+			
+			DIVIDE(
+			    [%KHTN_Customer_miss_PLX],
+			    0.31,
+			    BLANK()
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: PLX
+		lineageTag: 6f5ee85c-eece-4379-a0e0-47acf95f82a9
+
+	measure 'Store_Target test_PLX' = ```
+			
+			[Store_Visit miss_PLX] * 0.31 * [Store_Total opportunities_plx]
+			
+			```
+		displayFolder: PLX
+		lineageTag: b28441d9-9585-4867-b9dd-3b7a869c5a6b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure KHTN_Evaluation_PLX = ```
+			
+			VAR _target =
+			    [Store_Target test_PLX]
+			VAR _ta =
+			    [KHTN_TA_Rate_PLX]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_target), BLANK(),
+			        _target = 0 && ISBLANK(_ta), "Hoàn thành",
+			        _ta >= 1, "Đạt",
+			        _target > 0 && COALESCE(_ta, 0) < 1, "Không đạt",
+			        BLANK()
+			    )
+			
+			```
+		displayFolder: PLX
+		lineageTag: d82175c2-ebdd-40b2-be85-8538ed19cd2d
+
+	measure KHTN_Evaluation_notachieve_PLX = ```
+			
+			VAR zT0 =
+			    CALCULATETABLE(
+			        SUMMARIZE(
+			            DIM_BQ_Department,
+			            DIM_BQ_Department[Shop+Size]
+			        )
+			    )
+			VAR zT1 =
+			    ADDCOLUMNS(
+			        zT0,
+			        "zDanhGia", [KHTN_Evaluation_PLX]
+			    )
+			RETURN
+			    COUNTX(
+			        FILTER(zT1, [zDanhGia] = "Không đạt"),
+			        DIM_BQ_Department[Shop+Size]
+			    )
+			
+			```
+		formatString: 0
+		displayFolder: PLX
+		lineageTag: d59aa186-0c9e-48a4-9d25-af570c0d7156
+
+	measure 'Total Opps_PLX' = ```
+			
+			[Store_Total opportunities_plx]
+			
+			```
+		formatString: #,0
+		displayFolder: PLX
+		lineageTag: d8521767-352b-49d9-adc9-45849c342fa9
+
+	measure CRbO_PLX = ```
+			
+			[Store_Conversion by Opportunities_plx]
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: PLX
+		lineageTag: 1e46c391-db7a-403e-8d7e-f8681f89f975
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: b202b5af-25d1-43af-b909-479090fadb90
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 8cf12f627404406e868db3b7fe0cd5a5
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

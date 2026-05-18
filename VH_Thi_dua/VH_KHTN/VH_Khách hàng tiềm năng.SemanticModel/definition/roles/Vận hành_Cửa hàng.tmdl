@@ -1,0 +1,18 @@
+role 'Vận hành_Cửa hàng'
+	modelPermission: read
+
+	tablePermission DIM_RolePermissions_Operations = ```
+			IF( 
+			LOOKUPVALUE('DIM_RolePermissions_User'[Title],'DIM_RolePermissions_User'[Mail] ,USERPRINCIPALNAME()) = "SHOP", 
+			[cua_hang] IN DISTINCT(
+			    SELECTCOLUMNS(
+			        FILTER(
+			            ADDCOLUMNS(
+			                CROSSJOIN(
+			                    FILTER('DIM_RolePermissions_Operations','DIM_RolePermissions_Operations'[cua_hang] = LOOKUPVALUE('DIM_RolePermissions_User'[Tên],'DIM_RolePermissions_User'[Mail],USERPRINCIPALNAME())),'DIM_RolePermissions_User'),
+			                        "Path leader", PATHCONTAINS('DIM_RolePermissions_User'[Path],'DIM_RolePermissions_Operations'[cua_hang])),[Path leader]),"Cửa hàng",'DIM_RolePermissions_User'[Tên]))
+			,True)
+			```
+
+	annotation PBI_Id = aa3880b7ee654cafa7228e2f5cc2b5d6
+

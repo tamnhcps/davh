@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "VH_Khách hàng tiềm năng"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "95b56d52-ffdd-4c02-9d53-f49a7e7d9f71"
+  }
+}

@@ -1,0 +1,396 @@
+table DIM_BQ_Department
+	lineageTag: 1bc91dc3-b2e1-44e9-b361-b1640d317940
+
+	column hara_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 674890f8-d2e0-4821-a044-fca77326e05e
+		summarizeBy: sum
+		sourceColumn: hara_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma_bo_phan
+		dataType: string
+		lineageTag: 99ed95ba-38d2-403f-ba75-6343d4ddf8ae
+		summarizeBy: none
+		sourceColumn: ma_bo_phan
+
+		annotation SummarizationSetBy = Automatic
+
+	column bo_phan
+		dataType: string
+		lineageTag: 4aeea81f-3780-4695-9caf-15d2fdef8a4f
+		summarizeBy: none
+		sourceColumn: bo_phan
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma_kho
+		dataType: string
+		lineageTag: 2b06f04f-9914-4153-a8c3-06e3c6b30a7c
+		summarizeBy: none
+		sourceColumn: ma_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column apple_location_id
+		dataType: string
+		lineageTag: 0a6055b5-8654-43e4-8be2-0e0616ca6c25
+		summarizeBy: none
+		sourceColumn: apple_location_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_2
+		dataType: string
+		lineageTag: 74af6389-d429-4255-8193-fe9ff449139b
+		summarizeBy: none
+		sourceColumn: level_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_3
+		dataType: string
+		lineageTag: ee36360d-f144-405c-8199-4d56d36fbe93
+		summarizeBy: none
+		sourceColumn: level_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_4
+		dataType: string
+		lineageTag: ba66b622-4085-4215-a446-7d2ca4c824c0
+		summarizeBy: none
+		sourceColumn: level_4
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_5
+		dataType: string
+		lineageTag: 2f63380e-1574-48f2-b00d-3d4ac77a04be
+		summarizeBy: none
+		sourceColumn: level_5
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_6
+		dataType: string
+		lineageTag: 4df45239-fa76-4b80-b127-7a4f445a7147
+		summarizeBy: none
+		sourceColumn: level_6
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_7
+		dataType: string
+		lineageTag: 345bed90-4707-46f8-99d0-37ff2ee69685
+		summarizeBy: none
+		sourceColumn: level_7
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: 13c347a0-364d-423a-a3f6-bdf8f29dc1ff
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 5f6eadaa-5092-46d0-ae56-b7a069a25f01
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column branch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d011adea-e1e7-4364-a54a-56f9e474847f
+		summarizeBy: sum
+		sourceColumn: branch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column oracle_code
+		dataType: string
+		lineageTag: 4a4b2fd0-ceac-474c-bc8a-955d38cdadfd
+		summarizeBy: none
+		sourceColumn: oracle_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8a982a6d-f6b3-4c51-a570-e2b7402c6d20
+		summarizeBy: none
+		sourceColumn: is_inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column hara_workplace_name
+		dataType: string
+		lineageTag: b3a934bd-6a3b-41d6-8dda-fb05bd9f76a9
+		summarizeBy: none
+		sourceColumn: hara_workplace_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cong_ty
+		dataType: string
+		lineageTag: 0af89c67-56da-47f1-9fcc-3bc1234bd72d
+		summarizeBy: none
+		sourceColumn: cong_ty
+
+		annotation SummarizationSetBy = Automatic
+
+	column short_name
+		dataType: string
+		lineageTag: 2f713475-d7bf-4dc9-9138-6cfc63f8dee7
+		summarizeBy: none
+		sourceColumn: short_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column van_phong_cua_hang
+		dataType: string
+		lineageTag: 1df7a6ce-b04a-441c-acd3-e08e4a5b34ca
+		summarizeBy: none
+		sourceColumn: van_phong_cua_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	column mien
+		dataType: string
+		lineageTag: 26c12f1a-761e-4b35-8f93-b2e57afcd072
+		summarizeBy: none
+		sourceColumn: mien
+
+		annotation SummarizationSetBy = Automatic
+
+	column vung
+		dataType: string
+		lineageTag: f79be8a6-9ef7-4f76-b31d-460c86ad5aea
+		summarizeBy: none
+		sourceColumn: vung
+
+		annotation SummarizationSetBy = Automatic
+
+	column khoi
+		dataType: string
+		lineageTag: 0c9692cb-f595-44c2-b337-498379c7ae83
+		summarizeBy: none
+		sourceColumn: khoi
+
+		annotation SummarizationSetBy = Automatic
+
+	column phong
+		dataType: string
+		lineageTag: cc56e908-7da9-436d-a1bb-3e6766032c6e
+		summarizeBy: none
+		sourceColumn: phong
+
+		annotation SummarizationSetBy = Automatic
+
+	column tinh_thanh_pho
+		dataType: string
+		lineageTag: bc4df7dc-f10c-41e2-9376-ed44a767367e
+		summarizeBy: none
+		sourceColumn: tinh_thanh_pho
+
+		annotation SummarizationSetBy = Automatic
+
+	column quan_huyen
+		dataType: string
+		lineageTag: 83a222d2-9409-4f8b-a4a3-d2e4910e65a0
+		summarizeBy: none
+		sourceColumn: quan_huyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column khai_truong
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: dc3de2d2-78aa-44fa-92e6-77bc9d5c1ff0
+		summarizeBy: none
+		sourceColumn: khai_truong
+
+		variation Variation
+			isDefault
+			relationship: 298a3e63-c5df-4afb-b31b-af6b230f70fd
+			defaultHierarchy: LocalDateTable_2352d62b-12c6-4614-a9d5-571c795938b6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column dong_cua
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 64022ba1-60c8-4959-9472-28a8f2c0615e
+		summarizeBy: none
+		sourceColumn: dong_cua
+
+		variation Variation
+			isDefault
+			relationship: 9c82b46d-361a-48c8-b6cf-5b8ab50314fb
+			defaultHierarchy: LocalDateTable_ad73c459-16ab-4b3b-bd90-a62b30566196.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ngang_m
+		dataType: double
+		lineageTag: b9c6e3ba-03fe-415f-873d-9a74c98f2b92
+		summarizeBy: sum
+		sourceColumn: ngang_m
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sau_m
+		dataType: double
+		lineageTag: d211857d-5d3d-48b7-b703-52fb61d902b4
+		summarizeBy: sum
+		sourceColumn: sau_m
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tong_m2
+		dataType: double
+		lineageTag: 1485ad98-950f-45e9-932c-d4f691b799d6
+		summarizeBy: sum
+		sourceColumn: tong_m2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dien_tich_ban_hang
+		dataType: double
+		lineageTag: 947ebe9c-8f53-4b78-84b9-e73fababdef5
+		summarizeBy: sum
+		sourceColumn: dien_tich_ban_hang
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column am
+		dataType: string
+		lineageTag: 16036764-d54d-4349-ac00-b29e1a2f2d85
+		summarizeBy: none
+		sourceColumn: am
+
+		annotation SummarizationSetBy = Automatic
+
+	column size
+		dataType: string
+		lineageTag: d32325af-7763-4ca2-aa75-3afc06647fb3
+		summarizeBy: none
+		sourceColumn: size
+
+		annotation SummarizationSetBy = Automatic
+
+	column rsm
+		dataType: string
+		lineageTag: 9989d719-8aa0-486e-b48a-748695123a80
+		summarizeBy: none
+		sourceColumn: rsm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Size new' = if(RELATED('DIM_SizeShop'[SIZE])<>BLANK(),RELATED('DIM_SizeShop'[SIZE]),[size])
+		lineageTag: 28c00d01-96e1-4eee-97eb-cd231668678f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shop+Size = if([Size new]<>BLANK(),[bo_phan]&" ("&[Size new]&")",BLANK())
+		lineageTag: d0cdc7f1-dc7a-4720-9d66-b2737b223ed1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia_chi_shop
+		dataType: string
+		lineageTag: 5e8a071b-7664-47ff-80d3-153caddf7140
+		summarizeBy: none
+		sourceColumn: dia_chi_shop
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6b0535d9-6f04-4900-942d-dcfbef946c21
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column run_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b4186c53-4fda-4a4c-a24a-1f1486cacad5
+		summarizeBy: none
+		sourceColumn: run_date
+
+		variation Variation
+			isDefault
+			relationship: f64b4d6a-7e45-41ad-a20d-824d70ced58e
+			defaultHierarchy: LocalDateTable_778b7c50-af8f-41ca-bdaf-f753417bd104.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column cua_hang_gop
+		dataType: string
+		lineageTag: 6ac518f6-91ad-4b28-88b1-ad14c7d48885
+		summarizeBy: none
+		sourceColumn: cua_hang_gop
+
+		annotation SummarizationSetBy = Automatic
+
+	column kn_am
+		dataType: string
+		lineageTag: d2c43dcb-ed2f-4009-8bb7-a3d92bdf886a
+		summarizeBy: none
+		sourceColumn: kn_am
+
+		annotation SummarizationSetBy = Automatic
+
+	column kn_rsm
+		dataType: string
+		lineageTag: 3d1e1ca1-8101-44cf-aadb-c32bb8184cf3
+		summarizeBy: none
+		sourceColumn: kn_rsm
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_BQ_Department = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=2a26bbe0-48fb-47c2-99bf-d69f107e535c""#(lf)select #(lf)  *#(lf)from#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_department`", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

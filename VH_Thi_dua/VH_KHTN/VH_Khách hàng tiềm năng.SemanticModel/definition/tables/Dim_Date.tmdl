@@ -1,0 +1,213 @@
+table Dim_Date
+	lineageTag: 97f7ed0c-e4b6-4bf7-8ebb-b540dccf347c
+
+	column date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 9d111bba-1557-450c-bfca-5f47be4f1b65
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: 824c6a23-3fd8-427e-97d9-093df19301ae
+			defaultHierarchy: LocalDateTable_fa67855a-3d80-464d-a0b4-6a45bc1349fb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column yearMonth
+		dataType: string
+		lineageTag: ed6c1ad2-483c-455b-9ed5-adf2cb5fc9b7
+		summarizeBy: none
+		sourceColumn: yearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column apple_year_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 23ceb5d7-0c32-46c6-bb5d-d33e9f0917d4
+		summarizeBy: sum
+		sourceColumn: apple_year_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_week
+		dataType: string
+		lineageTag: 11ca2597-5c48-4e02-966c-4180a4e43f82
+		summarizeBy: none
+		sourceColumn: year_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstDayOfMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b3dc934e-e053-4cb5-a7af-28ada64d9f81
+		summarizeBy: none
+		sourceColumn: FirstDayOfMonth
+
+		variation Variation
+			isDefault
+			relationship: fd479f92-0ff1-48bd-a86a-81181c1b299f
+			defaultHierarchy: LocalDateTable_facc51a8-cec8-4eb6-a904-e59775a9e670.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column LastDayOfMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a659d91d-14ab-41dd-a5b4-dc8c3b223d22
+		summarizeBy: none
+		sourceColumn: LastDayOfMonth
+
+		variation Variation
+			isDefault
+			relationship: d905a66c-2548-45b4-abcf-8f81e0e3561e
+			defaultHierarchy: LocalDateTable_a769f854-9c2f-4e99-be64-17e65c87040d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: fc70e914-c036-418c-b2d3-4c013440fe43
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: string
+		lineageTag: 78dbdc3b-c5c0-45fb-be69-0635432ddde9
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: 01c762fe-fe53-4385-9c10-3fa05bd72ded
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayOfYear
+		dataType: string
+		lineageTag: 65b1c8dd-d6ae-4a2d-821f-c2700689a2ec
+		summarizeBy: none
+		sourceColumn: dayOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: string
+		lineageTag: 804f384d-5526-4660-9a84-60f557842ad9
+		summarizeBy: none
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeek
+		dataType: string
+		lineageTag: 85742fc6-b0c9-4ffb-9ee8-93b30bb911b3
+		summarizeBy: none
+		sourceColumn: YearWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column quy_nam
+		dataType: string
+		lineageTag: 3b36ce9c-afd5-413d-97d7-1e965f067893
+		summarizeBy: none
+		sourceColumn: quy_nam
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayName
+		dataType: string
+		lineageTag: b6ecc29f-50dd-48d3-b7d6-bdc0ab633aec
+		summarizeBy: none
+		sourceColumn: dayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayNameLong
+		dataType: string
+		lineageTag: 69f159bb-913d-41e0-8bad-42e33815ab19
+		summarizeBy: none
+		sourceColumn: dayNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthName
+		dataType: string
+		lineageTag: 3e998187-c362-4b22-a24d-5b9f19e7aefd
+		summarizeBy: none
+		sourceColumn: monthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthNameLong
+		dataType: string
+		lineageTag: 09da5594-aef9-48dc-aaca-1f4bbade359d
+		summarizeBy: none
+		sourceColumn: monthNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 613da553-1ea3-4a79-a4be-480b501d9c0a
+		summarizeBy: none
+		sourceColumn: weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngay_isActive =
+			
+			VAR zMin =
+			    CALCULATE(
+			        MIN( FACT_PotentialCustomers[Date] ),
+			        FILTER( FACT_PotentialCustomers, FACT_PotentialCustomers[Phone] <> BLANK() )
+			    )
+			VAR zMax =
+			    CALCULATE(
+			        MAX( FACT_PotentialCustomers[Date] ),
+			        FILTER( FACT_PotentialCustomers, FACT_PotentialCustomers[Phone] <> BLANK() )
+			    )
+			RETURN
+			    IF(
+			        Dim_Date[Date] >= zMin
+			            && Dim_Date[Date] <= zMax,
+			        1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: f36d0857-8d3d-4b9f-ba32-42c913c14fc6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Date = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=2a26bbe0-48fb-47c2-99bf-d69f107e535c""#(lf)SELECT *#(lf)FROM cellphones-data-platform.cps_DA_General_Transform.dim_date", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

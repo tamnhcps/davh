@@ -1,0 +1,203 @@
+table DIM_BQ_Store
+	lineageTag: a71af5f4-cef3-4f18-9ac5-584fcbc56c22
+
+	column ma_kho
+		dataType: string
+		lineageTag: 579c6ce2-5db3-443d-9dc7-654e94cd098b
+		summarizeBy: none
+		sourceColumn: ma_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column ten_kho
+		dataType: string
+		lineageTag: 773a89f6-3767-4baf-acfd-57f313320124
+		summarizeBy: none
+		sourceColumn: ten_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia_chi_kho
+		dataType: string
+		lineageTag: 929dbb14-165e-452f-95d9-ca751c455ca7
+		summarizeBy: none
+		sourceColumn: dia_chi_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column kho_phan_tich
+		dataType: string
+		lineageTag: 8c83a0dd-8543-4cde-9165-7621edb19b6e
+		summarizeBy: none
+		sourceColumn: kho_phan_tich
+
+		annotation SummarizationSetBy = Automatic
+
+	column loai_kho
+		dataType: string
+		lineageTag: 4f8dec41-7a97-40af-83ff-73e22395bc4f
+		summarizeBy: none
+		sourceColumn: loai_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e3ff16ed-457c-4dc9-904f-630cf476c0d4
+		summarizeBy: none
+		sourceColumn: is_inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column cong_ty
+		dataType: string
+		lineageTag: c68ec526-713c-404f-924b-135a3f0aefdd
+		summarizeBy: none
+		sourceColumn: cong_ty
+
+		annotation SummarizationSetBy = Automatic
+
+	column mien
+		dataType: string
+		lineageTag: 4c4f7bab-8536-4942-8582-696624909ec3
+		summarizeBy: none
+		sourceColumn: mien
+
+		annotation SummarizationSetBy = Automatic
+
+	column cua_hang
+		dataType: string
+		lineageTag: 05969bc7-53f5-444c-a6a4-c04eaa1b3665
+		summarizeBy: none
+		sourceColumn: cua_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	column phan_loai_kho
+		dataType: string
+		lineageTag: 3662c101-f4dc-4eb8-bc8f-cdcb359018bc
+		summarizeBy: none
+		sourceColumn: phan_loai_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column muc_dich_quan_ly
+		dataType: string
+		lineageTag: 5dbf064c-0675-474d-b95e-d142c6f3421a
+		summarizeBy: none
+		sourceColumn: muc_dich_quan_ly
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 6eeadaba-75ed-45f2-a1a8-72dd8f5d03df
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column run_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6d4f9943-475c-4ca5-9cd3-dddada70385b
+		summarizeBy: none
+		sourceColumn: run_date
+
+		variation Variation
+			isDefault
+			relationship: 6afeb81a-53bd-43ab-b9c9-73bdf6719cdd
+			defaultHierarchy: LocalDateTable_881cafce-ccfe-4734-8faa-55293c853315.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column phuong_xa
+		dataType: string
+		lineageTag: b52319b4-a555-4eda-8e04-7544c0032028
+		summarizeBy: none
+		sourceColumn: phuong_xa
+
+		annotation SummarizationSetBy = Automatic
+
+	column quan_huyen
+		dataType: string
+		lineageTag: ab4e1d1c-1415-44b2-9cdb-f654adf094b8
+		summarizeBy: none
+		sourceColumn: quan_huyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column tinh_thanh
+		dataType: string
+		lineageTag: ccdbfbb7-5dd7-4cfe-a3bf-fd501aa96cee
+		summarizeBy: none
+		sourceColumn: tinh_thanh
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchID
+		dataType: int64
+		formatString: 0
+		lineageTag: 4bbe01de-8824-4e83-bc68-5294c3d8ef15
+		summarizeBy: count
+		sourceColumn: BranchID
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchName
+		dataType: string
+		lineageTag: c56bf830-806e-41cb-ba25-c049192d4564
+		summarizeBy: none
+		sourceColumn: BranchName
+
+		annotation SummarizationSetBy = Automatic
+
+	column lat
+		dataType: string
+		lineageTag: 66440281-fb7e-4acf-bf9d-d50dc239dd1f
+		summarizeBy: none
+		sourceColumn: lat
+
+		annotation SummarizationSetBy = Automatic
+
+	column long
+		dataType: string
+		lineageTag: 42f281fe-f270-4a88-82b3-4e7185d61013
+		summarizeBy: none
+		sourceColumn: long
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5f04c188-638d-4140-9427-e4c308146a2f
+		summarizeBy: none
+		sourceColumn: open_date
+
+		variation Variation
+			isDefault
+			relationship: 215978eb-85f0-4b5c-a33c-11823b7f36d4
+			defaultHierarchy: LocalDateTable_4cd2c73d-8794-4f16-b3c6-5f36a858aaa6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_BQ_Store = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=2a26bbe0-48fb-47c2-99bf-d69f107e535c""#(lf)select #(lf)  *#(lf)from#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_storage`", null, [EnableFolding=true]),
+				    #"Sorted Rows" = Table.Sort(Source,{{"ma_kho", Order.Ascending}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Sorted Rows", "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

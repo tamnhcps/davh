@@ -1,0 +1,36 @@
+table Table
+	lineageTag: 3f1be984-d364-44f1-91bf-47d5ec54436c
+
+	column SpAutoCode
+		lineageTag: c2dafc08-a896-4482-9984-70fd2e70e3a8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_PotentialCustomers[SpAutoCode]
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalAmount
+		lineageTag: 339bec48-0b38-4013-a46c-c99bba794d14
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [TotalAmount]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Table = calculated
+		mode: import
+		source =
+				SUMMARIZECOLUMNS(
+				        FACT_PotentialCustomers[SpAutoCode],
+				        FILTER(
+				            FACT_PotentialCustomers,
+				            FACT_PotentialCustomers[StatusName] = "Đã mua hàng"
+				            && FACT_PotentialCustomers[TotalAmount] > 0
+				        ),
+				        "TotalAmount", SUM(FACT_PotentialCustomers[TotalAmount])
+				    )
+
+	annotation PBI_Id = 9d20d2642d3c4517a492096e19985f83
+

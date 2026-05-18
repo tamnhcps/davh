@@ -1,0 +1,32 @@
+table DIM_BQ_Region
+	lineageTag: b63c1988-e4c3-41df-866a-a4b728b4951c
+
+	column Miền
+		dataType: string
+		lineageTag: 40516bfe-d5cb-4e9f-8bb9-a2af72e1e3e2
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: cdfd326d-b553-41c4-8927-c937f1966e41
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_BQ_Region = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8s18uLsxT8Hp4a71yUo6SoZKsTpwQb/EXKCQkVJsLAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Miền = _t, Index = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Miền", type text}, {"Index", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
