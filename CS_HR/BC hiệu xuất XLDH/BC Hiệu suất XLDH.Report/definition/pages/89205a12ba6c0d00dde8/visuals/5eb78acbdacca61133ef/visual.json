@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "5eb78acbdacca61133ef",
   "position": {
-    "x": 991.42857142857167,
-    "y": 284.28571428571428,
+    "x": 991.25,
+    "y": 283.75,
     "z": 13000,
-    "height": 381.42857142857144,
-    "width": 347.14285714285717,
+    "height": 345,
+    "width": 347.5,
     "tabOrder": 12000
   },
   "visual": {
@@ -291,25 +291,6 @@
   },
   "filterConfig": {
     "filters": [
-      {
-        "name": "ddbea73cbf6b8eb514bc",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "FACT_Đơn hàng"
-                  }
-                },
-                "Property": "Mã DH"
-              }
-            },
-            "Function": 2
-          }
-        },
-        "type": "Advanced"
-      },
       {
         "name": "494d6288f0d314aac4fd",
         "field": {

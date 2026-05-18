@@ -29,6 +29,8 @@ ref table 'Parameter chỉ số'
 ref table FACT_XLDH_CDR
 ref table LocalDateTable_03ebefcf-9ca4-4b22-8a03-0e8e75e4d9e7
 ref table DIM_LINE_XLDH
+ref table Parameter_time
+ref table Parameter
 
 ref role Chung
 

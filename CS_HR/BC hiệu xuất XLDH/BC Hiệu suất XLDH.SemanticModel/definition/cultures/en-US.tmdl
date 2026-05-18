@@ -471,6 +471,16 @@ cultureInfo en-US
 			            "State": "Generated",
 			            "Weight": 0.7
 			          }
+			        },
+			        {
+			          "Tháng": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ],
 			      "SemanticType": "Time"
@@ -3759,6 +3769,16 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.727
 			          }
+			        },
+			        {
+			          "Ngày tạo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ],
 			      "SemanticType": "Time"
@@ -4659,6 +4679,16 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.9
 			          }
+			        },
+			        {
+			          "Tình trạng": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -5292,6 +5322,16 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.476
 			          }
+			        },
+			        {
+			          "Phương thức": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -5498,16 +5538,6 @@ cultureInfo en-US
 			        },
 			        {
 			          "Tên và mã nhân viên": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Nhân viên": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -7601,6 +7631,9 @@ cultureInfo en-US
 			        }
 			      },
 			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
 			      "Terms": [
 			        {
 			          "line": {
@@ -7941,75 +7974,1167 @@ cultureInfo en-US
 			          }
 			        }
 			      ]
-			    }
-			  },
-			  "Relationships": {
-			    "DIM_Danh_mục_Ngày_năm_tháng_quarter_has_DIM_Danh_mục_Ngày_năm_tháng_month": {
-			      "Binding": {
-			        "ConceptualEntity": "DIM_Danh mục_Ngày"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "DIM_Danh_mục_Ngày.năm_tháng.quarter": {
-			          "Target": {
-			            "Entity": "DIM_Danh_mục_Ngày.năm_tháng.quarter"
-			          }
-			        },
-			        "DIM_Danh_mục_Ngày.năm_tháng.month": {
-			          "Target": {
-			            "Entity": "DIM_Danh_mục_Ngày.năm_tháng.month"
-			          }
+			    },
+			    "entity__measure.số_cuộc_gọi_Answered_LM": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measure",
+			          "ConceptualProperty": "Số cuộc gọi_Answered_LM"
 			        }
 			      },
-			      "Phrasings": [
+			      "State": "Generated",
+			      "Terms": [
 			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.quarter"
-			            },
-			            "Object": {
-			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.month"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "năm_tháng_quarters_have_năm_tháng_months"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.month"
-			            },
-			            "Object": {
-			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.quarter"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "năm_tháng_months_have_năm_tháng_quarters"
-			        },
-			        {
-			          "Preposition": {
-			            "Subject": {
-			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.month"
-			            },
-			            "Prepositions": [
-			              {
-			                "in": {
-			                  "State": "Generated"
-			                }
-			              }
-			            ],
-			            "Object": {
-			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.quarter"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "năm_tháng_months_are_in_năm_tháng_quarters"
+			          "số cuộc gọi_Answered_LM": {
+			            "State": "Generated"
+			          }
 			        }
 			      ]
 			    },
+			    "entity__measure.g_call_answered": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measure",
+			          "ConceptualProperty": "g%_call_answered"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "g%_call_answered": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "g percentage _call_answered": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "g pct _call_answered": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "entity__measure.entity_0__số_cuộc_gọi_inbound": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measure",
+			          "ConceptualProperty": "0. Số cuộc gọi_inbound"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "0. số cuộc gọi_inbound": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Inbound": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "entity__measure.entity_0__số_cuộc_gọi_outbound": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_Measure",
+			          "ConceptualProperty": "0. Số cuộc gọi_outbound"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "0. số cuộc gọi_outbound": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Outbound": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "FACT_Đơn_hàng.group_state": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "FACT_Đơn hàng",
+			          "ConceptualProperty": "Group_State"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "group state": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Group_State": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "state": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "group location": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "group province": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "group territory": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "group nation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "location": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "province": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "territory": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "nation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "group condition": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "group country": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "parameter_time": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Parameter_time"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "parameter time": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Parameter_time": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "parameter duration": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "parameter interval": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "parameter moment": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "parameter period": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "parameter timetable": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "parameter_time.parameter": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Parameter_time",
+			          "ConceptualProperty": "Parameter"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "parameter": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "stricture": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "limitation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "restriction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "constraint": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "consideration": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "boundary": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "limit": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "bound": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "factor": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "issue": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "parameter_time.parameter_field": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Parameter_time",
+			          "ConceptualProperty": "Parameter Fields"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "parameter field": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "field": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "parameter arena": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "arena": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "parameter turf": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter ground": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter pitch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter park": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "turf": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "ground": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "pitch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "park": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "parameter_time.parameter_order": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Parameter_time",
+			          "ConceptualProperty": "Parameter Order"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "parameter order": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "order": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "parameter instruction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "parameter direction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "parameter edict": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "instruction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "direction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "edict": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "parameter command": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter directive": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter demand": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter mandate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        }
+			      ]
+			    },
+			    "parameter": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Parameter"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "parameter": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "stricture": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "limitation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "restriction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "constraint": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "consideration": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "boundary": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "limit": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "bound": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "factor": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "issue": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "parameter.parameter": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Parameter",
+			          "ConceptualProperty": "Parameter"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "parameter": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "parameter name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "stricture": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "limitation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "restriction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "constraint": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "consideration": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "boundary": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "limit": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "bound": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "factor": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "issue": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ],
+			      "NameType": "Name"
+			    },
+			    "parameter.parameter_field": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Parameter",
+			          "ConceptualProperty": "Parameter Fields"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "parameter field": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "field": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "parameter arena": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "arena": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "parameter turf": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter ground": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter pitch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter park": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "turf": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "ground": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "pitch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "park": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "parameter.parameter_order": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Parameter",
+			          "ConceptualProperty": "Parameter Order"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "parameter order": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "order": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "parameter instruction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "parameter direction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "parameter edict": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "instruction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "direction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "edict": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "parameter command": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter directive": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter demand": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "parameter mandate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        }
+			      ]
+			    }
+			  },
+			  "Relationships": {
 			    "DIM_Danh_mục_Ngày_năm_tháng_year_has_DIM_Danh_mục_Ngày_năm_tháng_quarter": {
 			      "Binding": {
 			        "ConceptualEntity": "DIM_Danh mục_Ngày"
@@ -10188,39 +11313,6 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "dim_line_xldh_has_DIM_Nhân_viên": {
-			      "Binding": {
-			        "ConceptualEntity": "DIM_LINE_XLDH"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_line_xldh": {
-			          "Target": {
-			            "Entity": "dim_line_xldh"
-			          }
-			        },
-			        "DIM_Nhân_viên": {
-			          "Target": {
-			            "Entity": "DIM_Nhân_viên"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_line_xldh"
-			            },
-			            "Object": {
-			              "Role": "DIM_Nhân_viên"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_line_xldhs_have_DIM_Nhân_viêns"
-			        }
-			      ]
-			    },
 			    "FACT_Đơn_hàng_has_DIM_Nhân_viên": {
 			      "Binding": {
 			        "ConceptualEntity": "FACT_Đơn hàng"
@@ -10333,6 +11425,52 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
+			    "fact_xldh_cdr_has_dim_line_xldh": {
+			      "Binding": {
+			        "ConceptualEntity": "FACT_XLDH_CDR"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_xldh_cdr": {
+			          "Target": {
+			            "Entity": "fact_xldh_cdr"
+			          }
+			        },
+			        "dim_line_xldh": {
+			          "Target": {
+			            "Entity": "dim_line_xldh"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_xldh_cdr"
+			            },
+			            "Object": {
+			              "Role": "dim_line_xldh"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_xldh_cdrs_have_dim_line_xldhs"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_line_xldh"
+			            },
+			            "Object": {
+			              "Role": "fact_xldh_cdr"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_line_xldhs_have_fact_xldh_cdrs"
+			        }
+			      ]
+			    },
 			    "fact_xldh_cdr_has_DIM_Nhân_viên": {
 			      "Binding": {
 			        "ConceptualEntity": "FACT_XLDH_CDR"
@@ -10425,20 +11563,20 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "DIM_Nhân_viên_has_dim_line_xldh": {
+			    "parameter_has_parameter": {
 			      "Binding": {
-			        "ConceptualEntity": "DIM_Nhân viên"
+			        "ConceptualEntity": "Parameter"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "DIM_Nhân_viên": {
+			        "parameter": {
 			          "Target": {
-			            "Entity": "DIM_Nhân_viên"
+			            "Entity": "parameter"
 			          }
 			        },
-			        "dim_line_xldh": {
+			        "parameter.parameter": {
 			          "Target": {
-			            "Entity": "dim_line_xldh"
+			            "Entity": "parameter.parameter"
 			          }
 			        }
 			      },
@@ -10446,15 +11584,266 @@ cultureInfo en-US
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "DIM_Nhân_viên"
+			              "Role": "parameter"
 			            },
 			            "Object": {
-			              "Role": "dim_line_xldh"
+			              "Role": "parameter.parameter"
 			            }
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "DIM_Nhân_viêns_have_dim_line_xldhs"
+			          "ID": "parameters_have_parameters"
+			        },
+			        {
+			          "Name": {
+			            "Subject": {
+			              "Role": "parameter"
+			            },
+			            "Name": {
+			              "Role": "parameter.parameter"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "parameters_are_names_IDs_of_parameters"
+			        }
+			      ]
+			    },
+			    "parameter_time_has_parameter": {
+			      "Binding": {
+			        "ConceptualEntity": "Parameter_time"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "parameter_time": {
+			          "Target": {
+			            "Entity": "parameter_time"
+			          }
+			        },
+			        "parameter_time.parameter": {
+			          "Target": {
+			            "Entity": "parameter_time.parameter"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "parameter_time"
+			            },
+			            "Object": {
+			              "Role": "parameter_time.parameter"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "parameter_times_have_parameters"
+			        }
+			      ]
+			    },
+			    "FACT_Đơn_hàng_has_group_state": {
+			      "Binding": {
+			        "ConceptualEntity": "FACT_Đơn hàng"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "FACT_Đơn_hàng": {
+			          "Target": {
+			            "Entity": "FACT_Đơn_hàng"
+			          }
+			        },
+			        "FACT_Đơn_hàng.group_state": {
+			          "Target": {
+			            "Entity": "FACT_Đơn_hàng.group_state"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "FACT_Đơn_hàng"
+			            },
+			            "Object": {
+			              "Role": "FACT_Đơn_hàng.group_state"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "FACT_Đơn_hàngs_have_group_states"
+			        }
+			      ]
+			    },
+			    "fact_xldh_cdr_has_entity__measure_entity_0__số_cuộc_gọi_outbound": {
+			      "Binding": {
+			        "ConceptualEntity": "FACT_XLDH_CDR"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_xldh_cdr": {
+			          "Target": {
+			            "Entity": "fact_xldh_cdr"
+			          }
+			        },
+			        "entity__measure.entity_0__số_cuộc_gọi_outbound": {
+			          "Target": {
+			            "Entity": "entity__measure.entity_0__số_cuộc_gọi_outbound"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_xldh_cdr"
+			            },
+			            "Object": {
+			              "Role": "entity__measure.entity_0__số_cuộc_gọi_outbound"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_xldh_cdrs_have_0__số_cuộc_gọi_outbound"
+			        },
+			        {
+			          "Adjective": {
+			            "Subject": {
+			              "Role": "fact_xldh_cdr"
+			            },
+			            "Adjectives": [
+			              {
+			                "Outbound": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Measurement": {
+			              "Role": "entity__measure.entity_0__số_cuộc_gọi_outbound"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "Phrasing0__số_cuộc_gọi_outbound_indicates_how_Outbound_fact_xldh_cdrs_are"
+			        }
+			      ]
+			    },
+			    "fact_xldh_cdr_has_entity__measure_entity_0__số_cuộc_gọi_inbound": {
+			      "Binding": {
+			        "ConceptualEntity": "FACT_XLDH_CDR"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_xldh_cdr": {
+			          "Target": {
+			            "Entity": "fact_xldh_cdr"
+			          }
+			        },
+			        "entity__measure.entity_0__số_cuộc_gọi_inbound": {
+			          "Target": {
+			            "Entity": "entity__measure.entity_0__số_cuộc_gọi_inbound"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_xldh_cdr"
+			            },
+			            "Object": {
+			              "Role": "entity__measure.entity_0__số_cuộc_gọi_inbound"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_xldh_cdrs_have_0__số_cuộc_gọi_inbound"
+			        },
+			        {
+			          "Adjective": {
+			            "Subject": {
+			              "Role": "fact_xldh_cdr"
+			            },
+			            "Adjectives": [
+			              {
+			                "Inbound": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Measurement": {
+			              "Role": "entity__measure.entity_0__số_cuộc_gọi_inbound"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "Phrasing0__số_cuộc_gọi_inbound_indicates_how_Inbound_fact_xldh_cdrs_are"
+			        }
+			      ]
+			    },
+			    "fact_xldh_cdr_has_entity__measure_g_call_answered": {
+			      "Binding": {
+			        "ConceptualEntity": "FACT_XLDH_CDR"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_xldh_cdr": {
+			          "Target": {
+			            "Entity": "fact_xldh_cdr"
+			          }
+			        },
+			        "entity__measure.g_call_answered": {
+			          "Target": {
+			            "Entity": "entity__measure.g_call_answered"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_xldh_cdr"
+			            },
+			            "Object": {
+			              "Role": "entity__measure.g_call_answered"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_xldh_cdrs_have_g_call_answered"
+			        }
+			      ]
+			    },
+			    "fact_xldh_cdr_has_entity__measure_số_cuộc_gọi_Answered_LM": {
+			      "Binding": {
+			        "ConceptualEntity": "FACT_XLDH_CDR"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_xldh_cdr": {
+			          "Target": {
+			            "Entity": "fact_xldh_cdr"
+			          }
+			        },
+			        "entity__measure.số_cuộc_gọi_Answered_LM": {
+			          "Target": {
+			            "Entity": "entity__measure.số_cuộc_gọi_Answered_LM"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_xldh_cdr"
+			            },
+			            "Object": {
+			              "Role": "entity__measure.số_cuộc_gọi_Answered_LM"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_xldh_cdrs_have_số_cuộc_gọi_Answered_LM"
 			        }
 			      ]
 			    },
@@ -10620,39 +12009,6 @@ cultureInfo en-US
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_xldh_cdrs_have_dates"
-			        }
-			      ]
-			    },
-			    "fact_xldh_cdr_has_line": {
-			      "Binding": {
-			        "ConceptualEntity": "FACT_XLDH_CDR"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_xldh_cdr": {
-			          "Target": {
-			            "Entity": "fact_xldh_cdr"
-			          }
-			        },
-			        "fact_xldh_cdr.line": {
-			          "Target": {
-			            "Entity": "fact_xldh_cdr.line"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_xldh_cdr"
-			            },
-			            "Object": {
-			              "Role": "fact_xldh_cdr.line"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_xldh_cdrs_have_lines"
 			        }
 			      ]
 			    },
@@ -13943,6 +15299,51 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
+			    "FACT_Đơn_hàng_in_group_state": {
+			      "Binding": {
+			        "ConceptualEntity": "FACT_Đơn hàng"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "FACT_Đơn_hàng": {
+			          "Target": {
+			            "Entity": "FACT_Đơn_hàng"
+			          }
+			        },
+			        "FACT_Đơn_hàng.group_state": {
+			          "Target": {
+			            "Entity": "FACT_Đơn_hàng.group_state"
+			          }
+			        }
+			      },
+			      "SemanticSlots": {
+			        "Where": {
+			          "Role": "FACT_Đơn_hàng.group_state"
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Preposition": {
+			            "Subject": {
+			              "Role": "FACT_Đơn_hàng"
+			            },
+			            "Prepositions": [
+			              {
+			                "in": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "FACT_Đơn_hàng.group_state"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "FACT_Đơn_hàngs_are_in_group_states"
+			        }
+			      ]
+			    },
 			    "FACT_Đơn_hàng_in_order_state": {
 			      "Binding": {
 			        "ConceptualEntity": "FACT_Đơn hàng"
@@ -14164,6 +15565,72 @@ cultureInfo en-US
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "some_DIM_Nhân_viêns_are_inactive_DIM_Nhân_viêns"
+			        }
+			      ]
+			    },
+			    "DIM_Danh_mục_Ngày_năm_tháng_quarter_has_DIM_Danh_mục_Ngày_năm_tháng_month": {
+			      "Binding": {
+			        "ConceptualEntity": "DIM_Danh mục_Ngày"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "DIM_Danh_mục_Ngày.năm_tháng.quarter": {
+			          "Target": {
+			            "Entity": "DIM_Danh_mục_Ngày.năm_tháng.quarter"
+			          }
+			        },
+			        "DIM_Danh_mục_Ngày.năm_tháng.month": {
+			          "Target": {
+			            "Entity": "DIM_Danh_mục_Ngày.năm_tháng.month"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.quarter"
+			            },
+			            "Object": {
+			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.month"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "năm_tháng_quarters_have_năm_tháng_months"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.month"
+			            },
+			            "Object": {
+			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.quarter"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "năm_tháng_months_have_năm_tháng_quarters"
+			        },
+			        {
+			          "Preposition": {
+			            "Subject": {
+			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.month"
+			            },
+			            "Prepositions": [
+			              {
+			                "in": {
+			                  "State": "Generated"
+			                }
+			              }
+			            ],
+			            "Object": {
+			              "Role": "DIM_Danh_mục_Ngày.năm_tháng.quarter"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "năm_tháng_months_are_in_năm_tháng_quarters"
 			        }
 			      ]
 			    },

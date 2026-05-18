@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "97aa0c58fec4e4dda688",
+  "name": "5a2e29411a6e2a7c796f",
   "position": {
     "x": 0,
-    "y": 682.5,
-    "z": 12000,
+    "y": 591.25,
+    "z": 11000,
     "height": 73.75,
-    "width": 193.75,
-    "tabOrder": 0
+    "width": 221.25,
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "slicer",
@@ -23,11 +23,11 @@
                       "Entity": "FACT_Đơn hàng"
                     }
                   },
-                  "Property": "Mã SP"
+                  "Property": "Mã DH"
                 }
               },
-              "queryRef": "FACT_Đơn hàng.Mã SP",
-              "nativeQueryRef": "Mã SP",
+              "queryRef": "FACT_Đơn hàng.Mã DH",
+              "nativeQueryRef": "Mã DH",
               "active": true
             }
           ]
@@ -184,7 +184,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Mã đơn SP'"
+                  "Value": "'Mã đơn DH'"
                 }
               }
             },

@@ -1,0 +1,57 @@
+table Parameter
+	lineageTag: 1c83711b-772d-449e-bc0c-98b65ec121d2
+
+	column Parameter
+		lineageTag: 6accbf69-e31d-42c7-8a03-2b5139581a2b
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 90b95ff6-a9b0-4603-aaca-9517ff53fa84
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 44784897-e317-4f08-9c3c-7d5c88af1c66
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter = calculated
+		mode: import
+		source =
+				{
+				    ("Doanh số thành công", NAMEOF('_Measure'[Doanh số thành công]), 0),
+				    ("CR", NAMEOF('_Measure'[CR]), 1),
+				    ("AOV", NAMEOF('_Measure'[AOV]), 2),
+				    ("Tổng đơn", NAMEOF('_Measure'[Tổng số đơn hàng]), 3),
+				    ("Đơn thành công", NAMEOF('_Measure'[Số đơn thành công]), 4),
+				    ("Đơn hủy", NAMEOF('_Measure'[Số đơn hủy]), 5),
+				    ("Tỷ lệ hủy", NAMEOF('_Measure'[Tỷ lệ hủy]), 6),
+				    ("Đơn hoàn", NAMEOF('_Measure'[Số đơn hoàn]), 7),
+				    ("Tỷ lệ hoàn", NAMEOF('_Measure'[Tỷ lệ hoàn đơn]), 8),
+				    ("Inbound", NAMEOF('_Measure'[0. Số cuộc gọi_inbound]), 9),
+				    ("Outbound", NAMEOF('_Measure'[0. Số cuộc gọi_outbound]), 10)
+				}
+
+	annotation PBI_Id = 6e4cc9056eeb468984d0130313da9168
+

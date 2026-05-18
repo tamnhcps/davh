@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "d8b8359389f8f2552899",
   "position": {
-    "x": 214.28571428571431,
-    "y": 682.85714285714289,
+    "x": 213.75,
+    "y": 736.25,
     "z": 10000,
-    "height": 247.14285714285717,
-    "width": 1125.7142857142858,
+    "height": 193.75,
+    "width": 1126.25,
     "tabOrder": 10000
   },
   "visual": {
@@ -27,8 +27,25 @@
                 }
               },
               "queryRef": "DIM_Danh mục_Ngày.NămTháng",
-              "nativeQueryRef": "NămTháng",
-              "active": true
+              "nativeQueryRef": "Tháng",
+              "active": true,
+              "displayName": "Tháng"
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Parameter_time"
+                    }
+                  },
+                  "Property": "Parameter"
+                }
+              },
+              "index": 0,
+              "length": 1
             }
           ]
         },
@@ -46,9 +63,8 @@
                 }
               },
               "queryRef": "DIM_Nhân viên.Tên_mã nhân viên",
-              "nativeQueryRef": "Nhân viên",
-              "active": true,
-              "displayName": "Nhân viên"
+              "nativeQueryRef": "Tên_mã nhân viên",
+              "active": true
             }
           ]
         },
@@ -66,7 +82,8 @@
                 }
               },
               "queryRef": "_Measure.Doanh số thành công",
-              "nativeQueryRef": "Doanh số thành công"
+              "nativeQueryRef": "Doanh số thành công",
+              "displayName": "Doanh số thành công"
             },
             {
               "field": {
@@ -80,7 +97,8 @@
                 }
               },
               "queryRef": "_Measure.CR",
-              "nativeQueryRef": "CR"
+              "nativeQueryRef": "CR",
+              "displayName": "CR"
             },
             {
               "field": {
@@ -94,7 +112,8 @@
                 }
               },
               "queryRef": "_Measure.AOV",
-              "nativeQueryRef": "AOV"
+              "nativeQueryRef": "AOV",
+              "displayName": "AOV"
             },
             {
               "field": {
@@ -153,7 +172,8 @@
                 }
               },
               "queryRef": "_Measure.Tỷ lệ hủy",
-              "nativeQueryRef": "Tỷ lệ hủy"
+              "nativeQueryRef": "Tỷ lệ hủy",
+              "displayName": "Tỷ lệ hủy"
             },
             {
               "field": {
@@ -184,26 +204,55 @@
               "queryRef": "_Measure.Tỷ lệ hoàn đơn",
               "nativeQueryRef": "Tỷ lệ hoàn",
               "displayName": "Tỷ lệ hoàn"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "0. Số cuộc gọi_inbound"
+                }
+              },
+              "queryRef": "_Measure.0. Số cuộc gọi_inbound",
+              "nativeQueryRef": "Inbound",
+              "displayName": "Inbound"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "0. Số cuộc gọi_outbound"
+                }
+              },
+              "queryRef": "_Measure.0. Số cuộc gọi_outbound",
+              "nativeQueryRef": "Outbound",
+              "displayName": "Outbound"
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Parameter"
+                    }
+                  },
+                  "Property": "Parameter"
+                }
+              },
+              "index": 0,
+              "length": 11
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "DIM_Nhân viên"
-                  }
-                },
-                "Property": "Tên_mã nhân viên"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {

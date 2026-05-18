@@ -4,14 +4,14 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
-        "y": 0
+        "x": 431.13662617974751,
+        "y": 15.801011485521062
       },
       "nodes": [
         {
           "location": {
             "x": 0,
-            "y": 357
+            "y": 709.29699508293288
           },
           "nodeIndex": "DIM_Danh mục_Ngày",
           "nodeLineageTag": "c011306f-cac6-43e3-89bc-72f8b24e4ab3",
@@ -24,7 +24,7 @@
         {
           "location": {
             "x": 1686.4283215945898,
-            "y": 1034.2607088028042
+            "y": 1386.5577038857371
           },
           "nodeIndex": "_Measure",
           "nodeLineageTag": "ce8e4012-49f8-4274-991c-811a45a5b652",
@@ -37,7 +37,7 @@
         {
           "location": {
             "x": 879.308578718328,
-            "y": 148.33557687702444
+            "y": 500.63257195995732
           },
           "nodeIndex": "DIM_Nhân viên",
           "nodeLineageTag": "06a9e62d-c693-4d22-95b1-cc7355fb0db4",
@@ -50,7 +50,7 @@
         {
           "location": {
             "x": 452,
-            "y": 184
+            "y": 536.29699508293288
           },
           "nodeIndex": "FACT_Đơn hàng",
           "nodeLineageTag": "2574c731-1cd8-4d1c-91d6-a407764db197",
@@ -63,7 +63,7 @@
         {
           "location": {
             "x": 1528,
-            "y": 535.60000038146973
+            "y": 887.89699546440261
           },
           "nodeIndex": "Parameter chỉ số",
           "nodeLineageTag": "32d12aaf-d87e-4479-ac3b-be169f0793ba",
@@ -76,7 +76,7 @@
         {
           "location": {
             "x": 413.19227679200696,
-            "y": 712.83608300125456
+            "y": 1065.1330780841874
           },
           "nodeIndex": "FACT_XLDH_CDR",
           "nodeLineageTag": "760b9c2d-ceab-4a00-9ea7-1940f6595046",
@@ -88,13 +88,38 @@
         },
         {
           "location": {
-            "x": 945.26813300425738,
-            "y": 643.98617044314824
+            "x": 1090.6374386710511,
+            "y": 1106.8902459247286
           },
           "nodeIndex": "DIM_LINE_XLDH",
           "nodeLineageTag": "ae040135-50dd-4657-8a89-e340bc29f2c4",
           "size": {
             "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1970.4283215945898,
+            "y": 745.09177260731053
+          },
+          "nodeIndex": "Parameter_time",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2254.4283215945898,
+            "y": 633.84008994954229
+          },
+          "nodeIndex": "Parameter",
+          "nodeLineageTag": "1c83711b-772d-449e-bc0c-98b65ec121d2",
+          "size": {
+            "height": 152,
             "width": 234
           },
           "zIndex": 0

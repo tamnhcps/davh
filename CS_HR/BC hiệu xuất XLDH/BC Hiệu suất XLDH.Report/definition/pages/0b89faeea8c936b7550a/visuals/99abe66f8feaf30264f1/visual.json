@@ -1,0 +1,202 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "99abe66f8feaf30264f1",
+  "position": {
+    "x": 263.75,
+    "y": 92.5,
+    "z": 12001,
+    "height": 827.5,
+    "width": 1072.5,
+    "tabOrder": 11001
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Nhân viên"
+                    }
+                  },
+                  "Property": "Tên_mã nhân viên"
+                }
+              },
+              "queryRef": "DIM_Nhân viên.Tên_mã nhân viên",
+              "nativeQueryRef": "Tên_mã nhân viên"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Đơn hàng"
+                    }
+                  },
+                  "Property": "CreatedDate"
+                }
+              },
+              "queryRef": "FACT_Đơn hàng.CreatedDate",
+              "nativeQueryRef": "Ngày tạo",
+              "displayName": "Ngày tạo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Đơn hàng"
+                    }
+                  },
+                  "Property": "Mã DH"
+                }
+              },
+              "queryRef": "FACT_Đơn hàng.Mã DH",
+              "nativeQueryRef": "Mã DH"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Đơn hàng"
+                    }
+                  },
+                  "Property": "Mã SP"
+                }
+              },
+              "queryRef": "FACT_Đơn hàng.Mã SP",
+              "nativeQueryRef": "Mã SP"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Đơn hàng"
+                    }
+                  },
+                  "Property": "OrderState"
+                }
+              },
+              "queryRef": "FACT_Đơn hàng.OrderState",
+              "nativeQueryRef": "Tình trạng",
+              "displayName": "Tình trạng"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Đơn hàng"
+                    }
+                  },
+                  "Property": "MethodName"
+                }
+              },
+              "queryRef": "FACT_Đơn hàng.MethodName",
+              "nativeQueryRef": "Phương thức",
+              "displayName": "Phương thức"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "170.7500006852751D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "FACT_Đơn hàng.Mã SP"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#024E90'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

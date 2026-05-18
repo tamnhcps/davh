@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "97aa0c58fec4e4dda688",
+  "name": "2e83d55eff4b0c56133e",
   "position": {
     "x": 0,
-    "y": 682.5,
-    "z": 12000,
+    "y": 283.75,
+    "z": 3000,
     "height": 73.75,
-    "width": 193.75,
-    "tabOrder": 0
+    "width": 221.25,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "slicer",
@@ -20,15 +20,16 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FACT_Đơn hàng"
+                      "Entity": "DIM_Nhân viên"
                     }
                   },
-                  "Property": "Mã SP"
+                  "Property": "Tên_mã nhân viên"
                 }
               },
-              "queryRef": "FACT_Đơn hàng.Mã SP",
-              "nativeQueryRef": "Mã SP",
-              "active": true
+              "queryRef": "DIM_Nhân viên.Tên_mã nhân viên",
+              "nativeQueryRef": "Tên và mã nhân viên",
+              "active": true,
+              "displayName": "Tên và mã nhân viên"
             }
           ]
         }
@@ -184,7 +185,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Mã đơn SP'"
+                  "Value": "'Tên và mã nhân viên'"
                 }
               }
             },

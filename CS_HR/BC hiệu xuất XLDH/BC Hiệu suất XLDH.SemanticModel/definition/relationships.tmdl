@@ -51,12 +51,6 @@ relationship bf30d2dc-10a4-4147-b8ee-9f7b52b86199
 	fromColumn: FACT_XLDH_CDR.Call_Date
 	toColumn: LocalDateTable_03ebefcf-9ca4-4b22-8a03-0e8e75e4d9e7.Date
 
-relationship AutoDetected_028da324-bcfb-4800-a236-9adb98533f8f
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: DIM_LINE_XLDH.'Tên nhân viên'
-	toColumn: 'DIM_Nhân viên'.'Tên nhân viên'
-
 relationship 2fe57ab8-cf15-0efe-9b78-e92a677481db
 	fromColumn: FACT_XLDH_CDR.Date
 	toColumn: 'DIM_Danh mục_Ngày'.Ngày
@@ -64,4 +58,8 @@ relationship 2fe57ab8-cf15-0efe-9b78-e92a677481db
 relationship 056fce8b-6972-8dc5-e2d7-dc612ea8df02
 	fromColumn: FACT_XLDH_CDR.'Tên nhân viên'
 	toColumn: 'DIM_Nhân viên'.'Tên nhân viên'
+
+relationship 4aacaf5c-712c-05d0-59fe-129e714d6ac4
+	fromColumn: FACT_XLDH_CDR.Line
+	toColumn: DIM_LINE_XLDH.Line
 

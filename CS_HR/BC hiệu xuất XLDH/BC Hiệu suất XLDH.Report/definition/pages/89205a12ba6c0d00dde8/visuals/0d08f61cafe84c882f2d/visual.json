@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "0d08f61cafe84c882f2d",
   "position": {
-    "x": 214.28571428571431,
-    "y": 284.28571428571428,
+    "x": 213.75,
+    "y": 283.75,
     "z": 7000,
-    "height": 381.42857142857144,
-    "width": 424.28571428571433,
+    "height": 345,
+    "width": 425,
     "tabOrder": 7000
   },
   "visual": {
@@ -335,151 +335,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "eae856b3afa1959a5dd9",
-        "field": {
-          "HierarchyLevel": {
-            "Expression": {
-              "Hierarchy": {
-                "Expression": {
-                  "PropertyVariationSource": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "DIM_Danh mục_Ngày"
-                      }
-                    },
-                    "Name": "Variation",
-                    "Property": "Ngày"
-                  }
-                },
-                "Hierarchy": "Date Hierarchy"
-              }
-            },
-            "Level": "Year"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "09363e19f76d1be7bb71",
-        "field": {
-          "HierarchyLevel": {
-            "Expression": {
-              "Hierarchy": {
-                "Expression": {
-                  "PropertyVariationSource": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "DIM_Danh mục_Ngày"
-                      }
-                    },
-                    "Name": "Variation",
-                    "Property": "Ngày"
-                  }
-                },
-                "Hierarchy": "Date Hierarchy"
-              }
-            },
-            "Level": "Quarter"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "1e000412d05622003f1f",
-        "field": {
-          "HierarchyLevel": {
-            "Expression": {
-              "Hierarchy": {
-                "Expression": {
-                  "PropertyVariationSource": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "DIM_Danh mục_Ngày"
-                      }
-                    },
-                    "Name": "Variation",
-                    "Property": "Ngày"
-                  }
-                },
-                "Hierarchy": "Date Hierarchy"
-              }
-            },
-            "Level": "Month"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "2ca9cddc5cbf0fb3f1cd",
-        "field": {
-          "HierarchyLevel": {
-            "Expression": {
-              "Hierarchy": {
-                "Expression": {
-                  "PropertyVariationSource": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "DIM_Danh mục_Ngày"
-                      }
-                    },
-                    "Name": "Variation",
-                    "Property": "Ngày"
-                  }
-                },
-                "Hierarchy": "Date Hierarchy"
-              }
-            },
-            "Level": "Day"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c9fc18ac5b68dc467116",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measure"
-              }
-            },
-            "Property": "g% CR"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "66b02971191c6d85b0fe",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measure"
-              }
-            },
-            "Property": "Doanh số thành công"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "39775218dd97b0dc9ba1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measure"
-              }
-            },
-            "Property": "CR"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

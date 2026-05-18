@@ -3,7 +3,7 @@ table 'FACT_Đơn hàng'
 
 	column CreatedDate
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 4caace8c-ed4f-4e76-8fa0-f6466809a98a
 		summarizeBy: none
 		sourceColumn: CreatedDate
