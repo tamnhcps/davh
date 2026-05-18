@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "VH_Palexy"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "baf80654-8ce9-4043-a131-67ba13b52649"
+  }
+}

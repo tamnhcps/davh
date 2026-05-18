@@ -1,0 +1,75 @@
+table Parameter
+	lineageTag: cbaa35ea-fdf3-4f9e-ba0f-3ba474d5c6d6
+
+	column Parameter
+		lineageTag: 5acb7644-4ea7-41f6-8981-747acfff38e5
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 1227275c-e473-4749-9326-1e682bd6376f
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 44cf286d-b9b0-42e3-89c6-2061edffbd64
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter = calculated
+		mode: import
+		source =
+				{
+				    ("Total Visits", NAMEOF('Measure'[Store_Total visit]), 0),
+				    ("Visit BaoHanh", NAMEOF('Measure'[Store_Visit BaoHanh]), 1),
+				    ("Visit TNN", NAMEOF('Measure'[Store_Visit TNN]), 2),
+				    ("Visit ThuHo", NAMEOF('Measure'[Store_Visit ThuHo]), 3),
+				    ("Visit TheCao", NAMEOF('Measure'[Store_Visit TheCao]), 4),
+				    ("Visit Pre_Camp17", NAMEOF([Store_Visit Pre_Camp]), 4),
+				    ("Avg Dwelltime", NAMEOF('Measure'[Store_Avg dwell time]), 5),
+				    ("Avg Visitors per Day", NAMEOF('Measure'[Store_Avg visitors per store per day]), 6),
+				    ("Conversion Rate", NAMEOF('Measure'[Store_Conversion rate]), 7),
+				    ("Sales per Visitor", NAMEOF('Measure'[Store_Sale per visitor]), 8),
+				    ("Transaction", NAMEOF('Measure'[Store_Sales transaction]), 9),
+				    ("ATV", NAMEOF('Measure'[Store_ATV (Average Transaction Value)]), 10),
+				    ("UPT", NAMEOF('Measure'[Store_UPT (Units Per Transaction)]), 11),
+				    ("ASP", NAMEOF('Measure'[Store_ASP (Average Selling Price)]), 12),
+				    ("Interaction rate", NAMEOF('Measure'[Store_Interaction rate]), 13),
+				    ("Greeting rate", NAMEOF('Measure'[Store_Greeting rate]), 14),
+				    ("Avg Time to First Greeting", NAMEOF('Measure'[Store_Avg Time To First Greeting]), 15),
+				    ("On Time Greeting rate", NAMEOF('Measure'[Store_On Time Greeting rate]), 16),
+				    ("Total Groups", NAMEOF('Measure'[Store_Total group]), 17),
+				    ("Group rate", NAMEOF('Measure'[Store_Group rate]), 18),
+				    ("Avg Group size", NAMEOF('Measure'[Store_Avg group size]), 19),
+				    ("Total Groups with Kids", NAMEOF('Measure'[Store_Total group with kids]), 20),
+				    ("Group with Kids rate", NAMEOF('Measure'[Store_Group with kids rate]), 21),
+				    ("Total Opps_PLX", NAMEOF('Measure'[Store_Total opportunities_plx]), 22),
+				    ("CRbO_PLX", NAMEOF('Measure'[Store_Conversion by Opportunities_plx]), 23),
+				    ("Total Opportunities", NAMEOF('Measure'[Store_Total opportunities]), 24),
+				    ("Conversion by Opportunities", NAMEOF('Measure'[Store_Conversion by Opportunities]), 25),
+				    ("Target CR", NAMEOF('Measure'[Store_Target_CR]), 26),
+				    ("Evaluation", NAMEOF('Measure'[Store_Evaluation]), 27)
+				}
+
+	annotation PBI_Id = 569cd3aca6f54e6e92707f3da6b1f1f6
+

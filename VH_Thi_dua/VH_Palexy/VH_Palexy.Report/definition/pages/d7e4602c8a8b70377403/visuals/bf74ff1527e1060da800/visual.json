@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "bf74ff1527e1060da800",
+  "position": {
+    "x": 221.51462994836487,
+    "y": 14.199655765920825,
+    "z": 20000,
+    "height": 60.58519793459552,
+    "width": 829.25989672977619,
+    "tabOrder": 19000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Cơ chế chương trình thưởng, thi đua tham khảo tại: ",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "https://docs.google.com/spreadsheets/d/1Iiuzsxtq5zTOffNAFV5NffkovMlYO81_Bge4eJEXycI/edit#gid=743624230",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    },
+                    "url": "https://docs.google.com/spreadsheets/d/1Iiuzsxtq5zTOffNAFV5NffkovMlYO81_Bge4eJEXycI/edit#gid=743624230"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

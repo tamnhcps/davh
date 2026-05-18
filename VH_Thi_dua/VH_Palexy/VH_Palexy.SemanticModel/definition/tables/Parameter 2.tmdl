@@ -1,0 +1,55 @@
+table 'Parameter 2'
+	lineageTag: 8ca4c9e7-6385-4478-80d7-da600c67313f
+
+	column Parameter
+		lineageTag: 37ef1a39-4103-4cc6-89c8-22d68844dd7e
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 65381341-0f8c-4e00-8ede-9483f725d1d9
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: bf73e104-cedf-44bf-a7cf-8894bb637c3e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter 2' = calculated
+		mode: import
+		source =
+				{
+				    ("Total visits", NAMEOF('Rank_Cửa hàng'[Total visits]), 0),
+				    ("Visits final", NAMEOF('Measure'[Store_Total visit final]), 1),
+				    ("Transaction", NAMEOF('Rank_Cửa hàng'[Transaction]), 2),
+				    ("Total Opportunities", NAMEOF('Rank_Cửa hàng'[Total Opportunities]), 3),
+				    ("Conversion by Opportunities", NAMEOF('Rank_Cửa hàng'[Conversion by Opportunities]), 4),
+				    ("Target CR", NAMEOF('Rank_Cửa hàng'[Target CR]), 5),
+				    ("% Đạt", NAMEOF('Rank_Cửa hàng'[% Đạt]), 6),
+				    ("Đánh giá", NAMEOF('Rank_Cửa hàng'[Đánh giá]), 7),
+				    ("Xếp hạng", NAMEOF('Rank_Cửa hàng'[Xếp hạng]), 8)
+				}
+
+	annotation PBI_Id = 6268b330793b4456833a898998080f9f
+

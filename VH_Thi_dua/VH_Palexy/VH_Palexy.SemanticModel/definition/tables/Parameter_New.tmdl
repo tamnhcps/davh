@@ -1,0 +1,50 @@
+table Parameter_New
+	lineageTag: 23ae2f4f-84fe-4fb7-ac5e-fe8c42d79bab
+
+	column Parameter_New
+		lineageTag: 5c61b3b7-d274-4fb8-9479-cc2a247ab559
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_New Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_New Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_New Fields'
+		isHidden
+		lineageTag: 0e643427-4f01-4169-83b6-734788b836e4
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_New Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_New Order'
+		isHidden
+		formatString: 0
+		lineageTag: 98279856-7d1c-462c-ab40-7edabd1baa01
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_New = calculated
+		mode: import
+		source =
+				{
+				    ("CR", NAMEOF('Measure'[TDCR_New_CR_Direct]), 0),
+				    ("Visits_Final", NAMEOF('Measure'[TDCR_New_Visits_Final_Direct]), 1),
+				    ("CRbO_PLX", NAMEOF('Measure'[TDCR_New_CRbO_PLX_Direct]), 2),
+				    ("Total_Opps_PLX", NAMEOF('Measure'[TDCR_New_Total_Opps_PLX_Direct]), 3)
+				}
+
+	annotation PBI_Id = 04d5a6f6df5e428a89167cbcda2cf5e2
+

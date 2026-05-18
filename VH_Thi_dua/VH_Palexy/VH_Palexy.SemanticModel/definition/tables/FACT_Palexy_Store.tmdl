@@ -1,0 +1,816 @@
+table FACT_Palexy_Store
+	lineageTag: a9d284d6-3e0a-4298-a0f8-57d7bc90fea0
+
+	column day
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 84e2b38e-e6ef-409c-b68d-777195f1020f
+		summarizeBy: none
+		sourceColumn: day
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column store_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bfe1fe10-f754-4cf5-9bce-6c4b45ba426a
+		summarizeBy: sum
+		sourceColumn: store_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_code
+		dataType: string
+		lineageTag: be2a092c-7e27-4937-9928-160eb8f6c4fd
+		summarizeBy: none
+		sourceColumn: store_code
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_visitors_going_as_group
+		dataType: int64
+		formatString: 0
+		lineageTag: 228a78e8-44ed-43ef-bf3d-bdbad4d31262
+		summarizeBy: sum
+		sourceColumn: total_visitors_going_as_group
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_known_groups
+		dataType: int64
+		formatString: 0
+		lineageTag: 22b5a38f-2ab4-44bb-a5fa-975b7414e008
+		summarizeBy: sum
+		sourceColumn: total_known_groups
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column greeting_rate
+		dataType: double
+		lineageTag: d8ff66e3-03e8-4423-b6eb-a59f91482e4c
+		summarizeBy: sum
+		sourceColumn: greeting_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_groups
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c2dc4b2-8a23-4287-a326-d7627131b249
+		summarizeBy: sum
+		sourceColumn: total_groups
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_time_to_first_greeting
+		dataType: double
+		lineageTag: 53a7cb17-081c-4d2b-bd2e-1aadbf32c1c4
+		summarizeBy: sum
+		sourceColumn: avg_time_to_first_greeting
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column on_time_greeting_rate
+		dataType: double
+		lineageTag: 7589118f-e4c1-40fb-8c13-05a799f67605
+		summarizeBy: sum
+		sourceColumn: on_time_greeting_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column group_rate
+		dataType: double
+		lineageTag: 487eb5a5-83d1-454f-aab0-7f14f1c0f3c5
+		summarizeBy: sum
+		sourceColumn: group_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_group_size
+		dataType: double
+		lineageTag: 951c2251-3be1-413f-8df6-97c9feac5c66
+		summarizeBy: sum
+		sourceColumn: average_group_size
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_groups_with_kids
+		dataType: int64
+		formatString: 0
+		lineageTag: 66b1833d-77e2-4dbe-888b-8c06c862a2ca
+		summarizeBy: sum
+		sourceColumn: total_groups_with_kids
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column groups_with_kids_rate
+		dataType: double
+		lineageTag: 3b816892-9f85-4146-a6e2-5ca181072f6c
+		summarizeBy: sum
+		sourceColumn: groups_with_kids_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column interacted_customers
+		dataType: int64
+		formatString: 0
+		lineageTag: 9a127f9b-55d5-4fc2-b9cb-a7dd2c2928f6
+		summarizeBy: sum
+		sourceColumn: interacted_customers
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column sales_per_visitor
+		dataType: double
+		lineageTag: 6e3da8bd-6a11-4846-8c5c-f37107a9923a
+		summarizeBy: sum
+		sourceColumn: sales_per_visitor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column capture_rate
+		dataType: double
+		lineageTag: 51651b8b-0b2c-4521-ad00-ed94721413ad
+		summarizeBy: sum
+		sourceColumn: capture_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column visits
+		dataType: int64
+		formatString: 0
+		lineageTag: 67f9647e-2a9c-40c2-bc77-7758c7f8bedd
+		summarizeBy: sum
+		sourceColumn: visits
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column net_sales_amount
+		dataType: double
+		lineageTag: 98fa7c23-9a93-4834-8903-880fd4298c62
+		summarizeBy: sum
+		sourceColumn: net_sales_amount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_sales_transactions
+		dataType: double
+		formatString: 0
+		lineageTag: 19ca8d0c-f795-4d8e-b204-a5dd92b1f851
+		summarizeBy: sum
+		sourceColumn: net_sales_transactions
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column conversion_rate
+		dataType: double
+		lineageTag: d89106d0-b199-4189-abe5-418536823f55
+		summarizeBy: sum
+		sourceColumn: conversion_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column interaction_rate
+		dataType: double
+		lineageTag: fe86d23a-b6c7-4d75-8bda-b79af105db21
+		summarizeBy: sum
+		sourceColumn: interaction_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_dwell_time
+		dataType: double
+		lineageTag: efadbed2-93be-4ead-8dce-66d53ff37887
+		summarizeBy: sum
+		sourceColumn: average_dwell_time
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column atv
+		dataType: double
+		lineageTag: e08eb715-38b1-407b-a42a-ffec6dfa4a28
+		summarizeBy: sum
+		sourceColumn: atv
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_interaction_time
+		dataType: double
+		lineageTag: 036f7b90-bc4c-4fd1-9f45-159a1948867e
+		summarizeBy: sum
+		sourceColumn: average_interaction_time
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pass_by_traffic
+		dataType: int64
+		formatString: 0
+		lineageTag: 96da8e14-ca15-4f2a-9a61-b100fc6c93b5
+		summarizeBy: sum
+		sourceColumn: pass_by_traffic
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column upt
+		dataType: double
+		lineageTag: ed1ec90f-4b7c-40c2-8c61-67ed2060bd24
+		summarizeBy: sum
+		sourceColumn: upt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column asp
+		dataType: double
+		lineageTag: 44acc276-a20d-4aa8-9352-5d5ae154f2d7
+		summarizeBy: sum
+		sourceColumn: asp
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_sales_qty =
+			
+			ROUND (
+			    FACT_Palexy_Store[net_sales_transactions] * FACT_Palexy_Store[upt],
+			    0
+			)
+		lineageTag: 397a1ab4-67e2-4012-b92c-1b8183b02fe8
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'visit * avg dwell time' =
+			
+			FACT_Palexy_Store[visits] * FACT_Palexy_Store[average_dwell_time]
+		lineageTag: c8a76037-abfc-45ad-80db-51860818f181
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'visit * avg group size' =
+			
+			FACT_Palexy_Store[visits] * FACT_Palexy_Store[average_group_size]
+		lineageTag: d47d6bc8-3afe-4fe4-8354-4e6ff2ab327b
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'visit * avg time to first greeting' =
+			
+			FACT_Palexy_Store[visits] * FACT_Palexy_Store[avg_time_to_first_greeting]
+		lineageTag: 5849691f-a2a2-4eb7-89cc-f61986bf8237
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'visit * greeting rate' =
+			
+			FACT_Palexy_Store[visits] * FACT_Palexy_Store[greeting_rate]
+		lineageTag: 614cb93d-fe14-45ca-a694-4068199f39f6
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'visit * group rate' =
+			
+			FACT_Palexy_Store[visits] * FACT_Palexy_Store[group_rate]
+		lineageTag: 1fc0e9d0-a236-4f31-a539-a9d1bea3d7a7
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'visit * on time greeting rate' =
+			
+			FACT_Palexy_Store[visits] * FACT_Palexy_Store[on_time_greeting_rate]
+		lineageTag: bce716be-71f8-44c2-827a-3d6edb544550
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column week
+		dataType: string
+		lineageTag: 8efcf3e2-eceb-408b-8995-830ab2f67ad5
+		summarizeBy: none
+		sourceColumn: week
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: string
+		lineageTag: b9a4c38f-45bf-41b8-bc85-5d0293b70651
+		summarizeBy: none
+		sourceColumn: month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column walk_ins
+		dataType: int64
+		formatString: 0
+		lineageTag: 017e81dc-0468-44a3-91ac-28a1c761e270
+		summarizeBy: sum
+		sourceColumn: walk_ins
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_staff_hours
+		dataType: double
+		lineageTag: ad55590f-1d42-41df-afb6-06f9997962e3
+		summarizeBy: sum
+		sourceColumn: total_staff_hours
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_visitors_per_staff_at_an_hour
+		dataType: double
+		lineageTag: 2cf2ffd8-fb34-480b-b80b-3b6b97d4bf81
+		summarizeBy: sum
+		sourceColumn: average_visitors_per_staff_at_an_hour
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unique_staff_hours_with_visit
+		dataType: double
+		lineageTag: d7f8c56b-bc94-422c-a9c5-8d00bdb7fba2
+		summarizeBy: sum
+		sourceColumn: unique_staff_hours_with_visit
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column maximum_visitors_per_staff_at_an_hour
+		dataType: double
+		lineageTag: e3dbd3cf-c1d8-4996-abb4-5a48f3e83b6c
+		summarizeBy: sum
+		sourceColumn: maximum_visitors_per_staff_at_an_hour
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sales_per_staff_hour
+		dataType: double
+		lineageTag: 4752e9a7-50c0-478e-a38e-9aa44818c800
+		summarizeBy: sum
+		sourceColumn: sales_per_staff_hour
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column conversion_by_opportunities
+		dataType: double
+		lineageTag: 4d8b1883-a493-4718-8eb1-86ab61a68c38
+		summarizeBy: sum
+		sourceColumn: conversion_by_opportunities
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column area_manager
+		dataType: string
+		lineageTag: b63d8d8a-0e26-40a3-8dce-be77810b47e4
+		summarizeBy: none
+		sourceColumn: area_manager
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 20ed6826-29c8-4a1f-88e5-f6758fd3b928
+		summarizeBy: none
+		sourceColumn: region
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column tier
+		dataType: string
+		lineageTag: 84ebcd57-bf6a-47b8-97fa-6c0bb935f5b5
+		summarizeBy: none
+		sourceColumn: tier
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column working_years
+		dataType: string
+		lineageTag: 8276dbf3-7441-4986-aadf-c5dd8ac89e67
+		summarizeBy: none
+		sourceColumn: working_years
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column area
+		dataType: string
+		lineageTag: 8aae12c3-6a40-4cfb-942d-e5800130de75
+		summarizeBy: none
+		sourceColumn: area
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: 8959a195-b71a-4027-8e67-87e4842fcbdb
+		summarizeBy: none
+		sourceColumn: type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_opportunities_new
+		dataType: int64
+		formatString: 0
+		lineageTag: d79138cf-2cfc-4c27-ad9d-268ad0718f7c
+		summarizeBy: sum
+		sourceColumn: total_opportunities_new
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_by_phone
+		dataType: double
+		formatString: 0
+		lineageTag: 4ddaaff2-d416-4af4-97a0-ecdba62603d0
+		summarizeBy: sum
+		sourceColumn: transaction_by_phone
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column visit_asp = CALCULATE(SUM(FACT_Palexy_Section[visits]),FILTER(FACT_Palexy_Section, (FACT_Palexy_Section[section_metadata_value_id] = 4519 || (FACT_Palexy_Section[section_metadata_value_id] = 8933 && FACT_Palexy_Section[region] = "Bắc"))  && FACT_Palexy_Section[store_name] = EARLIER(FACT_Palexy_Store[store_name]) && FACT_Palexy_Section[day] = EARLIER(FACT_Palexy_Store[day])))
+		formatString: 0
+		lineageTag: 0d09cba3-88ed-48cf-922b-c80ba9d13c2b
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_month = FACT_Palexy_Store[store_name]&"-"&FACT_Palexy_Store[month]
+		lineageTag: 22002eef-d072-4bb2-9021-bef4b0312f1f
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column visit_SO_TH = CALCULATE(COUNT(FACT_SO_Thuho[AutoCode]),FILTER(FACT_SO_Thuho, FACT_SO_Thuho[Shop] = EARLIER(FACT_Palexy_Store[store_name]) && FACT_SO_Thuho[Date] = EARLIER(FACT_Palexy_Store[day])))
+		formatString: 0
+		lineageTag: 37306b81-e08d-4095-ace6-db232e8d2f60
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column visit_thecao = CALCULATE(SUM(FACT_TheCao[Transaction_Visit]),FILTER(FACT_TheCao, FACT_TheCao[StoreCode] = EARLIER(FACT_Palexy_Store[store_code]) && FACT_TheCao[Date] = EARLIER(FACT_Palexy_Store[day])))
+		formatString: 0
+		lineageTag: d9f1cbd1-aba9-4a27-9ecb-13aa88ea5a57
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_active = SIGN(RELATED(Target_CR[Target_CR]))
+		lineageTag: 2de1ba1d-f8f3-4e65-ba61-d5f87dd5f105
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column store_metadata_6
+		dataType: string
+		lineageTag: 1bac8cd9-42d0-4325-8c38-825178d92f27
+		summarizeBy: none
+		sourceColumn: store_metadata_6
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_2
+		dataType: string
+		lineageTag: c312079e-3358-4cd6-ba57-8d5f914cb190
+		summarizeBy: none
+		sourceColumn: store_metadata_2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_4
+		dataType: string
+		lineageTag: 9354c43c-9c31-40bd-b10d-e8f18221bd38
+		summarizeBy: none
+		sourceColumn: store_metadata_4
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_5
+		dataType: string
+		lineageTag: fc670559-c462-41e4-a617-fc969b8558b7
+		summarizeBy: none
+		sourceColumn: store_metadata_5
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_3
+		dataType: string
+		lineageTag: 02ec1af9-6a6b-4e85-8867-caf0da9352bd
+		summarizeBy: none
+		sourceColumn: store_metadata_3
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_1
+		dataType: string
+		lineageTag: 93a7b705-9aff-4d3a-8212-9552a6fe9713
+		summarizeBy: none
+		sourceColumn: store_metadata_1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_opportunities
+		dataType: double
+		lineageTag: d85fd3e5-6ce8-4fb6-809d-81fa973b3a0f
+		summarizeBy: sum
+		sourceColumn: total_opportunities
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column visit_TNN = CALCULATE(COUNT(FACT_SO_Thuho[AutoCode]),FILTER(FACT_SO_Thuho, FACT_SO_Thuho[Shop] = EARLIER(FACT_Palexy_Store[store_name]) && FACT_SO_Thuho[Date] = EARLIER(FACT_Palexy_Store[day]) && FACT_SO_Thuho[Type] = "TNN"))
+		formatString: 0
+		lineageTag: d3ea5ca5-eb33-4345-bedf-dd5c6f1dd40e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column visit_BaoHanh = CALCULATE(COUNT(FACT_SO_Thuho[AutoCode]),FILTER(FACT_SO_Thuho, FACT_SO_Thuho[Shop] = EARLIER(FACT_Palexy_Store[store_name]) && FACT_SO_Thuho[Date] = EARLIER(FACT_Palexy_Store[day]) && FACT_SO_Thuho[Type] = "BaoHanh"))
+		formatString: 0
+		lineageTag: 31efbe69-64bc-41de-92bb-a409d18a1563
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column visit_ThuHo = CALCULATE(COUNT(FACT_SO_Thuho[AutoCode]),FILTER(FACT_SO_Thuho, FACT_SO_Thuho[Shop] = EARLIER(FACT_Palexy_Store[store_name]) && FACT_SO_Thuho[Date] = EARLIER(FACT_Palexy_Store[day]) && FACT_SO_Thuho[Type] = "ThuHo"))
+		formatString: 0
+		lineageTag: 090e5004-9722-4aec-a300-e463b8c3065e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_name = RELATED('DIM_Danh mục_Phòng ban'[Bộ phận])
+		lineageTag: f619186b-d0f7-438f-ba70-284977b28770
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column slg_pre
+		dataType: double
+		formatString: 0
+		lineageTag: d634ba4e-5800-4774-9409-0a18753a9657
+		summarizeBy: sum
+		sourceColumn: slg_pre
+
+		annotation SummarizationSetBy = Automatic
+
+	column visit_loai_tru = ```
+			
+			CALCULATE(
+			    SUM('Loại trừ CR'[Loại trừ]),
+			    FILTER('Loại trừ CR', 
+			        'Loại trừ CR'[Cửa hàng] = EARLIER(FACT_Palexy_Store[store_name]) 
+			        && 'Loại trừ CR'[Ngày] = EARLIER(FACT_Palexy_Store[day]) 
+			))
+			```
+		lineageTag: eb15dddf-5bc1-4030-acda-5b84570575ef
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FACT_Palexy_Store-dd660a1c-b0ad-4300-bf5a-936a7720b6a3 = m
+		mode: import
+		queryGroup: FACT
+		source = ```
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=42baee31-9dab-48af-b317-d89f4f8011db""#(lf)WITH CTE_NormalPhone AS(#(lf)SELECT#(lf)  StoreCode,#(lf)  Date, #(lf)  COUNT(DISTINCT ContactPhone) AS NoPhones  #(lf)FROM#(lf)  `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction`#(lf)WHERE#(lf)  IsSales = 1#(lf)  AND IsB2B = 0#(lf)  AND NOT MethodID IN (15, 56, 58, 59) #(lf)  AND DATE(CreateDate) BETWEEN '2024-01-01' AND '2024-07-01'#(lf)  AND NOT REGEXP_CONTAINS(ContactPhone, '[A-Za-z]')#(lf)  AND NOT (DMC3 = 'SIMTHE' AND DATE(CreateDate) >= '2024-06-01')#(lf)  AND AutoCode LIKE 'SP%'#(lf)GROUP BY 1, 2)#(lf)#(lf),CTE_KhachLe AS(#(lf)SELECT#(lf)  StoreCode,#(lf)  Date, #(lf)  COUNT(ContactPhone) AS NoPhones  #(lf)FROM#(lf)  `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction`#(lf)WHERE#(lf)  IsSales = 1#(lf)  AND IsB2B = 0#(lf)  AND NOT MethodID IN (15, 56, 58, 59)#(lf)  AND DATE(CreateDate) BETWEEN '2024-01-01' AND '2024-07-01'#(lf)  AND REGEXP_CONTAINS(ContactPhone, '[A-Za-z]')#(lf)  AND NOT (DMC3 = 'SIMTHE' AND DATE(CreateDate) >= '2024-06-01')#(lf)  AND AutoCode LIKE 'SP%'#(lf)GROUP BY 1, 2)#(lf)#(lf), pre_order_camp17 as (#(lf)  SELECT #(lf)  StoreCode,#(lf)  Date,#(lf)  COUNT(DISTINCT ContactPhone) AS slg_pre#(lf)FROM `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_online_sales_transaction` #(lf)WHERE 1=1#(lf)  AND Date(CreatedDate) between '2025-09-12' and '2025-09-18'#(lf)  AND MethodId in (14, 57)#(lf)  AND OnlineNo IS NULL#(lf)  AND NOT OrderState in (""Hủy đơn"", ""Lưu thông tin"")#(lf)  AND (StatusPaymentId IS NULL OR StatusPaymentId = 2)#(lf)  AND ProductGroupName = 'IPHONE CTM'#(lf)  AND (ProductName LIKE 'APPLE IPHONE 17%' OR ProductName LIKE 'APPLE IPHONE AIR%')#(lf)GROUP BY 1, 2#(lf))#(lf)#(lf)Select #(lf)  p.*EXCEPT(region), #(lf)  case when p.region = 'Nam' then 'Miền Nam' when p.region = 'Bắc' then 'Miền Bắc' else null end as region, #(lf)  COALESCE(s.NoPhones, p.net_sales_transactions) as transaction_by_phone,#(lf)  pre.slg_pre#(lf)from `cellphones-data-platform.cps_mkt_source_dwh.palexy_store_report` p #(lf)left join pre_order_camp17 pre on p.store_code = pre.StoreCode and p.day = pre.Date#(lf)left join (#(lf)SELECT#(lf)  StoreCode,#(lf)  Date, #(lf)  SUM(NoPhones) AS NoPhones#(lf)FROM (SELECT * FROM CTE_NormalPhone UNION ALL SELECT * FROM CTE_KhachLe) phone#(lf)GROUP BY 1, 2) s on p.store_code = s.StoreCode and p.day = s.Date#(lf)WHERE #(lf)  (p.day >= '2025-01-01' AND p.visits > 0 AND p.day <> '2025-02-01') #(lf)  AND NOT (store_code = 'HCM.139TN' AND p.day > '2025-02-14' AND p.day < '2025-02-25')", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,null,0,Replacer.ReplaceValue,{"slg_pre"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Replaced Value",{"store_name"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"total_opportunities", "total_opportunities_new"}}),
+				    // #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"store_name"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Renamed Columns","HN.384XD","HN.360XD",Replacer.ReplaceText,{"store_code"}),
+				    // #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"store_name"}),
+				    #"Added Custom" = Table.AddColumn(
+				    #"Replaced Value1",
+				    "total_opportunities",
+				    each
+				        if [store_code] = "HN.51DCV" and [day] = #date(2025, 10, 15) then 111
+				        else
+				            (
+				                if [conversion_by_opportunities] <> 0 then
+				                    Number.Round([net_sales_transactions] / [conversion_by_opportunities], 0)
+				                else
+				                    0) * (
+				                if
+				                    ([day] >= #date(2025, 4, 7) and [day] < #date(2025, 8, 1))
+				                    or ([day] >= #date(2025, 9, 19) and [day] <= #date(2025, 10, 14))
+				                    or ([day] >= #date(2025, 10, 15) and [day] <= #date(2025, 11, 11) and [region] = "Miền Nam")
+				                then
+				                    if [tier] = "A" or [tier] = "B" then 0.93 else 0.95
+				                else if
+				                    ([day] >= #date(2025, 8, 1) and [day] < #date(2025, 9, 1))
+				                    or ([day] >= #date(2025, 10, 15) and [region] = "Miền Bắc")
+				                then
+				                    0.97
+				                else if
+				                    ([day] >= #date(2025, 11, 12) and [day] < #date(2026, 1, 5) and [region] = "Miền Nam")
+				                then
+				                    if [tier] = "A" or [tier] = "B" then 0.95 else 0.97
+				                else if
+				                    ([day] >= #date(2026, 1, 5) and [region] = "Miền Nam")
+				                then 
+				                    0.97
+				                else
+				                    1
+				            )
+				            - [slg_pre]
+				),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"total_opportunities", type number}})
+				in
+				    #"Changed Type"
+				```
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

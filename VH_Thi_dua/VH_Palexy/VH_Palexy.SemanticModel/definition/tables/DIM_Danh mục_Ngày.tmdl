@@ -1,0 +1,320 @@
+table 'DIM_Danh mục_Ngày'
+	lineageTag: 463512df-d34c-4525-bab8-ba6b7498e80a
+
+	column 'Giai đoạn' =
+			
+			VAR nam_max =
+			    CALCULATE (
+			        MAX ( 'DIM_Danh mục_Ngày'[year] ),
+			        FILTER (
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Tháng_IsActive] = 1
+			        )
+			    )
+			VAR thang_max =
+			    CALCULATE (
+			        MAX ( 'DIM_Danh mục_Ngày'[month] ),
+			        FILTER (
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Tháng_IsActive] = 1
+			                && 'DIM_Danh mục_Ngày'[year] = nam_max
+			        )
+			    )
+			VAR thang_group =
+			    SWITCH (
+			        TRUE (),
+			        'DIM_Danh mục_Ngày'[month] < thang_max,
+			            "01 - "
+			                & FORMAT (
+			                    thang_max - 1,
+			                    "0#"
+			                ) & "/"
+			                & FORMAT (
+			                    nam_max,
+			                    "#"
+			                ),
+			        'DIM_Danh mục_Ngày'[month] = thang_max, "Tháng hiện tại",
+			        FORMAT (
+			            thang_max + 1,
+			            "0#"
+			        ) & " - 12/"
+			            & FORMAT (
+			                nam_max,
+			                "#"
+			            )
+			    )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        'DIM_Danh mục_Ngày'[year] = nam_max , thang_group,
+			        FORMAT (
+			            'DIM_Danh mục_Ngày'[year],
+			            "#"
+			        )
+			    )
+		lineageTag: 65586410-44f6-4ed1-8d99-3695a84c3005
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 44ff04ce-d020-45fa-b475-945033fd7661
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: adeb1f2c-0fc2-4434-8bf7-79778f4c1aa7
+			defaultHierarchy: LocalDateTable_b473a131-06c9-4fab-877e-70600d9047b5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column yearMonth
+		dataType: string
+		lineageTag: 63c24d78-38ed-4649-9325-9a0ed6bfa090
+		summarizeBy: none
+		sourceColumn: yearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column apple_year_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 8a583d86-46c6-4fff-9bd9-cc5027ca79e8
+		summarizeBy: sum
+		sourceColumn: apple_year_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_week
+		dataType: string
+		lineageTag: df6e03e2-725f-4502-9615-a9a366dd217e
+		summarizeBy: none
+		sourceColumn: year_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeek
+		dataType: string
+		lineageTag: 7b28f007-e5dc-465e-a125-e9ad4bee7067
+		summarizeBy: none
+		sourceColumn: YearWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstDayOfMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e49d655e-f736-497b-a0c2-f31b1dcee9cb
+		summarizeBy: none
+		sourceColumn: FirstDayOfMonth
+
+		variation Variation
+			isDefault
+			relationship: 5de97b0c-f5ed-4c43-afb6-0ea361701fc8
+			defaultHierarchy: LocalDateTable_46a178bb-5cc5-47f2-a1ca-3447c67e16de.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column LastDayOfMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 60e2442b-c94e-421c-b74d-4baa08a99636
+		summarizeBy: none
+		sourceColumn: LastDayOfMonth
+
+		variation Variation
+			isDefault
+			relationship: 762fe7fa-c4a2-4f33-a917-0b706ee0db38
+			defaultHierarchy: LocalDateTable_e263413d-79be-4f0b-87a2-4d72df729dea.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 393bbb7f-5c4c-4037-8719-0b6d3cfd24f6
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: string
+		lineageTag: a7d5ec81-509f-4c29-b4f4-6fe7c3dc92f3
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: ddce4c39-b39c-46bc-a89a-be5c485655b4
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayOfYear
+		dataType: string
+		lineageTag: bf0ba3de-7e2b-42f4-be97-acf1456820b7
+		summarizeBy: none
+		sourceColumn: dayOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: string
+		lineageTag: 18bf5dbf-33af-4625-9fe6-ce34be31e41c
+		summarizeBy: none
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayName
+		dataType: string
+		lineageTag: ee9041c7-7e6c-4583-a40c-0d75ace15536
+		summarizeBy: none
+		sourceColumn: dayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayNameLong
+		dataType: string
+		lineageTag: a03bec4f-adf8-4947-8adc-2d97defbb9f0
+		summarizeBy: none
+		sourceColumn: dayNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthName
+		dataType: string
+		lineageTag: bedf86d0-3534-4919-913f-463a537aa42a
+		summarizeBy: none
+		sourceColumn: monthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthNameLong
+		dataType: string
+		lineageTag: af987e5d-c646-4ffb-84c4-2a39608a0616
+		summarizeBy: none
+		sourceColumn: monthNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 58d6b13f-f3e2-4998-8109-a81625cf946e
+		summarizeBy: none
+		sourceColumn: weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngày_isActive_Sale =
+			
+			VAR zMinDate =  MIN ( 'FACT_Palexy_Store'[day] )
+			
+			VAR zMaxDate = MAX ( 'FACT_Palexy_Store'[day] )
+			
+			RETURN
+			    IF (
+			        'DIM_Danh mục_Ngày'[Date] >= zMinDate
+			            && 'DIM_Danh mục_Ngày'[Date] <= zMaxDate,
+			        1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: 6c611adf-9c09-4347-97cf-9e4f7fbcca96
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tháng_IsActive =
+			
+			var monthx = calculate(sum('DIM_Danh mục_Ngày'[Ngày_isActive_Sale]),filter('DIM_Danh mục_Ngày','DIM_Danh mục_Ngày'[yearMonth] = earlier('DIM_Danh mục_Ngày'[yearMonth])))
+			return if(monthx > 0,1,BLANK())
+		formatString: 0
+		lineageTag: 40fdcec8-af25-43b6-b439-388f5c1264a0
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column quy_nam
+		dataType: string
+		lineageTag: e93c94d7-6b45-48a6-bcec-1f88438fc293
+		summarizeBy: none
+		sourceColumn: quy_nam
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngày_isActive =
+			
+			VAR zMinDate =  MIN ( 'FACT_Palexy_Store'[day] )
+			
+			VAR zMaxDate = MAX ( 'FACT_Palexy_Store'[day] )
+			
+			RETURN
+			    IF (
+			        'DIM_Danh mục_Ngày'[Date] >= zMinDate
+			            && 'DIM_Danh mục_Ngày'[Date] <= zMaxDate,
+			        1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: eaf9f61a-6dd6-4c86-ad21-99317877b408
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 44acce86-9fd7-4851-9324-565b77023586
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column refresh_time
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bfe94c79-9489-47c1-a7e8-795c027e89e2
+		summarizeBy: none
+		sourceColumn: refresh_time
+
+		variation Variation
+			isDefault
+			relationship: b41772a7-bf90-4b87-814e-b7690b2295e9
+			defaultHierarchy: LocalDateTable_f310f50a-f59b-444c-9af1-45525287b675.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'DIM_Danh mục_Ngày-cffe03fa-f266-4b47-ba2b-bf033a515eb6' = m
+		mode: import
+		queryGroup: DIM\Ngày
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=42baee31-9dab-48af-b317-d89f4f8011db""#(lf)SELECT *,#(lf)       CURRENT_DATE('Asia/Ho_Chi_Minh') AS refresh_time#(lf)FROM cellphones-data-platform.cps_DA_General_Transform.dim_date#(lf)where 1=1#(lf)  and date >= date_sub(date_trunc(current_date('Asia/Ho_Chi_Minh'), year), interval 1 year) #(lf)  and date <= date_add(date_trunc(current_date('Asia/Ho_Chi_Minh'), year), interval 1 year)", null, [EnableFolding=true]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"date", "Date"}}),
+				    #"Sorted Rows" = Table.Sort(#"Renamed Columns",{{"Date", Order.Ascending}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Sorted Rows", "Index", 4, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

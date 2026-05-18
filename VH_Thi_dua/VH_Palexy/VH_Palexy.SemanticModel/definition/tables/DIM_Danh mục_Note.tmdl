@@ -1,0 +1,68 @@
+table 'DIM_Danh mục_Note'
+	lineageTag: a568894a-f62e-4eb1-a1d5-196a9b4efb37
+
+	column No
+		dataType: int64
+		formatString: 0
+		lineageTag: 645af192-558c-45b5-a214-ad76c68099c0
+		summarizeBy: none
+		sourceColumn: No
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm biến'
+		dataType: string
+		lineageTag: 7b226db3-5ef4-462b-ac44-5e3a2fc83812
+		summarizeBy: none
+		sourceColumn: Nhóm biến
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên biến'
+		dataType: string
+		lineageTag: 9e5e27fe-4bbf-49fb-9014-0b8626ed3767
+		summarizeBy: none
+		sourceColumn: Tên biến
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Công thức tính'
+		dataType: string
+		lineageTag: 37fff2d7-8495-4f7a-bbe1-c1dc33406779
+		summarizeBy: none
+		sourceColumn: Công thức tính
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Định nghĩa'
+		dataType: string
+		lineageTag: 15d75e29-9cd4-49a8-abc8-0b9c811ec49d
+		summarizeBy: none
+		sourceColumn: Định nghĩa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ghi chú'
+		dataType: string
+		lineageTag: 5d11c233-bf4e-4406-afbf-818675d6dc5c
+		summarizeBy: none
+		sourceColumn: Ghi chú
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Note-31efc08d-c777-45eb-bf7d-1282e9dccc3e' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents(GGsheet_Palexy), null, true),
+				    Note_Sheet = Source{[Item="Note",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Note_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"No", Int64.Type}, {"Nhóm biến", type text}, {"Tên biến", type text}, {"Công thức tính", type text}, {"Định nghĩa", type text}, {"Ghi chú", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([No] <> null))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+

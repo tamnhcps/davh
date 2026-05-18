@@ -1,0 +1,105 @@
+table DIM_SizeShop
+	lineageTag: 63107ff6-3cf1-4742-ad13-e765b88e828f
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: 9e10eee6-d896-47a6-87ef-2edbf2ba167d
+		summarizeBy: none
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SHOP CPS'
+		dataType: string
+		lineageTag: df872504-bf38-47aa-ac6a-2e41fc510d08
+		summarizeBy: none
+		sourceColumn: SHOP CPS
+
+		annotation SummarizationSetBy = Automatic
+
+	column SIZE
+		dataType: string
+		lineageTag: d9d7aee2-1e9c-46bc-9f9b-dfc360263c1a
+		summarizeBy: none
+		sourceColumn: SIZE
+
+		annotation SummarizationSetBy = Automatic
+
+	column Loại
+		dataType: string
+		lineageTag: 9c081949-bcc1-45e3-9007-2be7d6b06fe6
+		summarizeBy: none
+		sourceColumn: Loại
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khu Vực'
+		dataType: string
+		lineageTag: 37cf5804-7f8f-49ac-b092-3d36fce621d8
+		summarizeBy: none
+		sourceColumn: Khu Vực
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thành Phố / Quận Huyện'
+		dataType: string
+		lineageTag: 774537af-76f0-494a-b2e5-2c6bde09ac94
+		summarizeBy: none
+		sourceColumn: Thành Phố / Quận Huyện
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Địa Chỉ Shop'
+		dataType: string
+		lineageTag: 0f9ca291-0381-4524-8826-d26004ef9994
+		summarizeBy: none
+		sourceColumn: Địa Chỉ Shop
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vùng
+		dataType: string
+		lineageTag: 26392e6f-adba-421c-a1e7-256ac0d33147
+		summarizeBy: none
+		sourceColumn: Vùng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: c8749725-af42-4257-aa0f-2219a71128a8
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM
+		dataType: string
+		lineageTag: 43104809-ad7d-4a3b-b54d-8f6d9403f9f1
+		summarizeBy: none
+		sourceColumn: AM
+
+		annotation SummarizationSetBy = Automatic
+
+	column RSM
+		dataType: string
+		lineageTag: 0f5409b4-d8c4-440a-9439-f68445352701
+		summarizeBy: none
+		sourceColumn: RSM
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_SizeShop = m
+		mode: import
+		queryGroup: 'DIM\Phòng ban'
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRJOS7Njj5D_Rtc1MbMr53u9tAgGMtgxzN4SKZcwV-RQeh9kA53nT3-a1e5Az_d_mAyVzbme4vSTNuz/pub?gid=0&single=true&output=csv"),[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"STT", Int64.Type}, {"SHOP CPS", type text}, {"SIZE", type text}, {"Loại", type text}, {"Khu Vực", type text}, {"Thành Phố / Quận Huyện", type text}, {"Địa Chỉ Shop", type text}, {"Vùng", type text}, {"Miền", type text}, {"AM", type text}, {"RSM", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

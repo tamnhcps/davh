@@ -1,0 +1,21 @@
+table 'DIM_Danh mục_Nhóm hàng Palexy'
+	lineageTag: f07d508d-da09-4765-a85c-dd518d5a44ab
+
+	column 'Nhóm hàng Palexy'
+		lineageTag: 85fe49c4-1572-4c22-b35b-13029dee9cc6
+		summarizeBy: none
+		sourceColumn: FACT_Palexy_Section[section_metadata_value_label]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Nhóm hàng Palexy-b5491f51-34c1-4f9c-9535-23130aaa98af' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE (
+				    FACT_Palexy_Section,
+				    FACT_Palexy_Section[section_metadata_value_label]
+				)
+
+	annotation PBI_Id = 20e2b6684cd34315a4b87dcbfed6351c
+

@@ -1,0 +1,7 @@
+role Chung
+	modelPermission: read
+
+	tablePermission 'DIM_Danh mục_Ngày' = 'DIM_Danh mục_Ngày'[Date]>=LOOKUPVALUE('DIM_Phân quyền_User'[Startdate],'DIM_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	annotation PBI_Id = 820d9a096e974f3e8cf48b58cd6b5a09
+

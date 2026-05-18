@@ -1,0 +1,166 @@
+relationship 00be4b41-fde8-44d1-bc0e-7c118f6e0843
+	fromColumn: FACT_Palexy_Section.section_metadata_value_label
+	toColumn: 'DIM_Danh mục_Nhóm hàng Palexy'.'Nhóm hàng Palexy'
+
+relationship adeb1f2c-0fc2-4434-8bf7-79778f4c1aa7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.Date
+	toColumn: LocalDateTable_b473a131-06c9-4fab-877e-70600d9047b5.Date
+
+relationship 5de97b0c-f5ed-4c43-afb6-0ea361701fc8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.FirstDayOfMonth
+	toColumn: LocalDateTable_46a178bb-5cc5-47f2-a1ca-3447c67e16de.Date
+
+relationship 762fe7fa-c4a2-4f33-a917-0b706ee0db38
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.LastDayOfMonth
+	toColumn: LocalDateTable_e263413d-79be-4f0b-87a2-4d72df729dea.Date
+
+relationship adf699d7-3503-40e8-bc8b-86c0ee7025ea
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Phòng ban'.khai_truong
+	toColumn: LocalDateTable_c4b7b711-5abe-4f8a-9a8a-e0e49b03bb52.Date
+
+relationship 8b65a12c-6027-429f-8fdc-f34db7c18c64
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Phòng ban'.dong_cua
+	toColumn: LocalDateTable_f0e0dccd-1de9-4410-bd34-aea80ff88396.Date
+
+relationship f9b91783-6e0f-485b-be94-d0c29febc44b
+	fromColumn: FACT_Palexy_Store.store_code
+	toColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+
+relationship ce6106e5-012f-487b-bf77-375c36389403
+	fromColumn: FACT_Palexy_Section.store_code
+	toColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+
+relationship 4e26eb56-cc00-40dd-ae4a-86d1719bcfdf
+	fromColumn: 'DIM_Danh mục_Kho'.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Bộ phận'
+
+relationship a31e7e20-23e2-47ef-b3ef-0d5b9ce81573
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'DIM_Store_Measure selection'.No
+	toColumn: 'DIM_Danh mục_Note'.No
+
+relationship 8ade6bf1-425b-4876-9f0b-ad43152be72d
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'DIM_Section_Measure selection'.No
+	toColumn: 'DIM_Danh mục_Note'.No
+
+relationship 145f0af1-3e3f-4be3-b82d-974713456ec0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Phân quyền_User'.Startdate
+	toColumn: LocalDateTable_4beeb383-0025-4346-b1fb-0a9666a47924.Date
+
+relationship 234a340b-1eac-4806-a092-90af36f83cfb
+	fromColumn: FACT_Palexy_Section.day
+	toColumn: 'DIM_Danh mục_Ngày'.Date
+
+relationship 96af2bef-3d71-45ba-8c8a-aa8ba53df54b
+	fromColumn: FACT_Palexy_Store.day
+	toColumn: 'DIM_Danh mục_Ngày'.Date
+
+relationship 2314e1a8-a252-443a-918d-0109263756bc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Target_CR.StartDate
+	toColumn: LocalDateTable_a756f63a-652e-42a0-8550-1d40a06b72d8.Date
+
+relationship 3ab4b4ee-0d38-4e4f-8449-8d37f0b6f7ac
+	crossFilteringBehavior: bothDirections
+	fromColumn: FACT_Palexy_Store.store_month
+	toColumn: Target_CR.Store_Month
+
+relationship 080f40b7-ca7d-7db5-17e0-fd9c20a984b3
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+	toColumn: 'DIM_Phân quyền_Vận hành'.'Mã kho'
+
+relationship 281d4b28-aa18-4819-bfad-7b258da10596
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Phòng ban'.run_date
+	toColumn: LocalDateTable_b76fe622-23fb-4eeb-86ad-9e145c3c248e.Date
+
+relationship 5343c2f9-bf7f-455a-8715-29fc9514000a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Kho'.run_date
+	toColumn: LocalDateTable_6d3c65f0-2056-43c3-80fc-e74e71e192b8.Date
+
+relationship 21c2e5d9-c56e-a6be-52ba-728b93c16e99
+	fromColumn: FACT_TheCao.Date
+	toColumn: 'DIM_Danh mục_Ngày'.Date
+
+relationship cd9b1ad8-3000-50a6-3056-a36ed22a8e92
+	fromColumn: FACT_TheCao.StoreCode
+	toColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+
+relationship AutoDetected_ed614f82-0123-4956-aca9-6972a02d2345
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'DIM_Compare_Selected value'.No
+	toColumn: 'DIM_Danh mục_Note'.No
+
+relationship cd9dd844-aa44-2f76-9a10-493c02518012
+	fromColumn: Compare.Evaluation
+	toColumn: DIM_Compare_Evaluation.Value
+
+relationship 2f3a055f-feec-2c39-26da-a5f67709fa72
+	fromColumn: Compare.store_code
+	toColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+
+relationship 4a9dc4f0-82b0-d6eb-64f0-c494a9aee16d
+	fromColumn: Compare.store_month
+	toColumn: Target_CR.Store_Month
+
+relationship 862b5eec-98a8-9ea2-eab7-52d67455bfb9
+	fromColumn: Compare.day
+	toColumn: 'DIM_Danh mục_Ngày'.Date
+
+relationship b1a7fcef-2340-43d5-8cfa-aa3b1404c7ba
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_SO_Thuho.Date
+	toColumn: LocalDateTable_c0fe9ee9-fd4b-40cd-9736-312376f11585.Date
+
+relationship a75a2e40-024a-113f-510a-b5ef8a05ce92
+	toCardinality: many
+	fromColumn: 'DIM_Danh mục_Báo cáo'.yearMonth
+	toColumn: 'DIM_Danh mục_Ngày'.yearMonth
+
+relationship ab2eb42c-a0f3-4584-ac18-1a060158b46e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Báo cáo'.Date_real
+	toColumn: LocalDateTable_f78bc07b-87a2-4a1b-ad21-3264754a9420.Date
+
+relationship b41772a7-bf90-4b87-814e-b7690b2295e9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.refresh_time
+	toColumn: LocalDateTable_f310f50a-f59b-444c-9af1-45525287b675.Date
+
+relationship efcdd326-44d7-f99b-1f90-8f0c5ac63975
+	fromColumn: 'Rank_Cửa hàng'.store_name
+	toColumn: DIM_SizeShop.'SHOP CPS'
+
+relationship 0443dfe2-ecfe-8935-0055-f1709609174c
+	crossFilteringBehavior: bothDirections
+	fromColumn: FACT_Palexy_Store.store_month
+	toColumn: 'Rank_Cửa hàng'.store_month
+
+relationship 3a6cee37-4935-4d3f-9563-93e64f07e839
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_CR_byMaxDate.Date
+	toColumn: LocalDateTable_485ec9da-d475-4bbe-97f0-c97357ad28f2.Date
+
+relationship d216f88b-923b-4f97-bac9-5b7d9d91234b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Loại trừ CR'.Ngày
+	toColumn: LocalDateTable_1299f702-4d53-48f8-bed2-de310f675b76.Date
+
+relationship 20bdc543-b1d5-42a3-bc46-67f0eff63a10
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Kho'.open_date
+	toColumn: LocalDateTable_4ac01ee2-6ecd-4edf-8507-6d6ac40def93.Date
+

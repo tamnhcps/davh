@@ -1,0 +1,191 @@
+table Compare
+	lineageTag: 55402ac4-2d8b-4528-bae0-aae88cbac6ec
+
+	column store_code
+		lineageTag: cbadb8df-8f85-4185-8524-b8d71e7e5b25
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Palexy_Store[store_code]
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_month
+		lineageTag: 2c2d22b8-8652-4180-b480-4fce57b0f109
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Palexy_Store[store_month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		formatString: Short Date
+		lineageTag: eff2ef85-3627-4ec6-8f89-44e78e905b40
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Palexy_Store[day]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Total visits'
+		formatString: 0
+		lineageTag: 22380021-51d1-444d-8daa-31d3d8acc34b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Total visits]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Transactions
+		lineageTag: 16b0330d-9b5b-4666-bf7c-e7ac776142a1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Transactions]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total Opportunities'
+		formatString: 0
+		lineageTag: 1aaba412-d66d-48d3-b7d5-d21c523d0608
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Total Opportunities]
+
+		annotation SummarizationSetBy = Automatic
+
+	column CRbyO
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 699b7779-5176-42d8-b502-f40ab11fe804
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [CRbyO]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target CR'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4941e4b4-0c4c-460f-b930-b72af84ad485
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Target CR]
+
+		annotation SummarizationSetBy = Automatic
+
+	column %TA
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6af439f2-398d-4e84-b4f5-9c353f63b99f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [%TA]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đánh giá'
+		lineageTag: e14fda20-eb29-4b0f-bf39-839b76268042
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Đánh giá]
+
+		annotation SummarizationSetBy = Automatic
+
+	column isWeekend = RELATED('DIM_Danh mục_Ngày'[weekend])
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: af5028da-4803-44b8-a8b5-f49d747c8646
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column dow = RELATED('DIM_Danh mục_Ngày'[dayName])
+		lineageTag: fd9b02c3-0091-4328-ae02-42d6747a7e4e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số ngày không đạt' =
+			
+			var zMaxDate_Dat = maxx( FILTER( Compare, Compare[store_month] = EARLIER(Compare[store_month]) && Compare[day] <= EARLIER(Compare[day]) && Compare[Đánh giá] = "Đạt"), Compare[day])
+			var zMindate = minx( FILTER( Compare, Compare[store_month] = EARLIER(Compare[store_month]) && Compare[day] <= EARLIER(Compare[day])), Compare[day])
+			var zResult = if(zMaxDate_Dat = BLANK(), Compare[day] - zMindate + 1, Compare[day] - zMaxDate_Dat)
+			return zResult
+		dataType: int64
+		formatString: 0
+		lineageTag: 0c9ca319-0b22-46e0-908e-9aeee7bcd9d3
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total visit_MTD' = TOTALMTD([Store_Total visit], 'DIM_Danh mục_Ngày'[Date], FILTER(Compare, Compare[store_month] =  EARLIER(Compare[store_month])))
+		formatString: 0
+		lineageTag: 887fed6e-9ce4-4813-beff-a88872e42d38
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Transactions_MTD = TOTALMTD([Store_Sales transaction], 'DIM_Danh mục_Ngày'[Date], FILTER(Compare, Compare[store_month] =  EARLIER(Compare[store_month])))
+		lineageTag: d39efdb9-7850-4924-8207-6b6d58ea2fbd
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalOpportunities_MTD = TOTALMTD([Store_Total opportunities], 'DIM_Danh mục_Ngày'[Date], FILTER(Compare, Compare[store_month] =  EARLIER(Compare[store_month])))
+		formatString: 0
+		lineageTag: ed66f29f-6685-462e-b5eb-ff8b7875f3c1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column CRbyO_MTD = TOTALMTD([Store_Conversion by Opportunities], 'DIM_Danh mục_Ngày'[Date], FILTER(Compare, Compare[store_month] =  EARLIER(Compare[store_month])))
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3cd2525d-09d0-40a9-88b0-37c7277843cf
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Evaluation = IF(Compare[CRbyO_MTD] < Compare[Target CR], "Không đạt", "Đạt")
+		lineageTag: 7a28b943-290e-4e29-9a0d-41e139913f7b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target_parent = Compare[Target CR] * Compare[TotalOpportunities_MTD]
+		lineageTag: 143612e6-1da9-4df9-a320-4c4575d57c34
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Compare = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE (
+				    FILTER (
+				        FACT_Palexy_Store,
+				        FACT_Palexy_Store[day] >= DATE ( 2024, 5, 1 )
+				            && FACT_Palexy_Store[region] <> BLANK ()
+				            && FACT_Palexy_Store[store_active] = 1
+				            && NOT (
+				                FACT_Palexy_Store[day] >= DATE ( 2024, 11, 29 )
+				                    && FACT_Palexy_Store[day] <= DATE ( 2024, 12, 2 )
+				            )
+				    ),
+				    FACT_Palexy_Store[store_code],
+				    FACT_Palexy_Store[store_month],
+				    FACT_Palexy_Store[day],
+				    "Total visits", [Store_Total visit],
+				    "Transactions", [Store_Sales transaction],
+				    "Total Opportunities", [Store_Total opportunities],
+				    "CRbyO", [Store_Conversion by Opportunities],
+				    "Target CR", [Store_Target_CR],
+				    "%TA", DIVIDE ( [Store_Conversion by Opportunities], [Store_Target_CR], 0 ),
+				    "Đánh giá", [Store_Evaluation]
+				)
+
+	annotation PBI_Id = 06019282c2264a9aa0b4db592ec24dbd
+

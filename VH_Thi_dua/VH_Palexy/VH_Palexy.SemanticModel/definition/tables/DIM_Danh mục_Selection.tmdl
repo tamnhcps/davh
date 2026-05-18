@@ -1,0 +1,29 @@
+table 'DIM_Danh mục_Selection'
+	lineageTag: 2c7ba09c-f718-4da3-857f-ce98850adb2f
+
+	column Metric
+		lineageTag: 1fc49bbd-22c8-48da-8289-67b11ccf8fdc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metric]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Selection' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Metric", STRING,
+				    {
+				        { "CR" },
+				        { "Visits final" },
+				        { "CRbO_PLX" },
+				        { "Total Opps_PLX" }
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 4ecb02e98e9c4d4bb0dd9fddead53fb4
+

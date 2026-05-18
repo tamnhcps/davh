@@ -1,0 +1,20 @@
+expression GGsheet_Palexy = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGU-_E4-6K5umeT_PsHfi89hPBrjqJm4iHEqRr_tYbONSCEohh_5HkNvC1Zzl5hkpL9wxIpHhev97D/pub?output=xlsx" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: fb33b631-8f18-4066-af88-59d623b4212e
+
+	annotation PBI_ResultType = Text
+
+expression Province =
+		let
+		    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/1O-BzLBPYUOCASSqhygx2s9BT0gK0QZAk1271U9OFZJY/pub?output=xlsx"), null, true),
+		    Province_Sheet = Source{[Item="Province",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Province_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Province", type text}, {"Fishing boat", type text}, {"Short form", type text}, {"Plate number", type text}, {"Postcode", type text}, {"Tel area code", type text}, {"FULL", type text}}),
+		    #"Removed Blank Rows" = Table.SelectRows(#"Changed Type", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null})))
+		in
+		    #"Removed Blank Rows"
+	lineageTag: cc350027-a69e-4119-a9a0-397c87f39429
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

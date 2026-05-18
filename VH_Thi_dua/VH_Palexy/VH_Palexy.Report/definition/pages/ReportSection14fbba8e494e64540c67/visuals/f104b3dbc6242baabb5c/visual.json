@@ -1,0 +1,257 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "f104b3dbc6242baabb5c",
+  "position": {
+    "x": 0,
+    "y": 130.34482758620689,
+    "z": 0,
+    "height": 581.67487684729065,
+    "width": 1280.3940886699509
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Note"
+                    }
+                  },
+                  "Property": "No"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Note.No",
+              "nativeQueryRef": "No"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Note"
+                    }
+                  },
+                  "Property": "Nhóm biến"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Note.Nhóm biến",
+              "nativeQueryRef": "Nhóm biến"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Note"
+                    }
+                  },
+                  "Property": "Tên biến"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Note.Tên biến",
+              "nativeQueryRef": "Tên biến"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Note"
+                    }
+                  },
+                  "Property": "Công thức tính"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Note.Công thức tính",
+              "nativeQueryRef": "Công thức tính"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Note"
+                    }
+                  },
+                  "Property": "Định nghĩa"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Note.Định nghĩa",
+              "nativeQueryRef": "Định nghĩa"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Note"
+                    }
+                  },
+                  "Property": "Ghi chú"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Note.Ghi chú",
+              "nativeQueryRef": "Ghi chú"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "grid": [
+        {
+          "properties": {
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "265.1276756416728D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DIM_Danh mục_Note.Công thức tính"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "357.9301265612249D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DIM_Danh mục_Note.Định nghĩa"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "303.00305500853517D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DIM_Danh mục_Note.Ghi chú"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'NOTE'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 8,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

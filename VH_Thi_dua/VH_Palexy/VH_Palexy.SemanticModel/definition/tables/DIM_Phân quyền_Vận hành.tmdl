@@ -1,0 +1,67 @@
+table 'DIM_Phân quyền_Vận hành'
+	isHidden
+	lineageTag: 1e210dc8-e9d0-4495-bb90-60a88d8c8dcb
+
+	column 'Mã kho'
+		isHidden
+		lineageTag: c79eeea7-8d5d-416c-8abf-b01d7a18257f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Kho[Mã kho]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		isHidden
+		lineageTag: b9852b77-ad29-4559-818c-ec2366d39ca6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Kho[Cửa hàng]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OP =
+			
+			VAR Mien =
+			    LOOKUPVALUE (
+			        'DIM_Danh mục_Kho'[mien],
+			        'DIM_Danh mục_Kho'[Mã kho], 'DIM_Phân quyền_Vận hành'[Mã kho]
+			    )
+			RETURN
+			    IF (
+			        Mien = "Miền Bắc",
+			        "OP MIỀN BẮC",
+			        "OP MIỀN NAM"
+			    )
+		isHidden
+		lineageTag: 78629725-bb51-437f-ab96-d995bc6758c1
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader = LOOKUPVALUE('DIM_Phân quyền_User'[Leader],'DIM_Phân quyền_User'[Tên],'DIM_Phân quyền_Vận hành'[Cửa hàng],BLANK())
+		lineageTag: f44c70f1-5a8d-4447-9668-369136ce6f15
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_Vận hành-0e528720-9838-4802-aa3d-10af438cc3f2' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE (
+				    'DIM_Danh mục_Kho',
+				    'DIM_Danh mục_Kho'[Mã kho],
+				    'DIM_Danh mục_Kho'[Cửa hàng]
+				)
+
+	changedProperty = IsHidden
+
+	annotation PBI_Id = ac83517ea6cb4f8ab31ba22bb4fee002
+

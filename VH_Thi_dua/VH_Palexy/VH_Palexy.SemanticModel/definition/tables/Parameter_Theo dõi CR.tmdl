@@ -1,0 +1,50 @@
+table 'Parameter_Theo dõi CR'
+	lineageTag: 1697f09c-b301-4d63-ad6f-9714a4513aa1
+
+	column 'Parameter_Theo dõi CR'
+		lineageTag: ed00858f-f00f-40fb-a0a5-3e5a0f8d6fca
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Theo dõi CR Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Theo dõi CR Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Theo dõi CR Fields'
+		isHidden
+		lineageTag: cd7d4db1-5002-4cf6-baa3-4b8fd887a886
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Theo dõi CR Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Theo dõi CR Order'
+		isHidden
+		formatString: 0
+		lineageTag: ff89bc25-d5b8-4edc-bdcd-d05f1d2bf0b0
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter_Theo dõi CR' = calculated
+		mode: import
+		source =
+				{
+				    ("CR", NAMEOF('Measure'[CR]), 0),
+				    ("Visits final", NAMEOF('Measure'[Visits final]), 1),
+				    ("Total Opps_PLX", NAMEOF('Measure'[Total Opps_PLX]), 2),
+				    ("CRbO_PLX", NAMEOF('Measure'[CRbO_PLX]), 3)
+				}
+
+	annotation PBI_Id = 4eb7a8b1847c41dbbf0a2adb017fe320
+
