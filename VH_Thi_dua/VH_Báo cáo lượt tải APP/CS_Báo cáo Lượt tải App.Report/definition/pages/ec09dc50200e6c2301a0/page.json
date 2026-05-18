@@ -1,0 +1,51 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "ec09dc50200e6c2301a0",
+  "displayName": "TỔNG QUAN",
+  "displayOption": "FitToPage",
+  "height": 740,
+  "width": 1280,
+  "visibility": "HiddenInViewMode",
+  "visualInteractions": [
+    {
+      "source": "6c429e10481733063024",
+      "target": "acf66999173198cd80cc",
+      "type": "DataFilter"
+    },
+    {
+      "source": "acf66999173198cd80cc",
+      "target": "6c429e10481733063024",
+      "type": "DataFilter"
+    },
+    {
+      "source": "e324aabe2e581568e170",
+      "target": "acf66999173198cd80cc",
+      "type": "DataFilter"
+    },
+    {
+      "source": "ceb00efd503afffa11d0",
+      "target": "51ae604408c96a5b0b18",
+      "type": "NoFilter"
+    },
+    {
+      "source": "e324aabe2e581568e170",
+      "target": "51ae604408c96a5b0b18",
+      "type": "DataFilter"
+    },
+    {
+      "source": "ceb00efd503afffa11d0",
+      "target": "e324aabe2e581568e170",
+      "type": "NoFilter"
+    },
+    {
+      "source": "e324aabe2e581568e170",
+      "target": "ceb00efd503afffa11d0",
+      "type": "NoFilter"
+    },
+    {
+      "source": "e324aabe2e581568e170",
+      "target": "dd8f244d20d70715ef1d",
+      "type": "NoFilter"
+    }
+  ]
+}

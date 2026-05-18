@@ -1,0 +1,30 @@
+table 'DIM_Danh mục_Ngày'
+	lineageTag: 7f2355e4-dd4e-4fbb-b80f-33d032397154
+
+	column refresh_time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e154ea28-ef7b-45d9-bac0-f122418a4188
+		summarizeBy: none
+		sourceColumn: refresh_time
+
+		variation Variation
+			isDefault
+			relationship: 3ed080a6-1333-4d93-8980-8bd0408bc9bf
+			defaultHierarchy: LocalDateTable_f218c8f8-a6c3-4ebb-9f03-fff2092a965d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Ngày' = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "SELECT  CURRENT_DATETIME('Asia/Ho_Chi_Minh') AS refresh_time", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

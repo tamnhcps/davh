@@ -1,0 +1,99 @@
+table 'FACT_App_Cài đặt app'
+	lineageTag: 5cae756c-26ca-4b4f-aae5-322abce29d74
+
+	column customer_phone
+		dataType: string
+		lineageTag: ffcbf941-d296-4298-8678-b15613cdeac0
+		summarizeBy: none
+		sourceColumn: customer_phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_code
+		dataType: string
+		lineageTag: 5218a4e4-0ed5-4814-9eb3-df0caefc0853
+		summarizeBy: none
+		sourceColumn: store_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_first_login
+		dataType: int64
+		formatString: 0
+		lineageTag: f1ef4405-848b-4c25-9d6e-f47faf93da3e
+		summarizeBy: sum
+		sourceColumn: is_first_login
+
+		annotation SummarizationSetBy = Automatic
+
+	column hour
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a6fd9a8-0e34-41f3-9617-66c5ff800356
+		summarizeBy: sum
+		sourceColumn: hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Giờ hiệu chỉnh' = IF(OR('FACT_App_Cài đặt app'[giocapnhat]<TIME( 8, 0, 0 ),'FACT_App_Cài đặt app'[giocapnhat]>TIME( 21, 0, 0 )),8,HOUR('FACT_App_Cài đặt app'[updated_time]))
+		lineageTag: 66a864ee-0bb9-41a6-9dc0-d48070c79e17
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date = 'FACT_App_Cài đặt app'[updated_time].[Date]
+		formatString: Short Date
+		lineageTag: faffd737-1cff-4dc5-b6e8-c23e51eb9670
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_time
+		dataType: dateTime
+		formatString: yyyy-mm-dd hh:nn:ss
+		lineageTag: ef27e829-7742-46cd-a695-d804649f871d
+		summarizeBy: none
+		sourceColumn: updated_time
+
+		variation Variation
+			isDefault
+			relationship: cc45140b-7869-4b1b-84ba-376ff3aea093
+			defaultHierarchy: LocalDateTable_5c761482-ab32-4b15-bcd9-5af239dd6630.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column giocapnhat = FORMAT('FACT_App_Cài đặt app'[updated_time], "hh:mm:ss")
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: caabbf97-726a-4f13-b567-7b497d44c791
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column shop_code
+		dataType: string
+		lineageTag: 4b438c90-ec73-4275-8971-c6ef7bdb675c
+		summarizeBy: none
+		sourceColumn: shop_code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_App_Cài đặt app' = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=d126f45f-e72b-4ccf-a839-992dea1815aa""#(lf)with dim_storage as (#(lf)  select#(lf)    ma_kho as store_code,#(lf)    cua_hang as store_name#(lf)  from `cellphones-data-platform.cps_DA_General_Transform.dim_storage`#(lf)  where phan_loai_kho = ""Kho cửa hàng""#(lf)  and muc_dich_quan_ly = ""Kho bình thường""#(lf)  and is_inactive is false#(lf)  and BranchID is not null#(lf))#(lf)#(lf)select#(lf)  c.phone as customer_phone,#(lf)  a.shop_code,#(lf)  b.store_code,#(lf)  a.is_first_login,#(lf)  timestamp_add(a.updated_at, interval 7 hour) as updated_time,#(lf)  extract(hour from timestamp_add(a.updated_at, interval 7 hour)) as hour#(lf)from `cellphones-data-platform.cps_web_authentication_dwh.app_referrals ` as a#(lf)left join dim_storage as b#(lf)  --on a.shop_code = b.store_name#(lf)  on (#(lf)    case#(lf)      when a.shop_code = ""CPS-HCM-Q12-938CNAT"" then ""CPS-HCM-Q12-93/8CNAT""#(lf)      when a.shop_code = ""CPS-HCM-HMO-439QT"" then ""CPS-HCM-HMO-4/39QT""#(lf)      when a.shop_code = ""CPS-HNO-CGI-306CG"" then ""CPS-HNO-CGI-310CG""#(lf)      else a.shop_code#(lf)    end#(lf)  ) = b.store_name#(lf)left join `cellphones-data-platform.cps_web_authentication_dwh.members` as c#(lf)  on a.member_id = c.id#(lf)order by 3", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,50 @@
+table Parameter_OP
+	lineageTag: f9ec4ffa-6329-42f9-bed9-cef35c286a8f
+
+	column Parameter_OP
+		lineageTag: 640c1f32-bf1b-457b-910a-510cf11c3552
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_OP Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_OP Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_OP Fields'
+		isHidden
+		lineageTag: c9ffc63e-0b3f-4100-9894-373aeefff7a4
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_OP Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_OP Order'
+		isHidden
+		formatString: 0
+		lineageTag: 4829d79e-7aa1-42d4-bf12-247e48fe4a02
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_OP = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('DIM_BQ_Miền'[Miền]), 0),
+				    ("AM", NAMEOF(DIM_BQ_Shop[AM]), 2),
+				    ("Vùng", NAMEOF(DIM_BQ_Shop[Vùng]), 1),
+				    ("Cửa hàng", NAMEOF(DIM_BQ_Shop[Shop+Size]), 3)
+				}
+
+	annotation PBI_Id = 1a94c7b640e045b7a64202d9e370a160
+

@@ -1,0 +1,519 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "86ac6029a8eb12b0362a",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 10000,
+    "height": 528.145896656535,
+    "width": 767.41641337386022,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_BQ_Miền"
+                    }
+                  },
+                  "Property": "Miền"
+                }
+              },
+              "queryRef": "DIM_BQ_Miền.Miền",
+              "nativeQueryRef": "Miền"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_BQ_Shop"
+                    }
+                  },
+                  "Property": "AM"
+                }
+              },
+              "queryRef": "DIM_BQ_Shop.AM",
+              "nativeQueryRef": "AM"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_BQ_Shop"
+                    }
+                  },
+                  "Property": "Cửa hàng"
+                }
+              },
+              "queryRef": "DIM_BQ_Shop.Cửa hàng",
+              "nativeQueryRef": "Cửa hàng"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Sale_Doanh số bán"
+                    }
+                  },
+                  "Property": "autocode"
+                }
+              },
+              "queryRef": "FACT_Sale_Doanh số bán.autocode",
+              "nativeQueryRef": "Autocode",
+              "displayName": "Autocode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Phone"
+                    }
+                  },
+                  "Property": "formatted_phone"
+                }
+              },
+              "queryRef": "DIM_Phone.formatted_phone",
+              "nativeQueryRef": "Phone",
+              "displayName": "Phone"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Sale_Doanh số bán"
+                    }
+                  },
+                  "Property": "app_already_installed_check"
+                }
+              },
+              "queryRef": "FACT_Sale_Doanh số bán.app_already_installed_check",
+              "nativeQueryRef": "Đã có app",
+              "displayName": "Đã có app"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Sale_Doanh số bán"
+                    }
+                  },
+                  "Property": "CreateDate"
+                }
+              },
+              "queryRef": "FACT_Sale_Doanh số bán.CreateDate",
+              "nativeQueryRef": "Thời gian đến cửa hàng",
+              "displayName": "Thời gian đến cửa hàng"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Sale_Doanh số bán"
+                    }
+                  },
+                  "Property": "login_date"
+                }
+              },
+              "queryRef": "FACT_Sale_Doanh số bán.login_date",
+              "nativeQueryRef": "Thời gian cài đặt",
+              "displayName": "Thời gian cài đặt"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 7,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "74.94623655913978D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DIM_BQ_Miền.Miền"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "140.06884024399392D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DIM_BQ_Shop.AM"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "117.67067617763831D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "FACT_Sale_Doanh số bán.app_already_installed_check"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "158.31182795698925D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "FACT_Sale_Doanh số bán.CreateDate"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "158.23517368746477D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DIM_BQ_Shop.Cửa hàng"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Data Khách đến cửa hàng'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 7,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "b5fb9dc40d539cc9bf92",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b1b01305cbd0b2bc32dc",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_BQ_Miền"
+              }
+            },
+            "Property": "Miền"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_BQ_Miền",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "Miền"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "4635b90ec979df364c0e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_BQ_Shop"
+              }
+            },
+            "Property": "AM"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "9fe98a4cadc818ce07ca",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_BQ_Shop"
+              }
+            },
+            "Property": "Cửa hàng"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4c398008acb17a825aa7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Sale_Doanh số bán"
+              }
+            },
+            "Property": "autocode"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b1224948b341888d9668",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_Phone"
+              }
+            },
+            "Property": "formatted_phone"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "0943bd75f47f439be78e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Sale_Doanh số bán"
+              }
+            },
+            "Property": "app_already_installed_check"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "268eef2fcabfffcf7cda",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Sale_Doanh số bán"
+              }
+            },
+            "Property": "CreateDate"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c178001154f5a9458bfc",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Sale_Doanh số bán"
+              }
+            },
+            "Property": "login_date"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

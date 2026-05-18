@@ -1,0 +1,58 @@
+table 'Param_Chỉ số'
+	lineageTag: c47d9a8a-014c-4428-85f6-5c52948d8195
+
+	column 'Param_Chỉ số'
+		lineageTag: 2aa6fc53-875a-4553-96db-e6d9ca0c1b4c
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Param_Chỉ số Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Param_Chỉ số Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Param_Chỉ số Fields'
+		isHidden
+		lineageTag: 630438fc-1a14-4b83-820c-e153e90c9950
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Param_Chỉ số Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Param_Chỉ số Order'
+		isHidden
+		formatString: 0
+		lineageTag: d422b505-dc74-4b05-beaa-a274eed8033b
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Param_Chỉ số' = calculated
+		mode: import
+		source = ```
+				{
+				    // ("Lượt tải app", NAMEOF('Measure'[Lượt tải app]), 0),
+				    // ("%Tải app", NAMEOF('Measure'[%Tải app]), 1),
+				    ("Lượt tải app", NAMEOF('Measure'[Lượt tải app]), 2),
+				    ("%Tải app", NAMEOF('Measure'[%Tải app]), 3),
+				    ("Đã có app", NAMEOF('Measure'[Đã có app]), 4),
+				    ("%Đã có app", NAMEOF('Measure'[%Đã có app]), 5),
+				    ("Chưa có app", NAMEOF('Measure'[Chưa có app]), 6),
+				    ("Khách mua hàng", NAMEOF('Measure'[Số khách mua hàng]), 7),
+				    ("%Target tải app", NAMEOF('Measure'[%Target Tải app]), 8),
+				    ("Đánh giá", NAMEOF('Measure'[Đánh giá]), 9)
+				    
+				}
+				```
+
+	annotation PBI_Id = 04deaec8048f4474ad72fd8d368f076c
+

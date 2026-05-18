@@ -1,0 +1,305 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "09f7bfea79c7b2d4a5f1",
+  "position": {
+    "x": 778.54797584029291,
+    "y": 109.15216026407987,
+    "z": 10000,
+    "height": 588.50745187781524,
+    "width": 493.58689512332893,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "TRA CỨU TÌNH TRẠNG TẢI APP TẠI SHOP THEO SỐ ĐIỆN THOẠI",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "I/ Hướng dẫn sử dụng:",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Nhập số điện thoại cần tra cứu vào ô bên dưới"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Tình trạng mặc định của bảng:"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Hiển thị toàn bộ thông tin (trừ số đã điện thoại đã bị ẩn 1 phần)",
+                    "textStyle": {
+                      "fontSize": "9pt"
+                    }
+                  }
+                ],
+                "indent": 1
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Nếu không nhập số điện thoại => Mặc định"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Nếu nhập sai số điện thoại => Mặc định"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Nếu nhập số điện thoại không nằm trong tệp này => Mặc định"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Nếu nhập đúng số điện thoại => Kết quả trả về số lần khách đến cửa hàng (theo số phiếu)"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "II/ Kết quả trả về:",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "_ Bảng Data Khách đến cửa hàng:"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Các thông tin cơ bản của shop"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Số điện thoại đã được ẩn"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\"Đã có app\": Kiểm tra Khách hàng "
+                  },
+                  {
+                    "value": "ở thời điểm mua hàng",
+                    "textStyle": {
+                      "textDecoration": "underline"
+                    }
+                  },
+                  {
+                    "value": " đã cài app chưa (1: có, 0: không)"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\"Thời gian cài đặt\": Thời gian Khách hàng lần đầu đăng nhập app"
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "** Lưu ý:",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "color": "#de4d86"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "_ Nhập 1 số điện thoại có thể hiển thị nhiều hơn 1 dòng, tương đương với lượng số phiếu của số điện thoại đó. Tuy nhiên, khi đếm số điện thoại thì chỉ bằng 1",
+                    "textStyle": {
+                      "color": "#de4d86"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "_ ",
+                    "textStyle": {
+                      "color": "#de4d86"
+                    }
+                  },
+                  {
+                    "value": "% Tải app",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "color": "#de4d86"
+                    }
+                  },
+                  {
+                    "value": " = ",
+                    "textStyle": {
+                      "color": "#de4d86"
+                    }
+                  },
+                  {
+                    "value": "Lượt tải app",
+                    "textStyle": {
+                      "textDecoration": "underline",
+                      "color": "#de4d86"
+                    }
+                  },
+                  {
+                    "value": " / ",
+                    "textStyle": {
+                      "color": "#de4d86"
+                    }
+                  },
+                  {
+                    "value": "Chưa có app",
+                    "textStyle": {
+                      "textDecoration": "underline",
+                      "color": "#de4d86"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Chưa có app",
+                    "textStyle": {
+                      "textDecoration": "underline",
+                      "color": "#de4d86"
+                    }
+                  },
+                  {
+                    "value": " = [Đếm số điện thoại] + [Điều kiện: \"Đã có app\" = 0]",
+                    "textStyle": {
+                      "color": "#de4d86"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Lượt tải app",
+                    "textStyle": {
+                      "textDecoration": "underline",
+                      "color": "#de4d86"
+                    }
+                  },
+                  {
+                    "value": " = [Đếm số điện thoại] + [Điều kiện: \"Đã có app\" = 0] + [Điều kiện: \"Thời gian cài đặt\": không bỏ trống]",
+                    "textStyle": {
+                      "color": "#de4d86"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

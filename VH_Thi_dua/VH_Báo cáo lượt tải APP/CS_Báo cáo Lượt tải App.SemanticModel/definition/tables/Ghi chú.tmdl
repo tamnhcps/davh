@@ -1,0 +1,42 @@
+table 'Ghi chú'
+	lineageTag: d1b0e42e-6486-4187-8f25-6a2e0427c78e
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: d47f92c9-72a1-4b90-a00e-48308c688621
+		summarizeBy: sum
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thông tin'
+		dataType: string
+		lineageTag: 2b9b7476-bc0e-43b6-b647-569be5a017dc
+		summarizeBy: none
+		sourceColumn: Thông tin
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nội dung'
+		dataType: string
+		lineageTag: 7f168c23-b437-4815-9ee4-75e3ecaa8d78
+		summarizeBy: none
+		sourceColumn: Nội dung
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ghi chú' = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("VY/BSsNAFEV/5TIri0lpYosf0LWrZhezCFFmBuMkkKTg0k/owoWIkBJKF1JwI0Jm4WLE/5g/6ZuImK6G+968c++NYxYwj11ZvcvwvTGHTJD0EYnbAjfmQ6KyeoP8593qrkZt+04iLUucIy+4VMhtv1d0SU+DzOp9ijthtpmAMK3i18rH6p+g+N+WvDpkppXD7Wc9QNdWv0gy0U/jj7b/UqhEUeK+SX+xUNy0DyzxYhZS3mgIUTW239UUoj+UUIKeeuiyHA2wNm2BOcEbonBp9SvOFuJihpXZKu4hmDuxFLR5bEhejqQ7Rhi6SUSd5GTq6kWCIJJYqTrxdpPCxdfPZEWl3hDM4CNYlFOWJEc=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [STT = _t, #"Thông tin" = _t, #"Nội dung" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Thông tin", type text}, {"Nội dung", type text}, {"STT", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

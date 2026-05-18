@@ -1,0 +1,316 @@
+table FACT_Ranking_Shop
+	lineageTag: dcc23d22-77ae-49f1-9c4e-43b8f28caa5f
+
+	column Miền
+		lineageTag: 329ffb39-e791-46f7-ae3d-515f67652f13
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_BQ_Shop[Miền]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shop+Size
+		lineageTag: b8e4033b-2661-4a16-8edb-f69905da0e6b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_BQ_Shop[Shop+Size]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng
+		lineageTag: 132fd61c-cd5a-4531-ae5b-7d8136994478
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Date[Năm/Tháng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ranking
+		formatString: 0
+		lineageTag: 8be58dc6-05e3-48bc-a2e9-f41107b58992
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ranking]
+
+		annotation SummarizationSetBy = Automatic
+
+	column '%Target Tải app'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c416f708-9586-481b-86bc-ae0554c4b42b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [%Target Tải app]
+
+		annotation SummarizationSetBy = Automatic
+
+	column '%Tải app'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2cd4e240-67d4-47a8-a21b-f40f07828f60
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [%Tải app]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chưa có app'
+		formatString: 0
+		lineageTag: ce2d78ec-0165-4d90-9f09-f2a8e557788b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Chưa có app]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lượt tải app'
+		formatString: 0
+		lineageTag: 0f37f51f-9de3-4a7e-a144-0980a9799786
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Lượt tải app]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Xếp hạng cửa hàng' =
+			
+			RANKX(
+			    FILTER(
+			        'FACT_Ranking_Shop',
+			        'FACT_Ranking_Shop'[Năm/Tháng]
+			            = EARLIER( 'FACT_Ranking_Shop'[Năm/Tháng] )
+			            && 'FACT_Ranking_Shop'[Miền]
+			            = EARLIER( 'FACT_Ranking_Shop'[Miền] )
+			    ),
+			    'FACT_Ranking_Shop'[%Target Tải app],
+			    [%Target Tải app],
+			    DESC,
+			    SKIP
+			)
+		formatString: 0
+		lineageTag: d858e197-ae7a-4e8a-9201-0229c3b57ae5
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đánh giá' = ```
+			
+			    IF(
+			        OR(
+			            AND('FACT_Ranking_Shop'[%Tải app] >= 'FACT_Ranking_Shop'[Target], 'FACT_Ranking_Shop'[Miền] = "Miền Nam"), 
+			            AND('FACT_Ranking_Shop'[%Tải app] >= 'FACT_Ranking_Shop'[Target], 'FACT_Ranking_Shop'[Miền] = "Miền Bắc")
+			        ),
+			            "Đạt", 
+			            "Không đạt"
+			    )
+			```
+		lineageTag: 375ffeab-a08e-4cd6-9907-3e1b6fd3f0b1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		lineageTag: 933f4f1b-4ff0-4f3c-a48a-50911775b42d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Target]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Đồng hạng' = ```
+			
+			CALCULATE(
+			    COUNTROWS('FACT_Ranking_Shop'),
+			    FILTER(
+			        'FACT_Ranking_Shop',
+			        'FACT_Ranking_Shop'[Ranking] = EARLIER('FACT_Ranking_Shop'[Ranking]) 
+			            && 'FACT_Ranking_Shop'[Năm/Tháng] = EARLIER('FACT_Ranking_Shop'[Năm/Tháng]) 
+			            && 'FACT_Ranking_Shop'[Miền] = EARLIER('FACT_Ranking_Shop'[Miền])
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 42b68c83-e183-40ee-a0b6-2c539f9b4f03
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thuong_1tr = ```
+			
+			SWITCH(TRUE(),
+			
+			    // Miền Nam: % Có tư vấn = 1, Top 5 cả 2
+			    'FACT_Ranking_Shop'[Đánh giá] = "Đạt" &&
+			    'FACT_Ranking_Shop'[Miền] = "Miền Nam" &&
+			    'FACT_Ranking_Shop'[Ranking] <= 5 &&
+			    'FACT_Ranking_Shop'[%Target Tải app] >= 1.3, 1000000,
+			
+			    // Miền Bắc: % Có tư vấn ≥ 0.98, Top 3 cả 2
+			    'FACT_Ranking_Shop'[Đánh giá] = "Đạt" &&
+			    'FACT_Ranking_Shop'[Miền] = "Miền Bắc" &&
+			    'FACT_Ranking_Shop'[Ranking] <= 3 &&
+			    'FACT_Ranking_Shop'[%Target Tải app] >= 1.3, 1000000,
+			
+			    0
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 1fd11ffe-5007-4271-ac82-6470e88c93bd
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thuong_500k = ```
+			
+			VAR xephangch = 
+			RANKX(
+			    FILTER(
+			        'FACT_Ranking_Shop',
+			        'FACT_Ranking_Shop'[Năm/Tháng]
+			            = EARLIER( 'FACT_Ranking_Shop'[Năm/Tháng] )
+			            && 'FACT_Ranking_Shop'[Miền]
+			            = EARLIER( 'FACT_Ranking_Shop'[Miền] )
+			            && FACT_Ranking_Shop[Thuong_1tr] = 0
+			    ),
+			    'FACT_Ranking_Shop'[%Target Tải app],
+			    [%Target Tải app],
+			    DESC,
+			    SKIP
+			)
+			VAR xephang = RANKX(
+			    FILTER(
+			        'FACT_Ranking_Shop',
+			        'FACT_Ranking_Shop'[Năm/Tháng]
+			            = EARLIER( 'FACT_Ranking_Shop'[Năm/Tháng] )
+			            && 'FACT_Ranking_Shop'[Miền]
+			            = EARLIER( 'FACT_Ranking_Shop'[Miền] )
+			            && 'FACT_Ranking_Shop'[Đồng hạng] > 1
+			            && 'FACT_Ranking_Shop'[Xếp hạng cửa hàng]
+			            = EARLIER( 'FACT_Ranking_Shop'[Xếp hạng cửa hàng] )
+			            && FACT_Ranking_Shop[Thuong_1tr] = 0
+			    ),
+			    'FACT_Ranking_Shop'[%Tải app],
+			    [%Tải app],
+			    DESC,
+			    DENSE
+			)
+			VAR z = IF('FACT_Ranking_Shop'[Đồng hạng] = 1, xephangch, xephangch + xephang - 1)
+			RETURN
+			SWITCH(TRUE(),
+			
+			    // Miền Nam: %Target Tải app = 1, Top 5 cả 2
+			    'FACT_Ranking_Shop'[Đánh giá] = "Đạt" &&
+			    'FACT_Ranking_Shop'[Miền] = "Miền Nam" &&
+			    z <= 5 &&
+			    'FACT_Ranking_Shop'[%Target Tải app] >= 1.2, 500000,
+			
+			    // Miền Bắc: %Target Tải app ≥ 0.98, Top 3 cả 2
+			    'FACT_Ranking_Shop'[Đánh giá] = "Đạt" &&
+			    'FACT_Ranking_Shop'[Miền] = "Miền Bắc" &&
+			    z <= 3 &&
+			    'FACT_Ranking_Shop'[%Target Tải app] >= 1.2, 500000,
+			
+			    0
+			)
+			```
+		formatString: 0
+		lineageTag: 7e0f547d-9d6a-42a9-8818-757b0c746c13
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thưởng/Phạt = ```
+			
+			VAR Thuong = 
+			SWITCH(
+			    TRUE(),
+			    FACT_Ranking_Shop[Thuong_1tr] = BLANK(),FACT_Ranking_Shop[Thuong_500k],
+			    FACT_Ranking_Shop[Thuong_1tr])
+			
+			VAR max_rank_mb = MAXX(FILTER('FACT_Ranking_Shop', 'FACT_Ranking_Shop'[Đánh giá] = "Không đạt" && 'FACT_Ranking_Shop'[Miền] = "Miền Bắc" && 'FACT_Ranking_Shop'[Năm/Tháng] = EARLIER('FACT_Ranking_Shop'[Năm/Tháng])), 'FACT_Ranking_Shop'[Ranking])
+			VAR max_rank_mn = MAXX(FILTER('FACT_Ranking_Shop', 'FACT_Ranking_Shop'[Đánh giá] = "Không đạt" && 'FACT_Ranking_Shop'[Miền] = "Miền Nam" && 'FACT_Ranking_Shop'[Năm/Tháng] = EARLIER('FACT_Ranking_Shop'[Năm/Tháng])), 'FACT_Ranking_Shop'[Ranking])
+			VAR Phat = 
+			SWITCH(TRUE(),
+			'FACT_Ranking_Shop'[Đánh giá] = "Không đạt" && 'FACT_Ranking_Shop'[Miền] = "Miền Nam" 
+			--&& 'FACT_Ranking_Shop'[Ranking] > max_rank_mn - 10
+			, -500000,
+			'FACT_Ranking_Shop'[Đánh giá] = "Không đạt" && 'FACT_Ranking_Shop'[Miền] = "Miền Bắc" 
+			--&& 'FACT_Ranking_Shop'[Ranking] > max_rank_mb - 10
+			, -500000, 0
+			)
+			Return Thuong + Phat
+			```
+		formatString: 0
+		lineageTag: dfb8d236-1101-4fc4-a3a5-32df7f0b8d64
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_Ranking_Shop = calculated
+		mode: import
+		source = ```
+				
+				VAR _today_raw =
+				    CALCULATE ( FIRSTNONBLANK ( 'DIM_Danh mục_Ngày'[refresh_time], 0 ) )
+				VAR _today =
+				    DATE ( YEAR ( _today_raw ), MONTH ( _today_raw ), DAY ( _today_raw ) )
+				VAR _firstOfMonth =
+				    DATE ( YEAR ( _today_raw ), MONTH ( _today_raw ) - 2, 1 )
+				VAR _endOfMonth =
+				    EOMONTH ( _today, 0 )
+				VAR _dim_phong_ban =
+				    FILTER ( 'DIM_BQ_Shop', 'DIM_BQ_Shop'[Shop+Size] <> BLANK() )
+				RETURN
+				    FILTER (
+				        CALCULATETABLE (
+				            ADDCOLUMNS (
+				                CROSSJOIN (
+				                    SUMMARIZE (
+				                        _dim_phong_ban,
+				                        'DIM_BQ_Shop'[Miền],
+				                        'DIM_BQ_Shop'[Shop+Size]
+				                    ),
+				                    SUMMARIZE (
+				                        FILTER (
+				                            'DIM_Date',
+				                            'DIM_Date'[date] >= _firstOfMonth
+				                                && 'DIM_Date'[date] <= _endOfMonth
+				                                && 'DIM_Date'[Ngay_isActive] = 1
+				                        ),
+				                        'DIM_Date'[Năm/Tháng]
+				                    )
+				                ),
+				                "Ranking",
+				                    VAR _KetQua =
+				                        RANKX (
+				                            FILTER (
+				                                ALLEXCEPT (
+				                                    'DIM_BQ_Shop',
+				                                    'DIM_BQ_Shop'[Miền]
+				                                ),
+				                                'DIM_BQ_Shop'[Shop+Size] <> BLANK()
+				                            ),
+				                            [%Target Tải app],
+				                            ,
+				                            DESC
+				                        )
+				                    RETURN
+				                        _KetQua,
+				                "%Target Tải app", [%Target Tải app],
+				                "%Tải app", [%Tải app],
+				                "Chưa có app", [Chưa có app],
+				                "Lượt tải app", [Lượt tải app],
+				                "Target", [Target]
+				            ),
+				            'DIM_Date'[date] >= _firstOfMonth
+				                && 'DIM_Date'[date] <= _endOfMonth
+				                && 'DIM_Date'[Ngay_isActive] = 1
+				        ),
+				        NOT ISBLANK ( [%Tải app] )
+				    )
+				
+				```
+
+	annotation PBI_Id = 5d93cbb971e44ab1a9bacb7481f10cb1
+

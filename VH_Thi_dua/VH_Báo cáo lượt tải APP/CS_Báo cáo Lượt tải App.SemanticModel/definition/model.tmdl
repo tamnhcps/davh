@@ -1,0 +1,67 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup FACT
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup DIM
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["DIM_Giờ CS","DIM_BQ_Shop","DIM_BQ_Miền","DIM_Note","DIM_Phân quyền_User","DIM_Phân quyền_VH_Miền","DIM_Date","FACT_Sale_Doanh số bán","Ghi chú","FACT_App_Cài đặt app","fxCalendar","MinYear","MaxYear","fxGetISO8601Week","DIM_Phân quyền_Nhập tay","FACT_Target","DIM_Danh mục_Ngày"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["CalcGroup","WebModelingEdit","DaxQueryView_Desktop","DevMode"]
+
+ref table DateTableTemplate_b7361d78-caf8-4362-a53c-ab39bc99ccbc
+ref table DIM_BQ_Shop
+ref table DIM_BQ_Miền
+ref table DIM_Note
+ref table 'DIM_Phân quyền_User'
+ref table LocalDateTable_0adc3d49-9ffa-4aa0-92dc-191f48d5f539
+ref table 'DIM_Phân quyền_VH_Miền'
+ref table Measure
+ref table 'Thời gian'
+ref table Parameter_OP
+ref table 'DIM_Phân quyền_Vận hành'
+ref table 'FACT_Sale_Doanh số bán'
+ref table 'Ghi chú'
+ref table 'FACT_App_Cài đặt app'
+ref table DIM_Date
+ref table LocalDateTable_5c761482-ab32-4b15-bcd9-5af239dd6630
+ref table 'Param_Chỉ số'
+ref table LocalDateTable_7e3df1b8-3fbe-4f5d-9ab5-408e2da3b603
+ref table LocalDateTable_34999d5d-d72b-4b90-bcaf-e2ead14ef219
+ref table LocalDateTable_27633629-f0d3-465e-8f09-e01a83db623f
+ref table 'DIM_Giờ CS'
+ref table LocalDateTable_32b598b8-c398-436b-95b6-03973380b71c
+ref table DIM_Phone
+ref table 'FACT_Sale_Cài đặt app_New'
+ref table LocalDateTable_4f381816-34d0-4183-8b46-f77754c652b4
+ref table LocalDateTable_506895a3-957c-4060-955d-5ba50684bd7c
+ref table 'DIM_Phân quyền_Nhập tay'
+ref table LocalDateTable_0b43af5a-db77-419c-a6dd-c665c330f5bf
+ref table FACT_Target
+ref table LocalDateTable_27164dea-5641-48ab-a8ac-3d08edb8b44e
+ref table LocalDateTable_73a5e9b5-3785-477c-b9d1-2558cf62e005
+ref table FACT_Ranking_Shop
+ref table 'DIM_Danh mục_Ngày'
+ref table LocalDateTable_f218c8f8-a6c3-4ebb-9f03-fff2092a965d
+ref table LocalDateTable_f7802db7-3579-4eb9-9d60-f0c6f4db1291
+
+ref role Chung
+ref role 'Vận hành_AM'
+ref role 'Vận hành_Cửa hàng'
+ref role 'Vận hành_OP'
+
+ref cultureInfo en-US
+

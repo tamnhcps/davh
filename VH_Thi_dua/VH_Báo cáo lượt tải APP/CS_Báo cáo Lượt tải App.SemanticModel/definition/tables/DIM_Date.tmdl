@@ -1,0 +1,258 @@
+table DIM_Date
+	lineageTag: 4a9ed876-ff60-4023-9e62-e5e941ab6270
+
+	column Ngay_isActive =
+			
+			VAR zMax =
+			    CALCULATE(
+			        MAX( 'FACT_Sale_Cài đặt app_New'[Date] ),
+			        FILTER( 'FACT_Sale_Cài đặt app_New', 'FACT_Sale_Cài đặt app_New'[phone] <> BLANK() )
+			    )
+			RETURN
+			    IF(
+			        Dim_Date[Date] <= zMax,
+			        1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: ececa943-c66c-4c6d-b265-126eb318ecf2
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: b8565989-373a-4043-a956-194d5e37b88e
+		summarizeBy: none
+		sourceColumn: Date
+		sortByColumn: DateKey
+
+		variation Variation
+			isDefault
+			relationship: 027df61d-e006-4727-b105-1fe1d1a96211
+			defaultHierarchy: LocalDateTable_7e3df1b8-3fbe-4f5d-9ab5-408e2da3b603.'Date Hierarchy'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateKey
+		dataType: double
+		lineageTag: 645a4170-25b8-4349-b8a1-7e80a7cb9c62
+		summarizeBy: count
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Năm
+		dataType: int64
+		formatString: 0
+		lineageTag: 881b2263-fb3f-4863-bbfe-32a02fba8f5f
+		summarizeBy: sum
+		sourceColumn: Năm
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quý
+		dataType: int64
+		formatString: 0
+		lineageTag: 25699657-b31c-4dd1-9f2a-b5c59a87564d
+		summarizeBy: sum
+		sourceColumn: Quý
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Quý
+		dataType: string
+		lineageTag: 6f147982-73de-4a03-a7a5-90085e978def
+		summarizeBy: none
+		sourceColumn: Năm/Quý
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Quý_Index
+		dataType: double
+		lineageTag: 7eb3af90-47b6-4e7e-a435-4aae67d07dc8
+		summarizeBy: sum
+		sourceColumn: Năm/Quý_Index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Tháng
+		dataType: int64
+		formatString: 0
+		lineageTag: e62bc9aa-0916-43a1-839f-d2ca9f453563
+		summarizeBy: sum
+		sourceColumn: Tháng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng
+		dataType: string
+		lineageTag: c81e953d-225e-446b-9ded-dc486495cb93
+		summarizeBy: none
+		sourceColumn: Năm/Tháng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng_Index
+		dataType: double
+		lineageTag: 3544cb15-6bc9-4e90-be9e-51a727009d9c
+		summarizeBy: sum
+		sourceColumn: Năm/Tháng_Index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Cuối tháng'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5d63aafd-faa0-4fdc-87c9-1c622a348498
+		summarizeBy: none
+		sourceColumn: Cuối tháng
+
+		variation Variation
+			isDefault
+			relationship: 4f5ab535-dc57-4904-a450-fa9938ffaacf
+			defaultHierarchy: LocalDateTable_34999d5d-d72b-4b90-bcaf-e2ead14ef219.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Đầu tháng'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 462b29df-c275-4cfa-8826-ac7a76633cd4
+		summarizeBy: none
+		sourceColumn: Đầu tháng
+
+		variation Variation
+			isDefault
+			relationship: 71d43841-52db-4c7f-8b8d-4b6831de8076
+			defaultHierarchy: LocalDateTable_27633629-f0d3-465e-8f09-e01a83db623f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Năm/Tháng/Tuần
+		dataType: string
+		lineageTag: b1795c7d-4b97-474b-9fe6-723419fce925
+		summarizeBy: none
+		sourceColumn: Năm/Tháng/Tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tháng/Tuần_Index
+		dataType: double
+		lineageTag: c59f6f09-750d-40cf-b90c-d628028847d3
+		summarizeBy: sum
+		sourceColumn: Năm/Tháng/Tuần_Index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Tuần
+		dataType: int64
+		formatString: 0
+		lineageTag: f7e3e91b-8b43-43e2-90f1-6b9b8ac0418a
+		summarizeBy: sum
+		sourceColumn: Tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tuần
+		dataType: string
+		lineageTag: f4fcb731-68ed-428c-b7c1-918dfca4bbfd
+		summarizeBy: none
+		sourceColumn: Năm/Tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tuần_Index
+		dataType: double
+		lineageTag: 5c2a86e7-821b-4f4d-b4ef-624733420164
+		summarizeBy: sum
+		sourceColumn: Năm/Tuần_Index
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Thứ_Index_RAW
+		dataType: int64
+		formatString: 0
+		lineageTag: f2b1d46d-5eff-4194-aa68-f6866c8b2c78
+		summarizeBy: sum
+		sourceColumn: Thứ_Index_RAW
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thứ
+		dataType: string
+		lineageTag: 3afe7f25-fa14-451c-9d85-52d228173f73
+		summarizeBy: none
+		sourceColumn: Thứ
+		sortByColumn: Thứ_Index
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Thứ_Index
+		dataType: int64
+		formatString: 0
+		lineageTag: f3de1dc9-4472-4d91-9eb8-c7ee98e90e37
+		summarizeBy: sum
+		sourceColumn: Thứ_Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cuối tuần'
+		dataType: string
+		lineageTag: 5def8b0b-4976-446c-8b8d-b7f4e8da291b
+		summarizeBy: none
+		sourceColumn: Cuối tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngày
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c5f0f5b-3461-4987-901e-3fdb7f9c39ae
+		summarizeBy: sum
+		sourceColumn: Ngày
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsHoliday
+		dataType: string
+		lineageTag: 6601d0c3-0a2f-4e08-9e3f-eb3e06903eb8
+		summarizeBy: none
+		sourceColumn: IsHoliday
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_Date = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				  Source = fxCalendar(#date(MinYear, 1, 1), #date(MaxYear, 12, 31), null, null, null)
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

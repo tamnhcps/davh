@@ -1,0 +1,81 @@
+table 'DIM_Phân quyền_Nhập tay'
+	lineageTag: 4a3591d0-eebf-4322-a9c2-2d91bbad69db
+
+	column Tên
+		dataType: string
+		lineageTag: 0b432331-0945-4d14-bf87-9aef3f9703f9
+		summarizeBy: none
+		sourceColumn: Tên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mail
+		dataType: string
+		lineageTag: 08a9edce-82d0-4274-b93d-f9b5ad8d9f31
+		summarizeBy: none
+		sourceColumn: Mail
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 1897490a-fd30-4592-8d5c-e6832692258f
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Workspace
+		dataType: string
+		lineageTag: ac7db0a2-76a3-4f6d-a7ca-63ab7e9c92ad
+		summarizeBy: none
+		sourceColumn: Workspace
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader
+		dataType: string
+		lineageTag: 0f6cacf5-eb42-47bf-bb89-df5ae8e7abd6
+		summarizeBy: none
+		sourceColumn: Leader
+
+		annotation SummarizationSetBy = Automatic
+
+	column Startdate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 48262b21-ee8b-4ce1-b295-5eff87006f63
+		summarizeBy: none
+		sourceColumn: Startdate
+
+		variation Variation
+			isDefault
+			relationship: 14bf40af-fb86-4231-84b5-1333bf0f1c48
+			defaultHierarchy: LocalDateTable_0b43af5a-db77-419c-a6dd-c665c330f5bf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Path
+		dataType: string
+		lineageTag: 82a4b515-9542-4c37-ac75-cd4625f0af4d
+		summarizeBy: none
+		sourceColumn: Path
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_Nhập tay' = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCju8My9dwePh7skKzhmH1yr4ZuZlKBgaKukoJRcU62Uk5+oZGpvklWQ4JKfm5BRk5OelFusl5+fqleUBlYA1g+iHu9b4KXgcbvDzAPKOTHi4e5pCiOfDXfv8FHw9wWKGRvrG+kYGRiZANtCyHuca/wCg3MPdDX4Kfo6+NRh6anA5LFYHl6NNgWYXGxgYG5npFSfmpZPgYp/DTb5gWxVCgkBOCIG42NAAn5Ndjq0/tsDPXSHk4a4lfgrBjn7uNRjm4PCFqVJsLAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Tên = _t, Mail = _t, Title = _t, Workspace = _t, Leader = _t, Startdate = _t, Path = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Tên", type text}, {"Mail", type text}, {"Title", type text}, {"Workspace", type text}, {"Leader", type text}, {"Startdate", type date}, {"Path", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
