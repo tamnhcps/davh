@@ -1,0 +1,67 @@
+relationship c66c4b49-cd5a-4965-b8e9-be88e40f63d3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.Ngày
+	toColumn: LocalDateTable_c3cc8d26-688b-41c1-8fcc-beb4a391d846.Date
+
+relationship 1ffd5eb2-afd2-4838-b1a2-6894f42682ec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.Đầu_Tháng
+	toColumn: LocalDateTable_b5ca9dca-2727-4039-b768-268b36c64892.Date
+
+relationship 7f8bba32-59a3-4f33-80b2-133fd2cfa459
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.Cuối_Tháng
+	toColumn: LocalDateTable_8f5c9f58-00ca-45f3-a418-9744cf2d6519.Date
+
+relationship 0d04de7d-7a40-4d32-8567-bded7ea1eadf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.Ngày_Đầu_Tuần
+	toColumn: LocalDateTable_45c1b7d1-ced2-4dfe-99c0-6b5c96dbba5c.Date
+
+relationship 04f173cb-fc05-43fa-bea3-2dfb339d44ad
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.Ngày_Cuối_Tuần
+	toColumn: LocalDateTable_d60c70b8-fa16-4b65-ab7f-979a25e9747c.Date
+
+relationship 5043049b-8afe-434a-9364-2ee7cf7c8684
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Nhân viên'.'Ngày nhận việc'
+	toColumn: LocalDateTable_4917034c-bdeb-4b87-b1af-f7d71700405c.Date
+
+relationship 0c7d46d4-4303-4c4f-86aa-9a016b25183b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Nhân viên'.'Ngày kết thúc'
+	toColumn: LocalDateTable_fc3f9685-93a6-46d3-90e4-591091cfcece.Date
+
+relationship 0b1dd92d-d6c9-e178-4697-80f5d3f874bc
+	fromColumn: 'FACT_Đơn hàng'.CreatedDate
+	toColumn: 'DIM_Danh mục_Ngày'.Ngày
+
+relationship 0a578dc6-85f6-9d90-5f7d-a411a8e5f4cf
+	fromColumn: 'FACT_Đơn hàng'.CreatedByHaraCode
+	toColumn: 'DIM_Nhân viên'.'Mã nhân viên'
+
+relationship 43861b7e-7487-4289-811e-4de19e1c3690
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'DIM_Danh mục_Ngày'.NămTháng
+	toColumn: LocalDateTable_b3aa545f-a7d1-43e8-bfab-039b196d7934.Date
+
+relationship bf30d2dc-10a4-4147-b8ee-9f7b52b86199
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_XLDH_CDR.Call_Date
+	toColumn: LocalDateTable_03ebefcf-9ca4-4b22-8a03-0e8e75e4d9e7.Date
+
+relationship AutoDetected_028da324-bcfb-4800-a236-9adb98533f8f
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DIM_LINE_XLDH.'Tên nhân viên'
+	toColumn: 'DIM_Nhân viên'.'Tên nhân viên'
+
+relationship 2fe57ab8-cf15-0efe-9b78-e92a677481db
+	fromColumn: FACT_XLDH_CDR.Date
+	toColumn: 'DIM_Danh mục_Ngày'.Ngày
+
+relationship 056fce8b-6972-8dc5-e2d7-dc612ea8df02
+	fromColumn: FACT_XLDH_CDR.'Tên nhân viên'
+	toColumn: 'DIM_Nhân viên'.'Tên nhân viên'
+

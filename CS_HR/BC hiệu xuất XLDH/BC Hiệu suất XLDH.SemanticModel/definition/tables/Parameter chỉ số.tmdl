@@ -1,0 +1,48 @@
+table 'Parameter chỉ số'
+	lineageTag: 32d12aaf-d87e-4479-ac3b-be169f0793ba
+
+	column 'Parameter chỉ số'
+		lineageTag: 6d71e0e7-40c7-46b8-8281-644428104ca9
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter chỉ số Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter chỉ số Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter chỉ số Fields'
+		isHidden
+		lineageTag: 43e61598-d149-4261-96dc-7b05f9e88842
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter chỉ số Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter chỉ số Order'
+		isHidden
+		formatString: 0
+		lineageTag: f6bde23e-3a3b-4185-a722-7ec416497ec1
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter chỉ số' = calculated
+		mode: import
+		source =
+				{
+				    ("Doanh số", NAMEOF('_Measure'[Doanh số thành công]), 0),
+				    ("CR", NAMEOF('_Measure'[CR]), 1)
+				}
+
+	annotation PBI_Id = d5337816c952459ca366d97865e0a988
+

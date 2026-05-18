@@ -1,0 +1,241 @@
+table _Measure
+	lineageTag: ce8e4012-49f8-4274-991c-811a45a5b652
+
+	measure Update_Only = ```
+			
+			VAR zUpdate_time = 
+			    CALCULATE(
+			        MAX('FACT_Đơn hàng'[CreatedDate]),
+			        'DIM_Danh mục_Ngày'[Ngày_Hiện_Tại] = TRUE()
+			    )
+			VAR zUpdate = 
+			    "<font_upte> <span style='color:LightYellow'>
+			        <u> Cập nhật đến </u>: " & zUpdate_time & 
+			    "</font_update>" 
+			
+			RETURN
+			    "<font_all> <i> <span style='color:#F5F5F5'>" & zUpdate & "</font_all>"
+			```
+		lineageTag: 7ad47ab5-f8a2-403f-b640-4bb247970ce2
+
+	measure 'Doanh số thành công' = ```
+			
+			    CALCULATE(
+			        SUM('FACT_Đơn hàng'[Dso]),
+			        'FACT_Đơn hàng'[Mã SP] <> BLANK(),
+			        'FACT_Đơn hàng'[CreatedByHaraCode] <> BLANK(),
+			        'FACT_Đơn hàng'[OrderState] = "Đã xuất kho"
+			    )
+			```
+		displayFolder: Đơn hàng
+		lineageTag: 62f541f2-d5cb-425f-bbcd-90f531f11a8a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tổng số đơn hàng' = ```
+			
+			    CALCULATE(DISTINCTCOUNT('FACT_Đơn hàng'[Mã DH]),
+			    'FACT_Đơn hàng'[OrderState] = "Đã xuất kho"
+			    || 'FACT_Đơn hàng'[OrderState] = "Hủy chờ chi"
+			    || 'FACT_Đơn hàng'[OrderState] = "Hủy đơn"
+			    )
+			```
+		formatString: 0
+		displayFolder: Đơn hàng
+		lineageTag: c2a70d3a-e7fc-42ba-925a-0dd2e7242674
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Số đơn thành công' = ```
+			
+			    CALCULATE(DISTINCTCOUNT('FACT_Đơn hàng'[Mã DH]),
+			       'FACT_Đơn hàng'[OrderState] = "Đã xuất kho"
+			    )
+			```
+		formatString: 0
+		displayFolder: Đơn hàng
+		lineageTag: c351368e-6ebc-41b1-b581-95dfa981dd11
+
+	measure 'Số đơn hủy' = ```
+			
+			    CALCULATE(DISTINCTCOUNT('FACT_Đơn hàng'[Mã DH]),
+			    'FACT_Đơn hàng'[OrderState] IN {"Hủy chờ chi","Hủy đơn"}
+			    )
+			```
+		formatString: 0
+		displayFolder: Đơn hàng
+		lineageTag: 8362e96e-836a-4fdf-acae-fedb4b61d9e0
+
+	measure 'Số đơn hoàn' = ```
+			
+			    CALCULATE(DISTINCTCOUNT('FACT_Đơn hàng'[Mã DH]),
+			    'FACT_Đơn hàng'[OrderState] = "Đã tạo phiếu nhập"
+			    )
+			```
+		formatString: 0
+		displayFolder: Đơn hàng
+		lineageTag: 5b6deb89-e038-403f-a105-20646a3abff6
+
+	measure CR = DIVIDE([Số đơn thành công],[Tổng số đơn hàng])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Chỉ số
+		lineageTag: 26072825-ac7f-4eab-aed1-99c75a418772
+
+	measure AOV = DIVIDE([Doanh số thành công],[Tổng số đơn hàng])
+		displayFolder: Chỉ số
+		lineageTag: dd9339e0-128e-45fb-9388-e0c8d8a76c37
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'g% doanh số' =
+			
+			VAR Doanhso_LM = [Doanh số_LM]
+			VAR Doanhso_thangnay = [Doanh số thành công]
+			
+			RETURN
+			    DIVIDE(Doanhso_thangnay - Doanhso_LM,Doanhso_LM)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Chỉ số
+		lineageTag: 7c0e146c-9ea5-4a37-973d-14d798ff30fd
+
+	measure 'g% đơn hàng' = ```
+			
+			VAR Donhang_LM = 
+			    CALCULATE(
+			            [Tổng số đơn hàng],
+			             DATEADD('DIM_Danh mục_Ngày'[Ngày], -1, MONTH)
+			        )
+			VAR Donhang_thangnay = [Tổng số đơn hàng]
+			
+			RETURN
+			    DIVIDE(Donhang_thangnay - Donhang_LM,Donhang_LM)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Chỉ số
+		lineageTag: 38a2d7ed-d854-4eb3-a556-875ecb3e5d25
+
+	measure 'Doanh số_LM' = ```
+			
+			        CALCULATE(
+			            [Doanh số thành công],
+			             DATEADD('DIM_Danh mục_Ngày'[Ngày], -1, MONTH)
+			        )
+			```
+		formatString: 0
+		displayFolder: Tháng trước
+		lineageTag: bc9ebfa8-5874-4e82-b47e-2ff575c5e780
+
+	measure 'Đơn hàng_LM' = ```
+			
+			    CALCULATE(
+			            [Tổng số đơn hàng],
+			             DATEADD('DIM_Danh mục_Ngày'[Ngày], -1, MONTH)
+			    )
+			```
+		formatString: 0
+		displayFolder: Tháng trước
+		lineageTag: 5367fc09-22db-4a84-86f1-4465a4daa395
+
+	measure CR_LM = ```
+			
+			    CALCULATE(
+			           [CR],
+			            DATEADD('DIM_Danh mục_Ngày'[Ngày], -1, MONTH)
+			        )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Tháng trước
+		lineageTag: c0ab96e4-81c6-46c2-8ae3-4afde8d0262c
+
+	measure AOV_LM = ```
+			
+			        CALCULATE(
+			            [AOV],
+			             DATEADD('DIM_Danh mục_Ngày'[Ngày], -1, MONTH)
+			        )
+			```
+		displayFolder: Tháng trước
+		lineageTag: f33dd6c9-94e7-4698-8f75-a6f24dfba078
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'g% CR' = DIVIDE([CR] - [CR_LM],[CR_LM])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Chỉ số
+		lineageTag: 353e91a1-4b43-4efd-a207-23d377f87b3b
+
+	measure 'g% aov' = DIVIDE([AOV] - [AOV_LM],[AOV_LM])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Chỉ số
+		lineageTag: 5336b49c-d384-4296-8a11-d54309029785
+
+	measure 'Tỷ lệ hủy' = DIVIDE([Số đơn hủy],[Tổng số đơn hàng])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Chỉ số
+		lineageTag: 44a6d622-9fc6-4475-bb1b-b4b11e8381d6
+
+	measure 'Tỷ lệ hoàn đơn' = DIVIDE([Số đơn hoàn],[Tổng số đơn hàng])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Chỉ số
+		lineageTag: 0dcd9269-5022-4ea6-b0fb-f21ca5c04ded
+
+	measure '0. Số cuộc gọi' =
+			
+			COUNTROWS (FACT_XLDH_CDR)
+		formatString: 0
+		displayFolder: Cuộc gọi
+		lineageTag: 7b2298ae-9ca9-47c1-b1ba-c3fe624fdef1
+
+	measure '0. Số cuộc gọi_Answered' =
+			
+			CALCULATE (
+			    [0. Số cuộc gọi],
+			        FACT_XLDH_CDR[Status] = "ANSWERED"
+			)
+		formatString: 0
+		displayFolder: Cuộc gọi
+		lineageTag: efce4b8f-2131-4ba4-b6e8-e08e1fbc2832
+
+	measure 'Số cuộc gọi_Answered_15s' = ```
+			
+			    CALCULATE([0. Số cuộc gọi_Answered],
+			    FACT_XLDH_CDR[Duration] > 15
+			    )
+			```
+		formatString: 0
+		displayFolder: Cuộc gọi
+		lineageTag: 09d8a762-678e-4efe-a2a0-9accef8e3dad
+
+	measure 'Số cuộc gọi_Answered_LM' = ```
+			
+			    CALCULATE([0. Số cuộc gọi_Answered],
+			    DATEADD('DIM_Danh mục_Ngày'[Ngày],-1,MONTH)
+			    )
+			```
+		formatString: 0
+		displayFolder: Tháng trước
+		lineageTag: 123b1c11-5f9d-493c-a69a-17ea30f4e37e
+
+	measure g%_call_answered = DIVIDE([0. Số cuộc gọi_Answered] - [Số cuộc gọi_Answered_LM],[Số cuộc gọi_Answered_LM])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Chỉ số
+		lineageTag: 2545bc2b-3fcc-4868-a844-faa456205732
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 295c3664-3783-4b66-9fe4-d35d8d34a476
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 483e5ace0ba54972a5f39ba03de2c26c
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

@@ -1,0 +1,139 @@
+table 'DIM_Nhân viên'
+	lineageTag: 06a9e62d-c693-4d22-95b1-cc7355fb0db4
+
+	column 'Mã nhân viên'
+		dataType: string
+		lineageTag: 14532e97-2831-4422-a444-e47405dc480e
+		summarizeBy: none
+		sourceColumn: Mã nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã nhân viên Harawork'
+		dataType: string
+		lineageTag: d62dd338-fe3a-4f86-9628-d2b0df15009e
+		summarizeBy: none
+		sourceColumn: Mã nhân viên Harawork
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên nhân viên'
+		dataType: string
+		lineageTag: 5555bd00-67b9-4969-8494-8312f4a0131f
+		summarizeBy: none
+		sourceColumn: Tên nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên rút gọn'
+		dataType: string
+		lineageTag: ae5fda85-0595-4338-985c-a2b83f7f6729
+		summarizeBy: none
+		sourceColumn: Tên rút gọn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 70787760-cd08-413b-8974-15b9c21c8c91
+		summarizeBy: none
+		sourceColumn: Inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày nhận việc'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a2458502-c62a-42df-be1f-62748de51107
+		summarizeBy: none
+		sourceColumn: Ngày nhận việc
+
+		variation Variation
+			isDefault
+			relationship: 5043049b-8afe-434a-9364-2ee7cf7c8684
+			defaultHierarchy: LocalDateTable_4917034c-bdeb-4b87-b1af-f7d71700405c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày kết thúc'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 838b6b03-17da-4120-a84f-b50d5ca008ba
+		summarizeBy: none
+		sourceColumn: Ngày kết thúc
+
+		variation Variation
+			isDefault
+			relationship: 0c7d46d4-4303-4c4f-86aa-9a016b25183b
+			defaultHierarchy: LocalDateTable_fc3f9685-93a6-46d3-90e4-591091cfcece.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vị trí'
+		dataType: string
+		lineageTag: 47747768-04c8-4bb9-9f23-e7aa9e6f0cf7
+		summarizeBy: none
+		sourceColumn: Vị trí
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentName
+		dataType: string
+		lineageTag: 17fe9024-910e-4301-9a33-e1da84e50ea3
+		summarizeBy: none
+		sourceColumn: DepartmentName
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Giới tính'
+		dataType: string
+		lineageTag: d365f587-a9f9-4610-94fd-f40169f5374e
+		summarizeBy: none
+		sourceColumn: Giới tính
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchName
+		dataType: string
+		lineageTag: 3544c6f6-cf37-4d39-81bc-f3c0ab4e2290
+		summarizeBy: none
+		sourceColumn: BranchName
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkingPhone
+		dataType: string
+		lineageTag: cd75d3de-f3ef-4f8e-8791-16490b8cfb84
+		summarizeBy: none
+		sourceColumn: WorkingPhone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Telephone
+		dataType: string
+		lineageTag: 6e1b02fc-273c-4295-afb4-e54a984fcd2f
+		summarizeBy: none
+		sourceColumn: Telephone
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên_mã nhân viên' = 'DIM_Nhân viên'[Mã nhân viên] & " - " &'DIM_Nhân viên'[Tên nhân viên]
+		lineageTag: 6bac2df7-de58-4af9-8b3d-cdc035433c32
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Nhân viên' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=b4cc55b7-d74a-4b97-ae7f-5591af84180a""#(lf)select #(lf)* except(`Ngày sinh`)#(lf)from `cellphones-data-platform.cps_DA_General_Transform.dim_employee_erp`#(lf)where BranchName = ""CPS-HCM-SHOPONLINE""#(lf)  AND `Vị trí` IN ('Nhân viên xử lý đơn hàng','Quản lý shop Online')#(lf)  AND Inactive <> true", null, [EnableFolding=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Mã nhân viên Harawork", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

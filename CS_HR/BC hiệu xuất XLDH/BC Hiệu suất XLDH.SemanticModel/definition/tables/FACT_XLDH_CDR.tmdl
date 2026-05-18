@@ -1,0 +1,136 @@
+table FACT_XLDH_CDR
+	lineageTag: 760b9c2d-ceab-4a00-9ea7-1940f6595046
+
+	column Time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: b1689879-9ab3-4580-b907-b3a7a413c750
+		summarizeBy: none
+		sourceColumn: Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column Duration
+		dataType: double
+		lineageTag: f65398bb-18bf-46f9-8094-89070cf66f81
+		summarizeBy: sum
+		sourceColumn: Duration
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SOURCE
+		dataType: string
+		lineageTag: 0f2560d8-992b-449d-96e7-5a71adde4a78
+		summarizeBy: none
+		sourceColumn: SOURCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column Destination
+		dataType: string
+		lineageTag: 8a6c0fa9-bb0c-4435-b514-7dd30801e274
+		summarizeBy: none
+		sourceColumn: Destination
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: eb851a9a-65fb-4651-90d7-4a82cb916ed5
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Call_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f9af33a7-4054-40c8-8d21-0c46b0ad4ada
+		summarizeBy: none
+		sourceColumn: Call_Date
+
+		variation Variation
+			isDefault
+			relationship: bf30d2dc-10a4-4147-b8ee-9f7b52b86199
+			defaultHierarchy: LocalDateTable_03ebefcf-9ca4-4b22-8a03-0e8e75e4d9e7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ed73502-d285-486e-84fb-85396c71c270
+		summarizeBy: sum
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 066e5a4f-626e-4819-bebc-3798a8b1e5b3
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column TypeS
+		dataType: string
+		lineageTag: 41c37a25-4a44-4b5e-b44e-e9b8b45af889
+		summarizeBy: none
+		sourceColumn: TypeS
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: f69187dd-a5b9-4581-b9e7-b120397d58cd
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên nhân viên'
+		dataType: string
+		lineageTag: 0c695204-3786-4733-a900-e194fa60e56d
+		summarizeBy: none
+		sourceColumn: Tên nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Line
+		dataType: string
+		lineageTag: 042277ce-62a8-42e3-8841-ddb6f43e83f6
+		summarizeBy: none
+		sourceColumn: Line
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5b66615b-1bd9-4409-8473-d24a5cfcdfae
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition FACT_XLDH_CDR = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform."]}[Data], "---""dataset_id=a917b480-5ef3-491e-98f5-45fa8594b4e5""#(lf)#(lf)WITH line_cdr AS (#(lf)  SELECT 'VÕ KIM LIÊN' AS ten_nhan_vien, '1111' AS line UNION ALL#(lf)  SELECT 'VÕ THỊ KIM NHUNG', '1113' UNION ALL#(lf)  SELECT 'NGUYỄN HOÀNG BÍCH TÂM', '1711' UNION ALL#(lf)  SELECT 'CHẠC HÁN CHÂU', '1115' UNION ALL#(lf)  SELECT 'DANH THỊ CHANH THỊ', '1220'#(lf)),#(lf)#(lf)cdr AS (#(lf)  SELECT#(lf)    DATE(date) AS `Date`,#(lf)    TIME(date) AS Time,#(lf)    time AS Duration,#(lf)    CAST(SOURCE AS STRING) AS SOURCE,#(lf)    CAST(destination AS STRING) AS Destination,#(lf)    status AS Status,#(lf)    DATETIME(date) AS Call_Date,#(lf)    EXTRACT(HOUR FROM date) AS Hour,#(lf)    EXTRACT(DAY FROM date) AS Day,#(lf)    '' AS Src_Channel,#(lf)    '' AS Dst_Channel,#(lf)    type AS TypeS,#(lf)    EXTRACT(MONTH FROM date) AS Month#(lf)  FROM#(lf)    `cellphones-data-platform.cps_cloudteam_dwh.cloud_team_cdr_report`#(lf)  WHERE#(lf)    DATE(date) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH), MONTH)#(lf))#(lf)#(lf)SELECT#(lf)  cdr.Date,#(lf)  cdr.Time,#(lf)  cdr.Duration,#(lf)  cdr.SOURCE,#(lf)  cdr.Destination,#(lf)  cdr.Status,#(lf)  cdr.Call_Date,#(lf)  cdr.Hour,#(lf)  cdr.Day,#(lf)#(lf)  COALESCE(src.ten_nhan_vien, dst.ten_nhan_vien) AS `Tên nhân viên`,#(lf)  COALESCE(src.line, dst.line) AS `Line`,#(lf)#(lf)  cdr.TypeS,#(lf)  cdr.Month#(lf)#(lf)FROM cdr#(lf)#(lf)LEFT JOIN line_cdr src#(lf)  ON cdr.SOURCE = src.line#(lf)#(lf)LEFT JOIN line_cdr dst#(lf)  ON cdr.Destination = dst.line#(lf)#(lf)WHERE#(lf)  src.line IS NOT NULL#(lf)  OR dst.line IS NOT NULL#(lf)#(lf)ORDER BY#(lf)  cdr.Date DESC,#(lf)  cdr.Time DESC", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

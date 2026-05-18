@@ -1,0 +1,277 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "d8b8359389f8f2552899",
+  "position": {
+    "x": 214.28571428571431,
+    "y": 682.85714285714289,
+    "z": 10000,
+    "height": 247.14285714285717,
+    "width": 1125.7142857142858,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Ngày"
+                    }
+                  },
+                  "Property": "NămTháng"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Ngày.NămTháng",
+              "nativeQueryRef": "NămTháng",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Nhân viên"
+                    }
+                  },
+                  "Property": "Tên_mã nhân viên"
+                }
+              },
+              "queryRef": "DIM_Nhân viên.Tên_mã nhân viên",
+              "nativeQueryRef": "Nhân viên",
+              "active": true,
+              "displayName": "Nhân viên"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Doanh số thành công"
+                }
+              },
+              "queryRef": "_Measure.Doanh số thành công",
+              "nativeQueryRef": "Doanh số thành công"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "CR"
+                }
+              },
+              "queryRef": "_Measure.CR",
+              "nativeQueryRef": "CR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "AOV"
+                }
+              },
+              "queryRef": "_Measure.AOV",
+              "nativeQueryRef": "AOV"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Tổng số đơn hàng"
+                }
+              },
+              "queryRef": "_Measure.Tổng số đơn hàng",
+              "nativeQueryRef": "Tổng đơn",
+              "displayName": "Tổng đơn"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Số đơn thành công"
+                }
+              },
+              "queryRef": "_Measure.Số đơn thành công",
+              "nativeQueryRef": "Đơn thành công",
+              "displayName": "Đơn thành công"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Số đơn hủy"
+                }
+              },
+              "queryRef": "_Measure.Số đơn hủy",
+              "nativeQueryRef": "Đơn hủy",
+              "displayName": "Đơn hủy"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Tỷ lệ hủy"
+                }
+              },
+              "queryRef": "_Measure.Tỷ lệ hủy",
+              "nativeQueryRef": "Tỷ lệ hủy"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Số đơn hoàn"
+                }
+              },
+              "queryRef": "_Measure.Số đơn hoàn",
+              "nativeQueryRef": "Đơn hoàn",
+              "displayName": "Đơn hoàn"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Tỷ lệ hoàn đơn"
+                }
+              },
+              "queryRef": "_Measure.Tỷ lệ hoàn đơn",
+              "nativeQueryRef": "Tỷ lệ hoàn",
+              "displayName": "Tỷ lệ hoàn"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DIM_Nhân viên"
+                  }
+                },
+                "Property": "Tên_mã nhân viên"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "titleAlignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Left'"
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F5FEFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Left'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

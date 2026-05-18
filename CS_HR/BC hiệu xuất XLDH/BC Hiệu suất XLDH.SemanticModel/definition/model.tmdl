@@ -1,0 +1,36 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["DIM_Danh mục_Ngày","DIM_Nhân viên","FACT_Đơn hàng","FACT_XLDH_CDR","DIM_LINE_XLDH"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'DIM_Danh mục_Ngày'
+ref table DateTableTemplate_d6ba0883-bd70-451b-abed-fc29b431c9d6
+ref table LocalDateTable_c3cc8d26-688b-41c1-8fcc-beb4a391d846
+ref table LocalDateTable_b5ca9dca-2727-4039-b768-268b36c64892
+ref table LocalDateTable_8f5c9f58-00ca-45f3-a418-9744cf2d6519
+ref table LocalDateTable_45c1b7d1-ced2-4dfe-99c0-6b5c96dbba5c
+ref table LocalDateTable_d60c70b8-fa16-4b65-ab7f-979a25e9747c
+ref table 'DIM_Nhân viên'
+ref table LocalDateTable_4917034c-bdeb-4b87-b1af-f7d71700405c
+ref table LocalDateTable_fc3f9685-93a6-46d3-90e4-591091cfcece
+ref table _Measure
+ref table 'FACT_Đơn hàng'
+ref table LocalDateTable_b3aa545f-a7d1-43e8-bfab-039b196d7934
+ref table 'Parameter chỉ số'
+ref table FACT_XLDH_CDR
+ref table LocalDateTable_03ebefcf-9ca4-4b22-8a03-0e8e75e4d9e7
+ref table DIM_LINE_XLDH
+
+ref role Chung
+
+ref cultureInfo en-US
+

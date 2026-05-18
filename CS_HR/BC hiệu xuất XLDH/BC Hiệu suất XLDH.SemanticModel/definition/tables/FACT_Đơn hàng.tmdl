@@ -1,0 +1,215 @@
+table 'FACT_Đơn hàng'
+	lineageTag: 2574c731-1cd8-4d1c-91d6-a407764db197
+
+	column CreatedDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4caace8c-ed4f-4e76-8fa0-f6466809a98a
+		summarizeBy: none
+		sourceColumn: CreatedDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column StoreName
+		dataType: string
+		lineageTag: de66deab-f467-4fd8-8d72-84b132db565f
+		summarizeBy: none
+		sourceColumn: StoreName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 47a8de98-68f9-4d39-afb8-9af1ef2cf830
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column SOOrderId
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e99468f-f81e-473e-877e-f5e59c9d78d7
+		summarizeBy: count
+		sourceColumn: SOOrderId
+
+		annotation SummarizationSetBy = Automatic
+
+	column SOOrderDetailId
+		dataType: int64
+		formatString: 0
+		lineageTag: d27e2036-1f38-46af-ae52-f7d7cb682a68
+		summarizeBy: count
+		sourceColumn: SOOrderDetailId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCode
+		dataType: string
+		lineageTag: 3ead43d6-a274-47d5-a884-56ee93386b53
+		summarizeBy: none
+		sourceColumn: ProductCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductGroupName
+		dataType: string
+		lineageTag: b150d4ac-538c-4c8b-9aea-0e3b97221a51
+		summarizeBy: none
+		sourceColumn: ProductGroupName
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnlineNo
+		dataType: string
+		lineageTag: a10f6506-4c5a-4928-897c-eae493d175bd
+		summarizeBy: none
+		sourceColumn: OnlineNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderState
+		dataType: string
+		lineageTag: c72933ba-6887-456e-b1dc-5e5d3cbb3702
+		summarizeBy: none
+		sourceColumn: OrderState
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: double
+		lineageTag: ffac1201-f94e-4f37-92c9-2ef6245bf754
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Quantity
+		dataType: double
+		lineageTag: f5698b23-99ae-474a-82c6-1378d1f1cac1
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CreatedById
+		dataType: int64
+		formatString: 0
+		lineageTag: 57afb6f2-15fc-49b2-b0c3-8b633e667825
+		summarizeBy: count
+		sourceColumn: CreatedById
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedByName
+		dataType: string
+		lineageTag: ae78a78b-c881-475e-9862-f5887946feca
+		summarizeBy: none
+		sourceColumn: CreatedByName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedByHaraCode
+		dataType: string
+		lineageTag: f6841937-6f9d-4d4d-9330-206c2500af4f
+		summarizeBy: none
+		sourceColumn: CreatedByHaraCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column MethodName
+		dataType: string
+		lineageTag: 3e33029b-c945-4362-8a6d-ca864ab08462
+		summarizeBy: none
+		sourceColumn: MethodName
+
+		annotation SummarizationSetBy = Automatic
+
+	column PreOrder
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ced417c9-7f54-47e5-8697-7a71c67df7a4
+		summarizeBy: none
+		sourceColumn: PreOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã DH'
+		dataType: string
+		lineageTag: c036f39d-899e-432a-a0eb-05630ad16135
+		summarizeBy: none
+		sourceColumn: Mã DH
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã SP'
+		dataType: string
+		lineageTag: 3317ef13-81a8-404b-8403-730f353b59fd
+		summarizeBy: none
+		sourceColumn: Mã SP
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dso
+		dataType: double
+		lineageTag: fd3cd1c3-40bb-44d3-a6fb-0251239e981d
+		summarizeBy: sum
+		sourceColumn: Dso
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SL
+		dataType: double
+		lineageTag: 8b3216ed-98e1-47d9-a7f8-e0ebfe1ed63b
+		summarizeBy: sum
+		sourceColumn: SL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsSales
+		dataType: int64
+		formatString: 0
+		lineageTag: ff9ae824-177e-4f96-9e52-b3e41a50855a
+		summarizeBy: sum
+		sourceColumn: IsSales
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_State =
+			
+			VAR OrderState = TRIM('FACT_Đơn hàng'[OrderState])
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    OrderState = "Đã xuất kho", "Đơn thành công",
+			    OrderState IN {"Hủy đơn","Hủy chờ chi"}, "Đơn Hủy",
+			    OrderState = "Đã tạo phiếu nhập","Đơn Hoàn"
+			)
+		lineageTag: 322fc57c-4b26-4e57-a626-60ff4187ca1b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Đơn hàng' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "with cte_nhanvien_shoponline as#(lf)  (select #(lf)* except(`Ngày sinh`)#(lf)from `cellphones-data-platform.cps_DA_General_Transform.dim_employee_erp`#(lf)where BranchName = ""CPS-HCM-SHOPONLINE""#(lf)  AND `Vị trí` IN ('Nhân viên xử lý đơn hàng','Quản lý shop Online'))#(lf)#(lf)SELECT #(lf)  o.Date as CreatedDate,#(lf)  o.StoreName,#(lf)  o.Region,#(lf)  o.AutoCode AS `Mã DH`,#(lf)  o.SOOrderId,#(lf)  o.SOOrderDetailId,#(lf)  o.ProductCode,#(lf)  o.ProductGroupName,#(lf)  o.OnlineNo,#(lf)  o.OrderState,#(lf)  o.Amount,#(lf)  o.Quantity,#(lf)  o.CreatedById,#(lf)  o.CreatedByName,#(lf)  o.CreatedByHaraCode,#(lf)  o.MethodName,#(lf)  o.PreOrder,#(lf)  s.Autocode AS `Mã SP`,#(lf)  s.IsSales,#(lf)  SUM(s.amount) AS Dso,#(lf)  SUM(s.quantity) AS SL#(lf)FROM `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_online_sales_transaction` o#(lf)LEFT JOIN `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` s#(lf)  ON s.SOOrderDetailId = o.SOOrderDetailId#(lf)#(lf)WHERE #(lf)    DATE(o.Date) >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -3 MONTH)#(lf)    AND DATE(o.Date) <= CURRENT_DATE()#(lf)    AND o.CreatedByHaraCode IN #(lf)    (SELECT #(lf)        DISTINCT `Mã nhân viên`#(lf)        FROM cte_nhanvien_shoponline)#(lf)GROUP BY#(lf)  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19", null, [EnableFolding=true]),
+				    #"Trimmed Text" = Table.TransformColumns(Source,{{"CreatedByHaraCode", Text.Trim, type text}})
+				in
+				    #"Trimmed Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

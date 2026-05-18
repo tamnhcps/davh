@@ -1,0 +1,33 @@
+table DIM_LINE_XLDH
+	lineageTag: ae040135-50dd-4657-8a89-e340bc29f2c4
+
+	column 'Tên nhân viên'
+		dataType: string
+		lineageTag: ba428fd1-9a5a-4fb9-a8d5-3f17161e6fe0
+		summarizeBy: none
+		sourceColumn: Tên nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Line
+		dataType: int64
+		formatString: 0
+		lineageTag: c4d73c10-5265-4350-8672-27b1bd72ec04
+		summarizeBy: sum
+		sourceColumn: Line
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_LINE_XLDH = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WCjs8VcHb01fBx/Nwl5+SjpIhECjF6kAkQjwe7u5ScH64a4Wvgp9HqJ87RIExWIGfe2jkw90tfgoe/ocb/NwVnA73OnsohBxu8gWpMoca4+zxcNcCZwWPw41+CiD2slCIGaZgWRdHPw+YLR4QtidI3sjIQCk2FgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Tên nhân viên" = _t, Line = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Tên nhân viên", type text}, {"Line", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

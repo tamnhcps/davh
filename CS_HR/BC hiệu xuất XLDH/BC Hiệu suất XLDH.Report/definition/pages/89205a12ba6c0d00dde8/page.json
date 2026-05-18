@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "89205a12ba6c0d00dde8",
+  "displayName": "BÁN HÀNG",
+  "displayOption": "ActualSize",
+  "height": 930,
+  "width": 1350,
+  "objects": {
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "215L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "4cdfc54778002e454086",
+      "target": "1d62ceb9cb2c190099bc",
+      "type": "DataFilter"
+    },
+    {
+      "source": "36acb5e6dd920cc4c55a",
+      "target": "1d62ceb9cb2c190099bc",
+      "type": "DataFilter"
+    }
+  ]
+}
