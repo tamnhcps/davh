@@ -1,0 +1,48 @@
+table DIM_Note
+	lineageTag: e981d984-ee31-48d4-b13c-c3ab645573ca
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d0c4e05-94b7-4860-99a4-f837573d34c9
+		summarizeBy: sum
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chỉ số'
+		dataType: string
+		lineageTag: ddba6870-5cb2-46b5-a52e-e44b22282a2c
+		summarizeBy: none
+		sourceColumn: Chỉ số
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diễn giải'
+		dataType: string
+		lineageTag: bd9a3c9e-f3d1-4c75-9470-bd106524565a
+		summarizeBy: none
+		sourceColumn: Diễn giải
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nguồn
+		dataType: string
+		lineageTag: 1d410c22-d571-4a37-a0d7-7c664c598c72
+		summarizeBy: none
+		sourceColumn: Nguồn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_Note = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("nZNNb9NAEIb/ysgSEkgRSQjfUg9pgqDiYrUIDqGHjbv1rnDWaTwO9Myh6rGHnlAFASFURKUieoqPG+V/7D/prO00dtJGqLfd+XifmXftTsepOxVni3soQwUui6Luvg2Y5AiC6blJfigfPgg98gQI/Y0ukyMJymd02osZpWIYmuSvB+/jWq3B6xG0WI8PGLQZMlJyWcA/7TvblY7zYIkEmwz59VFYg4VoFbYwHHB4KyOJN1MaBb20dPU6vtCngGLyuVfYRZ8hKGHGPxEatRUbPVxkZaOXQhH8V1FpuxXIRwW1FutjTD2DsosZpLrgXwX0CT2cmJwyeA6vr3ZFOgk9xrItSI5hmfy4gGgOaTqfQ/sjDwK74JtBTF1d/UcJUjTJiQRfMlUWNclXCMx4JOdW3y8znlgGst3dq+E3FBIqO6e+WZhJDkkoOQCcnk9HdlyigGeSX4zeTX9XMJT6t7KIL3J5hpvoT4vehop2jGbYQqYrAzI3ym/D/BMryDyjaztkqRNxNu4xkXdmIWj2+0Gq+MJNG+o1urT0BRW5L+cNviQfYRaHputS7tXmu6ynXqRAoMdkgP5XEti5Lm114C4KHuYAz37oPcoS5x41r29kAPu73rk1oQpLJfQ+Zyx/hnllTty+BA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [STT = _t, #"Chỉ số" = _t, #"Diễn giải" = _t, Nguồn = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"STT", Int64.Type}, {"Chỉ số", type text}, {"Diễn giải", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

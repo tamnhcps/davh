@@ -1,0 +1,308 @@
+table FACT_PotentialCustomers
+	lineageTag: e1a59ddd-4ce6-494d-b958-d73e19235fcb
+
+	column Id
+		dataType: int64
+		formatString: 0
+		lineageTag: ed9e7687-77f7-4fa5-9102-f5bc784e3f45
+		summarizeBy: count
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchName
+		dataType: string
+		lineageTag: 945cf848-69eb-4efe-b781-f22e96a9ca2a
+		summarizeBy: none
+		sourceColumn: BranchName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedByDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bfc84d84-118b-4984-97d5-4b2a917b47e2
+		summarizeBy: none
+		sourceColumn: CreatedByDate
+
+		variation Variation
+			isDefault
+			relationship: a441c376-2cd6-4b61-8944-82ca4e0dbfd8
+			defaultHierarchy: LocalDateTable_539f3161-dae5-48c2-9f21-24f50fdbea4e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedByName
+		dataType: string
+		lineageTag: 049379f0-980f-438c-901b-bb94c9315432
+		summarizeBy: none
+		sourceColumn: CreatedByName
+
+		annotation SummarizationSetBy = Automatic
+
+	column AutoCode
+		dataType: string
+		lineageTag: 00da6441-d2ee-407e-bfa3-9735da50285f
+		summarizeBy: none
+		sourceColumn: AutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column TypeName
+		dataType: string
+		lineageTag: 0149cf3e-755e-442a-9f60-e5adaa7cd38d
+		summarizeBy: none
+		sourceColumn: TypeName
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceName
+		dataType: string
+		lineageTag: c7304f4a-8020-4568-b2af-5d32fc654c79
+		summarizeBy: none
+		sourceColumn: SourceName
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusName
+		dataType: string
+		lineageTag: a34e2a1d-307f-4ba1-999b-52f625eefd59
+		summarizeBy: none
+		sourceColumn: StatusName
+		sortByColumn: StatusId
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOverDue
+		dataType: int64
+		formatString: 0
+		lineageTag: f3ad2445-5f21-478f-a8f1-51b52395e9ef
+		summarizeBy: sum
+		sourceColumn: IsOverDue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: 31b7b897-f151-4694-a63c-ee03ae432f6b
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column FullName
+		dataType: string
+		lineageTag: 4a8bad36-9304-47d2-b822-a74568163343
+		summarizeBy: none
+		sourceColumn: FullName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerNote
+		dataType: string
+		lineageTag: ccf43ca7-bfb6-4379-a4fb-9188e4ac4e1b
+		summarizeBy: none
+		sourceColumn: CustomerNote
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusId
+		dataType: int64
+		formatString: 0
+		lineageTag: 655d6808-984b-420f-b393-4abee48f05ae
+		summarizeBy: count
+		sourceColumn: StatusId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 017f6ad0-a1f4-4a8c-91f0-1ed1ed3d7482
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductGroupName
+		dataType: string
+		lineageTag: 31a52c01-93c4-4139-a0ff-df959f1e0fdb
+		summarizeBy: none
+		sourceColumn: ProductGroupName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductNote
+		dataType: string
+		lineageTag: 52b3fd98-7018-4060-8d42-f6003bcd9079
+		summarizeBy: none
+		sourceColumn: ProductNote
+
+		annotation SummarizationSetBy = Automatic
+
+	column processorName
+		dataType: string
+		lineageTag: a6adf902-d025-4ede-81f6-ea4aac7b4af3
+		summarizeBy: none
+		sourceColumn: processorName
+
+		annotation SummarizationSetBy = Automatic
+
+	column processedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9bca1560-cf69-464f-a8e0-24fb182b27dd
+		summarizeBy: none
+		sourceColumn: processedDate
+
+		variation Variation
+			isDefault
+			relationship: 882ac7fe-cfcf-46d7-93a0-1c3c0e679abf
+			defaultHierarchy: LocalDateTable_ec012e9b-67cd-4fc1-938d-0c8d33f706a8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProcessingNote
+		dataType: string
+		lineageTag: ec85520e-955a-4b8b-83fb-b0f1f437cf41
+		summarizeBy: none
+		sourceColumn: ProcessingNote
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeskFontColor
+		dataType: string
+		lineageTag: 180c4c0d-86db-4cec-a53b-84b791395a7e
+		summarizeBy: none
+		sourceColumn: DeskFontColor
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeskBackColor
+		dataType: string
+		lineageTag: 92c2df2d-ea5f-4b29-bff2-678bd1f9350a
+		summarizeBy: none
+		sourceColumn: DeskBackColor
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderAutoCode
+		dataType: string
+		lineageTag: 555d9f5e-9bc3-4192-b8f3-aa4e4d0059dd
+		summarizeBy: none
+		sourceColumn: OrderAutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SpAutoCode
+		dataType: string
+		lineageTag: 6a8c680f-8d0a-4930-a16e-664a5cf153eb
+		summarizeBy: none
+		sourceColumn: SpAutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column StopCaringReasonName
+		dataType: string
+		lineageTag: 04736ead-b8ce-4526-ab11-23dee3d2ba49
+		summarizeBy: none
+		sourceColumn: StopCaringReasonName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 42f9166b-b23c-4f74-889e-e1d2cfc46aa2
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column StoreCode =
+			
+			// CALCULATE(FIRSTNONBLANK(DIM_BQ_Store[ma_kho], TRUE()), FILTER(DIM_BQ_Store, DIM_BQ_Store[cua_hang] = EARLIER(FACT_PotentialCustomers[BranchName]) && DIM_BQ_Store[phan_loai_kho] = "Kho cửa hàng"))
+			VAR minindex_kho =
+			    CALCULATE (
+			        MIN ( DIM_BQ_Store[Index] ),
+			        FILTER (
+			            DIM_BQ_Store,
+			            DIM_BQ_Store[ten_kho] = EARLIER ( FACT_PotentialCustomers[BranchName] )
+			            && DIM_BQ_Store[is_inactive] = FALSE()
+			        )
+			    )
+			VAR minindex_cuahang =
+			    CALCULATE (
+			        MIN ( DIM_BQ_Store[Index] ),
+			        FILTER (
+			            DIM_BQ_Store,
+			            DIM_BQ_Store[cua_hang] = EARLIER ( FACT_PotentialCustomers[BranchName] )
+			            && DIM_BQ_Store[is_inactive] = FALSE()
+			        )
+			    )
+			VAR minindex =
+			    IF ( minindex_cuahang <> BLANK (), minindex_cuahang, minindex_kho )
+			RETURN
+			    LOOKUPVALUE ( DIM_BQ_Store[ma_kho], DIM_BQ_Store[Index], minindex )
+		lineageTag: b22db211-745f-4eea-a24c-729e79886157
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column SĐT = SUBSTITUTE(FACT_PotentialCustomers[Phone], LEFT(FACT_PotentialCustomers[Phone], LEN(FACT_PotentialCustomers[Phone])-4), REPT("*", LEN(FACT_PotentialCustomers[Phone])-4))
+		lineageTag: 6d93db0e-0182-413d-9276-edb92bbdcee1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalAmount
+		dataType: double
+		lineageTag: d125da23-09c2-4d0c-9a79-160d0f1b2e7c
+		summarizeBy: sum
+		sourceColumn: TotalAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BillDate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 96d7713d-022d-4264-be5a-1e80fb8903b1
+		summarizeBy: none
+		sourceColumn: BillDate
+
+		variation Variation
+			isDefault
+			relationship: 37dc7efd-3f12-469b-a51e-d5da86d0e17c
+			defaultHierarchy: LocalDateTable_ee7d2c18-cc2c-4b1d-8794-331b1c592aff.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column processedDay
+		dataType: int64
+		formatString: 0
+		lineageTag: c62ddad7-f359-471e-b1ec-54c9a2a01675
+		summarizeBy: sum
+		sourceColumn: processedDay
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_PotentialCustomers = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Table.Combine({FACT_PotentialCustomers_MN, FACT_PotentialCustomers_MB})
+				in
+				    Source
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

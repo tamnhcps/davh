@@ -1,0 +1,179 @@
+table DIM_BQ_ProductGroup
+	lineageTag: 4e96e9c3-7fec-486f-a932-3cff922dc816
+
+	column 'Nhóm hàng'
+		dataType: string
+		lineageTag: 3d31cf00-7309-44fc-8ba8-91cdf7276210
+		summarizeBy: none
+		sourceColumn: Nhóm hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm hàng cấp 1'
+		dataType: string
+		lineageTag: da4c71fe-f58c-47ae-ae00-e4d016036ebd
+		summarizeBy: none
+		sourceColumn: Nhóm hàng cấp 1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm hàng cấp 2'
+		dataType: string
+		lineageTag: 7e147839-f2c3-4921-b83d-627138a3ba81
+		summarizeBy: none
+		sourceColumn: Nhóm hàng cấp 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngành hàng'
+		dataType: string
+		lineageTag: 419977ea-f294-4b6a-aa6c-32f07e17bda5
+		summarizeBy: none
+		sourceColumn: Ngành hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thuộc tính'
+		dataType: string
+		lineageTag: a2d8b074-20e5-4c6e-95ca-1ed4b9eeec94
+		summarizeBy: none
+		sourceColumn: Thuộc tính
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level
+		dataType: int64
+		formatString: 0
+		lineageTag: 866e4485-1961-40d4-bf52-d962ea1a782e
+		summarizeBy: none
+		sourceColumn: Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level1
+		dataType: string
+		lineageTag: e1adae95-08a6-4eb0-8305-f9ac4146253e
+		summarizeBy: none
+		sourceColumn: Level1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level2
+		dataType: string
+		lineageTag: 28f423ae-86b9-4704-88c9-f20e096fc58f
+		summarizeBy: none
+		sourceColumn: Level2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level3
+		dataType: string
+		lineageTag: fe448e98-b87f-4e74-a15b-b9a76e7bb232
+		summarizeBy: none
+		sourceColumn: Level3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Level4
+		dataType: string
+		lineageTag: d62e0b6c-6a54-47d0-9676-6385b7eb0d4a
+		summarizeBy: none
+		sourceColumn: Level4
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bán kèm'
+		dataType: int64
+		formatString: 0
+		lineageTag: f939cec3-9092-490b-8403-993933d4b8ab
+		summarizeBy: none
+		sourceColumn: Bán kèm
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubBrand
+		dataType: string
+		lineageTag: 4f59fd87-24ab-4f31-b02f-2dcc9524ff93
+		summarizeBy: none
+		sourceColumn: SubBrand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: f1f87dc2-2bf0-4594-8077-5b8377f58c3b
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thi đua S-Star'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f1d2891-9f25-4507-84b4-463837a79c63
+		summarizeBy: none
+		sourceColumn: Thi đua S-Star
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm S-Star'
+		dataType: string
+		lineageTag: df639203-3679-48b6-ae29-eb6d0ea184e4
+		summarizeBy: none
+		sourceColumn: Nhóm S-Star
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hệ số thi đua phụ kiện'
+		dataType: double
+		lineageTag: 2db7d364-77d2-4e6f-89c7-b32f445d05db
+		summarizeBy: none
+		sourceColumn: Hệ số thi đua phụ kiện
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Nhóm S-Star_Index'
+		dataType: int64
+		formatString: 0
+		lineageTag: bf6c4e2e-e8b9-4079-ac33-6e6e58df490f
+		summarizeBy: none
+		sourceColumn: Nhóm S-Star_Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nhóm =
+			
+			SWITCH (
+			    TRUE (),
+			    'DIM_BQ_ProductGroup'[Nhóm hàng cấp 2] = "ĐIỆN MÁY", "ĐIỆN MÁY",
+			    'DIM_BQ_ProductGroup'[Nhóm hàng cấp 2] = "Gia Dụng", "GIA DỤNG",
+			    'DIM_BQ_ProductGroup'[Brand] = "APPLE", "APPLE",
+			    'DIM_BQ_ProductGroup'[Brand] = "DEMO", "DEMO",
+			    'DIM_BQ_ProductGroup'[Brand] = "LAPTOP"
+			        || 'DIM_BQ_ProductGroup'[Brand] = "PC"
+			        || 'DIM_BQ_ProductGroup'[Brand] = "SURFACE", "LAPTOP/PC",
+			    'DIM_BQ_ProductGroup'[Brand] <> BLANK() && NOT 'DIM_BQ_ProductGroup'[Nhóm hàng] IN {"TRANG TRÍ", "VẬT TƯ ĐIỆN TỬ"}, "ANDROID",
+			    'DIM_BQ_ProductGroup'[Nhóm S-Star] <> BLANK(), "S-Star",
+			    "Khác"
+			)
+		lineageTag: 15bce714-c7fd-4760-a667-20dd60234a92
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_BQ_ProductGroup = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=2a26bbe0-48fb-47c2-99bf-d69f107e535c""#(lf)Select #(lf)nhom_hang#(tab)`Nhóm hàng`,#(tab)#(tab)#(lf)nhom_hang_cap_1 `Nhóm hàng cấp 1`,#(tab)#(tab)#(tab)#(lf)case when nhom_hang in ('TIVI', 'Máy Ảnh') then 'ĐIỆN MÁY' else nhom_hang_cap_2 end as#(tab)`Nhóm hàng cấp 2`,#(tab)#(tab)#(lf)case when nhom_hang in ('DỊCH VỤ','Nhóm hàng Voucher','VC SAMSUNG','SAMSUNG BH') then 'DỊCH VỤ'#(lf)when nhom_hang in ('CÔNG CỤ DỤNG CỤ','HÀNG HÓA','Đồng phục - kho HC') then 'HÀNG HÓA'#(lf)when nhom_hang = 'CHUA SỬ DỤNG' then 'HÀNG HÓA ĐƠN'#(lf)when nhom_hang in ('LAPTOP CŨ','LAPTOP CTM','SURFACE CTM','LAPTOP BH','PC_SSD') then 'LAPTOP'#(lf)when nhom_hang in ('LINH KIỆN','PC_CASE','PC_CPU','PC_KHÁC','PC_MAIN','PC_NGUỒN','PC_Ổ CỨNG','PC_RAM','PC_TẢN NHIỆT','PC_VGA','PC_VỎ') then 'LINH KIỆN'#(lf)when nhom_hang in ('PHỤ KIỆN','PHỤ KIỆN SALE','PK - XẢ TỒN','PKDEMO') then 'PHỤ KIỆN'#(lf)when nhom_hang in ('APPLE WATCH CTM','APPLE WATCH CŨ','APPLE WATCH BH') then 'SMARTWATCH'#(lf)else nganh_hang end as `Ngành hàng`,#(tab)#(tab)#(tab)#(lf)thuoc_tinh `Thuộc tính`,#(tab)#(tab)#(tab)#(lf)level Level,#(tab)#(tab)#(tab)#(lf)level1 Level1,#(tab)#(tab)#(tab)#(lf)case when nhom_hang in ('TIVI', 'Máy Ảnh') then 'ĐIỆN MÁY' else level2 end as Level2,#(tab)#(tab)#(tab)#(lf)Level3 Level3,#(tab)#(tab)#(tab)#(lf)Level4 Level4,#(tab)#(tab)#(tab)#(lf)ban_kem#(tab)`Bán kèm`,#(tab)#(tab)#(lf)sub_brand SubBrand,#(lf)brand#(tab)Brand,#(tab)#(tab)#(lf)thi_dua_s_star `Thi đua S-Star`,#(tab)#(tab)#(tab)#(lf)nhom_s_star#(tab)`Nhóm S-Star`,#(tab)#(tab)#(lf)he_so_thi_dua_phu_kien `Hệ số thi đua phụ kiện`,#(tab)#(tab)#(tab)#(lf)nhom_s_star_index `Nhóm S-Star_Index`#(tab)#(tab)#(tab)#(lf)from `cellphones-data-platform.cps_DA_General_Transform.dim_product_group`#(lf)where not nhom_hang in ('DỊCH VỤ LAPTOP','KIỂM TRA NHÓM HÀNG  - ACITON SỬA','PHỤ KIỆN MACBOOK','DÁN MÀN HÌNH','DỊCH VỤ TIVI','LINH KIỆN LAPTOP','LAPTOP_MÀN HÌNH','LAPTOP_PIN LINH KIỆN','LAPTOP_BÀN PHÍM','LAPTOP_MAIN','LAPTOP_RAM','LAPTOP_Ổ CỨNG','LAPTOP_KHÁC','LAPTOP_LOA','LAPTOP_VỎ MÁY','DÁN VA ĐẬP','DÁN VA ĐẬP CAO CẤP','erp test nhóm hàng','IPHONECTM','LAPTOP_PIN CHÍNH HÃNG','MÀN HÌNH ANDROID','MÀN HÌNH APPLE','ỐP BAO DA', 'LAPTOP CŨ','HÀNG BẢO HÀNH', 'ĐIỆN TỬ', 'CŨ', 'DTH CŨ', 'CTM')", null, [EnableFolding=true]),
+				    #"Appended Query" = Table.Combine({Source, NhomHang_LaptopCu})
+				in
+				    #"Appended Query"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

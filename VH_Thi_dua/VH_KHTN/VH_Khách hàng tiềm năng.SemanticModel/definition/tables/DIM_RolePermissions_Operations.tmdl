@@ -1,0 +1,54 @@
+table DIM_RolePermissions_Operations
+	lineageTag: d1ad37dc-8a5a-47d0-ac1d-74624a5f81ad
+
+	column ma_kho
+		lineageTag: b60cfa1e-c314-43bd-808a-edcedd0ebd6e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_BQ_Store[ma_kho]
+
+		annotation SummarizationSetBy = Automatic
+
+	column cua_hang
+		lineageTag: fe1a468c-088c-4690-94b2-4cb828331e4e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_BQ_Store[cua_hang]
+
+		annotation SummarizationSetBy = Automatic
+
+	column OP =
+			
+			VAR Mien =
+			    LOOKUPVALUE(
+			        'DIM_BQ_Store'[mien],
+			        'DIM_BQ_Store'[ma_kho], 'DIM_RolePermissions_Operations'[ma_kho]
+			    )
+			RETURN
+			    LOOKUPVALUE(
+			        'DIM_RolePermissions_Operations_Region'[Tên],
+			        'DIM_RolePermissions_Operations_Region'[Miền], Mien
+			    )
+		lineageTag: bc725e22-c512-452a-9961-e1afc61ce1a1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader = LOOKUPVALUE('DIM_RolePermissions_User'[Leader],'DIM_RolePermissions_User'[Tên],'DIM_RolePermissions_Operations'[cua_hang],BLANK())
+		lineageTag: 5e2b1537-972e-4e5b-8720-74723f3f9124
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_RolePermissions_Operations = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(
+				    'DIM_BQ_Store',
+				    'DIM_BQ_Store'[ma_kho],
+				    'DIM_BQ_Store'[cua_hang]
+				)
+
+	annotation PBI_Id = 4525064c57c84e0b8e9b2d8de7b3d6de
+

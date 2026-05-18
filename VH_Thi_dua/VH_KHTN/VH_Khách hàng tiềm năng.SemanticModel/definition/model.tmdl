@@ -1,0 +1,72 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup FACT
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup DIM
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["FACT_PotentialCustomers","DIM_BQ_Department","DIM_BQ_Region","DIM_Note","DIM_RolePermissions_User","DIM_RolePermissions_Operations_Region","DIM_SizeShop","FACT_Palexy_Section","FACT_Palexy_Store","DIM_BQ_Store","FACT_Target","FACT_PotentialCustomers_MB","FACT_PotentialCustomers_MN","DIM_Ngày","FACT_PotentialCustomers_MB_df","FACT_PotentialCustomers_MN_df","FACT_SO_Thuho","FACT_TheCao","DIM_BQ_ProductGroup","NhomHang_LaptopCu","Dim_Date","Dim_Dataset","Loại trừ CR"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
+
+ref table FACT_PotentialCustomers
+ref table DateTableTemplate_b7361d78-caf8-4362-a53c-ab39bc99ccbc
+ref table LocalDateTable_539f3161-dae5-48c2-9f21-24f50fdbea4e
+ref table LocalDateTable_ec012e9b-67cd-4fc1-938d-0c8d33f706a8
+ref table DIM_BQ_Department
+ref table LocalDateTable_2352d62b-12c6-4614-a9d5-571c795938b6
+ref table LocalDateTable_ad73c459-16ab-4b3b-bd90-a62b30566196
+ref table DIM_BQ_Region
+ref table DIM_Note
+ref table DIM_RolePermissions_User
+ref table LocalDateTable_0adc3d49-9ffa-4aa0-92dc-191f48d5f539
+ref table DIM_RolePermissions_Operations_Region
+ref table DIM_SizeShop
+ref table FACT_Palexy_Section
+ref table FACT_Palexy_Store
+ref table DIM_BQ_Store
+ref table Measure
+ref table FACT_Target
+ref table Parameter_TimeIntervals
+ref table Parameter_OP
+ref table DIM_RolePermissions_Operations
+ref table LocalDateTable_13254d03-cb5b-4fd8-baeb-e045f21f3d54
+ref table LocalDateTable_ee7d2c18-cc2c-4b1d-8794-331b1c592aff
+ref table Parameter_Metrics_Processing
+ref table Table
+ref table LocalDateTable_778b7c50-af8f-41ca-bdaf-f753417bd104
+ref table LocalDateTable_881cafce-ccfe-4734-8faa-55293c853315
+ref table FACT_SO_Thuho
+ref table FACT_TheCao
+ref table DIM_BQ_ProductGroup
+ref table Dim_Date
+ref table LocalDateTable_fa67855a-3d80-464d-a0b4-6a45bc1349fb
+ref table LocalDateTable_facc51a8-cec8-4eb6-a904-e59775a9e670
+ref table LocalDateTable_a769f854-9c2f-4e99-be64-17e65c87040d
+ref table Dim_Dataset
+ref table LocalDateTable_50ac61b7-e327-401e-8ac9-08fe1a59b3e2
+ref table 'Loại trừ CR'
+ref table LocalDateTable_9be3c829-9137-42d2-9b28-0ce7465f3682
+ref table Parameter_Metrics_PLX
+ref table Parameter_Metrics
+ref table LocalDateTable_4cd2c73d-8794-4f16-b3c6-5f36a858aaa6
+
+ref role Chung
+ref role 'Vận hành_AM'
+ref role 'Vận hành_Cửa hàng'
+ref role 'Vận hành_OP'
+
+ref cultureInfo en-US
+

@@ -1,0 +1,83 @@
+expression FACT_PotentialCustomers_MB =
+		let
+		    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=2a26bbe0-48fb-47c2-99bf-d69f107e535c""#(lf)WITH hn_customer AS(#(lf)SELECT#(lf)  customer.Id,#(lf)  customer.BranchId,#(lf)  customer.CreatedById,#(lf)  customer.AutoCode,#(lf)  customer.CustomerTypeId,#(lf)  customer.SourceId,#(lf)  customer.StatusId,#(lf)  customer.UpdatedByDate,#(lf)  customer.CreatedByDate,#(lf)  customer.Phone,#(lf)  customer.FullName,#(lf)  customer.Note,#(lf)  CASE#(lf)    WHEN customer.StatusId = 1#(lf)      AND TIMESTAMP_DIFF(#(lf)            CURRENT_TIMESTAMP(),#(lf)            TIMESTAMP(IFNULL(customer.UpdatedByDate, customer.CreatedByDate)),#(lf)            MINUTE#(lf)          ) >= 2 * 24 * 60#(lf)    THEN 1#(lf)    ELSE 0#(lf)  END AS IsOverDue,#(lf)  customer.StopCaringReasonId#(lf)FROM#(lf)  `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_ProspectiveCustomers` AS customer#(lf)WHERE#(lf)  DATE(customer.CreatedByDate) <= CURRENT_DATE('+7')),#(lf)log_hn AS (#(lf)  SELECT#(lf)    log.ProspectiveCustomerId,#(lf)    person.FullName AS processorName,#(lf)    log.CreatedByDate AS processedDate,#(lf)    log.ProcessingNote#(lf)  FROM #(lf)    `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_ProspectiveCustomerLogs` log#(lf)  LEFT JOIN #(lf)    `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` person#(lf)  ON #(lf)    log.CreatedById = person.Id#(lf)WHERE #(lf)  log.ProspectiveCustomerId IN ( SELECT Id FROM hn_customer)#(lf)QUALIFY ROW_NUMBER() OVER(PARTITION BY log.ProspectiveCustomerId ORDER BY log.Id DESC) = 1#(lf)ORDER BY log.Id DESC), #(lf)order_hn AS (#(lf)  SELECT#(lf)    ordr.ProspectiveId,#(lf)    ordr.AutoCode AS OrderAutoCode,#(lf)    general.AutoCode AS SpAutoCode,#(lf)    bill.TotalAmount,#(lf)    DATE(bill.BillDate) AS BillDate,#(lf)  FROM #(lf)    `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_SO_Order` ordr#(lf)  LEFT JOIN #(lf)    `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_General` general#(lf)  ON #(lf)    ordr.AutoCode = general.RefAutoCode#(lf)    AND DATE(general.debezium_timestamp) >= '2024-01-01'#(lf)    AND general.ReplaceById IS NULL#(lf)  LEFT JOIN #(lf)    `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBill` bill#(lf)  ON#(lf)    general.Id = bill.Id #(lf)WHERE #(lf)  ordr.ProspectiveId IN ( SELECT Id FROM hn_customer)#(lf)QUALIFY ROW_NUMBER() OVER(PARTITION BY ordr.ProspectiveId ORDER BY ordr.Id DESC, general.Id DESC) = 1#(lf)ORDER BY ordr.Id DESC, general.Id DESC)#(lf)    SELECT customer.Id,#(lf)           branch.Name BranchName,#(lf)           customer.CreatedByDate,#(lf)           CAST(customer.CreatedByDate AS DATE) Date,#(lf)           person.FullName CreatedByName,#(lf)           customer.AutoCode,#(lf)           type.Name TypeName,#(lf)           source.Name SourceName,#(lf)           status.Name StatusName,#(lf)           IsOverDue,#(lf)           customer.Phone,#(lf)           customer.FullName,#(lf)           customer.Note CustomerNote,#(lf)           customer.StatusId,#(lf)           detail.ProductName,#(lf)           prodGroup.Name ProductGroupName,#(lf)           detail.Note ProductNote,#(lf)           log.processorName,#(lf)           log.processedDate,#(lf)           log.ProcessingNote,#(lf)           status.DeskFontColor,#(lf)           status.DeskBackColor,#(lf)           ordr.OrderAutoCode,#(lf)           ordr.SpAutoCode,#(lf)           ordr.TotalAmount,#(lf)           ordr.BillDate,#(lf)           CASE#(lf)           WHEN customer.StatusId = 3 #(lf)           THEN DATE_DIFF(ordr.BillDate, DATE(customer.CreatedByDate), DAY) #(lf)           ELSE 0 END AS processedDay,#(lf)           reason.Name StopCaringReasonName#(lf)    FROM hn_customer customer#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_SubBranch` branch#(lf)            ON customer.BranchId = branch.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` person#(lf)            ON customer.CreatedById = person.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_ProspectiveCustomerTypes` type#(lf)            ON customer.CustomerTypeId = type.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_ProspectiveCustomerSources` source#(lf)            ON customer.SourceId = source.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_ProspectiveCustomerStatus` status#(lf)            ON customer.StatusId = status.Id#(lf)        LEFT JOIN log_hn log#(lf)            ON log.ProspectiveCustomerId = customer.Id#(lf)        INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_ProspectiveCustomerDetails` detail#(lf)            ON customer.Id = detail.ProspectiveCustomerId#(lf)               AND detail.Inactive = false#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup` prodGroup#(lf)            ON detail.ProductGroupId = prodGroup.Id#(lf)        LEFT JOIN order_hn ordr#(lf)            ON ordr.ProspectiveId = customer.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_Reason` reason#(lf)            ON customer.StopCaringReasonId = reason.Id#(lf)    ORDER BY customer.Id DESC", null, [EnableFolding=true]),
+		    #"Replaced Value" = Table.ReplaceValue(Source,"CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"BranchName"})
+		in
+		    #"Replaced Value"
+	lineageTag: a502db67-e413-41da-8472-c35a4cc7b2e9
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
+expression FACT_PotentialCustomers_MN =
+		let
+		    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=2a26bbe0-48fb-47c2-99bf-d69f107e535c""#(lf)WITH hcm_customer AS(#(lf)SELECT#(lf)  customer.Id,#(lf)  customer.BranchId,#(lf)  customer.CreatedById,#(lf)  customer.AutoCode,#(lf)  customer.CustomerTypeId,#(lf)  customer.SourceId,#(lf)  customer.StatusId,#(lf)  customer.UpdatedByDate,#(lf)  customer.CreatedByDate,#(lf)  customer.Phone,#(lf)  customer.FullName,#(lf)  customer.Note,#(lf)    CASE#(lf)    WHEN customer.StatusId = 1#(lf)      AND TIMESTAMP_DIFF(#(lf)            CURRENT_TIMESTAMP(),#(lf)            TIMESTAMP(IFNULL(customer.UpdatedByDate, customer.CreatedByDate)),#(lf)            MINUTE#(lf)          ) >= 2 * 24 * 60#(lf)    THEN 1#(lf)    ELSE 0#(lf)  END AS IsOverDue,#(lf)  customer.StopCaringReasonId#(lf)FROM#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_ProspectiveCustomers` AS customer#(lf)WHERE#(lf)  DATE(customer.CreatedByDate) <= CURRENT_DATE('+7')),#(lf)log_hcm AS (#(lf)  SELECT#(lf)    log.ProspectiveCustomerId,#(lf)    person.FullName AS processorName,#(lf)    log.CreatedByDate AS processedDate,#(lf)    log.ProcessingNote#(lf)  FROM #(lf)    `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_ProspectiveCustomerLogs` log#(lf)  LEFT JOIN #(lf)    `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` person#(lf)  ON #(lf)    log.CreatedById = person.Id#(lf)WHERE #(lf)  log.ProspectiveCustomerId IN ( SELECT Id FROM hcm_customer)#(lf)QUALIFY ROW_NUMBER() OVER(PARTITION BY log.ProspectiveCustomerId ORDER BY log.Id DESC) = 1#(lf)ORDER BY log.Id DESC), #(lf)order_hcm AS (#(lf)  SELECT#(lf)    ordr.ProspectiveId,#(lf)    ordr.AutoCode AS OrderAutoCode,#(lf)    general.AutoCode AS SpAutoCode,#(lf)    bill.TotalAmount,#(lf)    DATE(bill.BillDate) AS BillDate#(lf)  FROM #(lf)    `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_SO_Order` ordr#(lf)  LEFT JOIN #(lf)    `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General` general#(lf)  ON #(lf)    ordr.AutoCode = general.RefAutoCode#(lf)    AND DATE(general.debezium_timestamp) >= '2024-01-01'#(lf)    AND general.ReplaceById IS NULL#(lf)  LEFT JOIN #(lf)    `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBill` bill#(lf)  ON#(lf)    general.Id = bill.Id   #(lf)WHERE #(lf)  ordr.ProspectiveId IN ( SELECT Id FROM hcm_customer)#(lf)QUALIFY ROW_NUMBER() OVER(PARTITION BY ordr.ProspectiveId ORDER BY ordr.Id DESC, general.Id DESC) = 1#(lf)ORDER BY ordr.Id DESC, general.Id DESC) #(lf)    SELECT customer.Id,#(lf)           branch.Name BranchName,#(lf)           customer.CreatedByDate,#(lf)           CAST(customer.CreatedByDate AS DATE) Date,#(lf)           person.FullName CreatedByName,#(lf)           customer.AutoCode,#(lf)           type.Name TypeName,#(lf)           source.Name SourceName,#(lf)           status.Name StatusName,#(lf)           IsOverDue,#(lf)           customer.Phone,#(lf)           customer.FullName,#(lf)           customer.Note CustomerNote,#(lf)           customer.StatusId,#(lf)           detail.ProductName,#(lf)           prodGroup.Name ProductGroupName,#(lf)           detail.Note ProductNote,#(lf)           log.processorName,#(lf)           log.processedDate,#(lf)           log.ProcessingNote,#(lf)           status.DeskFontColor,#(lf)           status.DeskBackColor,#(lf)           ordr.OrderAutoCode,#(lf)           ordr.SpAutoCode,#(lf)           ordr.TotalAmount,#(lf)           ordr.BillDate,#(lf)           CASE#(lf)           WHEN customer.StatusId = 3 #(lf)           THEN DATE_DIFF(ordr.BillDate, DATE(customer.CreatedByDate), DAY) #(lf)           ELSE 0 END AS processedDay,#(lf)           reason.Name StopCaringReasonName#(lf)    FROM hcm_customer customer#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch` branch#(lf)            ON customer.BranchId = branch.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` person#(lf)            ON customer.CreatedById = person.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_ProspectiveCustomerTypes` type#(lf)            ON customer.CustomerTypeId = type.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_ProspectiveCustomerSources` source#(lf)            ON customer.SourceId = source.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_ProspectiveCustomerStatus` status#(lf)            ON customer.StatusId = status.Id#(lf)        LEFT JOIN log_hcm log#(lf)            ON log.ProspectiveCustomerId = customer.Id#(lf)        INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_ProspectiveCustomerDetails` detail#(lf)            ON customer.Id = detail.ProspectiveCustomerId#(lf)               AND detail.Inactive = false#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup` prodGroup#(lf)            ON detail.ProductGroupId = prodGroup.Id#(lf)        LEFT JOIN order_hcm ordr#(lf)            ON ordr.ProspectiveId = customer.Id#(lf)        LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_Reason` reason#(lf)            ON customer.StopCaringReasonId = reason.Id#(lf)    ORDER BY customer.Id DESC", null, [EnableFolding=true])
+		in
+		    Source
+	lineageTag: 5a34e5f1-b10f-42c4-ae0f-8851d5fd3d91
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression DIM_Ngày =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("Lc67EYBADAPRXi4mQDLHpxbP9d8GjJZkHemNu4fG2no4rfRIZ3qmV3qnT6qdw1rMxV4AQhCEMAQiFKP4/wHFKEYxilGMYhSjFEp9ynoB", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Ngày = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Ngày", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: cb7e609b-4228-4813-85fc-71224b31d5cb
+	queryGroup: DIM
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression FACT_PotentialCustomers_MB_df =
+		let
+		    Source = PowerPlatform.Dataflows(null),
+		    Workspaces = Source{[Id="Workspaces"]}[Data],
+		    #"fc81ffc6-dbab-49b8-beca-9a4a40f47b26" = Workspaces{[workspaceId="fc81ffc6-dbab-49b8-beca-9a4a40f47b26"]}[Data],
+		    #"17d63865-52ba-457e-8f61-b05e23b4471b" = #"fc81ffc6-dbab-49b8-beca-9a4a40f47b26"{[dataflowId="17d63865-52ba-457e-8f61-b05e23b4471b"]}[Data],
+		    FACT_PotentialCustomers_MB_ = #"17d63865-52ba-457e-8f61-b05e23b4471b"{[entity="FACT_PotentialCustomers_MB",version=""]}[Data]
+		in
+		    FACT_PotentialCustomers_MB_
+	lineageTag: 0cce9038-dd17-4b78-ba74-a92831a296e9
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression FACT_PotentialCustomers_MN_df =
+		let
+		    Source = PowerPlatform.Dataflows(null),
+		    Workspaces = Source{[Id="Workspaces"]}[Data],
+		    #"fc81ffc6-dbab-49b8-beca-9a4a40f47b26" = Workspaces{[workspaceId="fc81ffc6-dbab-49b8-beca-9a4a40f47b26"]}[Data],
+		    #"17d63865-52ba-457e-8f61-b05e23b4471b" = #"fc81ffc6-dbab-49b8-beca-9a4a40f47b26"{[dataflowId="17d63865-52ba-457e-8f61-b05e23b4471b"]}[Data],
+		    FACT_PotentialCustomers_MN_ = #"17d63865-52ba-457e-8f61-b05e23b4471b"{[entity="FACT_PotentialCustomers_MN",version=""]}[Data]
+		in
+		    FACT_PotentialCustomers_MN_
+	lineageTag: 253b927a-5cc0-4763-b036-de7507a015c6
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression NhomHang_LaptopCu =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8nEMCPEPUHA+ukJJR8njcIOfu4LH4cmOQI5LiAc2YYiQCXZhhB4Uc+F8ZAYEGYCo2FgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Nhóm hàng" = _t, #"Nhóm hàng cấp 1" = _t, #"Nhóm hàng cấp 2" = _t, #"Ngành hàng" = _t, #"Thuộc tính" = _t, Level = _t, Level1 = _t, Level2 = _t, Level3 = _t, Level4 = _t, #"Bán kèm" = _t, Brand = _t, SubBrand = _t, #"Thi đua S-Star" = _t, #"Nhóm S-Star" = _t, #"Hệ số thi đua phụ kiện" = _t, #"Nhóm S-Star_Index" = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Level", Int64.Type}, {"Bán kèm", Int64.Type}, {"Thi đua S-Star", Int64.Type}, {"Hệ số thi đua phụ kiện", type number}, {"Nhóm S-Star_Index", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: b2d6b8ef-19c1-498b-84dd-8f66e73efd6c
+	queryGroup: DIM
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

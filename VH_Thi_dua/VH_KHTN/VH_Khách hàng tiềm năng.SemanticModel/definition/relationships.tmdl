@@ -1,0 +1,142 @@
+relationship a441c376-2cd6-4b61-8944-82ca4e0dbfd8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_PotentialCustomers.CreatedByDate
+	toColumn: LocalDateTable_539f3161-dae5-48c2-9f21-24f50fdbea4e.Date
+
+relationship 882ac7fe-cfcf-46d7-93a0-1c3c0e679abf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_PotentialCustomers.processedDate
+	toColumn: LocalDateTable_ec012e9b-67cd-4fc1-938d-0c8d33f706a8.Date
+
+relationship 298a3e63-c5df-4afb-b31b-af6b230f70fd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_BQ_Department.khai_truong
+	toColumn: LocalDateTable_2352d62b-12c6-4614-a9d5-571c795938b6.Date
+
+relationship 9c82b46d-361a-48c8-b6cf-5b8ab50314fb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_BQ_Department.dong_cua
+	toColumn: LocalDateTable_ad73c459-16ab-4b3b-bd90-a62b30566196.Date
+
+relationship d7a3cc95-43ce-44b8-9f52-575df2c333ce
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_RolePermissions_User.Startdate
+	toColumn: LocalDateTable_0adc3d49-9ffa-4aa0-92dc-191f48d5f539.Date
+
+relationship 439fbdd8-362e-4144-87e9-648a7e7a3d3f
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DIM_BQ_Department.bo_phan
+	toColumn: DIM_SizeShop.'SHOP CPS'
+
+relationship fe3b5b2e-9921-457d-ae3e-0f3fc5ee3577
+	fromColumn: FACT_Palexy_Store.store_code
+	toColumn: DIM_BQ_Store.ma_kho
+
+relationship cd4cf9c2-daaf-41a3-af3e-36f57db9de0e
+	fromColumn: FACT_Palexy_Section.store_code
+	toColumn: DIM_BQ_Store.ma_kho
+
+relationship c1684d27-01fe-45e3-9cc1-8deab2b4b203
+	fromColumn: DIM_BQ_Store.cua_hang
+	toColumn: DIM_BQ_Department.bo_phan
+
+relationship 0cfd34d1-7f16-4f7f-ab1c-794ed3992fc5
+	fromColumn: FACT_PotentialCustomers.StoreCode
+	toColumn: DIM_BQ_Store.ma_kho
+
+relationship 796b0894-3f01-4706-a7d7-6e38a646f8bb
+	crossFilteringBehavior: bothDirections
+	fromColumn: DIM_BQ_Department.mien
+	toColumn: DIM_BQ_Region.Miền
+
+relationship f451f4d6-4cae-491e-badc-771ab8e87f93
+	fromColumn: FACT_PotentialCustomers.StoreCode
+	toColumn: DIM_RolePermissions_Operations.ma_kho
+
+relationship 3ade9fbb-31d8-4067-8389-fe012b1fcef9
+	fromColumn: FACT_Target.Miền
+	toColumn: DIM_BQ_Region.Miền
+
+relationship 47fcd44f-bbf8-4d06-a791-acd15d42204a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_Target.StartDate
+	toColumn: LocalDateTable_13254d03-cb5b-4fd8-baeb-e045f21f3d54.Date
+
+relationship a9c7d8b3-4d2b-4c5a-a659-1cacacfa51d6
+	fromColumn: FACT_Palexy_Store.store_code
+	toColumn: DIM_RolePermissions_Operations.ma_kho
+
+relationship 37dc7efd-3f12-469b-a51e-d5da86d0e17c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_PotentialCustomers.BillDate
+	toColumn: LocalDateTable_ee7d2c18-cc2c-4b1d-8794-331b1c592aff.Date
+
+relationship f64b4d6a-7e45-41ad-a20d-824d70ced58e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_BQ_Department.run_date
+	toColumn: LocalDateTable_778b7c50-af8f-41ca-bdaf-f753417bd104.Date
+
+relationship 6afeb81a-53bd-43ab-b9c9-73bdf6719cdd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_BQ_Store.run_date
+	toColumn: LocalDateTable_881cafce-ccfe-4734-8faa-55293c853315.Date
+
+relationship eedfd0c4-7909-13eb-fb5b-2b8cc07a136f
+	fromColumn: FACT_TheCao.StoreCode
+	toColumn: DIM_BQ_Store.ma_kho
+
+relationship ab71102d-aecb-905e-9f79-b009221fb306
+	fromColumn: FACT_PotentialCustomers.ProductGroupName
+	toColumn: DIM_BQ_ProductGroup.'Nhóm hàng'
+
+relationship 824c6a23-3fd8-427e-97d9-093df19301ae
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dim_Date.date
+	toColumn: LocalDateTable_fa67855a-3d80-464d-a0b4-6a45bc1349fb.Date
+
+relationship fd479f92-0ff1-48bd-a86a-81181c1b299f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dim_Date.FirstDayOfMonth
+	toColumn: LocalDateTable_facc51a8-cec8-4eb6-a904-e59775a9e670.Date
+
+relationship d905a66c-2548-45b4-abcf-8f81e0e3561e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Dim_Date.LastDayOfMonth
+	toColumn: LocalDateTable_a769f854-9c2f-4e99-be64-17e65c87040d.Date
+
+relationship f10b7ca4-a4aa-b04c-6fa0-49016e12bf11
+	fromColumn: FACT_Palexy_Section.day
+	toColumn: Dim_Date.date
+
+relationship 53a9f430-0164-98c2-d25e-bd6b7dade099
+	fromColumn: FACT_Palexy_Store.day
+	toColumn: Dim_Date.date
+
+relationship ae3c17dd-a7df-8723-2cb9-64bebcb72c0f
+	fromColumn: FACT_PotentialCustomers.Date
+	toColumn: Dim_Date.date
+
+relationship eb63da80-4a1e-6328-cf8c-fceb881bfaf6
+	fromColumn: FACT_Target.Date
+	toColumn: Dim_Date.date
+
+relationship 2083deb7-0b93-00d7-e0fb-ca1e88f283f5
+	fromColumn: FACT_TheCao.Date
+	toColumn: Dim_Date.date
+
+relationship 868b3651-7699-4713-a292-4d15f6fa685d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_SO_Thuho.Date
+	toColumn: LocalDateTable_50ac61b7-e327-401e-8ac9-08fe1a59b3e2.Date
+
+relationship 17f4543f-022f-45e0-83e0-089e0c7b63ca
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Loại trừ CR'.Ngày
+	toColumn: LocalDateTable_9be3c829-9137-42d2-9b28-0ce7465f3682.Date
+
+relationship 215978eb-85f0-4b5c-a33c-11823b7f36d4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_BQ_Store.open_date
+	toColumn: LocalDateTable_4cd2c73d-8794-4f16-b3c6-5f36a858aaa6.Date
+

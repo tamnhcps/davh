@@ -1,0 +1,66 @@
+table FACT_TheCao
+	isHidden
+	lineageTag: 55ee3a87-6b0a-456f-afbb-83a62e9c7000
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 1f1d3647-6d95-4ee5-bf56-8b4d7d2dae41
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column StoreCode
+		dataType: string
+		isHidden
+		lineageTag: 73be42f0-ac04-4082-a55e-23cd33bdc3dd
+		summarizeBy: none
+		sourceColumn: StoreCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Transaction_Visit
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 60fd1569-b87d-4eed-a9d4-049336243952
+		summarizeBy: sum
+		sourceColumn: Transaction_Visit
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreName
+		dataType: string
+		lineageTag: d9844924-e781-42f6-b456-2ca74298f046
+		summarizeBy: none
+		sourceColumn: StoreName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_TheCao = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=42baee31-9dab-48af-b317-d89f4f8011db""#(lf)WITH CTE_NoRowSP AS(#(lf)SELECT AutoCode, COUNT(AutoCode) no_row#(lf)FROM#(lf)  `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` s#(lf)WHERE#(lf)  DATE(CreateDate) >= '2024-01-01'#(lf)  AND IsSales = 1#(lf)  AND IsB2B = 0#(lf)  AND NOT MethodID IN (15, 56, 58, 59)#(lf)  AND AutoCode LIKE 'SP%'#(lf)GROUP BY 1),#(lf)CTE_TheCao AS(#(lf)SELECT#(lf)  Date,#(lf)  StoreCode,#(lf)  StoreName,#(lf)  s.AutoCode AS Transaction_ID,#(lf)  CASE#(lf)    WHEN REGEXP_CONTAINS(s.ContactPhone, r""^([0-9]+)$"") AND LENGTH(s.ContactPhone) >= 7 AND LENGTH(s.ContactPhone) <= 11 THEN CAST(s.ContactPhone AS STRING)#(lf)    ELSE ""KL""#(lf)END#(lf)  AS CustomerID,#(lf)FROM#(lf)  `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` s#(lf)LEFT JOIN (#(lf)  SELECT *#(lf)  FROM#(lf)    CTE_NoRowSP) r#(lf)ON#(lf)  s.AutoCode = r.AutoCode and r.no_row = 1#(lf)WHERE#(lf)  DATE(CreateDate) >= '2024-01-01'#(lf)  AND IsSales = 1#(lf)  AND IsB2B = 0#(lf)  AND NOT MethodID IN (15, 56, 58, 59)#(lf)  AND DMC3 = 'SIMTHE'#(lf)  AND s.AutoCode LIKE 'SP%'#(lf)  AND r.no_row IS NOT NULL#(lf)  AND (#(lf)      DATE(CreateDate) < '2025-06-01'#(lf)      OR (DATE(CreateDate) >= '2025-06-01' AND s.amount >= 98000)))#(lf)SELECT Date, StoreCode, StoreName, COUNT(DISTINCT Transaction_ID) AS Transaction_Visit#(lf)FROM CTE_TheCao#(lf)WHERE CustomerID = 'KL'#(lf)GROUP BY 1,2,3#(lf)UNION ALL#(lf)SELECT Date, StoreCode, StoreName, COUNT(DISTINCT CustomerID) AS Transaction_Visit#(lf)FROM CTE_TheCao#(lf)WHERE CustomerID <> 'KL'#(lf)GROUP BY 1,2,3", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"HN.384XD","HN.360XD",Replacer.ReplaceText,{"StoreCode"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","HN 384XD","HN 360XD",Replacer.ReplaceText,{"StoreName"})
+				in
+				    #"Replaced Value1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,46 @@
+role 'Vận hành_AM'
+	modelPermission: read
+
+	tablePermission DIM_RolePermissions_Operations = ```
+			VAR zName = 
+			    LOOKUPVALUE(
+			        'DIM_RolePermissions_User'[Tên],
+			        'DIM_RolePermissions_User'[Mail], 
+			        USERPRINCIPALNAME()
+			    )
+			
+			VAR zTable_AddColumns = 
+			    ADDCOLUMNS(
+			        'DIM_RolePermissions_Operations',
+			        "zPath",
+			        LOOKUPVALUE(
+			            'DIM_RolePermissions_User'[Path],
+			            'DIM_RolePermissions_User'[Tên], 
+			            'DIM_RolePermissions_Operations'[Leader]
+			        )
+			    )
+			
+			VAR zFilteredTable = 
+			    FILTER(
+			        zTable_AddColumns,
+			        PATHCONTAINS([zPath], zName)
+			    )
+			
+			VAR zDistinctStores = 
+			    DISTINCT(
+			        SELECTCOLUMNS(
+			            zFilteredTable,
+			            "Cửa hàng", 'DIM_RolePermissions_Operations'[cua_hang]
+			        )
+			    )
+			
+			RETURN
+			IF(
+			    LOOKUPVALUE('DIM_RolePermissions_User'[Title], 'DIM_RolePermissions_User'[Mail], USERPRINCIPALNAME()) = "AM",
+			    [cua_hang] IN zDistinctStores,
+			    TRUE
+			)
+			```
+
+	annotation PBI_Id = 488f32dd76674445b866873fd7068263
+
