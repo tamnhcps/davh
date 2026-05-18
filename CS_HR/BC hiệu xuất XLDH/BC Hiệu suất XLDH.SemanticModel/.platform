@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "BC Hiệu suất XLDH"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "fe64733a-b7d1-4377-a935-7a9c8240d854"
+  }
+}
