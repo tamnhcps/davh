@@ -1,0 +1,97 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup DIM
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup FACT
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup DIM\Ngày
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'DIM\Phòng ban'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup DIM\Metric
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup 'Phân quyền'
+
+	annotation PBI_QueryGroupOrder = 5
+
+annotation PBI_QueryOrder = ["DIM_Danh mục_Ngày","DIM_Danh mục_Phòng ban","DIM_Danh mục_Kho","DIM_Store_Measure selection","DIM_Section_Measure selection","FACT_Palexy_Store","FACT_Palexy_Section","DIM_Danh mục_Note","DIM_Phân quyền_User","GGsheet_Palexy","DIM_SizeShop","Target_CR","Loại trừ CR","FACT_SO_Thuho","FACT_TheCao","Province","DIM_Compare_Selected value","DIM_Compare_Evaluation","Ghi chú"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
+
+ref table DateTableTemplate_568b007d-2547-4b1e-a462-ac5ea2c58e3a
+ref table 'DIM_Danh mục_Ngày'
+ref table 'DIM_Danh mục_Phòng ban'
+ref table Measure
+ref table 'DIM_Danh mục_Kho'
+ref table 'DIM_Store_Measure selection'
+ref table 'DIM_Danh mục_Section'
+ref table 'DIM_Section_Measure selection'
+ref table FACT_Palexy_Store
+ref table FACT_Palexy_Section
+ref table 'DIM_Danh mục_Nhóm hàng Palexy'
+ref table 'DIM_Danh mục_Note'
+ref table 'DIM_Phân quyền_User'
+ref table 'DIM_Phân quyền_Vận hành'
+ref table LocalDateTable_b473a131-06c9-4fab-877e-70600d9047b5
+ref table LocalDateTable_46a178bb-5cc5-47f2-a1ca-3447c67e16de
+ref table LocalDateTable_e263413d-79be-4f0b-87a2-4d72df729dea
+ref table LocalDateTable_c4b7b711-5abe-4f8a-9a8a-e0e49b03bb52
+ref table LocalDateTable_f0e0dccd-1de9-4410-bd34-aea80ff88396
+ref table LocalDateTable_4beeb383-0025-4346-b1fb-0a9666a47924
+ref table DIM_SizeShop
+ref table 'Rank_Cửa hàng'
+ref table Target_CR
+ref table LocalDateTable_a756f63a-652e-42a0-8550-1d40a06b72d8
+ref table Parameter
+ref table LocalDateTable_b76fe622-23fb-4eeb-86ad-9e145c3c248e
+ref table LocalDateTable_6d3c65f0-2056-43c3-80fc-e74e71e192b8
+ref table FACT_SO_Thuho
+ref table FACT_TheCao
+ref table 'Parameter 2'
+ref table Compare
+ref table 'DIM_Compare_Selected value'
+ref table Parameter_Compare
+ref table DIM_Compare_Evaluation
+ref table LocalDateTable_c0fe9ee9-fd4b-40cd-9736-312376f11585
+ref table 'Ghi chú'
+ref table 'DIM_Danh mục_Báo cáo'
+ref table 'DIM_Danh mục_Selection'
+ref table LocalDateTable_f78bc07b-87a2-4a1b-ad21-3264754a9420
+ref table LocalDateTable_f310f50a-f59b-444c-9af1-45525287b675
+ref table Parameter_OP
+ref table Parameter_OP(2)
+ref table FACT_CR_byMaxDate
+ref table LocalDateTable_485ec9da-d475-4bbe-97f0-c97357ad28f2
+ref table 'Loại trừ CR'
+ref table LocalDateTable_1299f702-4d53-48f8-bed2-de310f675b76
+ref table LocalDateTable_4ac01ee2-6ecd-4edf-8507-6d6ac40def93
+ref table Parameter_3
+ref table 'Parameter_Theo dõi CR'
+ref table Parameter_New
+
+ref role 'Vận hành_AM'
+ref role 'Vận hành_Cửa hàng'
+ref role 'Vận hành_OP'
+ref role Chung
+
+ref cultureInfo en-US
+

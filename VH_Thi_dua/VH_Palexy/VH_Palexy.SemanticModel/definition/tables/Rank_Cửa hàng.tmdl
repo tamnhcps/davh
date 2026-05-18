@@ -1,0 +1,204 @@
+table 'Rank_Cửa hàng'
+	lineageTag: f672b3c5-7a83-4ce9-b0c0-caf7220c6639
+
+	column 'Xếp hạng' =
+			
+			VAR xephang = RANKX(
+			    FILTER(
+			        'Rank_Cửa hàng',
+			        'Rank_Cửa hàng'[month] = EARLIER( 'Rank_Cửa hàng'[month] )
+			            && 'Rank_Cửa hàng'[tier] = EARLIER( 'Rank_Cửa hàng'[tier] )
+			            && 'Rank_Cửa hàng'[region] = EARLIER( 'Rank_Cửa hàng'[region] )
+			            && 'Rank_Cửa hàng'[Target CR] <> BLANK()
+			    ),
+			    'Rank_Cửa hàng'[%TA],
+			    [%TA],
+			    DESC,
+			    DENSE
+			)
+			RETURN IF(ISBLANK('Rank_Cửa hàng'[Target CR]), BLANK(), xephang)
+		formatString: 0
+		lineageTag: 98d3ddde-b3f8-47d8-b22f-ec20d863c2ff
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM = RELATED(DIM_SizeShop[AM])
+		lineageTag: 6d9d9807-0ac3-4592-a7f1-bd8cde9b285a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column tier = RELATED(DIM_SizeShop[SIZE])
+		lineageTag: ec45b5a3-044c-47c8-b580-93db498ffa9a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total visits'
+		formatString: #,0
+		lineageTag: e4b48490-6005-4c6a-874e-e7134a62d874
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Total visits]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Transaction
+		formatString: #,0
+		lineageTag: dbf539b7-0078-48b7-a0ec-4274a2253471
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Transaction]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Transaction by Phone'
+		formatString: #,0
+		lineageTag: b3598680-bfdb-44ed-b248-4d6a11ff4fdd
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Transaction by Phone]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Opportunities'
+		formatString: #,0
+		lineageTag: 77942eef-1192-45b7-83eb-bb76abf9c2e7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Total Opportunities]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Conversion by Opportunities'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 38e9aeef-8cca-4877-85f0-8905c05aac6f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Conversion by Opportunities]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target CR'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ce66abe0-d2b8-406d-9e9b-6f8169eb961d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Target CR]
+
+		annotation SummarizationSetBy = Automatic
+
+	column %TA
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f5de9782-c809-4332-9b41-9e313f198ba7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [%TA]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đánh giá'
+		lineageTag: c5bb255f-ab4e-4ee2-9624-36f37962709b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Đánh giá]
+
+		annotation SummarizationSetBy = Automatic
+
+	column '% Đạt' =
+			
+			DIVIDE(
+			    'Rank_Cửa hàng'[Conversion by Opportunities],
+			    'Rank_Cửa hàng'[Target CR],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a2ae47fb-5839-49a1-8705-755d46956199
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_name
+		lineageTag: a5cfcf97-0dac-4d64-a376-f616a227c4dd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Palexy_Store[store_name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		lineageTag: b506d629-3233-4bd4-89e4-d209ff66c240
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Palexy_Store[month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_month
+		lineageTag: fec40612-15de-4dbb-9ecc-1d00f1be2120
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Palexy_Store[store_month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column region = IF( RELATED(DIM_SizeShop[Miền]) IN {"Miền Bắc 1", "Miền Bắc 2" , "Miền Bắc 3"}, "Miền Bắc", "Miền Nam")
+		lineageTag: 5c5907e8-3b65-4396-9907-09db3009cdcc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column test
+		formatString: 0
+		lineageTag: f914a077-27ff-4341-8702-dcc3aa6ed53b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [test]
+
+		annotation SummarizationSetBy = Automatic
+
+	column test_new
+		formatString: 0
+		lineageTag: 2937d4d5-e873-42ff-bb4d-c957b9e717b8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [test_new]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Rank_Cửa hàng' = calculated
+		mode: import
+		source = ```
+				
+				CALCULATETABLE(
+				    SUMMARIZE(
+				        FACT_Palexy_Store,
+				        FACT_Palexy_Store[store_name],
+				        FACT_Palexy_Store[month],
+				        FACT_Palexy_Store[store_month],
+				        "Total visits", [Store_Total visit],
+				        "Transaction", [Store_Sales transaction],
+				        "Transaction by Phone", [Store_Sales transaction by phone],
+				        "Total Opportunities", [Store_Total opportunities],
+				        "Conversion by Opportunities", [Store_Conversion by Opportunities],
+				        "Target CR", [Store_Target_CR],
+				        "%TA", DIVIDE([Store_Conversion by Opportunities], [Store_Target_CR], 0),
+				        "Đánh giá", IF(ISBLANK([Store_Target_CR]), BLANK(), IF(DIVIDE([Store_Conversion by Opportunities], [Store_Target_CR], 0) > 1, "Đạt", "Không đạt")),
+				        "test", SUM ( FACT_Palexy_Store[total_opportunities] ),
+				        "test_new", SUM ( FACT_Palexy_Store[total_opportunities_new] )
+				    ),
+				    FILTER(
+				        FACT_Palexy_Store,
+				        FACT_Palexy_Store[day] >= DATE(2024, 5, 1)
+				            && FACT_Palexy_Store[region] <> BLANK()
+				            && NOT (FACT_Palexy_Store[day] >= DATE(2024, 11, 29) && FACT_Palexy_Store[day] <= DATE(2024, 12, 2))
+				    )
+				)
+				
+				```
+
+	annotation PBI_Id = 459cc5fa20914c799de46c2b9a2ca3a4
+

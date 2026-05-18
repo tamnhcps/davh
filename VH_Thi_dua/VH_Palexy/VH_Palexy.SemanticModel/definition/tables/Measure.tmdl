@@ -1,0 +1,1851 @@
+table Measure
+	lineageTag: f4c1ec4f-73cb-4609-93bb-e16623a957b0
+
+	measure 'Store_Total visit' =
+			
+			CALCULATE (
+			    SUM ( FACT_Palexy_Store[visits] ),
+			    ALL ( 'DIM_Danh mục_Section'[section_metadata_value_label] )
+			)
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: 9b7d7057-069b-4b07-af43-cb7bcb8ab054
+
+		changedProperty = FormatString
+
+	measure 'Store_Avg dwell time' =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Store[visit * avg dwell time] )
+			VAR _visit = [Store_Total visit]
+			VAR _z =
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+			RETURN
+			    IF (
+			        _z > 0,
+			        TIME ( 0, 0, _z ),
+			        BLANK ()
+			    )
+		formatString: hh:nn:ss
+		displayFolder: Store\Traffic
+		lineageTag: effafdea-baee-4c2c-858d-06849144c386
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure 'Store_Conversion rate' =
+			
+			DIVIDE (
+			    [Store_Sales transaction],
+			    [Store_Total visit],
+			    BLANK ()
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Store\Sale
+		lineageTag: 8714e0a8-a84f-47c0-a624-6be2741a1c12
+
+		changedProperty = FormatString
+
+	measure 'Store_Sale per visitor' =
+			
+			DIVIDE (
+			    [Store_Sales amount],
+			    [Store_Total visit],
+			    BLANK ()
+			)
+		formatString: #,0
+		displayFolder: Store\Sale
+		lineageTag: 76c321c8-287b-44ca-9e81-e3c300622a22
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_Interacted customer' =
+			
+			SUM ( FACT_Palexy_Store[interacted_customers] )
+		formatString: #,0
+		displayFolder: Store\Customer
+		lineageTag: 3ae1bf77-f2d1-479b-b885-753423b7bd83
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_Interaction rate' =
+			
+			DIVIDE (
+			    [Store_Interacted customer],
+			    [Store_Total visit],
+			    BLANK ()
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Store\Customer
+		lineageTag: f6dfce54-6e05-45da-a18c-bf0e865b9c70
+
+		changedProperty = FormatString
+
+	measure 'Store_Greeting rate' =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Store[visit * greeting rate] )
+			VAR _visit = [Store_Total visit]
+			RETURN
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Store\Traffic
+		lineageTag: a27e24a0-eb0f-4c9b-b4ec-9460ec74606d
+
+		changedProperty = FormatString
+
+	measure 'Store_Avg Time To First Greeting' =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Store[visit * avg time to first greeting] )
+			VAR _visit = [Store_Total visit]
+			VAR _z =
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+			RETURN
+			    IF (
+			        _z > 0,
+			        TIME ( 0, 0, _z ),
+			        BLANK ()
+			    )
+		formatString: hh:nn:ss
+		displayFolder: Store\Traffic
+		lineageTag: 4dea90b7-6780-40a6-b8c9-a29a2bc3b01e
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure 'Store_On Time Greeting rate' =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Store[visit * on time greeting rate] )
+			VAR _visit = [Store_Total visit]
+			RETURN
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Store\Traffic
+		lineageTag: 0180cd04-6404-4356-9a78-c49dd67fbe36
+
+		changedProperty = FormatString
+
+	measure 'Store_Total group' =
+			
+			SUM ( FACT_Palexy_Store[total_groups] )
+		formatString: #,0
+		displayFolder: Store\Customer
+		lineageTag: 7a216567-5207-498a-b9d6-5adbf44aa961
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_Group rate' =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Store[visit * group rate] )
+			VAR _visit = [Store_Total visit]
+			RETURN
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Store\Customer
+		lineageTag: fb2c1784-5d88-4c67-b668-9051fcab7a89
+
+		changedProperty = FormatString
+
+	measure 'Store_Avg group size' =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Store[visit * avg group size] )
+			VAR _visit = [Store_Total visit]
+			RETURN
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+		formatString: #,0.00
+		displayFolder: Store\Traffic
+		lineageTag: 04c2a54c-fe3d-478d-98d0-2a0697538f72
+
+		changedProperty = FormatString
+
+	measure 'Store_Total group with kids' =
+			
+			SUM ( FACT_Palexy_Store[total_groups_with_kids] )
+		formatString: #,0
+		displayFolder: Store\Customer
+		lineageTag: 8ca919e7-0c54-4a3e-b4ba-a1d2575d962f
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_Total know groups' =
+			
+			SUM ( FACT_Palexy_Store[total_known_groups] )
+		displayFolder: Store\Customer
+		lineageTag: f1337e9a-77f3-4d0e-93e6-b78a5a02d299
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store_Group with kids rate' =
+			
+			DIVIDE (
+			    [Store_Total group with kids],
+			    [Store_Total know groups],
+			    BLANK ()
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Store\Customer
+		lineageTag: 6c4fe971-bfa8-4779-a287-0a861ff6dd20
+
+		changedProperty = FormatString
+
+	measure Store_Selection =
+			
+			VAR x_select =
+			    SELECTEDVALUE ( 'DIM_Store_Measure selection'[Measure] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        x_select = "Total Visits", [Store_Total visit],
+			        x_select = "Average dwell time (s)", [Store_Avg dwell time for visual],
+			        x_select = "Average visitor per day", [Store_Avg visitors per store per day],
+			        x_select = "Conversion Rate", [Store_Conversion rate],
+			        x_select = "Sales per Visitor", [Store_Sale per visitor],
+			        x_select = "Net Sales", [Store_Sales amount],
+			        x_select = "Transaction", [Store_Sales transaction],
+			        x_select = "ATV - Average Transaction Value", [Store_ATV (Average Transaction Value)],
+			        x_select = "UPT - Units Per Transaction", [Store_UPT (Units Per Transaction)],
+			        x_select = "ASP - Average Selling Price", [Store_ASP (Average Selling Price)],
+			        x_select = "Interaction Rate", [Store_Interaction rate],
+			        x_select = "Total Staff Hours", "",
+			        x_select = "AVG Visitors per Staff", "",
+			        x_select = "MAX Visitors per Staff", "",
+			        x_select = "Sales per Staff Hour", "",
+			        x_select = "Greeting Rate", [Store_Greeting rate],
+			        x_select = "Avg Time to First Greeting", [Store_Avg Time To First Greeting],
+			        x_select = "On Time Greeting Rate", [Store_On Time Greeting rate],
+			        x_select = "Total Groups", [Store_Total group],
+			        x_select = "Group Rate", [Store_Group rate],
+			        x_select = "Avg Group Size", [Store_Avg group size],
+			        x_select = "Total Groups With Kids", [Store_Total group with kids],
+			        x_select = "Groups With Kids Rate", [Store_Group with kids rate],
+			        x_select = "Total Opportunities", [Store_Total opportunities],
+			        x_select = "Conversion by Opportunities", [Store_Conversion by Opportunities],
+			        ""
+			    )
+		formatString: #,0.00
+		displayFolder: Store\Selection
+		lineageTag: 27693fc5-dd04-42ea-a4e8-26c672c9b630
+
+	measure Date_Day =
+			
+			CALCULATE (
+			    COUNTROWS ( 'DIM_Danh mục_Ngày' ),
+			    FILTER (
+			        'DIM_Danh mục_Ngày',
+			        'DIM_Danh mục_Ngày'[Ngày_isActive] = 1
+			    )
+			)
+		formatString: 0
+		displayFolder: Date
+		lineageTag: e102c418-8e00-431b-ab25-e5f51dfb469c
+
+		changedProperty = FormatString
+
+	measure 'Store_Avg visitors per store per day' =
+			
+			DIVIDE (
+			    [Store_Total visit] / [Store_Qty store],
+			    [Date_Day],
+			    BLANK ()
+			)
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: b1f74280-4b69-4d9f-b363-551d09a52e74
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Section_Visits =
+			
+			SUM ( FACT_Palexy_Section[visits] )
+		formatString: #,0
+		displayFolder: Section\Traffic
+		lineageTag: a43c0ed7-03f1-4dba-850f-426521d74e72
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Section_Passby =
+			
+			SUM ( FACT_Palexy_Section[pass_by_traffic] )
+		formatString: #,0
+		displayFolder: Section\Traffic
+		lineageTag: e5b2edf7-0003-452c-80fc-56aca3dc5b32
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Section_Passby rate' =
+			
+			DIVIDE (
+			    [Section_Passby],
+			    [Section_Traffic for calculate],
+			    BLANK ()
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Section\Traffic
+		lineageTag: a316efa1-a4d4-4f0f-821a-ea4f1e798d94
+
+		changedProperty = FormatString
+
+	measure 'Section_Capture rate' =
+			
+			DIVIDE (
+			    [Section_Visits],
+			    [Section_Passby],
+			    BLANK ()
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Section\Traffic
+		lineageTag: 81436647-59d4-465b-8c93-5233e5987547
+
+		changedProperty = FormatString
+
+	measure 'Section_Visit rate' =
+			
+			DIVIDE (
+			    [Section_Visits],
+			    [Section_Traffic for calculate],
+			    BLANK ()
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Section\Traffic
+		lineageTag: 87ccb80c-9a6c-49f9-bcd7-9414dea994b3
+
+		changedProperty = FormatString
+
+	measure Section_AvgDwellTime =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Section[visit * avg dwell time] )
+			VAR _visit = [Section_Visits]
+			VAR _z =
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+			RETURN
+			    IF (
+			        _z > 0,
+			        TIME ( 0, 0, _z ),
+			        BLANK ()
+			    )
+		formatString: hh:nn:ss
+		displayFolder: Section\Traffic
+		lineageTag: 5627064c-d7cb-4d75-8158-0646c894b7b5
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure 'Section_Traffic for calculate' =
+			
+			SUM ( FACT_Palexy_Section[total traffic] )
+		formatString: #,0
+		displayFolder: Section\Traffic
+		lineageTag: de892da5-5dbb-461b-a734-c00c2f50f562
+
+		changedProperty = FormatString
+
+	measure 'Section_Conversion rate' =
+			
+			DIVIDE (
+			    [Section_Sales transaction],
+			    [Section_Visits],
+			    BLANK ()
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Section\Sale
+		lineageTag: 4cb9b3cf-430d-47b4-9d0c-1f523803b32e
+
+		changedProperty = FormatString
+
+	measure 'Section_Interacted customers' =
+			
+			SUM ( FACT_Palexy_Section[interacted_customers] )
+		formatString: #,0
+		displayFolder: Section\Customer
+		lineageTag: 2e3a5fcc-08f0-458c-af58-220cc17ed62d
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Section_Interaction rate' =
+			
+			DIVIDE (
+			    [Section_Interacted customers],
+			    [Section_Visits],
+			    BLANK ()
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Section\Customer
+		lineageTag: 36a84695-4dc1-4f55-9945-9dde904ac25e
+
+		changedProperty = FormatString
+
+	measure Section_Selection =
+			
+			VAR x_select =
+			    SELECTEDVALUE ( 'DIM_Section_Measure selection'[Measure] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        x_select = "Section visits", [Section_Visits],
+			        x_select = "Passby", [Section_Passby],
+			        x_select = "Section Passby Rate", [Section_Passby rate],
+			        x_select = "Capture Rate", [Section_Capture rate],
+			        x_select = "Section Visit Rate", [Section_Visit rate],
+			        x_select = "Average dwell time (s)", [Section_AvgDwellTime for visual],
+			        x_select = "Conversion Rate", [Section_Conversion rate],
+			        x_select = "Net Sales", [Section_Sales amount],
+			        x_select = "Transaction", [Section_Sales transaction],
+			        x_select = "ATV - Average Transaction Value", [Section_ATV (Average Transaction Value)],
+			        x_select = "UPT - Units Per Transaction", [Section_UPT (Units Per Transaction)],
+			        x_select = "ASP - Average Selling Price", [Section_ASP (Average Selling Price)],
+			        x_select = "Interaction Rate", [Section_Interaction rate],
+			        ""
+			    )
+		displayFolder: Section\Selection
+		lineageTag: 72f81a3a-2ab6-4f94-9a6f-78931be9914c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store_Sales amount' =
+			
+			SUM ( FACT_Palexy_Store[net_sales_amount] )
+		formatString: #,0
+		displayFolder: Store\Sale
+		lineageTag: b81cc0ce-11fa-4019-9611-f39e496c8608
+
+		changedProperty = FormatString
+
+	measure 'Store_Sales transaction' =
+			
+			SUM ( FACT_Palexy_Store[net_sales_transactions] )
+		formatString: #,0
+		displayFolder: Store\Sale
+		lineageTag: 3ac0178b-3897-463f-b1dd-8e8e790b9eaa
+
+		changedProperty = FormatString
+
+	measure 'Store_ATV (Average Transaction Value)' =
+			
+			DIVIDE (
+			    [Store_Sales amount],
+			    [Store_Sales transaction],
+			    BLANK ()
+			)
+		formatString: #,0
+		displayFolder: Store\Sale
+		lineageTag: e2e81607-0dd7-4d04-9662-1a9a11eefb9c
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_Sales qty' =
+			
+			SUM ( FACT_Palexy_Store[net_sales_qty] )
+		formatString: #,0
+		displayFolder: Store\Sale
+		lineageTag: 4cdf9241-c010-471b-906c-c2a6de649648
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_ASP (Average Selling Price)' =
+			
+			DIVIDE (
+			    [Store_Sales amount],
+			    [Store_Sales qty],
+			    BLANK ()
+			)
+		formatString: #,0
+		displayFolder: Store\Sale
+		lineageTag: abca871f-8084-4417-9681-230807a4c91c
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_UPT (Units Per Transaction)' =
+			
+			DIVIDE (
+			    [Store_Sales qty],
+			    [Store_Sales transaction],
+			    BLANK ()
+			)
+		formatString: #,0.00
+		displayFolder: Store\Sale
+		lineageTag: 9a0c3f21-82d5-453c-b32a-acd2ae529119
+
+		changedProperty = FormatString
+
+	measure 'Section_Sales transaction' =
+			
+			SUM ( FACT_Palexy_Section[net_sales_transactions] )
+		formatString: #,0
+		displayFolder: Section\Sale
+		lineageTag: 8e52e39d-ec68-4964-ab67-1c8e18df5d56
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Section_Sales amount' =
+			
+			SUM ( FACT_Palexy_Section[net_sales_amount] )
+		formatString: #,0
+		displayFolder: Section\Sale
+		lineageTag: 2456208c-12a1-4e48-b049-4625c32bb9ed
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Section_Sales qty' =
+			
+			SUM ( FACT_Palexy_Section[net_sales_qty] )
+		formatString: #,0
+		displayFolder: Section\Sale
+		lineageTag: b9afdb6b-c044-4378-bfa7-d59b6de67f9f
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Section_ATV (Average Transaction Value)' =
+			
+			DIVIDE (
+			    [Section_Sales amount],
+			    [Section_Sales transaction],
+			    BLANK ()
+			)
+		formatString: #,0
+		displayFolder: Section\Sale
+		lineageTag: 5dfe1473-fbf8-4b12-b459-7c5e24a3bb51
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Section_UPT (Units Per Transaction)' =
+			
+			DIVIDE (
+			    [Section_Sales qty],
+			    [Section_Sales transaction],
+			    BLANK ()
+			)
+		formatString: #,0.00
+		displayFolder: Section\Sale
+		lineageTag: bf2ad1c6-2ddd-48f4-a88b-fb3b1e85986b
+
+		changedProperty = FormatString
+
+	measure 'Section_ASP (Average Selling Price)' =
+			
+			DIVIDE (
+			    [Section_Sales amount],
+			    [Section_Sales qty],
+			    BLANK ()
+			)
+		formatString: #,0
+		displayFolder: Section\Sale
+		lineageTag: a5fdf829-a023-4226-8a3b-e63ec56d21fc
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_Qty store' =
+			
+			CALCULATE (
+			    COUNTROWS ( 'DIM_Danh mục_Kho' ),
+			    FILTER (
+			        'DIM_Danh mục_Kho',
+			        'DIM_Danh mục_Kho'[Store_isActive] = 1
+			    )
+			)
+		formatString: #,0
+		displayFolder: Store\Store
+		lineageTag: 5d5e51c0-a8e3-458e-be6c-5bfff35a08fb
+
+		changedProperty = FormatString
+
+	measure 'Section_AvgDwellTime for visual' =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Section[visit * avg dwell time] )
+			VAR _visit = [Section_Visits]
+			VAR _z =
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+			RETURN
+			    _z
+		formatString: #,0
+		displayFolder: Section\Traffic
+		lineageTag: 5ffe589d-d4ba-43c3-ac9c-2aafc6a3592b
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Store_Avg dwell time for visual' =
+			
+			VAR _x =
+			    SUM ( FACT_Palexy_Store[visit * avg dwell time] )
+			VAR _visit = [Store_Total visit]
+			VAR _z =
+			    DIVIDE (
+			        _x,
+			        _visit,
+			        BLANK ()
+			    )
+			RETURN
+			    _z
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: eadfb038-77b9-492e-9ece-d95acfcb4321
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Time_refresh = CALCULATE(max(FACT_Palexy_Store[day]),all(FACT_Palexy_Store))
+		formatString: Short Date
+		lineageTag: e6d03976-9cd4-4347-826c-159ce31213f5
+
+	measure 'Store_Total opportunities' =
+			
+			var _z = SUM ( FACT_Palexy_Store[total_opportunities] ) - SUM ( FACT_Palexy_Store[visit_asp] ) - SUM ( FACT_Palexy_Store[visit_SO_TH] ) - SUM ( FACT_Palexy_Store[visit_thecao] ) - SUM ( FACT_Palexy_Store[visit_loai_tru] )
+			
+			RETURN IF(_z < 0, [Store_Sales transaction], _z)
+		displayFolder: Store\Customer
+		lineageTag: 10029af6-ec6d-49a9-9b1a-f35b31ad2c96
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store_Conversion by Opportunities' =
+			
+			VAR _y = [Store_Conversion by Opportunities_plx] * 100
+			VAR _x = (_y - TRUNC(_y)) / 100
+			VAR _z =
+			    DIVIDE ( [Store_Sales transaction], [Store_Total opportunities], BLANK () )
+			RETURN
+			    IF (
+			        _z > 0.95,
+			        0.95 + _x,
+			        _z
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Store\Sale
+		lineageTag: 445ba377-41d3-4cbe-9d8f-69c42c819742
+
+	measure 'Store_Total visit_asp' =
+			
+			CALCULATE (
+			    SUM ( FACT_Palexy_Store[visit_asp] ),
+			    ALL ( 'DIM_Danh mục_Section'[section_metadata_value_label] )
+			)
+		formatString: 0
+		displayFolder: Store\Traffic
+		lineageTag: f923cf8c-fd87-498c-9473-ff3a759c2c0e
+
+	measure 'Store_Sales transaction by phone' =
+			
+			SUM ( FACT_Palexy_Store[transaction_by_phone] )
+		formatString: #,0
+		displayFolder: Store\Sale
+		lineageTag: be88c735-ef2c-4261-be78-7525c39f4ef4
+
+	measure Store_Target_CR =
+			
+			AVERAGE ( Target_CR[Target_CR] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Store\Sale
+		lineageTag: f06207c2-4383-4ccb-a965-b4aae2e06652
+
+	measure Store_Evaluation = IF(ISBLANK([Store_Target_CR]), BLANK(), IF(DIVIDE([Store_Conversion by Opportunities], [Store_Target_CR], 0) > 1, "Đạt", "Không đạt"))
+		displayFolder: Store\Sale
+		lineageTag: 3379ffa5-1fed-4468-b3f3-bab6ba96abfb
+
+	measure 'Store_Total visit_SOTH' = SUM ( FACT_Palexy_Store[visit_SO_TH] )
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: 658c8cfa-adff-4056-9644-d74353b710e8
+
+	measure 'Store_Total visit final' =
+			
+			[Store_Total visit] - [Store_Total visit_SOTH] - [Store_Total visit_asp]
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: 828f5681-b5c8-4fa0-ba2c-2d6e9843b4d4
+
+	measure 'Store_Conversion rate final' =
+			
+			DIVIDE (
+			    [Store_Sales transaction],
+			    [Store_Total visit final],
+			    BLANK ()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Store\Sale
+		lineageTag: 54e4916c-9cbd-4b4f-954c-a576ad073e5c
+
+	measure Compare_Target_CR_full =
+			
+			DIVIDE(
+			SUM(Compare[Target_parent]),
+			    [Compare_Total Opportunities])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Compare
+		lineageTag: 89e78b3e-030d-4ae0-b56d-99e8ec19f0bf
+
+	measure 'Compare_Total visit' = SUM(Compare[Total visit_MTD])
+		formatString: #,0
+		displayFolder: Compare
+		lineageTag: 082a92df-0206-4bfc-b4d6-aaa2960f0b4a
+
+	measure 'Compare_Total Opportunities' = SUM(Compare[TotalOpportunities_MTD])
+		formatString: #,0
+		displayFolder: Compare
+		lineageTag: 72615e98-6455-431d-8620-a9dbcf2c6d6d
+
+	measure Compare_Transaction = SUM(Compare[Transactions_MTD])
+		formatString: #,0
+		displayFolder: Compare
+		lineageTag: 573aae6e-1fc0-442b-847e-20395d6c49ca
+
+	measure Compare_CRbyO = DIVIDE([Compare_Transaction], [Compare_Total Opportunities])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Compare
+		lineageTag: 4e9460d5-3331-46d6-8458-4d6b93527c4a
+
+	measure Compare_%Target_CR =
+			
+			DIVIDE(
+			[Compare_CRbyO],
+			[Compare_Target_CR_full])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Compare
+		lineageTag: 20e703c9-0202-4442-a969-f6208824698e
+
+	measure Compare_Evaluation = IF(ISBLANK([Compare_%Target_CR]), BLANK(), IF([Compare_%Target_CR] >= 1, "Đạt", "Không đạt"))
+		displayFolder: Compare
+		lineageTag: 2b177bc0-43f0-450f-ac8f-f146fb8748c8
+
+	measure Compare_SoNgayKoDat =
+			
+			// VAR songay = IF( [Compare_Evaluation] = "Đạt", 0, SUM(Compare[KoDat]))
+			// RETURN if(ISINSCOPE('DIM_Danh mục_Phòng ban'[Bộ phận]), songay, BLANK())
+			var zMaxDate = max('DIM_Danh mục_Ngày'[Date])
+			var zResult = IF( [Compare_Evaluation] = "Đạt", 0, CALCULATE( max( Compare[Số ngày không đạt]), FILTER( 'DIM_Danh mục_Ngày', 'DIM_Danh mục_Ngày'[Date] = zMaxDate ) ))
+			return IF(ISINSCOPE('DIM_Danh mục_Phòng ban'[Bộ phận]), zResult, BLANK())
+		formatString: 0
+		displayFolder: Compare
+		lineageTag: a82adefd-639c-482c-bf79-939cef04cf4f
+
+	measure test =
+			
+			SELECTEDVALUE(Parameter_OP[Parameter_OP Order])
+		formatString: 0
+		lineageTag: 0d21e00d-a5af-4b7b-8aef-9f71ab03696e
+
+	measure Compare_SoShopDat =
+			
+			COUNTROWS(SUMMARIZE(FILTER(Compare, Compare[Evaluation] = "Đạt"), Compare[store_month]))
+		formatString: 0
+		displayFolder: Compare
+		lineageTag: 1a799a03-4a6c-47e9-96c1-cee68e2edb53
+
+	measure Compare_SoShopKoDat =
+			
+			COUNTROWS(SUMMARIZE(FILTER(Compare, Compare[Evaluation] = "Không đạt"), Compare[store_month]))
+		formatString: 0
+		displayFolder: Compare
+		lineageTag: 69b30276-a5ba-4e59-81ab-eaddc59dcbb3
+
+	measure 'Compare_Total visit_LD' = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = SUM(Compare[Total visits])
+			VAR qk = CALCULATE(SUM(Compare[Total visits]), PREVIOUSDAY ( 'DIM_Danh mục_Ngày'[Date] ))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: 272ffc8e-b0c6-4d60-91bc-e47ffffb2c16
+
+	measure 'Compare_Total visit_LW' =
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = SUM(Compare[Total visits])
+			VAR qk = CALCULATE(SUM(Compare[Total visits]), DATEADD('DIM_Danh mục_Ngày'[Date], -7, DAY))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+		displayFolder: Compare
+		lineageTag: 476ad721-186a-4cf6-b3fc-f6ecd92a0f13
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compare_Total visit_LM' = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = [Compare_Total visit]
+			VAR qk = CALCULATE([Compare_Total visit], DATEADD('DIM_Danh mục_Ngày'[Date], -1, MONTH))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: feb9cd07-32c5-4468-9e95-7322e16fc18b
+
+	measure CHECK = CALCULATE([Compare_Total visit], PREVIOUSDAY ( 'DIM_Danh mục_Ngày'[Date] ))
+		formatString: 0
+		lineageTag: d8a211ef-531e-4b90-9a8c-417417779980
+
+	measure Maxdate_D =
+			
+			CALCULATE (
+			    MAX ( 'DIM_Danh mục_Ngày'[Date] ),
+			    FILTER (
+			        'DIM_Danh mục_Ngày',
+			        'DIM_Danh mục_Ngày'[Ngày_IsActive] = 1
+			    )
+			)
+		formatString: General Date
+		displayFolder: Date
+		lineageTag: e77745c7-647f-4884-8179-1f181e877fa9
+
+	measure 'Compare_Total Opportunities_LD' = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = SUM(Compare[Total Opportunities])
+			VAR qk = CALCULATE(SUM(Compare[Total Opportunities]), PREVIOUSDAY ( 'DIM_Danh mục_Ngày'[Date] ))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		displayFolder: Compare
+		lineageTag: 5e5b0fde-bcad-4e5f-bfe6-90e1451a4ce2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compare_Total Opportunities_LW' =
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = SUM(Compare[Total Opportunities])
+			VAR qk = CALCULATE(SUM(Compare[Total Opportunities]), DATEADD('DIM_Danh mục_Ngày'[Date], -7, DAY))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+		displayFolder: Compare
+		lineageTag: d86683ff-4344-46fb-b2b6-0d0294ef670e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Compare_Total Opportunities_LM' = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = [Compare_Total Opportunities]
+			VAR qk = CALCULATE([Compare_Total Opportunities], DATEADD('DIM_Danh mục_Ngày'[Date], -1, MONTH))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		displayFolder: Compare
+		lineageTag: 153390f7-e32f-4b91-8771-48f88729501f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Compare_CRbyO_LD = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = DIVIDE(SUM(Compare[Transactions]), SUM(Compare[Total Opportunities]))
+			VAR qk = CALCULATE(DIVIDE(SUM(Compare[Transactions]), SUM(Compare[Total Opportunities])), PREVIOUSDAY ( 'DIM_Danh mục_Ngày'[Date] ))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Compare
+		lineageTag: 64bcf1fe-c061-4bef-8b5f-72000b499e9a
+
+	measure Compare_CRbyO_LW = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = DIVIDE(SUM(Compare[Transactions]), SUM(Compare[Total Opportunities]))
+			VAR qk = CALCULATE(DIVIDE(SUM(Compare[Transactions]), SUM(Compare[Total Opportunities])), DATEADD( 'DIM_Danh mục_Ngày'[Date], -7, DAY ))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Compare
+		lineageTag: b55d7551-15ed-46c3-bc79-fe9fce8e0ce1
+
+	measure Compare_CRbyO_LM = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = [Compare_CRbyO]
+			VAR qk = CALCULATE([Compare_CRbyO], DATEADD( 'DIM_Danh mục_Ngày'[Date], -1, MONTH ))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Compare
+		lineageTag: 7827a235-0a78-45c4-83b9-b650f35f2e1b
+
+	measure Compare_Transaction_LD = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = SUM(Compare[Transactions])
+			VAR qk = CALCULATE(SUM(Compare[Transactions]), PREVIOUSDAY ( 'DIM_Danh mục_Ngày'[Date] ))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		displayFolder: Compare
+		lineageTag: 83a6b3db-ad53-4d0d-870a-3a79d8e1123f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Compare_Transaction_LW = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = SUM(Compare[Transactions])
+			VAR qk = CALCULATE(SUM(Compare[Transactions]), DATEADD ( 'DIM_Danh mục_Ngày'[Date], -7, DAY ))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		displayFolder: Compare
+		lineageTag: 84e3bea8-fd1c-4112-8a64-91518b73fbc2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Compare_Transaction_LM = ```
+			
+			VAR Selection_value =
+			    SELECTEDVALUE ('DIM_Compare_Selected value'[Value])
+			VAR ht = [Compare_Transaction]
+			VAR qk = CALCULATE([Compare_Transaction], DATEADD('DIM_Danh mục_Ngày'[Date], -1, MONTH))
+			VAR zRate = DIVIDE(ht,qk)
+			RETURN 
+			    SWITCH (
+			        TRUE (),
+			        Selection_value = "Number", ht - qk,
+			        IF(ISBLANK(zRate), BLANK(), FORMAT(zRate - 1, "0.00%"))
+			    )
+			```
+		displayFolder: Compare
+		lineageTag: 37d92c39-2a3b-413a-8be9-22554ac80826
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ThiDua_Conversion by Opportunities' = ```
+			
+			var _transaction = SUM('Rank_Cửa hàng'[Transaction])
+			var _opportunities = SUM('Rank_Cửa hàng'[Total Opportunities])
+			var _z = 
+			DIVIDE (
+			    _transaction,
+			    _opportunities,
+			    BLANK ()
+			)
+			RETURN MIN(_z, 0.95)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 583e08b9-b764-4fc1-a8fa-b1b9931a0efa
+
+	measure 'Store_Total opportunities_plx' =
+			
+			SUM ( FACT_Palexy_Store[total_opportunities_new] )
+		formatString: #,0
+		displayFolder: Store\Customer
+		lineageTag: b88a9943-70f6-4b9e-afcf-bb53d2169973
+
+	measure 'Store_Conversion by Opportunities_plx' =
+			
+			DIVIDE (
+			    [Store_Sales transaction],
+			    [Store_Total opportunities_plx],
+			    BLANK ()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Store\Sale
+		lineageTag: 18079f89-cb90-40fd-95a6-564009f22577
+
+	measure 'Store_Visit TNN' =
+			
+			CALCULATE (
+			    SUM ( FACT_Palexy_Store[visit_TNN] ),
+			    ALL ( 'DIM_Danh mục_Section'[section_metadata_value_label] )
+			)
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: 7ba29d28-559e-45d1-ad7c-3400c543c9be
+
+	measure 'Store_Visit BaoHanh' =
+			
+			CALCULATE (
+			    SUM ( FACT_Palexy_Store[visit_BaoHanh] ),
+			    ALL ( 'DIM_Danh mục_Section'[section_metadata_value_label] )
+			)
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: 958a42dc-52de-4cb7-8a89-e66f0cc61260
+
+	measure 'Store_Visit ThuHo' =
+			
+			CALCULATE (
+			    SUM ( FACT_Palexy_Store[visit_ThuHo] ),
+			    ALL ( 'DIM_Danh mục_Section'[section_metadata_value_label] )
+			)
+		formatString: 0
+		displayFolder: Store\Traffic
+		lineageTag: b8758066-27b6-4e0e-bd2a-58774889fcbc
+
+	measure 'Store_Visit TheCao' =
+			
+			CALCULATE (
+			    SUM ( FACT_Palexy_Store[visit_thecao] ),
+			    ALL ( 'DIM_Danh mục_Section'[section_metadata_value_label] )
+			)
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: 9b0f3393-fd04-4330-8e7a-478550549c95
+
+	measure 'Số ngày liên tiếp không đạt CR' = ```
+			
+			VAR _today_raw = CALCULATE(FIRSTNONBLANK('DIM_Danh mục_Ngày'[refresh_time],0))
+			VAR _today = DATE(YEAR([Date_MaxDate]),MONTH([Date_MaxDate]),DAY([Date_MaxDate]))
+			VAR _startmonth = DATE(YEAR([Date_MaxDate]),MONTH([Date_MaxDate]),1)
+			VAR _condition = 
+			IF ( [Run-rate]  = 1, [Date_MaxDate],_today)
+			VAR _minDate = 
+			CALCULATE(
+			    MIN('DIM_Danh mục_Ngày'[Date])
+			)
+			VAR _mien = SELECTEDVALUE('DIM_Danh mục_Phòng ban'[Miền])
+			VAR _tbl_shop = 
+			ADDCOLUMNS(
+			    FILTER(
+			        SUMMARIZECOLUMNS(
+			            'DIM_Danh mục_Ngày'[Date],
+			            'DIM_Danh mục_Phòng ban'[am],
+			            'DIM_Danh mục_Phòng ban'[Bộ phận],
+			            "target", CALCULATE ([Store_Evaluation])
+			        ),
+			        'DIM_Danh mục_Ngày'[Date] >= _minDate -30
+			    ),
+			    "notAchieved", IF([target] = "Không đạt" , 1, 0)
+			)
+			VAR _mien_target = IF(_mien = "Miền Nam", 0.85,0.82)
+			VAR _tbl_am = 
+			ADDCOLUMNS(
+			    FILTER(
+			        SUMMARIZECOLUMNS(
+			            'DIM_Danh mục_Ngày'[Date],
+			            'DIM_Danh mục_Phòng ban'[am],
+			            "target", 
+			            CALCULATE (
+			                DIVIDE(
+			                    [Store_Conversion by Opportunities],
+			                    _mien_target))
+			        ),
+			        'DIM_Danh mục_Ngày'[Date] >= _minDate -30
+			    ),
+			    "notAchieved", IF([target] < 1 , 1, 0)
+			)
+			VAR _tbl_mien = 
+			ADDCOLUMNS(
+			    FILTER(
+			        SUMMARIZECOLUMNS(
+			            'DIM_Danh mục_Ngày'[Date],
+			            'DIM_Danh mục_Phòng ban'[Miền],
+			            "target", 
+			            CALCULATE (
+			                DIVIDE(
+			                    [Store_Conversion by Opportunities],
+			                    _mien_target))
+			        ),
+			        'DIM_Danh mục_Ngày'[Date] >= _minDate -30
+			    ),
+			    "notAchieved", IF([target] < 1 , 1, 0)
+			)
+			VAR _last_achieved_date_shop = 
+			CALCULATE(
+			    MAX('DIM_Danh mục_Ngày'[Date]),
+			    FILTER(
+			        _tbl_shop,
+			        'DIM_Danh mục_Ngày'[Date] <= _today && [notAchieved] = 0
+			    )
+			)
+			VAR _last_achieved_date_am = 
+			CALCULATE(
+			    MAX('DIM_Danh mục_Ngày'[Date]),
+			    FILTER(
+			        _tbl_am,
+			        'DIM_Danh mục_Ngày'[Date] <= _today && [notAchieved] = 0
+			    )
+			)
+			VAR _last_achieved_date_mien = 
+			CALCULATE(
+			    MAX('DIM_Danh mục_Ngày'[Date]),
+			    FILTER(
+			        _tbl_mien,
+			        'DIM_Danh mục_Ngày'[Date] <= _today && [notAchieved] = 0
+			    )
+			)
+			VAR _result = 
+			IF( _startmonth <= _today,
+			
+			SWITCH(
+			    TRUE(),
+			    SELECTEDVALUE(Parameter_OP[Parameter_OP Order]) = 0, 
+			        DATEDIFF(MAX(_last_achieved_date_mien,_startmonth - 1),_condition,DAY),
+			    SELECTEDVALUE(Parameter_OP[Parameter_OP Order]) = 2,
+			        DATEDIFF(MAX(_last_achieved_date_shop,_startmonth - 1),_condition,DAY),
+			        DATEDIFF(MAX(_last_achieved_date_am,_startmonth - 1),_condition,DAY)
+			),
+			SWITCH(
+			    TRUE(),
+			    SELECTEDVALUE(Parameter_OP[Parameter_OP Order]) = 0, 
+			        DATEDIFF(MAX(_last_achieved_date_mien,_startmonth),_condition,DAY),
+			    SELECTEDVALUE(Parameter_OP[Parameter_OP Order]) = 2,
+			        DATEDIFF(MAX(_last_achieved_date_shop,_startmonth),_condition,DAY),
+			        DATEDIFF(MAX(_last_achieved_date_am,_startmonth),_condition,DAY)
+			))
+			RETURN 
+			_result
+			```
+		formatString: 0
+		lineageTag: d8d5b3cb-e236-4451-8a8a-261b7ccf0b09
+
+	measure Run-rate = ```
+			
+			--Chỉ số Runrate chỉ tính tới ngày hôm qua---
+			VAR _max_date_1 = 
+			CALCULATE(MAX( 'DIM_Danh mục_Ngày'[date]), FILTER('DIM_Danh mục_Ngày','DIM_Danh mục_Ngày'[Ngày_isActive] = 1))
+			VAR _max_date_2 = DAY(TODAY() -1)
+			VAR _condition = IF( EOMONTH(_max_date_1,0) = EOMONTH(TODAY() - 1,0),1,0)
+			RETURN 
+			IF(
+			    _condition = 1, 
+			    DIVIDE(DAY(EOMONTH(_max_date_1,0)),DAY(_max_date_1), 1),
+			    1
+			) 
+			```
+		lineageTag: 1667ac30-db78-44d4-80b9-a1e69f04cf1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Date_MaxDate =
+			
+			CALCULATE(MAX( 'DIM_Danh mục_Ngày'[date]), FILTER('DIM_Danh mục_Ngày','DIM_Danh mục_Ngày'[Ngày_isActive] = 1))
+		formatString: General Date
+		lineageTag: 57f576bc-2eab-41da-b2b7-67bea7cdddf3
+
+	measure 'Kết quả final' = ```
+			
+			VAR _selection = SELECTEDVALUE('DIM_Danh mục_Selection'[Metric])
+			VAR _condition = SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date])
+			VAR _max_date = MAX('DIM_Danh mục_Ngày'[Date])
+			VAR _min_date = MIN('DIM_Danh mục_Ngày'[Date])
+			VAR _date_filter = SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date_Real])
+			VAR _date =
+			    DATEVALUE(
+			        SUMMARIZE(
+			            FILTER(
+			                'DIM_Danh mục_Báo cáo',
+			                NOT('DIM_Danh mục_Báo cáo'[Date] IN {"CR tháng", "Số ngày không đạt liên tiếp", "Traffic tháng"})
+			            ),
+			            'DIM_Danh mục_Báo cáo'[Date]
+			        )
+			    )
+			VAR _crbo_plx = [CRbO_PLX]
+			VAR _total_opps_plx = [Total Opps_PLX]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _selection = "CR" && _condition = "CR tháng",
+			        FORMAT(CALCULATE([Store_Conversion by Opportunities], ALL('DIM_Danh mục_Ngày'[Date])), "0.00%"),
+			
+			    _selection = "CR" && _condition = "Số ngày không đạt liên tiếp",
+			        FORMAT(CALCULATE([Số ngày liên tiếp không đạt CR], ALL('DIM_Danh mục_Ngày'[Date])), "0"),
+			
+			    _selection = "CR" && _date <= _max_date && _date >= _min_date,
+			        FORMAT(CALCULATE([Store_Conversion by Opportunities], FILTER('DIM_Danh mục_Ngày', 'DIM_Danh mục_Ngày'[Date] = _date_filter)), "0.00%"),
+			
+			    _selection = "Visits final" && _condition = "Traffic tháng",
+			        FORMAT(CALCULATE([Store_Total visit final], ALL('DIM_Danh mục_Ngày'[Date])), "###,###"),
+			
+			    _selection = "Visits final" && _date <= _max_date && _date >= _min_date,
+			        FORMAT(CALCULATE([Store_Total visit final], FILTER('DIM_Danh mục_Ngày', 'DIM_Danh mục_Ngày'[Date] = _date_filter)), "###,###"),
+			
+			    _selection = "CRbO_PLX",
+			        IF(NOT ISBLANK(_crbo_plx), FORMAT(_crbo_plx, "0.00%")),
+			
+			    _selection = "Total Opps_PLX",
+			        IF(NOT ISBLANK(_total_opps_plx), FORMAT(_total_opps_plx, "#,0"))
+			)
+			
+			```
+		lineageTag: e0bb662a-17f9-4902-9413-623e852d9689
+
+	measure Format = ```
+			
+			VAR _selection = SELECTEDVALUE('DIM_Danh mục_Selection'[Metric])
+			VAR _condition = SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date])
+			VAR _max_date = MAX( 'DIM_Danh mục_Ngày'[Date] )
+			VAR _min_date = MIN( 'DIM_Danh mục_Ngày'[Date] )
+			VAR _date_filter = SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date_Real])
+			VAR _date = DATEVALUE(SUMMARIZE(FILTER('DIM_Danh mục_Báo cáo',NOT('DIM_Danh mục_Báo cáo'[Date] IN {"CR tháng","Số ngày không đạt liên tiếp","Traffic tháng"})),'DIM_Danh mục_Báo cáo'[Date]))
+			VAR _mien = SELECTEDVALUE('DIM_Danh mục_Phòng ban'[Miền])
+			VAR _target = 
+			IF(
+			    SELECTEDVALUE(Parameter_OP[Parameter_OP Order]) <= 1,
+			        IF(_mien = "Miền Nam", 0.85,0.82),
+			        [Store_Target_CR])
+			RETURN
+			SWITCH( TRUE(),
+			    _selection = "CR" && _condition = "CR tháng" && CALCULATE([Store_Conversion by Opportunities],ALL('DIM_Danh mục_Ngày'[Date])) >= _target, "#b7e1cd",
+			    _selection = "CR" && _condition = "CR tháng" && CALCULATE([Store_Conversion by Opportunities],ALL('DIM_Danh mục_Ngày'[Date])) < _target, "#f4cccc",
+			    _selection = "CR" && _date <= _max_date && _date >= _min_date && CALCULATE([Store_Conversion by Opportunities],FILTER('DIM_Danh mục_Ngày', 'DIM_Danh mục_Ngày'[Date] = _date_filter)) >= _target, "#b7e1cd",
+			    _selection = "CR" && _date <= _max_date && _date >= _min_date && CALCULATE([Store_Conversion by Opportunities],FILTER('DIM_Danh mục_Ngày', 'DIM_Danh mục_Ngày'[Date] = _date_filter)) < _target, "#f4cccc",
+			
+			    _selection = "CR" && _condition = "Số ngày không đạt liên tiếp" && CALCULATE([Số ngày liên tiếp không đạt CR],ALL('DIM_Danh mục_Ngày'[Date])) = 0, "#b7e1cd",
+			    _selection = "CR" && _condition = "Số ngày không đạt liên tiếp" && CALCULATE([Số ngày liên tiếp không đạt CR],ALL('DIM_Danh mục_Ngày'[Date])) >= 1, "#f4cccc"
+			)
+			
+			```
+		lineageTag: b783eb98-4666-4e5f-8c4a-56b723a47f77
+
+	measure 'Số ngày không đạt' = CALCULATE([Số ngày liên tiếp không đạt CR],ALL('DIM_Danh mục_Ngày'[Date]))
+		formatString: 0
+		lineageTag: 5ff86a5c-7588-4106-88e2-01c2e2924f2e
+
+	measure 'Số ngày liên tiếp không đạt CR_v2' = ```
+			
+			VAR _today      = [Date_MaxDate]
+			VAR _startMonth = DATE(YEAR(_today), MONTH(_today), 1)
+			VAR _mien       = SELECTEDVALUE('DIM_Danh mục_Phòng ban'[Miền])
+			VAR _mienTarget = IF(_mien = "Miền Nam", 0.85, 0.82)
+			VAR _condition  = IF([Run-rate] = 1, _today, _today)
+			
+			VAR _minDate = CALCULATE(MIN('DIM_Danh mục_Ngày'[Date]))
+			
+			-- Tạo bảng shop
+			VAR _tblShop = 
+			    ADDCOLUMNS(
+			        FILTER(
+			            SUMMARIZECOLUMNS(
+			                'DIM_Danh mục_Ngày'[Date],
+			                'DIM_Danh mục_Phòng ban'[am],
+			                'DIM_Danh mục_Phòng ban'[Bộ phận],
+			                "target", [Store_Evaluation]
+			            ),
+			            'DIM_Danh mục_Ngày'[Date] >= _minDate - 30
+			        ),
+			        "notAchieved", IF([target] = "Không đạt", 1, 0)
+			    )
+			
+			-- Tạo bảng AM
+			VAR _tblAM = 
+			    ADDCOLUMNS(
+			        FILTER(
+			            SUMMARIZECOLUMNS(
+			                'DIM_Danh mục_Ngày'[Date],
+			                'DIM_Danh mục_Phòng ban'[am],
+			                "target", DIVIDE([Store_Conversion by Opportunities], _mienTarget)
+			            ),
+			            'DIM_Danh mục_Ngày'[Date] >= _minDate - 30
+			        ),
+			        "notAchieved", IF([target] < 1, 1, 0)
+			    )
+			
+			-- Tìm ngày gần nhất đạt target
+			VAR _lastAchievedShop = CALCULATE(
+			    MAX('DIM_Danh mục_Ngày'[Date]),
+			    FILTER(_tblShop, [notAchieved] = 0 && 'DIM_Danh mục_Ngày'[Date] <= _today)
+			)
+			
+			VAR _lastAchievedAM = CALCULATE(
+			    MAX('DIM_Danh mục_Ngày'[Date]),
+			    FILTER(_tblAM, [notAchieved] = 0 && 'DIM_Danh mục_Ngày'[Date] <= _today)
+			)
+			
+			-- Dựa trên loại đánh giá: AM hay shop
+			VAR _lastAchieved = 
+			    IF(SELECTEDVALUE(Parameter_OP[Parameter_OP Order]) <= 1, _lastAchievedAM, _lastAchievedShop)
+			
+			-- Nếu không có ngày nào đạt → dùng đầu tháng -1
+			VAR _fallbackDate = IF(ISBLANK(_lastAchieved), _startMonth - 1, _lastAchieved)
+			
+			-- Tính số ngày liên tiếp không đạt
+			VAR _result = DATEDIFF(_fallbackDate, _condition, DAY)
+			
+			RETURN _result
+			
+			```
+		formatString: 0
+		lineageTag: bf6924f2-ed68-4d1a-897c-2b4f4abbd59e
+
+	measure 'Store_Visit Pre_Camp' =
+			
+			CALCULATE (
+			    SUM ( FACT_Palexy_Store[slg_pre] )
+			    // ALL ( 'DIM_Danh mục_Section'[section_metadata_value_label] )
+			)
+		formatString: #,0
+		displayFolder: Store\Traffic
+		lineageTag: bb1e2a5a-6ebe-41f4-b7b9-5397be78f3b0
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total Opps_PLX' =
+			
+			VAR _condition =
+			    SELECTEDVALUE ( 'DIM_Danh mục_Báo cáo'[Date] )
+			VAR _date_filter =
+			    SELECTEDVALUE ( 'DIM_Danh mục_Báo cáo'[Date_Real] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			
+			        _condition IN { "CR Tháng", "CR tháng" },
+			            CALCULATE (
+			                [Store_Total opportunities_plx],
+			                REMOVEFILTERS ( 'DIM_Danh mục_Ngày'[Date] )
+			            ),
+			
+			        _condition IN { "Số ngày không đạt liên tiếp", "Traffic Tháng", "Traffic tháng" },
+			            BLANK (),
+			
+			        NOT ISBLANK ( _date_filter ),
+			            CALCULATE (
+			                [Store_Total opportunities_plx],
+			                REMOVEFILTERS ( 'DIM_Danh mục_Ngày'[Date] ),
+			                TREATAS ( { _date_filter }, 'DIM_Danh mục_Ngày'[Date] )
+			            ),
+			
+			        BLANK ()
+			    )
+		formatString: #,0
+		lineageTag: c8992ca1-a798-48c0-b2f7-c22d7aa33cda
+
+	measure CRbO_PLX = ```
+			
+			VAR _condition =
+			    SELECTEDVALUE ( 'DIM_Danh mục_Báo cáo'[Date] )
+			VAR _date_filter =
+			    SELECTEDVALUE ( 'DIM_Danh mục_Báo cáo'[Date_Real] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			
+			        _condition IN { "CR Tháng", "CR tháng" },
+			            CALCULATE (
+			                [Store_Conversion by Opportunities_plx],
+			                REMOVEFILTERS ( 'DIM_Danh mục_Ngày'[Date] )
+			            ),
+			
+			        _condition IN { "Số ngày không đạt liên tiếp", "Traffic Tháng", "Traffic tháng" },
+			            BLANK (),
+			
+			        NOT ISBLANK ( _date_filter ),
+			            CALCULATE (
+			                [Store_Conversion by Opportunities_plx],
+			                REMOVEFILTERS ( 'DIM_Danh mục_Ngày'[Date] ),
+			                TREATAS ( { _date_filter }, 'DIM_Danh mục_Ngày'[Date] )
+			            ),
+			
+			        BLANK ()
+			    )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 40970460-6d3f-4424-8593-78f91f83bace
+
+	measure 'Format_PLX - Theo dõi CR' = ```
+			
+			VAR _condition =
+			    SELECTEDVALUE ( 'DIM_Danh mục_Báo cáo'[Date] )
+			
+			VAR _date_filter =
+			    SELECTEDVALUE ( 'DIM_Danh mục_Báo cáo'[Date_Real] )
+			
+			VAR _mien =
+			    SELECTEDVALUE ( 'DIM_Danh mục_Phòng ban'[Miền] )
+			
+			VAR _target =
+			    IF (
+			        SELECTEDVALUE ( Parameter_OP[Parameter_OP Order] ) <= 1,
+			        IF ( _mien = "Miền Nam", 0.85, 0.82 ),
+			        [Store_Target_CR]
+			    )
+			
+			VAR _cr_plx_month =
+			    CALCULATE (
+			        [Store_Conversion by Opportunities_plx],
+			        REMOVEFILTERS ( 'DIM_Danh mục_Ngày'[Date] )
+			    )
+			
+			VAR _cr_plx_day =
+			    CALCULATE (
+			        [Store_Conversion by Opportunities_plx],
+			        REMOVEFILTERS ( 'DIM_Danh mục_Ngày'[Date] ),
+			        TREATAS ( { _date_filter }, 'DIM_Danh mục_Ngày'[Date] )
+			    )
+			
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			
+			        _condition IN { "CR Tháng", "CR tháng" }
+			            && _cr_plx_month >= _target,
+			            "#b7e1cd",
+			
+			        _condition IN { "CR Tháng", "CR tháng" }
+			            && _cr_plx_month < _target,
+			            "#f4cccc",
+			
+			        NOT ISBLANK ( _date_filter )
+			            && _cr_plx_day >= _target,
+			            "#b7e1cd",
+			
+			        NOT ISBLANK ( _date_filter )
+			            && _cr_plx_day < _target,
+			            "#f4cccc",
+			
+			        BLANK ()
+			    )
+			
+			```
+		lineageTag: eb672a59-7f16-49c7-95ce-3631280084a5
+
+	measure CR = ```
+			
+			VAR _condition =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date])
+			VAR _max_date =
+			    MAX('DIM_Danh mục_Ngày'[Date])
+			VAR _min_date =
+			    MIN('DIM_Danh mục_Ngày'[Date])
+			VAR _date_filter =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date_Real])
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			
+			        _condition = "CR tháng",
+			            FORMAT(
+			                CALCULATE(
+			                    [Store_Conversion by Opportunities],
+			                    ALL('DIM_Danh mục_Ngày'[Date])
+			                ),
+			                "0.00%"
+			            ),
+			
+			        _condition = "Số ngày không đạt liên tiếp",
+			            FORMAT(
+			                CALCULATE(
+			                    [Số ngày liên tiếp không đạt CR],
+			                    ALL('DIM_Danh mục_Ngày'[Date])
+			                ),
+			                "0"
+			            ),
+			
+			        NOT ISBLANK(_date_filter)
+			            && _date_filter >= _min_date
+			            && _date_filter <= _max_date,
+			            FORMAT(
+			                CALCULATE(
+			                    [Store_Conversion by Opportunities],
+			                    TREATAS({_date_filter}, 'DIM_Danh mục_Ngày'[Date])
+			                ),
+			                "0.00%"
+			            )
+			    )
+			
+			```
+		lineageTag: b153d9af-c548-43e3-bffe-28ae5313c181
+
+	measure 'Visits final' = ```
+			
+			VAR _condition =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date])
+			VAR _max_date =
+			    MAX('DIM_Danh mục_Ngày'[Date])
+			VAR _min_date =
+			    MIN('DIM_Danh mục_Ngày'[Date])
+			VAR _date_filter =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date_Real])
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			
+			        _condition = "Traffic tháng",
+			            FORMAT(
+			                CALCULATE(
+			                    [Store_Total visit final],
+			                    ALL('DIM_Danh mục_Ngày'[Date])
+			                ),
+			                "#,0"
+			            ),
+			
+			        NOT ISBLANK(_date_filter)
+			            && _date_filter >= _min_date
+			            && _date_filter <= _max_date,
+			            FORMAT(
+			                CALCULATE(
+			                    [Store_Total visit final],
+			                    TREATAS({_date_filter}, 'DIM_Danh mục_Ngày'[Date])
+			                ),
+			                "#,0"
+			            )
+			    )
+			
+			```
+		lineageTag: c31c1b36-5a30-43ec-b6ea-06a6e942f5ac
+
+	measure 'CF - Theo dõi CR - CR' = ```
+			
+			VAR _condition =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date])
+			VAR _date_filter =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date_Real])
+			VAR _max_date =
+			    MAX('DIM_Danh mục_Ngày'[Date])
+			VAR _min_date =
+			    MIN('DIM_Danh mục_Ngày'[Date])
+			VAR _mien =
+			    SELECTEDVALUE('DIM_Danh mục_Phòng ban'[Miền])
+			VAR _target =
+			    IF(
+			        SELECTEDVALUE(Parameter_OP[Parameter_OP Order]) <= 1,
+			        IF(_mien = "Miền Nam", 0.85, 0.82),
+			        [Store_Target_CR]
+			    )
+			VAR _cr_month =
+			    CALCULATE(
+			        [Store_Conversion by Opportunities],
+			        REMOVEFILTERS('DIM_Danh mục_Ngày'[Date])
+			    )
+			VAR _cr_day =
+			    CALCULATE(
+			        [Store_Conversion by Opportunities],
+			        REMOVEFILTERS('DIM_Danh mục_Ngày'[Date]),
+			        TREATAS({_date_filter}, 'DIM_Danh mục_Ngày'[Date])
+			    )
+			VAR _bad_days =
+			    CALCULATE(
+			        [Số ngày liên tiếp không đạt CR],
+			        REMOVEFILTERS('DIM_Danh mục_Ngày'[Date])
+			    )
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			
+			        _condition IN {"CR tháng", "CR Tháng"} && _cr_month >= _target, "#b7e1cd",
+			        _condition IN {"CR tháng", "CR Tháng"} && _cr_month < _target, "#f4cccc",
+			
+			        _condition = "Số ngày không đạt liên tiếp" && _bad_days = 0, "#b7e1cd",
+			        _condition = "Số ngày không đạt liên tiếp" && _bad_days >= 1, "#f4cccc",
+			
+			        NOT ISBLANK(_date_filter)
+			            && _date_filter >= _min_date
+			            && _date_filter <= _max_date
+			            && _cr_day >= _target, "#b7e1cd",
+			
+			        NOT ISBLANK(_date_filter)
+			            && _date_filter >= _min_date
+			            && _date_filter <= _max_date
+			            && _cr_day < _target, "#f4cccc"
+			    )
+			
+			```
+		lineageTag: 78316d0d-18bd-4fb1-8151-51d2acb95b18
+
+	measure 'CF - Theo dõi CR - CRbO_PLX' = ```
+			
+			VAR _condition =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date])
+			VAR _date_filter =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date_Real])
+			VAR _mien =
+			    SELECTEDVALUE('DIM_Danh mục_Phòng ban'[Miền])
+			VAR _target =
+			    IF(
+			        SELECTEDVALUE(Parameter_OP[Parameter_OP Order]) <= 1,
+			        IF(_mien = "Miền Nam", 0.85, 0.82),
+			        [Store_Target_CR]
+			    )
+			VAR _value =
+			    [CRbO_PLX]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			
+			        _condition IN {"CR tháng", "CR Tháng"} && _value >= _target, "#b7e1cd",
+			        _condition IN {"CR tháng", "CR Tháng"} && _value < _target, "#f4cccc",
+			
+			        NOT ISBLANK(_date_filter) && _value >= _target, "#b7e1cd",
+			        NOT ISBLANK(_date_filter) && _value < _target, "#f4cccc"
+			    )
+			
+			```
+		lineageTag: 6b207638-81d9-4e66-83dc-f861c73166eb
+
+	measure 'CF - Theo dõi CR - Visits final' = ```
+			
+			VAR _condition =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date])
+			VAR _date_filter =
+			    SELECTEDVALUE('DIM_Danh mục_Báo cáo'[Date_Real])
+			VAR _value =
+			    SWITCH(
+			        TRUE(),
+			
+			        _condition IN {"Traffic tháng", "Traffic Tháng"},
+			            CALCULATE(
+			                [Store_Total visit final],
+			                REMOVEFILTERS('DIM_Danh mục_Ngày'[Date])
+			            ),
+			
+			        NOT ISBLANK(_date_filter),
+			            CALCULATE(
+			                [Store_Total visit final],
+			                REMOVEFILTERS('DIM_Danh mục_Ngày'[Date]),
+			                TREATAS({_date_filter}, 'DIM_Danh mục_Ngày'[Date])
+			            )
+			    )
+			RETURN
+			    IF(
+			        NOT ISBLANK(_value),
+			        "#EAF6F5"
+			    )
+			
+			```
+		lineageTag: 78d3e0bf-50ed-4913-be33-1eb29582b4b6
+
+	measure 'CF - Theo dõi CR - Total Opps_PLX' = ```
+			
+			VAR _value =
+			    [Total Opps_PLX]
+			RETURN
+			    IF(
+			        NOT ISBLANK(_value),
+			        "#FDEAEA"
+			    )
+			
+			```
+		lineageTag: 23f44f68-eb52-4115-8906-5259ae58fea7
+
+	measure TDCR_New_Show_Selected_Date_V2 = ```
+			
+			VAR _is_day_filtered =
+			    ISFILTERED ( 'DIM_Danh mục_Ngày'[Date] )
+			
+			VAR _column_date =
+			    SELECTEDVALUE ( 'DIM_Danh mục_Báo cáo'[Date_real] )
+			
+			VAR _selected_dates =
+			    ALLSELECTED ( 'DIM_Danh mục_Ngày'[Date] )
+			
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			
+			        NOT _is_day_filtered, 1,
+			
+			        NOT ISBLANK ( _column_date )
+			            && CONTAINS (
+			                _selected_dates,
+			                'DIM_Danh mục_Ngày'[Date], _column_date
+			            ), 1,
+			
+			        0
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: b5dbbded-efd2-4b41-89ce-4d079ff46755
+
+	measure TDCR_New_Row_Has_Data_Direct = ```
+			
+			VAR _visit =
+			    [Store_Total visit final]
+			VAR _opps =
+			    [Store_Total opportunities_plx]
+			VAR _trans =
+			    [Store_Sales transaction]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _visit )
+			            || NOT ISBLANK ( _opps )
+			            || NOT ISBLANK ( _trans ),
+			        1,
+			        0
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: 63fd9a05-4ef2-47d7-b1bd-13959a56c426
+
+	measure TDCR_New_CR_Direct =
+			
+			[Store_Conversion by Opportunities]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 021fdc9b-a000-408f-b52c-2d0b3dba6423
+
+	measure TDCR_New_Visits_Final_Direct =
+			
+			[Store_Total visit final]
+		formatString: 0
+		lineageTag: ad1d28df-6d14-41cb-bbb9-2cf24b33ac2c
+
+	measure TDCR_New_Total_Opps_PLX_Direct =
+			
+			[Store_Total opportunities_plx]
+		formatString: 0
+		displayFolder: Store
+		lineageTag: 6c016734-8fd9-4af8-9c07-f7ea99ea85c6
+
+	measure TDCR_New_CRbO_PLX_Direct =
+			
+			[Store_Conversion by Opportunities_plx]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: beca0ca1-dc15-44af-bc83-8a339efc57c7
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 0f9339f3-938e-45ec-b798-3b94f39428d2
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure-2e93dede-fb40-46df-93f4-a7133a021fa4 = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 964b443919da451fbff954bb8554077d
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

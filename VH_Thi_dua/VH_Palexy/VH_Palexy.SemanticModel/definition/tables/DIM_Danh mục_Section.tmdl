@@ -1,0 +1,19 @@
+table 'DIM_Danh mục_Section'
+	lineageTag: dda70afb-2694-4658-a827-a1440a0cf4cf
+
+	column section_metadata_value_label
+		lineageTag: eed58bf5-7faf-4449-9794-eca2c0c9a786
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Palexy_Section[section_metadata_value_label]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Section-598c5571-9fc1-4854-bcb7-aff6ea1cd20f' = calculated
+		mode: import
+		source =
+				
+				DISTINCT ( FACT_Palexy_Section[section_metadata_value_label] )
+
+	annotation PBI_Id = a90797422a7b4aea8cb21493225070c5
+

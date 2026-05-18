@@ -1,0 +1,45 @@
+table 'DIM_Section_Measure selection'
+	lineageTag: 922416e7-7ecc-479d-b182-66d29dc70e29
+
+	column Measure
+		dataType: string
+		lineageTag: 4954d396-d10b-4869-9864-1b62799a64f2
+		summarizeBy: none
+		sourceColumn: Measure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Measure type'
+		dataType: string
+		lineageTag: 2c03a016-84f2-4dd8-a617-bf708e2ec9f7
+		summarizeBy: none
+		sourceColumn: Measure type
+
+		annotation SummarizationSetBy = Automatic
+
+	column No
+		dataType: int64
+		formatString: 0
+		lineageTag: 06b638d0-389e-468f-bd75-0163f69db39c
+		summarizeBy: none
+		sourceColumn: No
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Section_Measure selection-8f20f646-930d-4f5a-8a98-ce57edb78363' = m
+		mode: import
+		queryGroup: DIM\Metric
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents(GGsheet_Palexy), null, true),
+				    Dim_Section_Measure_Sheet = Source{[Item="Dim_Section_Measure",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Section_Measure_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"No", Int64.Type}, {"Measure", type text}, {"Measure type", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([No] <> null))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

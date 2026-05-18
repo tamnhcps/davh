@@ -1,0 +1,455 @@
+table FACT_Palexy_Section
+	lineageTag: 321db557-9344-4204-b3f4-ec7b0de3e3af
+
+	column store_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 898fb7dd-e1b9-441a-a6c6-6f21b7dd5e7b
+		summarizeBy: sum
+		sourceColumn: store_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_code
+		dataType: string
+		lineageTag: a68bb14a-e3ce-4919-9c9f-6a8bcc6e516e
+		summarizeBy: none
+		sourceColumn: store_code
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column interaction_rate
+		dataType: double
+		lineageTag: c91f46af-9cb8-47f0-9998-bf9f04a9c073
+		summarizeBy: sum
+		sourceColumn: interaction_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_dwell_time
+		dataType: double
+		lineageTag: 16c3652a-bce4-467e-b276-75480b9c16a6
+		summarizeBy: sum
+		sourceColumn: average_dwell_time
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pass_by_rate
+		dataType: double
+		lineageTag: bcad85a3-f566-4a35-8d70-f87b8359fc82
+		summarizeBy: sum
+		sourceColumn: pass_by_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column average_interaction_time
+		dataType: double
+		lineageTag: 7d38ab32-7add-46c4-b344-5c99ca963ae7
+		summarizeBy: sum
+		sourceColumn: average_interaction_time
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column interacted_customers
+		dataType: int64
+		lineageTag: e964c668-d127-47d3-8362-410a948a4723
+		summarizeBy: sum
+		sourceColumn: interacted_customers
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column section_metadata_value_id
+		dataType: int64
+		lineageTag: 528f8a32-58ac-4fa4-ac6d-8b7982631aaa
+		summarizeBy: sum
+		sourceColumn: section_metadata_value_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column capture_rate
+		dataType: double
+		lineageTag: 831a1381-7ed6-4eb2-9f73-4da9bdca1b00
+		summarizeBy: sum
+		sourceColumn: capture_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column section_visit_rate
+		dataType: double
+		lineageTag: 8abe29c6-d3f5-4b52-903f-0460b15aa6b6
+		summarizeBy: sum
+		sourceColumn: section_visit_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column visits
+		dataType: int64
+		lineageTag: c7c1d5ef-8e09-419d-a544-12b1470ad868
+		summarizeBy: sum
+		sourceColumn: visits
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_sales_amount
+		dataType: double
+		lineageTag: 505bf07a-b6b0-4dfd-84ca-d7480b434d32
+		summarizeBy: sum
+		sourceColumn: net_sales_amount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_sales_transactions
+		dataType: double
+		lineageTag: 85f81ea8-4a3d-415b-bc10-1b8b35c05c25
+		summarizeBy: sum
+		sourceColumn: net_sales_transactions
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pass_by_traffic
+		dataType: int64
+		lineageTag: cec3b6cc-db8e-4667-ae26-cea955b63018
+		summarizeBy: sum
+		sourceColumn: pass_by_traffic
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column store_name
+		dataType: string
+		lineageTag: fffa97ae-c1a0-4db9-9533-ec8732033c08
+		summarizeBy: none
+		sourceColumn: store_name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column section_metadata_value_label
+		dataType: string
+		lineageTag: ede31245-cde5-4e27-81b2-39afb67b24e7
+		summarizeBy: none
+		sourceColumn: section_metadata_value_label
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 52cd86f6-ee1d-4e1e-9191-58bedd8e41cd
+		summarizeBy: none
+		sourceColumn: day
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column conversion_rate
+		dataType: double
+		lineageTag: f9f5f633-eeb8-42dc-97b2-3971e7e694f7
+		summarizeBy: sum
+		sourceColumn: conversion_rate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column atv
+		dataType: double
+		lineageTag: 9a0886f6-0d7d-47a7-908c-60f09cd2e0ea
+		summarizeBy: sum
+		sourceColumn: atv
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column upt
+		dataType: double
+		lineageTag: fa443ac6-b2a7-4fc1-b572-7f2f917a5f3f
+		summarizeBy: sum
+		sourceColumn: upt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column asp
+		dataType: double
+		lineageTag: 9322954d-4ff8-425e-bad5-989d88f7dc89
+		summarizeBy: sum
+		sourceColumn: asp
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'visit * avg dwell time' =
+			
+			FACT_Palexy_Section[visits] * FACT_Palexy_Section[average_dwell_time]
+		lineageTag: 8f877b46-97f5-45b9-9214-ac7d128b85e2
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_sales_qty =
+			
+			ROUND (
+			    FACT_Palexy_Section[net_sales_transactions] * FACT_Palexy_Section[upt],
+			    0
+			)
+		lineageTag: de9b598c-67fc-4a9e-a99f-cbbbbbeb2f27
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'total traffic' =
+			
+			VAR traffic =
+			    CALCULATE (
+			        SUM ( FACT_Palexy_Store[visits] ),
+			        FILTER (
+			            FACT_Palexy_Store,
+			            FACT_Palexy_Store[store_code] = EARLIER ( FACT_Palexy_Section[store_code] )
+			                && FACT_Palexy_Store[day] = EARLIER ( FACT_Palexy_Section[day] )
+			        )
+			    )
+			VAR nhom =
+			    COUNTROWS (
+			        FILTER (
+			            FACT_Palexy_Section,
+			            FACT_Palexy_Section[store_code] = EARLIER ( FACT_Palexy_Section[store_code] )
+			                && FACT_Palexy_Section[day] = EARLIER ( FACT_Palexy_Section[day] )
+			                && FACT_Palexy_Section[section_metadata_value_label]
+			                    = EARLIER ( FACT_Palexy_Section[section_metadata_value_label] )
+			        )
+			    )
+			RETURN
+			    DIVIDE ( traffic, nhom )
+		formatString: 0
+		lineageTag: 1e0bd3bf-792a-41dd-bd35-08c5ff1b8992
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column week
+		dataType: string
+		lineageTag: 3bfa8e03-0d7c-46cb-87ac-ff824a9cdc14
+		summarizeBy: none
+		sourceColumn: week
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: string
+		lineageTag: 4ec89901-5f18-4870-9c6f-64ca22a52c60
+		summarizeBy: none
+		sourceColumn: month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_manager
+		dataType: string
+		lineageTag: 738b2f2c-1da5-4aae-a230-f730c13358bd
+		summarizeBy: none
+		sourceColumn: area_manager
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 651af2e7-a780-4821-b6c7-0129714d40b5
+		summarizeBy: none
+		sourceColumn: region
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column tier
+		dataType: string
+		lineageTag: 653ed0c3-df4b-4baf-bfbd-c572667f69c9
+		summarizeBy: none
+		sourceColumn: tier
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column working_years
+		dataType: string
+		lineageTag: 91dbaf4f-07c3-432c-af13-39e1f4ad6f04
+		summarizeBy: none
+		sourceColumn: working_years
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column area
+		dataType: string
+		lineageTag: 52c0b336-6d29-46f0-b495-8e28a612f831
+		summarizeBy: none
+		sourceColumn: area
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: d0d9656d-f0cd-4333-a9d9-f49e3b5baa97
+		summarizeBy: none
+		sourceColumn: type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_2
+		dataType: string
+		lineageTag: 42526998-1f52-42fe-9ebe-629604d7e107
+		summarizeBy: none
+		sourceColumn: store_metadata_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_6
+		dataType: string
+		lineageTag: d4369b4b-9bba-4d86-a6d8-e5968d058d95
+		summarizeBy: none
+		sourceColumn: store_metadata_6
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_3
+		dataType: string
+		lineageTag: 6d8a5739-9b5c-400f-8fbc-d9818263f2d0
+		summarizeBy: none
+		sourceColumn: store_metadata_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_4
+		dataType: string
+		lineageTag: 04bd3283-d5e8-40ea-87f3-4c934418cdd7
+		summarizeBy: none
+		sourceColumn: store_metadata_4
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_1
+		dataType: string
+		lineageTag: a66b55d9-c452-4209-b3b9-c3318f16c848
+		summarizeBy: none
+		sourceColumn: store_metadata_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_metadata_5
+		dataType: string
+		lineageTag: 67cdfd52-5388-4c7c-abfd-f8accd310337
+		summarizeBy: none
+		sourceColumn: store_metadata_5
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_Palexy_Section-c51ac6b3-80ef-4bb3-9278-95c8812ca1a6 = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=42baee31-9dab-48af-b317-d89f4f8011db""#(lf)Select *#(lf)from cellphones-data-platform.cps_mkt_source_dwh.palexy_section_report#(lf)WHERE day <> '2025-02-01'", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"store_name"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","HN.384XD","HN.360XD",Replacer.ReplaceText,{"store_code"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"store_name"})
+				in
+				    #"Replaced Value2"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

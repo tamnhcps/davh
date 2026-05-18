@@ -1,0 +1,35 @@
+table DIM_Compare_Evaluation
+	excludeFromModelRefresh
+	lineageTag: daa6ff83-be73-4d5c-b7b0-80d97ba66845
+
+	column No
+		dataType: int64
+		formatString: 0
+		lineageTag: b15af4ca-4eca-40dc-a798-2876068c446a
+		summarizeBy: none
+		sourceColumn: No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: string
+		lineageTag: f168c76d-fdc5-4d5a-b840-6515a0e73182
+		summarizeBy: none
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_Compare_Evaluation = m
+		mode: import
+		queryGroup: DIM\Metric
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUToy4eGuhSVKsTrRSgZArnfG4S156QpHJkJEYwE=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [No = _t, Value = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"No", Int64.Type}, {"Value", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

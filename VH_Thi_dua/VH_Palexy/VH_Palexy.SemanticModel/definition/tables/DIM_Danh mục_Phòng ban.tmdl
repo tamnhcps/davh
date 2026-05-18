@@ -1,0 +1,420 @@
+table 'DIM_Danh mục_Phòng ban'
+	lineageTag: 0ea0eb9b-2878-4057-9228-ca5bf45ec243
+
+	column Latitude
+		dataType: double
+		lineageTag: 6f375786-4827-4b7d-bdfa-a74e9a9363da
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 9da061eb-d11b-4796-ae3d-dcb75100d835
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column hara_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 537576f3-1e5c-4bbb-90b0-c069c32e5791
+		summarizeBy: sum
+		sourceColumn: hara_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma_bo_phan
+		dataType: string
+		lineageTag: cd75857f-7900-4631-9fec-93e50c03c7c3
+		summarizeBy: none
+		sourceColumn: ma_bo_phan
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bộ phận'
+		dataType: string
+		lineageTag: 75ca1258-8a95-4fff-97c5-1fe25810b782
+		summarizeBy: none
+		sourceColumn: Bộ phận
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma_kho
+		dataType: string
+		lineageTag: 9c78ce17-4727-4271-8fcf-2e044adda98a
+		summarizeBy: none
+		sourceColumn: ma_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column apple_location_id
+		dataType: string
+		lineageTag: 4c557832-8433-4e76-9481-fc1f705eaabb
+		summarizeBy: none
+		sourceColumn: apple_location_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_2
+		dataType: string
+		lineageTag: 63caf43c-2fbd-4731-93f6-35fa3b3dac62
+		summarizeBy: none
+		sourceColumn: level_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_3
+		dataType: string
+		lineageTag: 35dc2338-aa17-4f75-b1c4-756fde8be8cf
+		summarizeBy: none
+		sourceColumn: level_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_4
+		dataType: string
+		lineageTag: fe23bec9-c7c3-452c-9c5c-73fea5b1ae75
+		summarizeBy: none
+		sourceColumn: level_4
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_5
+		dataType: string
+		lineageTag: fe350124-3b5c-48c8-a9c1-b67b2421fe7c
+		summarizeBy: none
+		sourceColumn: level_5
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_6
+		dataType: string
+		lineageTag: 41e5d8fb-c45a-4602-b5e8-bafce62ee525
+		summarizeBy: none
+		sourceColumn: level_6
+
+		annotation SummarizationSetBy = Automatic
+
+	column level_7
+		dataType: string
+		lineageTag: 2553c7ed-b07a-4620-8e24-125ee8178b7b
+		summarizeBy: none
+		sourceColumn: level_7
+
+		annotation SummarizationSetBy = Automatic
+
+	column branch_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 325158ff-8b8f-46d2-b156-87786144b4a4
+		summarizeBy: sum
+		sourceColumn: branch_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column oracle_code
+		dataType: string
+		lineageTag: f723b07c-dc6d-4642-855d-f9a62e3fe273
+		summarizeBy: none
+		sourceColumn: oracle_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0397452d-b0e9-489d-9bd3-857000b4485b
+		summarizeBy: none
+		sourceColumn: is_inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column hara_workplace_name
+		dataType: string
+		lineageTag: c64082be-9c90-4b06-841d-1d7eb8c9c56e
+		summarizeBy: none
+		sourceColumn: hara_workplace_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cong_ty
+		dataType: string
+		lineageTag: 44ebfcf4-49aa-4329-94d6-f86fe5d6c78c
+		summarizeBy: none
+		sourceColumn: cong_ty
+
+		annotation SummarizationSetBy = Automatic
+
+	column short_name
+		dataType: string
+		lineageTag: 090ab6dc-abfa-4e67-bc70-c8f0462f1e77
+		summarizeBy: none
+		sourceColumn: short_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng/văn phòng'
+		dataType: string
+		lineageTag: cc423dea-90d3-474e-bdea-9b7971c4013c
+		summarizeBy: none
+		sourceColumn: Cửa hàng/văn phòng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: 21dc47f2-4754-4c4e-98ec-6cf374aca9ae
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column vung
+		dataType: string
+		lineageTag: 786c0fb9-fddb-43ef-8e62-8af153e84b6f
+		summarizeBy: none
+		sourceColumn: vung
+
+		annotation SummarizationSetBy = Automatic
+
+	column khoi
+		dataType: string
+		lineageTag: 9a9d7b33-00fb-4217-8cb9-6ee784ca3f08
+		summarizeBy: none
+		sourceColumn: khoi
+
+		annotation SummarizationSetBy = Automatic
+
+	column phong
+		dataType: string
+		lineageTag: 0787707a-3348-4abd-b8bf-0a25d06ec839
+		summarizeBy: none
+		sourceColumn: phong
+
+		annotation SummarizationSetBy = Automatic
+
+	column tinh_thanh_pho
+		dataType: string
+		lineageTag: 3e5b08bc-d77f-4f9d-aa5f-5373ba5052d7
+		summarizeBy: none
+		sourceColumn: tinh_thanh_pho
+
+		annotation SummarizationSetBy = Automatic
+
+	column quan_huyen
+		dataType: string
+		lineageTag: 182baa5e-c1da-4da5-8bd2-9f323d6ce779
+		summarizeBy: none
+		sourceColumn: quan_huyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column khai_truong
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 00d130e8-9db6-4242-aab2-e5adc4ecf795
+		summarizeBy: none
+		sourceColumn: khai_truong
+
+		variation Variation
+			isDefault
+			relationship: adf699d7-3503-40e8-bc8b-86c0ee7025ea
+			defaultHierarchy: LocalDateTable_c4b7b711-5abe-4f8a-9a8a-e0e49b03bb52.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column dong_cua
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c20ff337-e463-4fa1-a15a-ceff7751d2d3
+		summarizeBy: none
+		sourceColumn: dong_cua
+
+		variation Variation
+			isDefault
+			relationship: 8b65a12c-6027-429f-8fdc-f34db7c18c64
+			defaultHierarchy: LocalDateTable_f0e0dccd-1de9-4410-bd34-aea80ff88396.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ngang_m
+		dataType: double
+		lineageTag: 53490779-bae1-42b9-acb4-fdcb48f002fc
+		summarizeBy: sum
+		sourceColumn: ngang_m
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sau_m
+		dataType: double
+		lineageTag: 7f227757-01f7-40de-bbcd-7c7d74d45f7a
+		summarizeBy: sum
+		sourceColumn: sau_m
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tong_m2
+		dataType: double
+		lineageTag: e8b783c0-298e-4957-ad20-0668b5e8e665
+		summarizeBy: sum
+		sourceColumn: tong_m2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dien_tich_ban_hang
+		dataType: double
+		lineageTag: dd214a4c-4403-459a-b5f2-9a9fa1a9b8ee
+		summarizeBy: sum
+		sourceColumn: dien_tich_ban_hang
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column am
+		dataType: string
+		lineageTag: 56f2c85d-5a04-4f96-a91c-7c98cb9d4efa
+		summarizeBy: none
+		sourceColumn: am
+
+		annotation SummarizationSetBy = Automatic
+
+	column size
+		dataType: string
+		lineageTag: 9813759c-ebcf-4587-87fd-0e6ea546fc21
+		summarizeBy: none
+		sourceColumn: size
+
+		annotation SummarizationSetBy = Automatic
+
+	column rsm
+		dataType: string
+		lineageTag: b042fd81-bb75-482a-921d-3d902a0c0761
+		summarizeBy: none
+		sourceColumn: rsm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sz.Vùng'
+		dataType: string
+		lineageTag: 2fb003c6-db3e-4918-ab11-f0e1b14bacea
+		summarizeBy: none
+		sourceColumn: Sz.Vùng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sz.Miền'
+		dataType: string
+		lineageTag: fdbb5a14-e6c3-4980-8f24-7fc9fe999c7e
+		summarizeBy: none
+		sourceColumn: Sz.Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia_chi_shop
+		dataType: string
+		lineageTag: 8a62d4a6-8978-41b7-9f54-9115e218ef8a
+		summarizeBy: none
+		sourceColumn: dia_chi_shop
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1a156627-6b5b-45bd-979b-6ea61087ce31
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column run_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6fe7a2d8-8684-4d68-b4fd-46483595e289
+		summarizeBy: none
+		sourceColumn: run_date
+
+		variation Variation
+			isDefault
+			relationship: 281d4b28-aa18-4819-bfad-7b258da10596
+			defaultHierarchy: LocalDateTable_b76fe622-23fb-4eeb-86ad-9e145c3c248e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Short form'
+		dataType: string
+		lineageTag: 5958cb43-65e5-4427-bb1b-e1cf7a7e45f4
+		summarizeBy: none
+		sourceColumn: Short form
+
+		annotation SummarizationSetBy = Automatic
+
+	column cua_hang_gop
+		dataType: string
+		lineageTag: 7fa36b6f-643e-4545-91b4-48485f373581
+		summarizeBy: none
+		sourceColumn: cua_hang_gop
+
+		annotation SummarizationSetBy = Automatic
+
+	column kn_am
+		dataType: string
+		lineageTag: 7a305fce-4479-4911-bf01-19c94eeb1bfb
+		summarizeBy: none
+		sourceColumn: kn_am
+
+		annotation SummarizationSetBy = Automatic
+
+	column kn_rsm
+		dataType: string
+		lineageTag: 329516c5-55bf-4173-9f13-4cf22d841f7d
+		summarizeBy: none
+		sourceColumn: kn_rsm
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Phòng ban-ae555c8c-4c58-484e-862e-a0a3fbbb035c' = m
+		mode: import
+		queryGroup: 'DIM\Phòng ban'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=42baee31-9dab-48af-b317-d89f4f8011db""#(lf)select *#(lf)from cellphones-data-platform.cps_DA_General_Transform.dim_department#(lf)where cong_ty = ""CPS""", null, [EnableFolding=true]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"mien", "Miền"}, {"bo_phan", "Bộ phận"}, {"van_phong_cua_hang", "Cửa hàng/văn phòng"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"Bộ phận"}, DIM_SizeShop, {"SHOP CPS"}, "DIM_SizeShop", JoinKind.LeftOuter),
+				    #"Expanded DIM_SizeShop" = Table.ExpandTableColumn(#"Merged Queries", "DIM_SizeShop", {"Vùng", "Miền"}, {"DIM_SizeShop.Vùng", "DIM_SizeShop.Miền"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Expanded DIM_SizeShop",{{"DIM_SizeShop.Vùng", "Sz.Vùng"}, {"DIM_SizeShop.Miền", "Sz.Miền"}}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Renamed Columns1", {"tinh_thanh_pho"}, Province, {"FULL"}, "Province", JoinKind.LeftOuter),
+				    #"Expanded Province" = Table.ExpandTableColumn(#"Merged Queries1", "Province", {"Short form"}, {"Short form"})
+				in
+				    #"Expanded Province"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

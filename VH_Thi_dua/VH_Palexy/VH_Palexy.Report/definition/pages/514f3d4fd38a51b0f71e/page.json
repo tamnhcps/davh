@@ -1,0 +1,97 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "514f3d4fd38a51b0f71e",
+  "displayName": "Đánh giá CR",
+  "displayOption": "FitToPage",
+  "height": 1100,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "17f4a017df5e4fce1cce",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Compare"
+              }
+            },
+            "Property": "day"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "Compare",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "Comparison": {
+                      "ComparisonKind": 0,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "c"
+                            }
+                          },
+                          "Property": "day"
+                        }
+                      },
+                      "Right": {
+                        "Literal": {
+                          "Value": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  },
+  "objects": {
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "199L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "a6b40841c358bba2b6c0",
+      "target": "22e91f3b830343742173",
+      "type": "HighlightFilter"
+    },
+    {
+      "source": "7a74389028d41569bc28",
+      "target": "1426b2b11afca793ace4",
+      "type": "DataFilter"
+    },
+    {
+      "source": "1426b2b11afca793ace4",
+      "target": "7a74389028d41569bc28",
+      "type": "NoFilter"
+    }
+  ]
+}

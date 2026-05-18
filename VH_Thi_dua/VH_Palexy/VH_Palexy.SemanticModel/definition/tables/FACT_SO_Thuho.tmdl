@@ -1,0 +1,82 @@
+table FACT_SO_Thuho
+	isHidden
+	lineageTag: 3ad0ed33-fbfb-478f-93d2-8c3863c2fe04
+
+	column CenterId
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6906f856-cd53-4ccd-ab1a-0f68be5eff9d
+		summarizeBy: count
+		sourceColumn: CenterId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column AutoCode
+		dataType: string
+		isHidden
+		lineageTag: 1d5e5216-7d34-4302-a9c9-63eed05c4e20
+		summarizeBy: none
+		sourceColumn: AutoCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		isHidden
+		lineageTag: 3197ded3-227d-404e-950c-be1f192921c0
+		summarizeBy: none
+		sourceColumn: Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shop
+		dataType: string
+		lineageTag: f47f17a5-046d-4f75-8bb7-2dfdd5a28ddf
+		summarizeBy: none
+		sourceColumn: Shop
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: d35b877f-80f5-4033-b78d-cc4eebd0fa56
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: b1a7fcef-2340-43d5-8cfa-aa3b1404c7ba
+			defaultHierarchy: LocalDateTable_c0fe9ee9-fd4b-40cd-9736-312376f11585.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition FACT_SO_Thuho = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=42baee31-9dab-48af-b317-d89f4f8011db""#(lf)with CTE_ThuHo AS (Select#(lf)  sb.Name as store_name,#(lf)  Date(G.CreateDate) as day, #(lf)  G.AutoCode,#(lf)  sb.CenterId,#(lf)  sb.Code,#(lf)'ThuHo' as Type#(lf)From #(lf)  cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General G#(lf)    inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch sb on G.BranchId = sb.Id and sb.CenterId in (1,3759,12869)#(lf)Where #(lf)  DATE(G.CreateDate) BETWEEN DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH) AND CURRENT_DATE() - 1#(lf)  and G.BillTypeId = 7#(lf)  and G.TransCodeId = 1912#(lf)  and G.ReplaceById is null#(lf)UNION ALL#(lf)Select#(lf)  sb.Name as store_name,#(lf)  Date(G.CreateDate) as day, #(lf)  G.AutoCode,#(lf)  sb.CenterId,#(lf)  sb.Code,#(lf)'ThuHo' as Type#(lf)From #(lf)  cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General G#(lf)    inner join cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_SubBranch sb on G.BranchId = sb.Id and sb.CenterId in (1,3759,12869)#(lf)Where #(lf)  DATE(G.CreateDate) >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH)#(lf)  and DATE(G.CreateDate) BETWEEN DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -1 MONTH) AND CURRENT_DATE() - 1#(lf)  and G.BillTypeId = 7#(lf)  and G.TransCodeId = 1912#(lf)  and G.ReplaceById is null),#(lf)#(lf)CTE_BaoHanh AS (#(lf)Select#(lf)  sb.Name as store_name,#(lf)  Date(G.CreatedDate) as day, #(lf)  G.AutoCode,#(lf)  sb.CenterId,#(lf)  sb.Code,#(lf)  'BaoHanh' as Type#(lf)#(lf)From #(lf)  cellphones-data-platform.cps_cdc_sep_hn_dbo.Care_Service G#(lf)    inner join cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_SubBranch sb on G.BranchId = sb.Id and sb.CenterId in (1,3759,12869)#(lf)Where #(lf)  DATE(G.CreatedDate) BETWEEN DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH) AND CURRENT_DATE() - 1#(lf)  and G.DeleteByName = 'None'#(lf)  and G.IsQuickReception = FALSE#(lf)UNION ALL#(lf)Select#(lf)  sb.Name as store_name,#(lf)  Date(G.CreatedDate) as day, #(lf)  G.AutoCode,#(lf)  sb.CenterId,#(lf)  sb.Code,#(lf)  'BaoHanh' as Type#(lf)From #(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Care_Service G#(lf)    inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch sb on G.BranchId = sb.Id and sb.CenterId in (1,3759,12869)#(lf)Where #(lf)  DATE(G.CreatedDate) BETWEEN DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH) AND CURRENT_DATE() - 1#(lf)  and G.DeleteByName = 'None'#(lf)  and G.IsQuickReception = FALSE),#(lf)#(lf)CTE_NoRowPhone AS(#(lf)SELECT DATE(CreateDate) CreateDate, s.ContactPhone, s.BranchId, COUNT(AutoCode) no_row#(lf)FROM#(lf)  cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction s#(lf)WHERE#(lf)  DATE(CreateDate) >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH)#(lf)  AND IsSales = 1#(lf)  AND IsB2B = 0#(lf)  AND NOT MethodID IN (15, 56, 58, 59)#(lf)  AND AutoCode LIKE 'SP%'#(lf)GROUP BY 1,2,3),#(lf)#(lf)CTE_TiepNhanNhanh AS (#(lf)Select#(lf)  sb.Name as store_name,#(lf)  Date(G.CreatedDate) as day, #(lf)  G.AutoCode,#(lf)  sb.CenterId,#(lf)  sb.Code,#(lf)  'TNN' as Type#(lf)From #(lf)  cellphones-data-platform.cps_cdc_sep_hn_dbo.Care_Service G#(lf)    inner join cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_SubBranch sb on G.BranchId = sb.Id and sb.CenterId in (1,3759,12869)#(lf)    left join CTE_NoRowPhone p on Date(G.CreatedDate) = p.CreateDate and G.Telepphone = p.ContactPhone and G.BranchId = p.BranchId#(lf)#(lf)Where #(lf)  DATE(G.CreatedDate) BETWEEN DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH) AND CURRENT_DATE() - 1#(lf)  and G.DeleteByName = 'None'#(lf)  and G.IsQuickReception = TRUE#(lf)  and p.no_row IS NULL#(lf)UNION ALL#(lf)Select#(lf)  sb.Name as store_name,#(lf)  Date(G.CreatedDate) as day, #(lf)  G.AutoCode,#(lf)  sb.CenterId,#(lf)  sb.Code,#(lf)  'TNN' as Type#(lf)From #(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Care_Service G#(lf)    inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch sb on G.BranchId = sb.Id and sb.CenterId in (1,3759,12869)#(lf)    left join CTE_NoRowPhone p on Date(G.CreatedDate) = p.CreateDate and G.Telepphone = p.ContactPhone and G.BranchId = p.BranchId#(lf)#(lf)Where #(lf)  DATE(G.CreatedDate) BETWEEN DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH) AND CURRENT_DATE() - 1#(lf)  and G.DeleteByName = 'None'#(lf)  and G.IsQuickReception = TRUE#(lf)  and p.no_row IS NULL)#(lf)#(lf)select#(lf)  * from CTE_ThuHo#(lf)union all#(lf)select#(lf)  * from CTE_BaoHanh#(lf)union all#(lf)select#(lf)  * from CTE_TiepNhanNhanh", null, [EnableFolding=true]),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"Code"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns",{{"day", "Date"}, {"store_name", "Shop"}}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Renamed Columns1","CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"Shop"})
+				in
+				    #"Replaced Value1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

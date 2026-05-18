@@ -1,0 +1,53 @@
+table 'Loại trừ CR'
+	lineageTag: 33c253c1-235c-4f69-8219-a162f093e927
+
+	column Ngày
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 48b2a75b-1a01-4a2e-8482-432dbeaae354
+		summarizeBy: none
+		sourceColumn: Ngày
+
+		variation Variation
+			isDefault
+			relationship: d216f88b-923b-4f97-bac9-5b7d9d91234b
+			defaultHierarchy: LocalDateTable_1299f702-4d53-48f8-bed2-de310f675b76.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 7b2f5a5d-214a-42ea-98fb-9cf33489f478
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại trừ'
+		dataType: double
+		lineageTag: caba6524-b0af-4e4d-859c-b5cd96365ff1
+		summarizeBy: sum
+		sourceColumn: Loại trừ
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Loại trừ CR' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTA7nc01TSbED-PsVXqrupk9MvtxCEDnt_NPRfYrr_0Kz0ltAXpMRr-hYmc7F1UaugPp-kKsF_wad_e/pub?output=xlsx"), null, true),
+				    Target_CR_Sheet = Source{[Item="Loại trừ CR",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Target_CR_Sheet, [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"Ngày", "Cửa hàng", "Loại trừ"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"Ngày", type date}, {"Loại trừ", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

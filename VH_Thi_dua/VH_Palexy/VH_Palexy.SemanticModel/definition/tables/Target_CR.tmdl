@@ -1,0 +1,70 @@
+table Target_CR
+	lineageTag: f2011bd2-8834-46c5-90eb-800f58b7bc8f
+
+	column SHOP
+		dataType: string
+		lineageTag: 42e14530-0b30-46e5-98d8-904a8bb2bfe4
+		summarizeBy: none
+		sourceColumn: SHOP
+
+		annotation SummarizationSetBy = Automatic
+
+	column SIZE
+		dataType: string
+		lineageTag: 3b0b3ccc-0b67-4545-bfaf-54ed1bd684b3
+		summarizeBy: none
+		sourceColumn: SIZE
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 0acecb0f-2493-4486-88aa-77ccfcf97e36
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		variation Variation
+			isDefault
+			relationship: 2314e1a8-a252-443a-918d-0109263756bc
+			defaultHierarchy: LocalDateTable_a756f63a-652e-42a0-8550-1d40a06b72d8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Target_CR
+		dataType: double
+		lineageTag: 6ac0513d-4b94-42e5-bc48-2a8e04844574
+		summarizeBy: sum
+		sourceColumn: Target_CR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Store_Month = Target_CR[SHOP]&"-"&FORMAT(Target_CR[StartDate], "yyyy-mm")
+		lineageTag: b714e74b-d7c0-4300-b695-520ba1783c82
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Target_CR = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTA7nc01TSbED-PsVXqrupk9MvtxCEDnt_NPRfYrr_0Kz0ltAXpMRr-hYmc7F1UaugPp-kKsF_wad_e/pub?output=xlsx"), null, true),
+				    Target_CR_Sheet = Source{[Item="Target_CR",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Target_CR_Sheet, [PromoteAllScalars=true]),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Promoted Headers", {"SHOP", "SIZE"}, "Attribute", "Value"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Unpivoted Other Columns",{{"SHOP", type text}, {"SIZE", type text}, {"Attribute", type date}, {"Value", type number}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Attribute", "StartDate"}, {"Value", "Target_CR"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each ([SHOP] <> null)),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"SHOP"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

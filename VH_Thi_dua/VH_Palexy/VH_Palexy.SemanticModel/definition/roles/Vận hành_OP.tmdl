@@ -1,0 +1,14 @@
+role 'Vận hành_OP'
+	modelPermission: read
+
+	tablePermission 'DIM_Danh mục_Ngày' =
+			'DIM_Danh mục_Ngày'[Date]
+			    >= LOOKUPVALUE(
+			        'DIM_Phân quyền_User'[Startdate],
+			        'DIM_Phân quyền_User'[Mail], USERPRINCIPALNAME()
+			    )
+
+	tablePermission 'DIM_Phân quyền_Vận hành' = 'DIM_Phân quyền_Vận hành'[OP]=LOOKUPVALUE('DIM_Phân quyền_User'[Tên],'DIM_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	annotation PBI_Id = 20c7dc5a73724b8db798278a0b1a85cc
+

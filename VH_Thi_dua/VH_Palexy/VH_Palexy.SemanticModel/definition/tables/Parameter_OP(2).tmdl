@@ -1,0 +1,48 @@
+table Parameter_OP(2)
+	lineageTag: f4afaa33-3889-435a-bb06-12e5c6b0ba04
+
+	column Parameter_OP(2)
+		lineageTag: 3ab59aec-380d-4694-bbf6-97ae8c783361
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_OP(2) Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_OP(2) Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_OP(2) Fields'
+		isHidden
+		lineageTag: 9b82eecd-115b-4e46-9a6b-1144a0b3e3d0
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_OP(2) Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_OP(2) Order'
+		isHidden
+		formatString: 0
+		lineageTag: e225381b-e5d1-42b7-b7bd-1ea38b7ec157
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_OP(2) = calculated
+		mode: import
+		source =
+				{
+				    ("Nhóm hàng Palexy", NAMEOF('DIM_Danh mục_Nhóm hàng Palexy'[Nhóm hàng Palexy]), 0),
+				    ("Cửa hàng", NAMEOF('DIM_Danh mục_Kho'[Cửa hàng]), 1)
+				}
+
+	annotation PBI_Id = e9f0fea522f94051915c88bb4110fef9
+

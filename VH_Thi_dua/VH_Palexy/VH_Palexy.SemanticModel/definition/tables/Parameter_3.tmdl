@@ -1,0 +1,48 @@
+table Parameter_3
+	lineageTag: 6bf7bc54-5d95-43f0-9ccd-ca6787728c2f
+
+	column Parameter_3
+		lineageTag: 75f943cf-1aa1-4af1-ab0e-a867f989b80c
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_3 Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_3 Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_3 Fields'
+		isHidden
+		lineageTag: 3b4c3bcc-eff8-4246-9a53-379c3f1c17f6
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_3 Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_3 Order'
+		isHidden
+		formatString: 0
+		lineageTag: ddfa8377-9eb8-4cc9-a4fe-826e42559388
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_3 = calculated
+		mode: import
+		source =
+				{
+				    ("Total Opps_PLX - Theo dõi CR", NAMEOF('Measure'[Total Opps_PLX]), 0),
+				    ("CRbO_PLX - Theo dõi CR", NAMEOF('Measure'[CRbO_PLX]), 1)
+				}
+
+	annotation PBI_Id = 560cff4aa6284d83aefcc273f379f285
+

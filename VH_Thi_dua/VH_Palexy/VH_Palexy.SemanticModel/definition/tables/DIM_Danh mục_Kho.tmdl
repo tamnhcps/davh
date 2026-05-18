@@ -1,0 +1,228 @@
+table 'DIM_Danh mục_Kho'
+	lineageTag: bd9a221f-aea9-4eca-9a8e-3e0b532c6d4b
+
+	column Store_isActive =
+			
+			VAR x_store =
+			    CALCULATE (
+			        COUNTROWS ( FACT_Palexy_Store ),
+			        FILTER (
+			            FACT_Palexy_Store,
+			            FACT_Palexy_Store[store_code]
+			                = EARLIER ( 'DIM_Danh mục_Kho'[Mã kho] )
+			        )
+			    )
+			VAR x_section =
+			    CALCULATE (
+			        COUNTROWS ( FACT_Palexy_Section ),
+			        FILTER (
+			            FACT_Palexy_Section,
+			            FACT_Palexy_Section[store_code]
+			                = EARLIER ( 'DIM_Danh mục_Kho'[Mã kho] )
+			        )
+			    )
+			RETURN
+			    IF (
+			        OR (
+			            x_store > 0,
+			            x_section > 0
+			        ),
+			        1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: 290190f5-1051-443b-b3cb-e86bd9596bd2
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã kho'
+		dataType: string
+		lineageTag: 3149b931-d806-426e-9fc3-79a37ce2e9c6
+		summarizeBy: none
+		sourceColumn: Mã kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column ten_kho
+		dataType: string
+		lineageTag: ddfa739e-1f3c-418e-8117-d9ae1d40a14b
+		summarizeBy: none
+		sourceColumn: ten_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column dia_chi_kho
+		dataType: string
+		lineageTag: 9fdab039-13a6-4f37-82e9-b24e33a21fa1
+		summarizeBy: none
+		sourceColumn: dia_chi_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column kho_phan_tich
+		dataType: string
+		lineageTag: 5a1ab95b-7809-4dae-90c6-e2947639576f
+		summarizeBy: none
+		sourceColumn: kho_phan_tich
+
+		annotation SummarizationSetBy = Automatic
+
+	column loai_kho
+		dataType: string
+		lineageTag: b71b7fb5-d0de-4f72-aeee-4ed0d3100ead
+		summarizeBy: none
+		sourceColumn: loai_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9a76f827-b111-44e6-8253-0b23befc666e
+		summarizeBy: none
+		sourceColumn: is_inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column cong_ty
+		dataType: string
+		lineageTag: b71b8a34-6408-4d8a-bb77-dbd12893ad5d
+		summarizeBy: none
+		sourceColumn: cong_ty
+
+		annotation SummarizationSetBy = Automatic
+
+	column mien
+		dataType: string
+		lineageTag: fb17d0d5-d46c-4f2d-b863-f10d3df5fdaf
+		summarizeBy: none
+		sourceColumn: mien
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: b8ff2157-6bfc-42e3-bd35-4daa7544a8f6
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column phan_loai_kho
+		dataType: string
+		lineageTag: 08c50624-3784-4d0c-a2e4-40545703485e
+		summarizeBy: none
+		sourceColumn: phan_loai_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column muc_dich_quan_ly
+		dataType: string
+		lineageTag: 319144fa-0269-4529-bb75-a53b83567897
+		summarizeBy: none
+		sourceColumn: muc_dich_quan_ly
+
+		annotation SummarizationSetBy = Automatic
+
+	column run_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: c351b962-43ee-4fee-8cde-32089fd2f623
+		summarizeBy: none
+		sourceColumn: run_date
+
+		variation Variation
+			isDefault
+			relationship: 5343c2f9-bf7f-455a-8715-29fc9514000a
+			defaultHierarchy: LocalDateTable_6d3c65f0-2056-43c3-80fc-e74e71e192b8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column phuong_xa
+		dataType: string
+		lineageTag: ed794389-3aba-49cc-94a0-3a81ae1f1bf7
+		summarizeBy: none
+		sourceColumn: phuong_xa
+
+		annotation SummarizationSetBy = Automatic
+
+	column quan_huyen
+		dataType: string
+		lineageTag: 17d01382-7776-4eaf-b5d0-ca5ec88849eb
+		summarizeBy: none
+		sourceColumn: quan_huyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column tinh_thanh
+		dataType: string
+		lineageTag: 4664dadf-42e5-4e43-a4d0-44702740c224
+		summarizeBy: none
+		sourceColumn: tinh_thanh
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchID
+		dataType: int64
+		formatString: 0
+		lineageTag: 756ed1e6-f1ee-45b7-9f6b-621749d448b4
+		summarizeBy: count
+		sourceColumn: BranchID
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchName
+		dataType: string
+		lineageTag: 10c7a1de-5a3c-4c15-afee-3fa8d16388f0
+		summarizeBy: none
+		sourceColumn: BranchName
+
+		annotation SummarizationSetBy = Automatic
+
+	column lat
+		dataType: string
+		lineageTag: b23e7145-c6c0-4c9a-90f2-4b01d06f01d6
+		summarizeBy: none
+		sourceColumn: lat
+
+		annotation SummarizationSetBy = Automatic
+
+	column long
+		dataType: string
+		lineageTag: bd0bd638-a2ce-4627-ae98-8a79fb9b09be
+		summarizeBy: none
+		sourceColumn: long
+
+		annotation SummarizationSetBy = Automatic
+
+	column open_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 95ba045a-fdf4-4cd0-bded-6124b7135c33
+		summarizeBy: none
+		sourceColumn: open_date
+
+		variation Variation
+			isDefault
+			relationship: 20bdc543-b1d5-42a3-bc46-67f0eff63a10
+			defaultHierarchy: LocalDateTable_4ac01ee2-6ecd-4edf-8507-6d6ac40def93.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Kho-ddcd4dfc-ee8c-4e11-bbde-389e92867523' = m
+		mode: import
+		queryGroup: 'DIM\Phòng ban'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=42baee31-9dab-48af-b317-d89f4f8011db""#(lf)select *#(lf)from cellphones-data-platform.cps_DA_General_Transform.dim_storage", null, [EnableFolding=true]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ma_kho", "Mã kho"}, {"cua_hang", "Cửa hàng"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

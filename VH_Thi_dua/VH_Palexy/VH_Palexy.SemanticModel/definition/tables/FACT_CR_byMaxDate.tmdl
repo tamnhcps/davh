@@ -1,0 +1,77 @@
+table FACT_CR_byMaxDate
+	lineageTag: debb4984-1bff-4078-bff9-7f687c9c1ba5
+
+	column 'Bộ phận'
+		lineageTag: 828ce739-2731-476e-b005-a57f600bd738
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Phòng ban[Bộ phận]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		formatString: General Date
+		lineageTag: d3611c6e-1868-4307-b521-4887c28a1920
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 3a6cee37-4935-4d3f-9563-93e64f07e839
+			defaultHierarchy: LocalDateTable_485ec9da-d475-4bbe-97f0-c97357ad28f2.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column CR
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ec9bf6a1-95b0-4833-abe5-2ef4906c5c2f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [CR]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target CR'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 30317bc4-1e91-4207-b9fd-3a6abc435ad3
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Target CR]
+
+		annotation SummarizationSetBy = Automatic
+
+	column '%Target CR'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b378abdd-0f3b-4642-ab51-ea95d88e5085
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [%Target CR]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_CR_byMaxDate = calculated
+		mode: import
+		source = ```
+				
+				VAR _MaxActiveDate =
+				    CALCULATE (
+				        MAX ( 'DIM_Danh mục_Ngày'[Date] ),
+				        FILTER ( 'DIM_Danh mục_Ngày', 'DIM_Danh mục_Ngày'[Ngày_isActive] = 1 )
+				    )
+				RETURN
+				ADDCOLUMNS (
+				    SUMMARIZE (
+				        FILTER ( 'DIM_Danh mục_Phòng ban', 'DIM_Danh mục_Phòng ban'[AM] <> BLANK() ),
+				        'DIM_Danh mục_Phòng ban'[Bộ phận]
+				    ),
+				    "Date", _MaxActiveDate,
+				    "CR", CALCULATE ( [Store_Conversion by Opportunities], 'DIM_Danh mục_Ngày'[Date] = _MaxActiveDate ),
+				    "Target CR", CALCULATE ( [Store_Target_CR], 'DIM_Danh mục_Ngày'[Date] = _MaxActiveDate ),
+				    "%Target CR", CALCULATE ( DIVIDE([Store_Conversion by Opportunities],[Store_Target_CR],BLANK()), 'DIM_Danh mục_Ngày'[Date] = _MaxActiveDate )
+				)
+				
+				```
+
+	annotation PBI_Id = 65e35450eaeb4de090569bbe37236020
+

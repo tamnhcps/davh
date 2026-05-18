@@ -1,0 +1,58 @@
+table Parameter_Compare
+	lineageTag: 0cd30e63-ec9f-4f1c-9c23-90cb427417a5
+
+	column Parameter_Compare
+		lineageTag: 28aa4f20-f3ef-4dff-9ddc-0a8baaf4e3c5
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Compare Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Compare Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Compare Fields'
+		isHidden
+		lineageTag: d18a9792-2bee-4cff-b297-8df830a65b69
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Compare Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Compare Order'
+		isHidden
+		formatString: 0
+		lineageTag: 25e825a8-f13c-476a-a494-5ffd997554eb
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Compare = calculated
+		mode: import
+		source =
+				{
+				    ("CRbyO_LD", NAMEOF('Measure'[Compare_CRbyO_LD]), 0),
+				    ("CRbyO_LM", NAMEOF('Measure'[Compare_CRbyO_LM]), 8),
+				    ("CRbyO_LW", NAMEOF('Measure'[Compare_CRbyO_LW]), 4),
+				    ("Total Opportunities_LD", NAMEOF('Measure'[Compare_Total Opportunities_LD]), 1),
+				    ("Total Opportunities_LM", NAMEOF('Measure'[Compare_Total Opportunities_LM]), 9),
+				    ("Total Opportunities_LW", NAMEOF('Measure'[Compare_Total Opportunities_LW]), 5),
+				    ("Total visit_LD", NAMEOF('Measure'[Compare_Total visit_LD]), 2),
+				    ("Total visit_LM", NAMEOF('Measure'[Compare_Total visit_LM]), 10),
+				    ("Total visit_LW", NAMEOF('Measure'[Compare_Total visit_LW]), 6),
+				    ("Transaction_LD", NAMEOF('Measure'[Compare_Transaction_LD]), 3),
+				    ("Transaction_LM", NAMEOF('Measure'[Compare_Transaction_LM]), 11),
+				    ("Transaction_LW", NAMEOF('Measure'[Compare_Transaction_LW]), 7)
+				}
+
+	annotation PBI_Id = 4ccdfe0454104b39bdd6cb1ea3c845d6
+

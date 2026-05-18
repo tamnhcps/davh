@@ -1,0 +1,71 @@
+table 'DIM_Danh mục_Báo cáo'
+	lineageTag: e0d87316-06ee-488b-989d-dc6f8738723c
+
+	column Date
+		lineageTag: e6944850-54c2-41b6-a2fb-57713b1ef7c5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Ngày[Date]
+		sortByColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		formatString: 0
+		lineageTag: d6f800c9-b244-4654-b547-9d9579f36632
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Ngày[Index]
+
+		annotation SummarizationSetBy = Automatic
+
+	column yearMonth
+		lineageTag: 115059dc-0660-46c6-8950-b7eb84bfa0c5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Ngày[yearMonth]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_real = ```
+			
+			SWITCH( TRUE(),
+			    'DIM_Danh mục_Báo cáo'[Date] IN {"CR tháng","Số ngày không đạt liên tiếp","Traffic tháng"}, BLANK(), 
+			    DATEVALUE('DIM_Danh mục_Báo cáo'[Date])
+			)
+			```
+		formatString: Short Date
+		lineageTag: cdde2ab8-96c3-4e23-a52c-62e11f7646d8
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: ab2eb42c-a0f3-4584-ac18-1a060158b46e
+			defaultHierarchy: LocalDateTable_f78bc07b-87a2-4a1b-ad21-3264754a9420.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Báo cáo' = calculated
+		mode: import
+		source = ```
+				
+				UNION(
+				    SUMMARIZE(
+				        'DIM_Danh mục_Ngày',
+				        'DIM_Danh mục_Ngày'[Date],
+				        'DIM_Danh mục_Ngày'[Index],
+				        'DIM_Danh mục_Ngày'[yearMonth]
+				    ),
+				    CROSSJOIN(
+				    DATATABLE(
+				        "Metric",STRING,
+				        "Index", INTEGER, 
+				        {{"CR Tháng",1},{"Số ngày không đạt liên tiếp",2},{"Traffic Tháng",3}}
+				    ),
+				    DISTINCT('DIM_Danh mục_Ngày'[yearMonth])
+				    )
+				)
+				```
+
+	annotation PBI_Id = dbae379da04a44429867a6b6cad195fc
+

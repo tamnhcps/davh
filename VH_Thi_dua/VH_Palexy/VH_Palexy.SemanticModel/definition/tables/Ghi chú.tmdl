@@ -1,0 +1,32 @@
+table 'Ghi chú'
+	lineageTag: 156e26ff-384b-413b-a23b-1b6ddaa5bc6f
+
+	column 'Hạng mục loại trừ'
+		dataType: string
+		lineageTag: 89e5ddbb-8fce-4727-947b-cbdfbb4df32e
+		summarizeBy: none
+		sourceColumn: Hạng mục loại trừ
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cơ chế'
+		dataType: string
+		lineageTag: 8fac1914-0b77-42ce-af8b-7ac35bcbeaef
+		summarizeBy: none
+		sourceColumn: Cơ chế
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ghi chú' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("fU89CsIwFL7KI7NIvIeDg1vpUDM0QZqUNh16AnHs6NbgICJOOiWDQ7zIu4mvKEJROj34/l+SsLVEH0DE3rAZWxr0ToGtMFwIcwJKqdA/GthEp0FIDHvCb1CjP2oi0Z8LsN8IKDDstIRcRQd2CFlwPuecPzvYynjXOXmis1ArUlUZ5YRu3DFKJo8TLJ3RzEFSgib8qulkWk7utb/6PwtGzbYyxOo89u27UjZADx+mez4iEBhOGayy1hiWpi8=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Hạng mục loại trừ" = _t, #"Cơ chế" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Hạng mục loại trừ", type text}, {"Cơ chế", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
