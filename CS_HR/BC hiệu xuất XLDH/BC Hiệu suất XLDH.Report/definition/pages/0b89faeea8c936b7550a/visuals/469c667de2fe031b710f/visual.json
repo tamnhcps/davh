@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "97aa0c58fec4e4dda688",
+  "name": "469c667de2fe031b710f",
   "position": {
     "x": 0,
-    "y": 682.5,
-    "z": 12000,
+    "y": 190,
+    "z": 4000,
     "height": 73.75,
-    "width": 193.75,
-    "tabOrder": 0
+    "width": 221.25,
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FACT_Đơn hàng"
+                      "Entity": "DIM_Danh mục_Ngày"
                     }
                   },
-                  "Property": "Mã SP"
+                  "Property": "NămTháng"
                 }
               },
-              "queryRef": "FACT_Đơn hàng.Mã SP",
-              "nativeQueryRef": "Mã SP",
+              "queryRef": "DIM_Danh mục_Ngày.NămTháng",
+              "nativeQueryRef": "NămTháng",
               "active": true
             }
           ]
@@ -142,15 +142,7 @@
       ],
       "general": [
         {
-          "properties": {
-            "selfFilterEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
+          "properties": {}
         }
       ],
       "header": [
@@ -184,14 +176,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Mã đơn SP'"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
+                  "Value": "'Năm tháng'"
                 }
               }
             }
@@ -245,19 +230,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "title": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
                 }
               }
             }

@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "97aa0c58fec4e4dda688",
+  "name": "2eaa7f6533a176d8df6b",
   "position": {
     "x": 0,
-    "y": 682.5,
-    "z": 12000,
+    "y": 391.25,
+    "z": 2000,
     "height": 73.75,
-    "width": 193.75,
-    "tabOrder": 0
+    "width": 221.25,
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "slicer",
@@ -23,12 +23,13 @@
                       "Entity": "FACT_Đơn hàng"
                     }
                   },
-                  "Property": "Mã SP"
+                  "Property": "OrderState"
                 }
               },
-              "queryRef": "FACT_Đơn hàng.Mã SP",
-              "nativeQueryRef": "Mã SP",
-              "active": true
+              "queryRef": "FACT_Đơn hàng.OrderState",
+              "nativeQueryRef": "Trạng thái đơn",
+              "active": true,
+              "displayName": "Trạng thái đơn"
             }
           ]
         }
@@ -142,15 +143,7 @@
       ],
       "general": [
         {
-          "properties": {
-            "selfFilterEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
+          "properties": {}
         }
       ],
       "header": [
@@ -184,14 +177,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Mã đơn SP'"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
+                  "Value": "'Trạng thái đơn'"
                 }
               }
             }
@@ -245,19 +231,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "title": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
                 }
               }
             }

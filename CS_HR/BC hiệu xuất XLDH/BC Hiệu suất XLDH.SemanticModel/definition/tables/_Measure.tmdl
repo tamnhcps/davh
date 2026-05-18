@@ -221,6 +221,32 @@ table _Measure
 		displayFolder: Chỉ số
 		lineageTag: 2545bc2b-3fcc-4868-a844-faa456205732
 
+	measure '0. Số cuộc gọi_inbound' =
+			
+			CALCULATE (
+			    [0. Số cuộc gọi],
+			    FILTER (
+			        FACT_XLDH_CDR,
+			        FACT_XLDH_CDR[TypeS] = "Incoming"
+			    )
+			)
+		formatString: 0
+		displayFolder: Cuộc gọi
+		lineageTag: 97f1a58e-aefa-4b15-ade4-f8da2b286202
+
+	measure '0. Số cuộc gọi_outbound' =
+			
+			CALCULATE (
+			    [0. Số cuộc gọi],
+			    FILTER (
+			        FACT_XLDH_CDR,
+			        FACT_XLDH_CDR[TypeS] = "Outgoing"
+			    )
+			)
+		formatString: 0
+		displayFolder: Cuộc gọi
+		lineageTag: 817d3935-fca7-4fbe-ba4a-70b4d414060a
+
 	column Column
 		isHidden
 		formatString: 0

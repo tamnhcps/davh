@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
-  "name": "97aa0c58fec4e4dda688",
+  "name": "022170ec0df7a3780aeb",
   "position": {
     "x": 0,
-    "y": 682.5,
-    "z": 12000,
+    "y": 92.5,
+    "z": 1000,
     "height": 73.75,
-    "width": 193.75,
-    "tabOrder": 0
+    "width": 221.25,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "slicer",
@@ -20,20 +20,35 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FACT_Đơn hàng"
+                      "Entity": "DIM_Danh mục_Ngày"
                     }
                   },
-                  "Property": "Mã SP"
+                  "Property": "Ngày"
                 }
               },
-              "queryRef": "FACT_Đơn hàng.Mã SP",
-              "nativeQueryRef": "Mã SP",
+              "queryRef": "DIM_Danh mục_Ngày.Ngày",
+              "nativeQueryRef": "Ngày",
               "active": true
             }
           ]
         }
       },
       "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DIM_Danh mục_Ngày"
+                  }
+                },
+                "Property": "Ngày"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
         "isDefaultSort": true
       }
     },
@@ -44,14 +59,7 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dropdown'"
-                }
-              }
-            },
-            "startDate": {
-              "expr": {
-                "Literal": {
-                  "Value": "datetime'2026-01-01T00:00:00'"
+                  "Value": "'Between'"
                 }
               }
             }
@@ -142,15 +150,7 @@
       ],
       "general": [
         {
-          "properties": {
-            "selfFilterEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
+          "properties": {}
         }
       ],
       "header": [
@@ -184,14 +184,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Mã đơn SP'"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
+                  "Value": "'Ngày'"
                 }
               }
             }
@@ -245,19 +238,6 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "title": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
                 }
               }
             }

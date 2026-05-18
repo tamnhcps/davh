@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
-  "name": "89205a12ba6c0d00dde8",
-  "displayName": "HIỆU SUẤT BÁN HÀNG",
+  "name": "0b89faeea8c936b7550a",
+  "displayName": "CHI TIẾT ĐƠN HÀNG",
   "displayOption": "ActualSize",
   "height": 930,
   "width": 1350,
@@ -22,13 +22,13 @@
   },
   "visualInteractions": [
     {
-      "source": "4cdfc54778002e454086",
-      "target": "1d62ceb9cb2c190099bc",
+      "source": "469c667de2fe031b710f",
+      "target": "022170ec0df7a3780aeb",
       "type": "DataFilter"
     },
     {
-      "source": "36acb5e6dd920cc4c55a",
-      "target": "1d62ceb9cb2c190099bc",
+      "source": "2e83d55eff4b0c56133e",
+      "target": "022170ec0df7a3780aeb",
       "type": "DataFilter"
     }
   ]

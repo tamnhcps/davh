@@ -13,7 +13,7 @@ table DIM_LINE_XLDH
 		dataType: int64
 		formatString: 0
 		lineageTag: c4d73c10-5265-4350-8672-27b1bd72ec04
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Line
 
 		annotation SummarizationSetBy = Automatic

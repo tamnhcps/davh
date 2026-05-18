@@ -1,0 +1,49 @@
+table Parameter_time
+	lineageTag: 2ebefbbe-a734-4138-82a4-b3590c4a8a14
+
+	column Parameter
+		lineageTag: 287c5f49-4b51-4446-8e5b-94ac07ab4c8c
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 697db3f3-cd82-4f35-87aa-31312288f59e
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: deb9ae67-0621-4f02-aea0-a4ffea9934d9
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_time = calculated
+		mode: import
+		source =
+				{
+				    ("Tháng", NAMEOF('DIM_Danh mục_Ngày'[NămTháng]), 0),
+				    ("Tuần", NAMEOF('DIM_Danh mục_Ngày'[Năm_Tuần]), 1),
+				    ("Ngày", NAMEOF('DIM_Danh mục_Ngày'[Ngày]), 2)
+				}
+
+	annotation PBI_Id = ef555c4ebcdf48b78d6539629256623c
+

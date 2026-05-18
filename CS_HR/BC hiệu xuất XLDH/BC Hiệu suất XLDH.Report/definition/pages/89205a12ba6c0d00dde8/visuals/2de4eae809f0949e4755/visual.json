@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "2de4eae809f0949e4755",
   "position": {
-    "x": 652.857142857143,
-    "y": 284.28571428571428,
+    "x": 652.5,
+    "y": 283.75,
     "z": 8000,
-    "height": 381.42857142857144,
-    "width": 324.28571428571433,
+    "height": 345,
+    "width": 325,
     "tabOrder": 8000
   },
   "visual": {
@@ -324,37 +324,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "a9ab52d9ce70d31787a1",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "DIM_Nhân viên"
-              }
-            },
-            "Property": "Tên nhân viên"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "ed111cf201b69c1bd4bc",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Measure"
-              }
-            },
-            "Property": "Doanh số thành công"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

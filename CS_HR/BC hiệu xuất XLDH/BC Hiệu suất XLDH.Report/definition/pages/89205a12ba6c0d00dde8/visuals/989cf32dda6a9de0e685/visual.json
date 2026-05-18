@@ -500,23 +500,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "287db127dd9955dba49e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Parameter chỉ số"
-              }
-            },
-            "Property": "Parameter chỉ số"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }
