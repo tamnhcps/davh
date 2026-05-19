@@ -1,0 +1,44 @@
+table D_Status_Driver
+	excludeFromModelRefresh
+	lineageTag: 7a1933a0-0201-4753-8aad-96554ed673dd
+
+	column 'Trạng thái phiếu SP'
+		dataType: string
+		lineageTag: 405a9440-0ca6-42c4-8e58-48294c47da8d
+		summarizeBy: none
+		sourceColumn: Trạng thái phiếu SP
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tình trạng đơn'
+		dataType: string
+		lineageTag: 2cbf9c85-39a2-4251-9882-2e830209da3a
+		summarizeBy: none
+		sourceColumn: Tình trạng đơn
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusId
+		dataType: string
+		lineageTag: 9c36e267-9b55-441f-acb5-d00e47ba9a7b
+		summarizeBy: none
+		sourceColumn: StatusId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Status_Driver = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcs44tiFRISP/8II8hZKHu5aWKOkoHZmQmJeukJ6ZmK8Uq4Ndie/D3bMzQbyFuNWEZDzctVghAyiUrpAMlq84vDBZIQ8ovDaPKF1HJh5ejKHJA0U5Mg8s+3D38kqI23WQOFAHQKwCG45XNdhiYhVnZ0A1QByJS0fI4QWZChUPd+0Hunb3aqCDHu6emImmJxYA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Trạng thái phiếu SP" = _t, #"Tình trạng đơn" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Trạng thái phiếu SP", type text}, {"Tình trạng đơn", type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "StatusId", each [Trạng thái phiếu SP] & "-" & [Tình trạng đơn]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"StatusId", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

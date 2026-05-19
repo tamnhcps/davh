@@ -1,0 +1,43 @@
+table 'DIM_Danh mục_Trạng thái Đơn hàng'
+	excludeFromModelRefresh
+	lineageTag: 52bac3ea-a542-4ce7-afb5-3d2d056f58fe
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 675b95c1-d3dc-42c7-b5f1-34e4a664a4a9
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderState
+		dataType: string
+		lineageTag: bcd733db-ce07-40e6-8835-a12956b48b63
+		summarizeBy: none
+		sourceColumn: OrderState
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChasedState
+		dataType: string
+		lineageTag: 7eaf5508-e525-40ff-805d-5ae9162ffaa6
+		summarizeBy: none
+		sourceColumn: ChasedState
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Trạng thái Đơn hàng' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUQrJOLwgL0Mh+fCWvHR0bqxOtJIRWPDhrqUlCkkPdy3MBHI9Hu5eXqlwZOKxhXlgJcZAMeeMh7vnKlQ83L1WIefwXkwBkDoTTKOOTDi8WCE5o7Ty4e7mPKCRD3dPzVSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, OrderState = _t, ChasedState = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,130 @@
+table F_Transfer
+	lineageTag: 2c116821-16e2-45d6-9481-6ac9847f52b8
+
+	column 'Số phiếu'
+		lineageTag: 49268f22-2309-425c-912c-2cbc471a6528
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F_Logistics[Số phiếu]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập phiếu'
+		formatString: General Date
+		lineageTag: f69a4e0a-ec1a-48b7-8225-21832732571c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F_Logistics[Ngày lập phiếu]
+
+		variation Variation
+			isDefault
+			relationship: e365aa80-7922-4519-a1a4-f4c13cc8e222
+			defaultHierarchy: LocalDateTable_ee8f21a5-d7cc-42ac-b362-3d16edeb16dd.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian hoàn tất' =
+			
+			CALCULATE(
+			    MAX('F_Logistics'[Thời gian hoàn tất]),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Số phiếu] = EARLIER('F_Transfer'[Số phiếu]) &&
+			        'F_Logistics'[Ngày lập phiếu] = EARLIER('F_Transfer'[Ngày lập phiếu])
+			    )
+			)
+		formatString: General Date
+		lineageTag: 1796eeb1-84c4-4000-8bab-dab7376b3992
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: d68adc22-a220-4faa-a255-c7fc36517a4c
+			defaultHierarchy: LocalDateTable_1add7735-e27b-4ea9-a180-81d3c8325108.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian hoàn tất phiếu' = ```
+			
+			-- Khai báo biến
+			-- Tổng thời gian xử lý
+			VAR starts = 'F_Transfer'[Ngày lập phiếu]
+			VAR ends = 'F_Transfer'[Thời gian hoàn tất]
+			VAR tongthoigianxuly = ends - starts -- Thời gian ngoài giờ làm việc (không ghi nhận)
+			// VAR sogiotrongngay = [Số giờ trong ngày]
+			VAR gioxulythucte =
+			    MAX ( tongthoigianxuly, 0 )
+			VAR gioxulythucte_h = gioxulythucte 
+			// * sogiotrongngay
+			RETURN
+			    IF ( starts = BLANK () || ends = BLANK (), BLANK (), gioxulythucte_h )
+			```
+		lineageTag: 86853187-0afa-4cf8-a9bb-6d4f9c54f7dd
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Nhận lần đầu lúc' =
+			
+			CALCULATE(
+			    MIN('F_Logistics'[Nhận lúc]),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Số phiếu] = EARLIER('F_Transfer'[Số phiếu]) &&
+			        'F_Logistics'[Ngày lập phiếu] = EARLIER('F_Transfer'[Ngày lập phiếu])
+			    )
+			)
+		formatString: General Date
+		lineageTag: 8804265b-948a-4e5f-9e07-94e96a704004
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 0208fea8-1e28-4072-81bb-22a4e6bfe05d
+			defaultHierarchy: LocalDateTable_01e6f8fd-eaec-42d1-b5f5-5a3969b3f187.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian đi đường' = ```
+			
+			-- Khai báo biến
+			-- Tổng thời gian xử lý
+			VAR starts = 'F_Transfer'[Nhận lần đầu lúc]
+			VAR ends = 'F_Transfer'[Thời gian hoàn tất]
+			VAR tongthoigianxuly = ends - starts -- Thời gian ngoài giờ làm việc (không ghi nhận)
+			// VAR sogiotrongngay = [Số giờ trong ngày]
+			VAR gioxulythucte =
+			    MAX ( tongthoigianxuly, 0 )
+			VAR gioxulythucte_h = gioxulythucte 
+			// * sogiotrongngay
+			RETURN
+			    IF ( starts = BLANK () || ends = BLANK (), BLANK (), gioxulythucte_h )
+			```
+		lineageTag: d2338a89-872b-441f-9501-1cad79e0a4d3
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition F_Transfer = calculated
+		mode: import
+		source = ```
+				
+				SUMMARIZE(
+				    FILTER(
+				        'F_Logistics',
+				        'F_Logistics'[Tính chất phiếu giao] = "DC"
+				            && 'F_Logistics'[Tình trạng đơn] = "Hoàn tất" 
+				            && 'F_Logistics'[Ngày lập phiếu] >= DATE(YEAR(TODAY()), MONTH(TODAY()) - 7, 1)
+				    ),
+				    'F_Logistics'[Số phiếu],
+				    'F_Logistics'[Ngày lập phiếu]
+				)
+				
+				```
+
+	annotation PBI_Id = 8cb1b721227c44c98dbe47a2d141180c
+

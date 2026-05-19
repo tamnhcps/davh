@@ -1,0 +1,50 @@
+table Parameter_Value_PO
+	lineageTag: e3ef0c20-60e8-4c25-aaf8-b6f1b5dd4ae2
+
+	column Parameter
+		lineageTag: 8121bb85-7345-434f-a728-8f15b42b034b
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: e40e0f96-4ecd-4b5c-acda-014cb20f9faf
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: a4499d7c-fc09-420a-9934-b8d78097882f
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Value_PO = calculated
+		mode: import
+		source =
+				{
+				    ("Slg Nhập", NAMEOF('Measure'[Slg Nhập]), 0),
+				    ("% Slg Nhập LM", NAMEOF('Measure'[% Slg Nhập LM]), 1),
+				    ("Slg Chuyển", NAMEOF('Measure'[Slg Chuyển]), 2),
+				    ("% Slg Chuyển LM", NAMEOF('Measure'[% Slg Chuyển LM]), 3)
+				}
+
+	annotation PBI_Id = 04a0e5489ec44dce8ad3469ab872a6db
+

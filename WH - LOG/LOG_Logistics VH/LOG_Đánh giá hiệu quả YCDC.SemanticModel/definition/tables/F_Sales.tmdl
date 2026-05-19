@@ -1,0 +1,91 @@
+table F_Sales
+	lineageTag: f81afda2-98d8-4650-8075-1185720c3f18
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: fa3ec5b2-c3c4-4ce1-b178-19f1bd66cab5
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Miền
+		dataType: string
+		lineageTag: 4aaea215-a32c-40d6-abcf-f8b84a5ab6a2
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreCode
+		dataType: string
+		lineageTag: 713e5424-ab64-43e3-92f1-fd292c27895d
+		summarizeBy: none
+		sourceColumn: StoreCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân quyền_Kinh doanh'
+		dataType: string
+		lineageTag: 254a68c3-a8cd-4e26-b5fe-f64e82358364
+		summarizeBy: none
+		sourceColumn: Phân quyền_Kinh doanh
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân quyền_Vận hành'
+		dataType: string
+		lineageTag: 0fca5391-dba5-42ed-94c0-8b04ac8e9d29
+		summarizeBy: none
+		sourceColumn: Phân quyền_Vận hành
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCode
+		dataType: string
+		lineageTag: 43bf4c4e-4fdd-422f-a76b-182a1f0c3046
+		summarizeBy: none
+		sourceColumn: ProductCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SL
+		dataType: double
+		lineageTag: ca63eabe-cd44-4a09-9755-0bf2be223a9e
+		summarizeBy: sum
+		sourceColumn: SL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6637ff5b-66b3-4ae2-8f76-059a8c79b5d8
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		variation Variation
+			isDefault
+			relationship: f49e1918-b98a-4bf8-a7bd-570457fbfcc0
+			defaultHierarchy: LocalDateTable_36314d29-8263-421c-8f42-fae3ac560a1d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Sales = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)-- SO#(lf)select#(lf)  s.CreateDate#(lf)  ,s.Date#(lf)  ,if( s.Region = 'HCM', 'Miền Nam', 'Miền Bắc') `Miền`#(lf)  ,s.StoreCode#(lf)  ,CONCAT(UPPER(s.DMC3), ""-"", if( s.Region = 'HCM', 'Miền Nam', 'Miền Bắc')) `Phân quyền_Kinh doanh`#(lf)  ,s.StoreCode `Phân quyền_Vận hành`#(lf)  ,s.ProductCode#(lf)  ,sum( s.quantity ) `SL`#(lf)from#(lf)  `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` s#(lf)#(lf)where#(lf)  1 = 1#(lf)  and s.IsSales = 1#(lf)  and DATE(s.CreateDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 7 MONTH), MONTH) --DATE_SUB(CURRENT_DATE(), INTERVAL 70 DAY)#(lf)  and date( s.CreateDate ) < date( current_date(""Asia/Ho_Chi_Minh"") )#(lf)  and NOT s.MethodId IN (27, 3, 91) -- ('Nhập đổi', 'Nhập trả', 'Nhập trả dịch vụ')#(lf)#(lf)group by#(lf)  s.CreateDate#(lf)  ,s.Date#(lf)  ,s.Region#(lf)  ,s.DMC3#(lf)  ,s.StoreCode#(lf)  ,s.ProductCode", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

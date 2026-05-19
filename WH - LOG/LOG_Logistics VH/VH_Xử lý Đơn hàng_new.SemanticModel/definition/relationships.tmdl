@@ -1,0 +1,147 @@
+relationship AutoDetected_8792417b-ec6a-4678-8911-725cd3aed05c
+	fromColumn: 'DIM_Danh mục_Sản phẩm'.'Nhóm hàng'
+	toColumn: 'DIM_Danh mục_Nhóm hàng'.'Nhóm hàng'
+
+relationship AutoDetected_3f7aed31-3017-4b02-8695-7f36bfbc712d
+	isActive: false
+	fromColumn: 'DIM_Danh mục_Kho'.Miền
+	toColumn: 'DIM_Danh mục_Miền'.Miền
+
+relationship AutoDetected_1dc61eb5-aae5-4da8-a87a-46aef2ff7f43
+	fromColumn: 'DIM_Danh mục_Phòng ban'.Miền
+	toColumn: 'DIM_Danh mục_Miền'.Miền
+
+relationship 246d296e-5ff0-a227-358d-3113f8eee485
+	fromColumn: 'DIM_Danh mục_Kho'.'Cửa hàng'
+	toColumn: 'DIM_Danh mục_Phòng ban'.'Cửa hàng'
+
+relationship 2edf2b2e-8652-7342-a6ae-fac600f1f9fb
+	fromColumn: 'FACT_DS Online'.Date
+	toColumn: 'DIM_Danh mục_Ngày'.Date
+
+relationship 0474e73e-368b-eec1-ea1a-8559057c5de7
+	fromColumn: 'FACT_DS Đơn hàng'.StoreCode
+	toColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+
+relationship f09301db-bcd5-d9ae-5ed7-c4ca6bfbc1d9
+	fromColumn: 'FACT_DS Online'.'Mã kho'
+	toColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+
+relationship ca0869ea-051c-bde6-24d6-53f708e39c2b
+	fromColumn: 'FACT_DS Đơn hàng'.Date
+	toColumn: 'DIM_Danh mục_Ngày'.Date
+
+relationship 1844b1e3-86aa-e6f4-52c2-1d18c64c724e
+	fromColumn: 'FACT_DS Đơn hàng'.MaHang
+	toColumn: 'DIM_Danh mục_Sản phẩm'.'Mã hàng'
+
+relationship 7c8626b5-356a-9d19-8032-0a5e568d84db
+	fromColumn: 'FACT_DS Đơn hàng'.MNV_NguoiLap
+	toColumn: 'DIM_Danh mục_Nhân viên'.'Mã nhân viên'
+
+relationship AutoDetected_0dc37f70-c592-4057-a18e-d47fb7c7eda3
+	isActive: false
+	fromColumn: 'FACT_DS Đơn hàng'.Region
+	toColumn: 'DIM_Danh mục_Miền'.Region
+
+relationship 64176815-b1e2-def3-a775-d8410cd533c9
+	fromColumn: 'FACT_DS Đơn hàng'.StatusPayment
+	toColumn: 'DIM_Danh mục_Trạng thái Thanh toán'.StatusPayment
+
+relationship 4563c98e-ae40-6a30-fc6e-a0dbad1dcc5e
+	fromColumn: 'FACT_DS Đơn hàng'.OrderSource
+	toColumn: 'DIM_Danh mục_Nguồn đơn hàng'.OrderSource
+
+relationship ef531cd2-f97d-c50b-e82a-26ca39f22b10
+	fromColumn: 'FACT_DS Đơn hàng'.ChasedState
+	toColumn: 'DIM_Danh mục_Trạng thái Đơn hàng'.ChasedState
+
+relationship 10351b24-1d8f-84f3-ceba-1b1e0164dff2
+	fromColumn: 'FACT_DS Đơn hàng'.LyDoHuyDon
+	toColumn: 'DIM_Danh mục_Lý do Hủy đơn'.CancelReason
+
+relationship b1fd9da9-73cc-2d8d-8de6-ef8f287acd46
+	fromColumn: 'FACT_DS Online'.CancelByCode
+	toColumn: 'DIM_Danh mục_Nhân viên'.'Mã nhân viên'
+
+relationship AutoDetected_c19679d1-602e-4ea3-bb08-a4c611f79225
+	fromColumn: 'DIM_Danh mục_Nguồn đơn hàng'.Department_lv2
+	toColumn: 'DIM_Danh mục_Bộ phận Hủy Online'.Department_lv2
+
+relationship 292f5bde-0014-6161-b100-f5f4fa9c4a26
+	isActive: false
+	fromColumn: 'FACT_DS Online'.CancelByDepartment
+	toColumn: 'DIM_Danh mục_Bộ phận Hủy Online'.CancelByDepartment
+
+relationship abfc1a69-df02-b666-24a7-86b12bb5da59
+	fromColumn: 'FACT_DS Online'.StatusPayment
+	toColumn: 'DIM_Danh mục_Trạng thái Thanh toán'.StatusPayment
+
+relationship 60a16f34-0353-0f3c-1aed-0c0d7ec35711
+	fromColumn: 'FACT_DS Online'.ChasedState
+	toColumn: 'DIM_Danh mục_Trạng thái Đơn hàng'.ChasedState
+
+relationship fc8a6913-0c26-e972-ec7d-68f8ba9f62ed
+	isActive: false
+	fromColumn: 'FACT_DS Online'.'Chi nhánh'
+	toColumn: 'DIM_Danh mục_Miền'.Region
+
+relationship 85069989-d09e-7250-0ee5-1264e7cff274
+	fromColumn: 'FACT_DS Online'.'Loại ca'
+	toColumn: 'DIM_Danh mục_Loại Ca'.'Loại ca'
+
+relationship AutoDetected_c376dd2d-68f7-4721-8a77-6ce230f3fbf8
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'DIM_Phân quyền_Vận hành_Vùng'.Miền
+	toColumn: 'DIM_Danh mục_Miền'.Miền
+
+relationship 7bb9ec64-dbd1-4636-9f3e-ec970cb81111
+	fromColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+	toColumn: 'DIM_Phân quyền_Vận hành'.'Mã kho'
+
+relationship 1418a61e-ba43-1d1c-ac2f-3cbc1d41eea0
+	fromColumn: 'FACT_DS Online'.OrderSource
+	toColumn: 'DIM_Danh mục_Nguồn đơn hàng'.OrderSource
+
+relationship 4d80030d-6934-0750-f533-ec92fd1b8223
+	fromColumn: 'FACT_Warehouse_Current Inventory'.ProductCode
+	toColumn: 'DIM_Danh mục_Sản phẩm'.'Mã hàng'
+
+relationship 9910f8b9-2ca4-fb59-c2ef-959837e6c082
+	fromColumn: 'FACT_Warehouse_Current Inventory'.StoreCode
+	toColumn: 'DIM_Danh mục_Kho'.'Mã kho'
+
+relationship AutoDetected_da756dce-1826-4499-9aa3-5a273ba0d0df
+	fromColumn: 'Dim_Danh Mục_QLNH_Quá trình làm việc'.Miền
+	toColumn: 'DIM_Danh mục_Miền'.Miền
+
+relationship fe1547e9-fc97-10a4-fa6d-31b8249a4400
+	fromColumn: 'FACT_DS Đơn hàng'.Phân_quyền_KD
+	toColumn: 'Dim_Phân Quyền_Kinh doanh'.'Phân quyền_Kinh doanh'
+
+relationship c07cda47-e30d-1df8-34b9-f0c183096a59
+	fromColumn: 'FACT_Warehouse_Current Inventory'.Phân_Quyền
+	toColumn: 'Dim_Phân Quyền_Kinh doanh'.'Phân quyền_Kinh doanh'
+
+relationship e8527fe7-11d2-f8e7-7488-b6894d440676
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'FACT_DS Online'.'Số đơn hàng'
+	toColumn: 'FACT_DS Online_SLA'.'Số đơn hàng'
+
+relationship 6f12edc6-8193-c733-0d3a-7dd7ed7b7fc3
+	fromColumn: 'FACT_DS Online'.Lydohuy
+	toColumn: 'DIM_Danh mục_Lý do Hủy đơn'.CancelReason
+
+relationship 0d3ee0dd-c943-d8ea-c4c6-d1827fcd85c3
+	fromColumn: 'FACT_DS Online'.Ma_hang
+	toColumn: 'DIM_Danh mục_Sản phẩm'.'Mã hàng'
+
+relationship 3ddd9e4a-a5c5-7d65-b7f0-f2e76a0973e5
+	fromColumn: 'FACT_SALE_Doanh số bán'.Date
+	toColumn: 'DIM_Danh mục_Ngày'.Date
+
+relationship AutoDetected_84184a3e-fd86-4307-a738-f0dac1ca42b2
+	fromColumn: 'FACT_DS Online'.'Hình thức thanh toán'
+	toColumn: 'DIM_Danh mục_Hình thức thanh toán'.'Hình thức thanh toán'
+

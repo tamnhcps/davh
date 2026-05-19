@@ -1,0 +1,121 @@
+table F_Dc_Imei
+	lineageTag: b00b9d76-1bbb-4084-8c52-7e4441ef065e
+
+	column 'Kho cho hàng'
+		dataType: string
+		lineageTag: 69752269-c90a-4c44-bfe8-e73c750a1a5e
+		summarizeBy: none
+		sourceColumn: Kho cho hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kho nhận hàng'
+		dataType: string
+		lineageTag: e41eb904-6588-4b63-a80d-d5c451b3c354
+		summarizeBy: none
+		sourceColumn: Kho nhận hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu'
+		dataType: string
+		lineageTag: bf147c18-c69d-437e-89d0-e703f320efa0
+		summarizeBy: none
+		sourceColumn: Số phiếu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 05dd9a01-6ec7-4deb-92d0-a059c09f1f47
+		summarizeBy: none
+		sourceColumn: Ngày lập
+
+		variation Variation
+			isDefault
+			relationship: cabf8851-dae7-40aa-9415-655bfa5eb32a
+			defaultHierarchy: LocalDateTable_922cb299-993a-417a-a629-9ee1cd568d04.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày xác nhận'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8cabd305-893b-4d76-ae5f-d67f9e15403e
+		summarizeBy: none
+		sourceColumn: Ngày xác nhận
+
+		variation Variation
+			isDefault
+			relationship: 7259b51e-cf2b-4db2-b909-1e2a299caab9
+			defaultHierarchy: LocalDateTable_bc0350e8-4a04-4652-8f91-96942758284e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã hàng'
+		dataType: string
+		lineageTag: ac42ead5-e91c-42a6-acda-8bf8e9ebbfde
+		summarizeBy: none
+		sourceColumn: Mã hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column imei
+		dataType: string
+		lineageTag: fb0eb55b-e975-4fea-8334-8f53fde3bb7b
+		summarizeBy: none
+		sourceColumn: imei
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: d484e39a-6827-4891-9e1c-883386817320
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column SL
+		dataType: double
+		lineageTag: c851b6aa-300e-40b7-8f69-273fda97f8bb
+		summarizeBy: sum
+		sourceColumn: SL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Slg imei' = ```
+			
+			VAR _imei = F_Dc_Imei[imei]
+			RETURN 
+			CALCULATE(
+			    COUNT('F_Dc_Imei'[imei]),
+			    FILTER(
+			        'F_Dc_Imei',
+			        'F_Dc_Imei'[imei] = _imei
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 4c01dc77-b8ae-4139-916c-064f521cf788
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Dc_Imei = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)WITH temp_sales AS (#(lf)  SELECT#(lf)    s.CreateDate,#(lf)    s.Date,#(lf)    s.Region,#(lf)    s.DMC3,#(lf)    s.StoreCode,#(lf)    s.ProductCode,#(lf)    TRIM(UPPER(CAST(imei AS STRING))) AS imei,#(lf)    SUM(s.quantity / ARRAY_LENGTH(s.imei)) AS SL#(lf)  FROM#(lf)    cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction s,#(lf)    UNNEST(s.imei) AS imei#(lf)  WHERE#(lf)    s.IsSales = 1#(lf)    AND DATE(s.CreateDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 8 MONTH), MONTH)#(lf)    AND DATE(s.CreateDate) < DATE(CURRENT_DATE(""Asia/Ho_Chi_Minh""))#(lf)    AND NOT s.MethodId IN (27, 3, 91) -- ('Nhập đổi', 'Nhập trả', 'Nhập trả dịch vụ')#(lf)  GROUP BY #(lf)    s.CreateDate,#(lf)    s.Date,#(lf)    s.Region,#(lf)    s.DMC3,#(lf)    s.StoreCode,#(lf)    s.ProductCode,#(lf)    imei  #(lf)),#(lf)temp_sales_master AS (#(lf)SELECT#(lf)  x.CreateDate,#(lf)  x.Date,#(lf)  IF(x.Region = 'HCM', 'Miền Nam', 'Miền Bắc') AS `Miền`,#(lf)  x.StoreCode,#(lf)  CONCAT(UPPER(x.DMC3), ""-"", IF(x.Region = 'HCM', 'Miền Nam', 'Miền Bắc')) AS `Phân quyền_Kinh doanh`,#(lf)  x.StoreCode AS `Phân quyền_Vận hành`,#(lf)  x.ProductCode,#(lf)  x.imei,#(lf)  x.SL#(lf)FROM temp_sales x#(lf)QUALIFY ROW_NUMBER() OVER (PARTITION BY imei ORDER BY x.CreateDate ASC) = 1#(lf)),#(lf)temp_ycdc AS (#(lf)SELECT #(lf)  asbd.Id AS bill_detail_id,#(lf)  UPPER(endS.Code) AS output_store_code,#(lf)  UPPER(endS.Name) AS output_store_name,#(lf)  UPPER(strS.Code) AS input_store_code,#(lf)  UPPER(strS.Name) AS input_store_name,#(lf)  ag.Autocode AS autocode,#(lf)  PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S',ag.CreateDate) AS created_date,#(lf)  asb.ConfirmByDate AS confirmed_date,#(lf)  asbd.ProductId AS product_id,#(lf)  p.ma_hang AS product_code,#(lf)  asbd.Quantity AS quantity,#(lf)  'Miền Nam' AS region#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_General` ag #(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBill` asb ON asb.Id = ag.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBillDetail` asbd ON asbd.StoreBillId = ag.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` strS ON strS.Id = asbd.InputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` endS ON endS.Id = asbd.OutputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_DA_General_Transform.dim_product` p ON p.product_id = asbd.ProductId#(lf)WHERE 1=1#(lf)  AND ag.BillTypeId = 1#(lf)  AND ag.ReplaceById IS NULL#(lf)  AND DATE(asb.ConfirmByDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND DATE(asbd._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND DATE(ag._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)#(lf)UNION ALL#(lf)#(lf)SELECT #(lf)  asbd.Id AS bill_detail_id,#(lf)  UPPER(endS.Code) AS output_store_code,#(lf)  UPPER(endS.Name) AS output_store_name,#(lf)  UPPER(strS.Code) AS input_store_code,#(lf)  UPPER(strS.Name) AS input_store_name,#(lf)  ag.Autocode AS autocode,#(lf)  PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S',ag.CreateDate) AS created_date,#(lf)  asb.ConfirmByDate AS confirmed_date,#(lf)  asbd.ProductId AS product_id,#(lf)  p.ma_hang AS product_code,#(lf)  asbd.Quantity AS quantity,#(lf)  'Miền Bắc' AS region#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_General` ag#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBill` asb ON asb.Id = ag.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBillDetail` asbd ON asbd.StoreBillId = ag.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` strS ON strS.Id = asbd.InputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` endS ON endS.Id = asbd.OutputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_DA_General_Transform.dim_product` p ON p.product_id = asbd.ProductId#(lf)WHERE 1=1#(lf)  AND ag.BillTypeId = 1#(lf)  AND ag.ReplaceById IS NULL#(lf)  AND DATE(asb.ConfirmByDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND DATE(asbd._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND DATE(ag._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)),#(lf)temp_log_imei AS (#(lf)SELECT #(lf)  DISTINCT BillDetailId AS bill_detail_id,#(lf)  ImeiId AS imei_id,#(lf)  y.ProductId AS product_id,#(lf)  'Miền Nam' AS region#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_LogImei` x#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBillDetail` y ON y.id = x.BillDetailId#(lf)where#(lf)  date(x._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH), MONTH)#(lf)  and date(y._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH), MONTH)#(lf)#(lf)UNION ALL#(lf)SELECT #(lf)  DISTINCT BillDetailId AS bill_detail_id,#(lf)  ImeiId AS imei_id,#(lf)  y.ProductId AS product_id,#(lf)  'Miền Bắc' AS region#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.Store_LogImei` x#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBillDetail` y ON y.id = x.BillDetailId#(lf)where#(lf)  date(x._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH), MONTH)#(lf)  and date(y._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH), MONTH)#(lf)),#(lf)temp_ycdc_imei AS (#(lf)SELECT#(lf)  x.*,#(lf)  ARRAY_AGG( y.imei_id IGNORE NULLS) AS imei_id#(lf)FROM temp_ycdc x#(lf)LEFT JOIN temp_log_imei y#(lf)  ON x.bill_detail_id = y.bill_detail_id#(lf)  AND x.product_id = y.product_id#(lf)  AND x.region = y.region#(lf)GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12#(lf))#(lf)SELECT#(lf)  x.output_store_code,#(lf)  x.input_store_code,#(lf)  x.autocode,#(lf)  x.created_date,#(lf)  x.confirmed_date,#(lf)  x.product_code,#(lf)  TRIM(UPPER(CAST(imei AS STRING))) AS imei,#(lf)  x.region,#(lf)  SUM(x.quantity / ARRAY_LENGTH(x.imei_id)) AS quantity#(lf)FROM#(lf)  temp_ycdc_imei x,#(lf)  UNNEST(x.imei_id) AS imei#(lf)WHERE 1=1#(lf)  AND NOT REGEXP_CONTAINS(UPPER(x.output_store_name), r'(KHO)') #(lf)  AND NOT REGEXP_CONTAINS(UPPER(x.input_store_name), r'(KHO)')#(lf)  AND TRIM(UPPER(CAST(imei AS STRING))) IN (SELECT imei FROM temp_sales_master)#(lf)GROUP BY#(lf)  x.output_store_code,#(lf)  x.input_store_code,#(lf)  x.autocode,#(lf)  x.created_date,#(lf)  x.confirmed_date,#(lf)  x.product_code,#(lf)  imei,#(lf)  x.region", null, [EnableFolding=true]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"output_store_code", "Kho cho hàng"}, {"input_store_code", "Kho nhận hàng"}, {"autocode", "Số phiếu"}, {"created_date", "Ngày lập"}, {"confirmed_date", "Ngày xác nhận"}, {"product_code", "Mã hàng"}, {"region", "Miền"}, {"quantity", "SL"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

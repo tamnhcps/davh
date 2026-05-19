@@ -1,0 +1,25 @@
+table D_B2B/B2C
+	excludeFromModelRefresh
+	lineageTag: cd07243d-2bc7-4a63-8234-cc79eb067761
+
+	column B2B/B2C
+		dataType: string
+		lineageTag: 617a7437-bad8-48d5-ba44-bb6b42a8d985
+		summarizeBy: none
+		sourceColumn: B2B/B2C
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_B2B/B2C = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcjJyUorVAdHOSrGxAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"B2B/B2C" = _t])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

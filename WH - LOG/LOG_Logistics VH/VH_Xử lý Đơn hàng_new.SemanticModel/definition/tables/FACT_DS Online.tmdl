@@ -1,0 +1,1186 @@
+table 'FACT_DS Online'
+	lineageTag: 510eef49-7f98-4897-ab46-48ef1ee7e55d
+
+	column 'Chi nhánh'
+		dataType: string
+		lineageTag: ebb09030-f8f6-4e8b-8f20-d71d4ea864a0
+		summarizeBy: none
+		sourceColumn: Chi nhánh
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: bd41fce5-da6c-4f8a-9c24-81720b3d37ee
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số đơn hàng'
+		dataType: string
+		lineageTag: 3e81be00-19d8-4283-ad57-89b38a5d348f
+		summarizeBy: none
+		sourceColumn: Số đơn hàng
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số online'
+		dataType: string
+		lineageTag: 0b3181f1-07d3-41d8-82d9-d7e3c2ac7bec
+		summarizeBy: none
+		sourceColumn: Số online
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái đơn'
+		dataType: string
+		lineageTag: d5a08929-fccb-4c21-a841-c64825fa4096
+		summarizeBy: none
+		sourceColumn: Trạng thái đơn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đồng bộ lúc'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4d871f6a-2b92-455e-995c-bbb5e26f85ac
+		summarizeBy: none
+		sourceColumn: Đồng bộ lúc
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái thanh toán'
+		dataType: string
+		lineageTag: 97f28dc2-7cfd-4d84-8822-01d9e42b1e6e
+		summarizeBy: none
+		sourceColumn: Trạng thái thanh toán
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày đặt'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9b340a6d-f70d-40c6-a06c-ce26a1d99d86
+		summarizeBy: none
+		sourceColumn: Ngày đặt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên hàng'
+		dataType: string
+		lineageTag: b9a4630c-acde-4d76-bdf7-3e25740b1344
+		summarizeBy: none
+		sourceColumn: Tên hàng
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SL
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b61eee5-9dfd-47e9-a6d7-8d2242910d24
+		summarizeBy: sum
+		sourceColumn: SL
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đơn giá'
+		dataType: double
+		lineageTag: 8cd7c04e-b03d-46c4-9486-1ba24895016b
+		summarizeBy: sum
+		sourceColumn: Đơn giá
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Thành tiền'
+		dataType: double
+		lineageTag: fe86c7b1-f6b8-464c-9331-d43fe316d1c6
+		summarizeBy: sum
+		sourceColumn: Thành tiền
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PromotionPackValue
+		dataType: double
+		lineageTag: 066ee2e0-b34d-4e4d-af08-c1cb967dfe71
+		summarizeBy: sum
+		sourceColumn: PromotionPackValue
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalAfterDiscount
+		dataType: double
+		lineageTag: 3a5d1b7c-f3bc-4f93-80df-ef19a59d82c7
+		summarizeBy: sum
+		sourceColumn: TotalAfterDiscount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Tổng đơn hàng'
+		dataType: double
+		lineageTag: c9447e46-43c4-42ec-b528-9b94cd21d269
+		summarizeBy: sum
+		sourceColumn: Tổng đơn hàng
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Đã trả trước'
+		dataType: double
+		lineageTag: 8ef41639-1cc8-45aa-b947-b7a652b18132
+		summarizeBy: sum
+		sourceColumn: Đã trả trước
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Hình thức thanh toán'
+		dataType: string
+		lineageTag: d1a9b418-6616-4f60-858f-966637e19240
+		summarizeBy: none
+		sourceColumn: Hình thức thanh toán
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã KM'
+		dataType: string
+		lineageTag: ca4205a5-31b2-464c-b681-e1fb60583a7a
+		summarizeBy: none
+		sourceColumn: Mã KM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProvinceId
+		dataType: int64
+		formatString: 0
+		lineageTag: 48107da6-d89a-4a01-b7d2-c3957d39a09b
+		summarizeBy: count
+		sourceColumn: ProvinceId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thành phố'
+		dataType: string
+		lineageTag: 8b2a1c14-8f5e-4c13-a7cb-b786bbd9abff
+		summarizeBy: none
+		sourceColumn: Thành phố
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DistrictId
+		dataType: int64
+		formatString: 0
+		lineageTag: 2497766c-44c0-4780-b71e-95b36c38210e
+		summarizeBy: count
+		sourceColumn: DistrictId
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quận huyện'
+		dataType: string
+		lineageTag: 49901c0d-c5ff-497b-903d-b4703e75e7c0
+		summarizeBy: none
+		sourceColumn: Quận huyện
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Người xử lý'
+		dataType: string
+		lineageTag: 9c904b30-29b1-43b4-9bb6-6c5edece763f
+		summarizeBy: none
+		sourceColumn: Người xử lý
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chức danh người xử lý'
+		dataType: string
+		lineageTag: 77da4d87-d2d8-4764-add5-6eb298d1cddc
+		summarizeBy: none
+		sourceColumn: Chức danh người xử lý
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phòng ban người xử lý'
+		dataType: string
+		lineageTag: ad6b87f4-ba0f-4cbc-8de7-f29a8412944a
+		summarizeBy: none
+		sourceColumn: Phòng ban người xử lý
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Người từ chối'
+		dataType: string
+		lineageTag: bf6d03ec-265b-4c7b-9ad1-4f7546ec8942
+		summarizeBy: none
+		sourceColumn: Người từ chối
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phòng ban người từ chối'
+		dataType: string
+		lineageTag: 7fa608fd-1d9c-4b61-9332-c31c67091e6d
+		summarizeBy: none
+		sourceColumn: Phòng ban người từ chối
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chức danh người từ chối'
+		dataType: string
+		lineageTag: 56266789-7647-4c2f-a0f6-6c7c67b0cb96
+		summarizeBy: none
+		sourceColumn: Chức danh người từ chối
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lý do'
+		dataType: string
+		lineageTag: 947bdc80-3c4e-41f8-b626-98383f5ae06d
+		summarizeBy: none
+		sourceColumn: Lý do
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lý do từ chối'
+		dataType: string
+		lineageTag: b321ec17-39fb-43df-b449-49d65d695414
+		summarizeBy: none
+		sourceColumn: Lý do từ chối
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã ngân hàng'
+		dataType: string
+		lineageTag: f12e53fe-071b-4484-95f8-547c93a5c5dd
+		summarizeBy: none
+		sourceColumn: Mã ngân hàng
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phí giao dịch'
+		dataType: double
+		lineageTag: 4e32cb49-1311-449b-abe0-c30c86718b53
+		summarizeBy: sum
+		sourceColumn: Phí giao dịch
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Phí phụ thu'
+		dataType: double
+		lineageTag: 479310e0-ba5d-4e79-9f47-4fa4c853adbb
+		summarizeBy: sum
+		sourceColumn: Phí phụ thu
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MerchantCode
+		dataType: string
+		lineageTag: 49101000-a203-4e90-88ae-dbb720de32cd
+		summarizeBy: none
+		sourceColumn: MerchantCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nội dung thanh toán'
+		dataType: string
+		lineageTag: 0acb6322-9106-48f4-9080-9523d176fd70
+		summarizeBy: none
+		sourceColumn: Nội dung thanh toán
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 4d65e34f-1e31-4a36-8237-3b48df3f2f8c
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Startdate
+		dataType: dateTime
+		formatString: yyyy-mm
+		lineageTag: 82f82364-344a-4e81-a64c-c69e92ad11a6
+		summarizeBy: none
+		sourceColumn: Startdate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Bộ phận xử lý'
+		dataType: string
+		lineageTag: 8eb87768-62ca-485f-9136-faa40fe28e68
+		summarizeBy: none
+		sourceColumn: Bộ phận xử lý
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bộ phận từ chối'
+		dataType: string
+		lineageTag: c61099aa-6ac5-4309-a5ab-db47582fb6c3
+		summarizeBy: none
+		sourceColumn: Bộ phận từ chối
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã kho' =
+			
+			VAR minindex_kho =
+			    CALCULATE (
+			        MIN ( 'DIM_Danh mục_Kho'[Index] ),
+			        FILTER (
+			            'DIM_Danh mục_Kho',
+			            'DIM_Danh mục_Kho'[Tên kho] = EARLIER ( 'FACT_DS Online'[Cửa hàng] )
+			        )
+			    )
+			VAR minindex_cuahang =
+			    CALCULATE (
+			        MIN ( 'DIM_Danh mục_Kho'[Index] ),
+			        FILTER (
+			            'DIM_Danh mục_Kho',
+			            'DIM_Danh mục_Kho'[Cửa hàng] = EARLIER ( 'FACT_DS Online'[Cửa hàng] )
+			        )
+			    )
+			VAR minindex =
+			    IF ( minindex_cuahang <> BLANK (), minindex_cuahang, minindex_kho )
+			RETURN
+			    LOOKUPVALUE ( 'DIM_Danh mục_Kho'[Mã kho], 'DIM_Danh mục_Kho'[Index], minindex )
+		lineageTag: f7d62642-4892-4201-a287-ce89278925d7
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReviewByCode
+		dataType: string
+		lineageTag: 9bbeeca7-b93d-44f4-b6c5-683a6caf2a83
+		summarizeBy: none
+		sourceColumn: ReviewByCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CancelByCode
+		dataType: string
+		lineageTag: c639d868-b446-44c0-9af7-6bcb3d34b7e8
+		summarizeBy: none
+		sourceColumn: CancelByCode
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CancelByDepartment =
+			
+			VAR department =
+			    SWITCH (
+			        TRUE (),
+			        'FACT_DS Online'[Phòng ban người từ chối]
+			            IN {
+			                "CSKH - Hotline",
+			                "Nhóm Hotline CellphoneS",
+			                "Phòng chăm sóc khách hàng"
+			            }, "Đơn Hotline từ chối",
+			        'FACT_DS Online'[Phòng ban người từ chối]
+			            IN {
+			                "Nhóm chatline CellphoneS",
+			                "Nhóm CTV Chatline CellphoneS",
+			                "Nhóm Facebook CellphoneS"
+			            }, "Đơn Chatline từ chối",
+			        "Đơn Shop từ chối"
+			    )
+			RETURN IF('FACT_DS Online'[Trạng thái đơn] = "Hủy đơn", department, BLANK())
+		lineageTag: d5d0b8a3-afb0-4398-8faa-28ccb1e32db5
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnlineState =
+			
+			SWITCH(TRUE(),
+			'FACT_DS Online'[Trạng thái đơn] = "Đã xuất kho", "Thành công",
+			'FACT_DS Online'[Trạng thái đơn] = "Hủy đơn", "Thất bại",
+			--'FACT_DS Online'[Trạng thái đơn] = "Hủy chờ chi", "Thất bại",
+			"Chờ xử lý")
+		lineageTag: d6bdc911-78e0-4d78-90a9-95da582aafd2
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusPayment =
+			
+			// IF('FACT_DS Online'[Số đơn hàng] <> BLANK(),
+			//     IF('FACT_DS Online'[Trạng thái thanh toán] = "Đã thanh toán", "Đã thanh toán", "Chưa thanh toán"),
+			//     IF('FACT_DS Online'[Nội dung thanh toán] = "Đã thanh toán", "Đã thanh toán", "Chưa thanh toán"))
+			IF('FACT_DS Online'[Nội dung thanh toán] = "Đã thanh toán", "Đã thanh toán", "Chưa thanh toán")
+		lineageTag: 75168a0b-b14a-41c8-9355-00ec78adc684
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product_HighestPrice = ```
+			
+			VAR maxprice = 
+			    CALCULATE(
+			        MAX('FACT_DS Online'[Tổng đơn hàng]),
+			        ALLEXCEPT('FACT_DS Online', 'FACT_DS Online'[Số online])
+			    )
+			RETURN
+			IF('FACT_DS Online'[Tổng đơn hàng] = maxprice, 1, 0)
+			```
+		formatString: 0
+		lineageTag: 4177ef02-fe2e-4016-bf2d-f016a95420cf
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsChased =
+			
+			var check_DH =
+			COUNTROWS (
+			    FILTER (
+			        'FACT_DS Đơn hàng',
+			        'FACT_DS Đơn hàng'[OrderState] <> "Thất bại"
+			            && 'FACT_DS Đơn hàng'[NhomHang] = EARLIER ( 'FACT_DS Online'[NhomHang] )
+			            && 'FACT_DS Đơn hàng'[DiDong] = EARLIER ( 'FACT_DS Online'[SDT_WN] )
+			            && 'FACT_DS Đơn hàng'[NgayDat] > EARLIER ( 'FACT_DS Online'[Ngày đặt] )
+			            && 'FACT_DS Đơn hàng'[NgayDat] <= EARLIER ( 'FACT_DS Online'[Ngày đặt]) + 3
+			            --&& 'FACT_DS Đơn hàng'[MaDatHang] <> EARLIER ( 'FACT_DS Online'[Số online] )
+			    )
+			)
+			var check_Online =
+			COUNTROWS (
+			    FILTER (
+			        'FACT_DS Online',
+			        'FACT_DS Online'[OnlineState] <> "Thất bại"
+			            && 'FACT_DS Online'[NhomHang] = EARLIER ( 'FACT_DS Online'[NhomHang] )
+			            && 'FACT_DS Online'[SDT_WN]  = EARLIER ( 'FACT_DS Online'[SDT_WN] )
+			            && 'FACT_DS Online'[Ngày đặt] > EARLIER ( 'FACT_DS Online'[Ngày đặt] )
+			            && 'FACT_DS Online'[Ngày đặt] <= EARLIER ( 'FACT_DS Online'[Ngày đặt]) + 3
+			            && 'FACT_DS Online'[Số online] <> EARLIER ( 'FACT_DS Online'[Số online])
+			    )
+			)
+			return IF('FACT_DS Online'[OnlineState] = "Thất bại", COALESCE(check_DH + check_Online, 0), BLANK())
+		lineageTag: de05329a-ce0a-4e82-86e2-6fea713b6bba
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NhomHang = RELATED('DIM_Danh mục_Sản phẩm'[Nhóm hàng])
+		lineageTag: 1bf3c2b6-221c-4213-a887-6c67e3bf271b
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChasedState =
+			
+			VAR count_active =
+			    CALCULATE (
+			        SUM ( 'FACT_DS Online'[IsChased] ),
+			        FILTER (
+			            'FACT_DS Online',
+			            'FACT_DS Online'[OnlineState] = "Thất bại"
+			                && 'FACT_DS Online'[Số online]
+			                    = EARLIER ( 'FACT_DS Online'[Số online] )
+			        )
+			    )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( 'FACT_DS Online'[IsChased] ), 'FACT_DS Online'[OnlineState],
+			        count_active > 0, "Đã chuyển đổi",
+			        "Hủy đơn"
+			    )
+		lineageTag: 29d47f67-cf2a-4735-b5db-55bf62de9b2f
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SLA ra DH' = ```
+			
+			VAR GioBatDau = TIME(8, 0, 0)
+			VAR GioKetThuc = TIME(21, 0, 0)
+			
+			VAR NgayDat =
+			    IF('FACT_DS Online'[Đồng bộ lúc] > 'FACT_DS Online'[Ngày xử lý],
+			        'FACT_DS Online'[Ngày đặt],
+			        'FACT_DS Online'[Đồng bộ lúc]
+			    )
+			
+			VAR NgayXuly = 'FACT_DS Online'[Ngày xử lý]
+			
+			VAR NgayDatOnly = INT(NgayDat)
+			VAR NgayXuLyOnly = INT(NgayXuly)
+			
+			VAR GioDat = TIME(HOUR(NgayDat), MINUTE(NgayDat), SECOND(NgayDat))
+			VAR GioXuLy = TIME(HOUR(NgayXuly), MINUTE(NgayXuly), SECOND(NgayXuly))
+			
+			-- Nếu xử lý trước 8h → đẩy lên 8h
+			VAR GioXuLyGioiHan = IF(GioXuLy < GioBatDau, GioBatDau, GioXuLy)
+			VAR NgayXuLyNew = NgayXuLyOnly + GioXuLyGioiHan
+			
+			VAR CungNgay = NgayDatOnly = NgayXuLyOnly
+			VAR TruocGio = GioDat < GioBatDau
+			VAR TrongGio = GioDat >= GioBatDau && GioDat <= GioKetThuc
+			VAR SauGio = GioDat > GioKetThuc
+			
+			VAR ThoiGianSLA_Days =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(NgayXuly), BLANK(),
+			        NgayDat > NgayXuly, 0,
+			        -- --- Cùng ngày ---
+			        CungNgay && TrongGio, NgayXuLyNew - NgayDat,
+			        CungNgay && TruocGio, NgayXuLyNew - (NgayDatOnly + GioBatDau),
+			        CungNgay && SauGio, NgayXuLyNew - NgayDat,
+			
+			        -- --- Khác ngày ---
+			        NOT CungNgay && TrongGio, NgayXuLyNew - NgayDat,
+			        NOT CungNgay && TruocGio, NgayXuLyNew - (NgayDatOnly + GioBatDau),
+			        NOT CungNgay && SauGio, NgayXuLyNew - (NgayDatOnly + 1 + GioBatDau),
+			
+			        BLANK()
+			    )
+			
+			RETURN
+			    ThoiGianSLA_Days * 24  -- chuyển từ ngày sang giờ
+			
+			```
+		dataType: double
+		formatString: 0.00
+		lineageTag: 957a44ae-b261-4a20-bcda-2c10a89485bf
+		summarizeBy: sum
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderSource = ```
+			
+			VAR department =
+			    SWITCH (
+			        TRUE (),
+			        AND('FACT_DS Online'[Phòng ban người xử lý] = "Admin", 'FACT_DS Online'[LoaiDon] = "Đơn tự động"), "admin",
+			        'FACT_DS Online'[Phòng ban người xử lý]
+			            IN {
+			                "CSKH - Hotline",
+			                "Nhóm Hotline CellphoneS",
+			                "Phòng chăm sóc khách hàng"
+			            }, "Hotline",
+			        'FACT_DS Online'[Phòng ban người xử lý]
+			            IN {
+			                "Nhóm chatline CellphoneS",
+			                "Nhóm CTV Chatline CellphoneS",
+			                "Nhóm Facebook CellphoneS"
+			            }, "Chatline",
+			        'FACT_DS Online'[Phòng ban người từ chối]
+			            IN {
+			                "CSKH - Hotline",
+			                "Nhóm Hotline CellphoneS",
+			                "Phòng chăm sóc khách hàng"
+			            }, "Hotline",
+			        'FACT_DS Online'[Phòng ban người từ chối]
+			            IN {
+			                "Nhóm chatline CellphoneS",
+			                "Nhóm CTV Chatline CellphoneS",
+			                "Nhóm Facebook CellphoneS"
+			            }, "Chatline",
+			        "Shop"
+			    )
+			VAR Z = 
+			    SWITCH (
+			        TRUE (),
+			        department = "admin", "Đơn tự động",
+			        department = "Hotline", "Đơn Hotline xử lý",
+			        department = "Chatline", "Đơn Chatline xử lý",
+			        department = "Shop", "Đơn Shop xử lý",
+			        BLANK ()
+			    )
+			RETURN z
+			```
+		lineageTag: 594b6508-d45a-4d04-aa1f-00d38981f3d3
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại ca' = ```
+			
+			VAR giobatdau = TIME(8, 0, 0)
+			VAR gioketthuc = TIME(21, 0, 0)
+			VAR gio =  IF('FACT_DS Online'[Đồng bộ lúc]> 'FACT_DS Online'[Ngày xử lý], 'FACT_DS Online'[Ngày đặt], 'FACT_DS Online'[Đồng bộ lúc])
+			VAR giodat = TIME(HOUR(gio), MINUTE(gio), SECOND(gio))
+			
+			
+			VAR duration =
+			    IF(
+			        AND(giodat >= giobatdau, giodat <= gioketthuc), 
+			        "Trong giờ làm", 
+			        "Ngoài giờ làm"
+			    )
+			
+			RETURN
+			    duration
+			
+			```
+		lineageTag: 462595a4-d1a8-45ae-aed2-b1ce1008a79d
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhieuBanLe
+		dataType: string
+		lineageTag: e1737886-4c9b-440a-bb74-fe9ecd821b06
+		summarizeBy: none
+		sourceColumn: PhieuBanLe
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NgayBanLe
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ea610512-134a-4e82-a9f9-f81c7e4f48c0
+		summarizeBy: none
+		sourceColumn: NgayBanLe
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrangThaiDon
+		dataType: string
+		lineageTag: fbd87de2-da2b-4561-a411-6373ff45cc9b
+		summarizeBy: none
+		sourceColumn: TrangThaiDon
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderState =
+			
+			IF('FACT_DS Online'[Số đơn hàng] = BLANK(),'FACT_DS Online'[OnlineState],
+			    SWITCH(TRUE(),
+			    'FACT_DS Online'[TrangThaiDon] = "Đã xuất kho", "Thành công",
+			    'FACT_DS Online'[TrangThaiDon] = "Hủy đơn","Thất bại",
+			    "Chờ xử lý"))
+		lineageTag: a19bebbd-e7ea-497e-96ad-a4443ead0f6f
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SLA ra DH_format' = ```
+			
+			VAR AvgSLA = 'FACT_DS Online'[SLA ra DH]
+			VAR TotalSeconds = AvgSLA * 3600
+			
+			VAR Days = INT(TotalSeconds / 86400)
+			VAR RemainderSeconds = MOD(TotalSeconds, 86400)
+			
+			VAR Hours = INT(RemainderSeconds / 3600)
+			VAR Minutes = INT(MOD(RemainderSeconds, 3600) / 60)
+			VAR Seconds = MOD(RemainderSeconds, 60)
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    AvgSLA <= 0,"",
+			    FORMAT(Days, "0") & "d " &
+			    FORMAT(Hours, "00") & ":" &
+			    FORMAT(Minutes, "00") & ":" &
+			    FORMAT(Seconds, "00"))
+			
+			```
+		lineageTag: 9e0bbbbb-489c-4a25-91d2-d089d82baf07
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SLA ra SP' = ```
+			
+			VAR NgayDat =  IF('FACT_DS Online'[Đồng bộ lúc]> 'FACT_DS Online'[Ngày xử lý], 'FACT_DS Online'[Ngày đặt], 'FACT_DS Online'[Đồng bộ lúc])
+			VAR NgayXuLy = 'FACT_DS Online'[NgayBanLe]
+			
+			VAR IsValid =
+			    NOT ISBLANK(NgayDat) &&
+			    NOT ISBLANK(NgayXuLy) && 
+			    NOT 'FACT_DS Online'[OrderState] <> "Thành công"
+			
+			// VAR Duration =
+			//     IF(
+			//         IsValid,
+			//         NgayXuLy - NgayDat,
+			//         BLANK()
+			//     )
+			
+			VAR DurationInHours =
+			    IF(
+			        IsValid,
+			        DATEDIFF(NgayDat, NgayXuLy, SECOND) / 3600, -- đổi giây thành giờ
+			        BLANK()
+			    )
+			
+			RETURN
+			    DurationInHours
+			
+			```
+		formatString: 0.00
+		lineageTag: 1d4b5c2b-b2f6-48bb-9f6b-5ce5e9905738
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SLA ra SP_format' = ```
+			
+			VAR AvgSLA = 'FACT_DS Online'[SLA ra SP]
+			VAR TotalSeconds = AvgSLA * 3600
+			
+			VAR Days = INT(TotalSeconds / 86400)
+			VAR RemainderSeconds = MOD(TotalSeconds, 86400)
+			
+			VAR Hours = INT(RemainderSeconds / 3600)
+			VAR Minutes = INT(MOD(RemainderSeconds, 3600) / 60)
+			VAR Seconds = MOD(RemainderSeconds, 60)
+			
+			RETURN
+			IF(AvgSLA = BLANK(),"",
+			    FORMAT(Days, "0") & "d " &
+			    FORMAT(Hours, "00") & ":" &
+			    FORMAT(Minutes, "00") & ":" &
+			    FORMAT(Seconds, "00"))
+			
+			```
+		lineageTag: 086748d3-31e6-4a60-89f0-c1341f2bf18c
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LyDoHuyDon
+		dataType: string
+		lineageTag: 695a8cd8-e9cc-4d52-92cc-ce7735743574
+		summarizeBy: none
+		sourceColumn: LyDoHuyDon
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lydohuy =
+			
+			IF('FACT_DS Online'[Số đơn hàng]<> BLANK(), 'FACT_DS Online'[LyDoHuyDon],'FACT_DS Online'[Lý do từ chối])
+		lineageTag: f0c98305-f469-451f-8d4b-c4274d6b3092
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoaiDon
+		dataType: string
+		lineageTag: 649919f2-7311-4b8c-a47b-a499ef2d84c4
+		summarizeBy: none
+		sourceColumn: LoaiDon
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SSHH_Date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: eac6639c-e12a-4ea8-81af-d298bfae56dc
+		summarizeBy: none
+		sourceColumn: SSHH_Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SLA ra SSDH' = ```
+			
+			VAR GioBatDau = TIME(8, 0, 0)
+			VAR GioKetThuc = TIME(21, 0, 0)
+			
+			VAR NgayDat =
+			    // IF('FACT_DS Online'[Đồng bộ lúc] > 'FACT_DS Online'[Ngày xử lý],
+			    //     'FACT_DS Online'[Ngày đặt],
+			    //     'FACT_DS Online'[Đồng bộ lúc]
+			    // )
+			    // 'FACT_DS Online'[Ngày đặt]
+			    'FACT_DS Online'[Ngày xử lý]
+			
+			VAR NgayXuly = 'FACT_DS Online'[SSHH_Date]
+			
+			VAR NgayDatOnly = INT(NgayDat)
+			VAR NgayXuLyOnly = INT(NgayXuly)
+			
+			VAR GioDat = TIME(HOUR(NgayDat), MINUTE(NgayDat), SECOND(NgayDat))
+			VAR GioXuLy = TIME(HOUR(NgayXuly), MINUTE(NgayXuly), SECOND(NgayXuly))
+			
+			-- Nếu xử lý trước 8h → đẩy lên 8h
+			VAR GioXuLyGioiHan = IF(GioXuLy < GioBatDau, GioBatDau, GioXuLy)
+			VAR NgayXuLyNew = NgayXuLyOnly + GioXuLyGioiHan
+			
+			VAR CungNgay = NgayDatOnly = NgayXuLyOnly
+			VAR TruocGio = GioDat < GioBatDau
+			VAR TrongGio = GioDat >= GioBatDau && GioDat <= GioKetThuc
+			VAR SauGio = GioDat > GioKetThuc
+			
+			VAR ThoiGianSLA_Days =
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(NgayXuly), BLANK(),
+			        NgayDat > NgayXuly, 0,
+			        CungNgay && TrongGio, NgayXuLyNew - NgayDat,
+			        CungNgay && TruocGio, NgayXuLyNew - (NgayDatOnly + GioBatDau),
+			        CungNgay && SauGio, NgayXuLyNew - NgayDat,
+			
+			        -- --- Khác ngày ---
+			        NOT CungNgay && TrongGio, NgayXuLyNew - NgayDat,
+			        NOT CungNgay && TruocGio, NgayXuLyNew - (NgayDatOnly + GioBatDau),
+			        NOT CungNgay && SauGio, NgayXuLyNew - (NgayDatOnly + 1 + GioBatDau),
+			
+			        BLANK()
+			    )
+			
+			RETURN
+			    ThoiGianSLA_Days * 24  -- chuyển từ ngày sang giờ
+			
+			```
+		lineageTag: 3df71a5f-8499-4bf5-9087-3d9e6d654a5c
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SLA ra SSHH_format' = ```
+			
+			VAR AvgSLA = 'FACT_DS Online'[SLA ra SSDH]
+			VAR TotalSeconds = AvgSLA * 3600
+			
+			VAR Days = INT(TotalSeconds / 86400)
+			VAR RemainderSeconds = MOD(TotalSeconds, 86400)
+			
+			VAR Hours = INT(RemainderSeconds / 3600)
+			VAR Minutes = INT(MOD(RemainderSeconds, 3600) / 60)
+			VAR Seconds = MOD(RemainderSeconds, 60)
+			
+			RETURN
+			IF(AvgSLA = BLANK(),"",
+			    FORMAT(Days, "0") & "d " &
+			    FORMAT(Hours, "00") & ":" &
+			    FORMAT(Minutes, "00") & ":" &
+			    FORMAT(Seconds, "00"))
+			
+			```
+		lineageTag: 4a34f658-8b5d-4737-9347-f6232c3882ef
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhuongThuc
+		dataType: string
+		lineageTag: a9911e39-6883-493b-8ed8-ee532171d12b
+		summarizeBy: none
+		sourceColumn: PhuongThuc
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'loai_giao_hang theo SP'
+		dataType: string
+		lineageTag: 5cfeeb88-65bd-479c-b645-237e91883c3d
+		summarizeBy: none
+		sourceColumn: loai_giao_hang theo SP
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'loai_giao_hang theo DH'
+		dataType: string
+		lineageTag: da116a91-442a-453a-8d10-83371358af82
+		summarizeBy: none
+		sourceColumn: loai_giao_hang theo DH
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã giao dịch online'
+		dataType: string
+		lineageTag: 79f19dcc-edb1-4ae4-9fe5-9339c2afb799
+		summarizeBy: none
+		sourceColumn: Mã giao dịch online
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SDT_SP
+		dataType: string
+		lineageTag: dd5852a2-1a2e-46a9-8176-d583e5bf857f
+		summarizeBy: none
+		sourceColumn: SDT_SP
+
+		annotation SummarizationSetBy = Automatic
+
+	column SDT_WN
+		dataType: string
+		lineageTag: 4eb2a3ef-aa44-40e4-969f-4c50c590e0cc
+		summarizeBy: none
+		sourceColumn: SDT_WN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số điện thoại liên hệ'
+		dataType: string
+		lineageTag: 5f0abcaa-ace5-4249-97c9-e17de6d00621
+		summarizeBy: none
+		sourceColumn: Số điện thoại liên hệ
+
+		annotation SummarizationSetBy = Automatic
+
+	column SDT_DH
+		dataType: string
+		lineageTag: a7fc9b8f-8645-4e77-97d2-ada2eb196b07
+		summarizeBy: none
+		sourceColumn: SDT_DH
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ma_hang
+		dataType: string
+		lineageTag: 7ab01914-7af9-48d5-8167-351acc65eadd
+		summarizeBy: none
+		sourceColumn: Ma_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày xử lý'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dfd55387-b8f5-4a57-bce6-f08ff7a8c7e0
+		summarizeBy: none
+		sourceColumn: Ngày xử lý
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cheating_check =
+			
+			IF(
+			    'FACT_DS Online'[Số điện thoại liên hệ] <> "",
+			    "Normal",
+			
+			    IF(
+			        'FACT_DS Online'[OnlineState] = "Thành công"
+			        &&
+			        (
+			            (
+			                NOT ISBLANK('FACT_DS Online'[SDT_WN])
+			                && NOT ISBLANK('FACT_DS Online'[SDT_DH])
+			                && 'FACT_DS Online'[SDT_WN] <> 'FACT_DS Online'[SDT_DH]
+			            )
+			            ||
+			            (
+			                NOT ISBLANK('FACT_DS Online'[SDT_WN])
+			                && NOT ISBLANK('FACT_DS Online'[SDT_SP])
+			                && 'FACT_DS Online'[SDT_WN] <> 'FACT_DS Online'[SDT_SP]
+			            )
+			            ||
+			            (
+			                NOT ISBLANK('FACT_DS Online'[SDT_DH])
+			                && NOT ISBLANK('FACT_DS Online'[SDT_SP])
+			                && 'FACT_DS Online'[SDT_DH] <> 'FACT_DS Online'[SDT_SP]
+			            )
+			        ),
+			        "Cheating",
+			        "Normal"
+			    )
+			)
+		lineageTag: 37ee5742-2de0-476b-a65a-bbbd30dc3823
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vận chuyển'
+		dataType: string
+		lineageTag: 9b4943a1-6550-4e50-be57-20504ae5c56f
+		summarizeBy: none
+		sourceColumn: Vận chuyển
+
+		annotation SummarizationSetBy = Automatic
+
+	column MethodId_N
+		dataType: int64
+		formatString: 0
+		lineageTag: c3b99e57-f1cf-4765-9415-da17cba90041
+		summarizeBy: sum
+		sourceColumn: MethodId_N
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhieuNhapTra_N
+		dataType: string
+		lineageTag: 8303e135-00f7-4204-a3f7-21fdb5e8d43e
+		summarizeBy: none
+		sourceColumn: PhieuNhapTra_N
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_DS Online' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=8cc95609-f041-4368-a7a2-25617b22271a""#(lf)WITH#(lf)  cte_so_hcm AS (#(lf)    SELECT#(lf)      so.Id AS SOId,#(lf)      so.MethodId,#(lf)      so.OnlineNo AS OnlineNo,#(lf)      so.AutoCode AS AutoCode,#(lf)      so.ContactPhone AS SDT_DH,#(lf)      so.CreatedById AS ReviewById,#(lf)      TIMESTAMP(so.CreatedDate) AS CreatedDate,#(lf)      so.StatusPaymentId AS StatusPaymentId,#(lf)      so.StateId AS StateId,#(lf)      so.BranchId AS shop_external_ud,#(lf)      so.IOReasonId,#(lf)      oc.sshh_date SSHH_Date,#(lf)      oc.Id,#(lf)      so.TypeDelivery#(lf)    FROM#(lf)      `cellphones-data-platform.postgres_data_sale_s12869_dwh.OnlineOrders`#(lf)        online#(lf)    JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_Order` so#(lf)      ON so.OnlineNo = online.OnlineNo#(lf)    LEFT JOIN#(lf)      (#(lf)        SELECT#(lf)          JSON_EXTRACT_SCALAR(KeyValues, '$.Id') Id,#(lf)          -- timestamp(RequestDate) sshh_date#(lf)          COALESCE(#(lf)            SAFE.PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S%Ez', RequestDate),#(lf)            SAFE.PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S', RequestDate)) AS sshh_date#(lf)        FROM#(lf)          `cellphones-data-platform.data_audit_changes_s12869_dwh.SO_Order_Changes`#(lf)        WHERE#(lf)          (#(lf)            Description#(lf)              LIKE ""%Chờ kiểm tra hàng hóa -> Sẵn sàng hàng hóa%""#(lf)            OR Description#(lf)              LIKE ""%Chờ điều chuyển -> Sẵn sàng hàng hóa%"")  -- ***Chổ cũ của Thúy DA chỉ lấy Description LIKE ""%Chờ kiểm tra hàng hóa -> Sẵn sàng hàng hóa%"" cho đơn tự động bs thêm rule cho cả đơn không tự động***--#(lf)          AND DATE(SyncDate) >= '2025-07-01'#(lf)      ) oc#(lf)      ON oc.Id = CAST(so.Id AS string)#(lf)    WHERE#(lf)      so.ReplaceById IS NULL#(lf)      AND so.AutoCode NOT LIKE '%#%'#(lf)      AND so.OnlineNo IS NOT NULL#(lf)      AND DATE(so.CreatedDate)#(lf)        >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH)#(lf)    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14#(lf)  ),#(lf)    ---Loại bỏ đơn test theo số điện thoại và khoảng thời gian test cố định #(lf)  cte_test_phone_rule AS (#(lf)SELECT * FROM UNNEST([#(lf)STRUCT('0975184342' AS phone, DATE '2025-09-06' AS start_date, DATE '2025-09-10' AS end_date),#(lf)STRUCT('0975184342', DATE '2025-09-18', DATE '2025-09-18'),#(lf)STRUCT('0975184342', DATE '2025-09-23', DATE '2025-09-23'),#(lf)STRUCT('0975184342', DATE '2025-09-26', DATE '2025-09-26'),#(lf)STRUCT('0975184342', DATE '2025-10-01', DATE '2025-10-01'),#(lf)STRUCT('0975184342', DATE '2025-10-07', DATE '2025-10-09'),#(lf)STRUCT('0975184342', DATE '2025-10-13', DATE '2025-10-15'),#(lf)STRUCT('0975184342', DATE '2025-10-22', DATE '2025-10-22'),#(lf)STRUCT('0975184342', DATE '2025-10-29', DATE '2025-10-29'),#(lf)STRUCT('0975184342', DATE '2025-11-03', DATE '2025-11-06'),#(lf)STRUCT('0975184342', DATE '2025-11-12', DATE '2025-11-13'),#(lf)STRUCT('0975184342', DATE '2025-11-18', DATE '2025-11-19'),#(lf)STRUCT('0975184342', DATE '2025-11-23', DATE '2025-11-24'),#(lf)STRUCT('0975184342', DATE '2025-11-28', DATE '2025-11-28'),#(lf)STRUCT('0975184342', DATE '2025-12-16', DATE '2025-12-16'),#(lf)STRUCT('0975184342', DATE '2025-12-31', DATE '2025-12-31'),#(lf)STRUCT('0975184342', DATE '2026-01-09', DATE '2026-01-09'),#(lf)STRUCT('0975184342', DATE '2026-01-13', DATE '2026-01-13'),#(lf)STRUCT('0975184342', DATE '2026-01-15', DATE '2026-01-16'),#(lf)STRUCT('0975184342', DATE '2026-01-23', DATE '2026-01-23'),#(lf)STRUCT('0975184342', DATE '2026-01-27', DATE '2026-01-30'),#(lf)STRUCT('0975184342', DATE '2026-02-02', DATE '2026-02-02'),#(lf)STRUCT('0975184342', DATE '2026-02-13', DATE '2026-02-13'),#(lf)STRUCT('0975184342', DATE '2026-03-01', DATE '2026-03-31'),#(lf)STRUCT('0974216323', DATE '2025-09-01', DATE '2026-03-31'),#(lf)STRUCT('0929674277', DATE '2025-11-25', DATE '2026-11-27'),#(lf)STRUCT('0843455264', DATE '2026-3-4', DATE '2026-3-5'),#(lf)STRUCT('0784990393', DATE '2025-09-14', DATE '2025-09-14'),#(lf)STRUCT('0784990393', DATE '2026-03-04', DATE '2026-03-04'),#(lf)STRUCT('0393765727',DATE '2025-09-01', DATE '2025-09-01'),#(lf)STRUCT('0393765727',DATE '2025-09-05', DATE '2025-09-05'),#(lf)STRUCT('0393765727',DATE '2025-09-23', DATE '2025-09-23'),#(lf)STRUCT('0393765727',DATE '2025-09-29', DATE '2025-09-29'),#(lf)STRUCT('0393765727',DATE '2025-12-17', DATE '2025-12-17'),#(lf)STRUCT('0393765727',DATE '2026-01-13', DATE '2026-01-13'),#(lf)STRUCT('0393765727',DATE '2026-02-03', DATE '2026-02-03'),#(lf)STRUCT('0393765727',DATE '2026-03-20', DATE '2026-03-20'),#(lf)STRUCT('0359942717',DATE '2025-09-11', DATE '2025-09-11'),#(lf)STRUCT('0359942717',DATE '2025-09-15', DATE '2025-09-15'),#(lf)STRUCT('0359942717',DATE '2025-09-19', DATE '2025-09-19'),#(lf)STRUCT('0359942717',DATE '2025-09-30', DATE '2025-09-30'),#(lf)STRUCT('0359942717',DATE '2025-10-24', DATE '2025-10-24'),#(lf)STRUCT('0359942717',DATE '2025-11-25', DATE '2025-11-25'),#(lf)STRUCT('0359942717',DATE '2025-11-27', DATE '2025-11-27'),#(lf)STRUCT('0359942717',DATE '2026-01-12', DATE '2026-01-12'),#(lf)STRUCT('0359942717',DATE '2026-02-02', DATE '2026-02-03'),#(lf)STRUCT('0359942717',DATE '2026-03-23', DATE '2026-03-23'),#(lf)STRUCT('0336277758', DATE '2025-11-11', DATE '2025-12-16'),#(lf)STRUCT('0336277758', DATE '2026-02-09', DATE '2026-02-11')#(lf)])#(lf)),#(lf)  cte_so_hn AS (#(lf)    SELECT#(lf)      so.Id AS SOId,#(lf)      so.MethodId,#(lf)      so.OnlineNo AS OnlineNo,#(lf)      so.AutoCode AS AutoCode,#(lf)      so.ContactPhone AS SDT_DH,#(lf)      so.CreatedById AS ReviewById,#(lf)      TIMESTAMP(so.CreatedDate) AS CreatedDate,#(lf)      so.StatusPaymentId AS StatusPaymentId,#(lf)      so.StateId AS StateId,#(lf)      so.BranchId AS shop_external_ud,#(lf)      so.IOReasonId,#(lf)      oc.sshh_date SSHH_Date,#(lf)      oc.Id,#(lf)      so.TypeDelivery#(lf)    FROM#(lf)      `cellphones-data-platform.postgres_data_sale_s3759_dwh.OnlineOrders`#(lf)        online#(lf)    JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_Order` so#(lf)      ON so.OnlineNo = online.OnlineNo#(lf)    LEFT JOIN#(lf)      (#(lf)        SELECT#(lf)          JSON_EXTRACT_SCALAR(KeyValues, '$.Id') Id,#(lf)          -- timestamp(RequestDate) sshh_date#(lf)          COALESCE(#(lf)            SAFE.PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S%Ez', RequestDate),#(lf)            SAFE.PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S', RequestDate)) AS sshh_date#(lf)        FROM#(lf)          `cellphones-data-platform.data_audit_changes_s3759_dwh.SO_Order_Changes`#(lf)        WHERE#(lf)          (#(lf)            Description#(lf)              LIKE ""%Chờ kiểm tra hàng hóa -> Sẵn sàng hàng hóa%""#(lf)            OR Description#(lf)              LIKE ""%Chờ điều chuyển -> Sẵn sàng hàng hóa%"")  -- ***Chổ cũ của Thúy DA chỉ lấy Description LIKE ""%Chờ kiểm tra hàng hóa -> Sẵn sàng hàng hóa%"" cho đơn tự động bs thêm rule cho cả đơn không tự động***--#(lf)          AND DATE(SyncDate) >= '2025-07-01'#(lf)      ) oc#(lf)      ON oc.Id = CAST(so.Id AS string)#(lf)    WHERE#(lf)      so.ReplaceById IS NULL#(lf)      AND so.AutoCode NOT LIKE '%#%'#(lf)      AND so.OnlineNo IS NOT NULL#(lf)      AND DATE(so.CreatedDate)#(lf)        >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH)#(lf)    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14#(lf)  ),#(lf)  cte_map_nhap_xuat AS (#(lf)#(lf)  -- HCM#(lf)  SELECT DISTINCT#(lf)    A.AutoCode AS PhieuNhap_N,#(lf)    B.ReferenceExport AS PhieuXuatBan_SP,#(lf)    B.MethodId#(lf)  FROM `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBill` B#(lf)  JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General` A#(lf)    ON A.Id = B.Id#(lf)  WHERE #(lf)    A.AutoCode LIKE 'N.%'#(lf)    AND B.ReferenceExport IS NOT NULL#(lf)#(lf)  UNION ALL#(lf)#(lf)  -- HN#(lf)  SELECT DISTINCT#(lf)    A.AutoCode AS PhieuNhap_N,#(lf)    B.ReferenceExport AS PhieuXuatBan_SP,#(lf)    B.MethodId#(lf)  FROM `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBill` B#(lf)  JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_General` A#(lf)    ON A.Id = B.Id#(lf)  WHERE #(lf)    A.AutoCode LIKE 'N.%'#(lf)    AND B.ReferenceExport IS NOT NULL#(lf)  ),#(lf)  tempbill_hn AS (#(lf)    SELECT#(lf)      so.Id,#(lf)      ag.AutoCode,#(lf)      ag.CreateDate AS Date,#(lf)      asb.FireCompleted,#(lf)      asb.BillDate,#(lf)      so.TypeDelivery,#(lf)      asb.ContactPhone,#(lf)      asb.MethodId#(lf)    FROM `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBillDetail` sbd#(lf)    JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_General` ag#(lf)      ON ag.Id = sbd.StoreBillId#(lf)    JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBill` asb#(lf)      ON ag.Id = asb.Id#(lf)    JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_OrderDetail` sd#(lf)      ON sbd.SOOrderDetailId = sd.Id#(lf)    JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_Order` so#(lf)      ON sd.OrderId = so.Id#(lf)    WHERE#(lf)      DATE(so.CreatedDate)#(lf)        >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH)#(lf)      AND ag.ReplaceById IS NULL#(lf)    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8#(lf)  ),#(lf)  tempbill_hcm AS (#(lf)    SELECT#(lf)      so.Id,#(lf)      ag.AutoCode,#(lf)      ag.CreateDate AS Date,#(lf)      asb.FireCompleted,#(lf)      asb.BillDate,#(lf)      so.TypeDelivery,#(lf)      asb.ContactPhone,#(lf)      asb.MethodId#(lf)    FROM `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBillDetail` sbd#(lf)    JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General` ag#(lf)      ON ag.Id = sbd.StoreBillId#(lf)    JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBill` asb#(lf)      ON ag.Id = asb.Id#(lf)    JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_OrderDetail` sd#(lf)      ON sbd.SOOrderDetailId = sd.Id#(lf)    JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_Order` so#(lf)      ON sd.OrderId = so.Id#(lf)    WHERE#(lf)      DATE(so.CreatedDate)#(lf)        >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH)#(lf)      AND ag.ReplaceById IS NULL#(lf)    GROUP BY 1, 2, 3, 4, 5, 6, 7, 8#(lf)  )#(lf)#(lf)-- HN#(lf)SELECT#(lf)  'HN' AS `Chi nhánh`,#(lf)  branch.Name AS `Cửa hàng`,#(lf)  SO.AutoCode AS `Số đơn hàng`,#(lf)  online.OnlineNo AS `Số online`,#(lf)  tempbill_hn.AutoCode AS PhieuBanLe,#(lf)  tempbill_hn.ContactPhone AS SDT_SP,#(lf)  TIMESTAMP(tempbill_hn.Date) AS NgayBanLe,#(lf)  sr.name AS LyDoHuyDon,#(lf)  CASE#(lf)    WHEN so.MethodId IN (14, 56, 57, 58, 59)#(lf)      THEN#(lf)        CASE#(lf)          WHEN sot.Id = 4#(lf)            THEN#(lf)              CASE#(lf)                WHEN FireCompleted = TRUE AND BillDate IS NOT NULL#(lf)                  THEN 'Đã hoàn thành'#(lf)                WHEN BillDate IS NOT NULL THEN 'Đã xuất kho'#(lf)                ELSE 'Đã tiếp nhận/Đã tư vấn'#(lf)                END#(lf)          WHEN sot.Id = 5 THEN 'Đã tiếp nhận/Chưa tư vấn'#(lf)          WHEN sot.Id = 6 THEN 'Sẵn sàng hàng hóa'#(lf)          WHEN sot.Id = 7 THEN 'Hủy đơn'#(lf)          WHEN sot.Id = 8 THEN 'Đã xuất kho'#(lf)          WHEN sot.Id = 13 THEN 'Lưu thông tin'#(lf)          WHEN sot.Id = 15 THEN 'Chờ thanh toán'#(lf)          ELSE sot.Name#(lf)          END#(lf)    ELSE#(lf)      CASE#(lf)        WHEN FireCompleted = TRUE AND BillDate IS NOT NULL#(lf)          THEN 'Đã hoàn thành'#(lf)        WHEN BillDate IS NOT NULL THEN 'Đã xuất kho'#(lf)        ELSE sot.Name#(lf)        END#(lf)    END AS TrangThaiDon,#(lf)  CASE#(lf)    WHEN state.SOState IS NULL#(lf)      THEN#(lf)        CASE online.OrderStatus#(lf)          WHEN 1 THEN 'Hủy chờ chi'#(lf)          WHEN 2 THEN 'Hủy đơn'#(lf)          ELSE 'Chưa xử lý'#(lf)          END#(lf)    ELSE state.SOState#(lf)    END AS `Trạng thái đơn`,#(lf)  TIMESTAMP(COALESCE(online.SyncDate, online.CreatedDate))#(lf)    AS `Đồng bộ lúc`,#(lf)  CASE#(lf)    WHEN SO.StatusPaymentId = 1 THEN 'Chờ thanh toán'#(lf)    WHEN SO.StatusPaymentId = 2 THEN 'Đã thanh toán'#(lf)    ELSE NULL#(lf)    END AS `Trạng thái thanh toán`,#(lf)  timestamp(online.CreatedDate) AS `Ngày đặt`,#(lf)  --  online.customername                                                           AS `Tên khách hàng`,#(lf)  --  online.customeraddress                                                        AS `Địa chỉ`,#(lf)  online.customertelephone AS `SDT_WN`,#(lf)  online.OtherContactPhone AS `Số điện thoại liên hệ`,#(lf)  --  online.customeremail                                                          AS `Email`,#(lf)  so.SDT_DH,#(lf)  --  online.customernote                                                           AS `Ghi chú`,#(lf)  --  online.CustomerCompanyName                                                    AS `Tên công ty`,#(lf)  --  online.CustomerCompanyAddress                                                 AS `Địa chỉ công ty`,#(lf)  --  online.CustomerCompanyTaxCode                                                 AS `Mã Số thuế`,#(lf) SP.sku AS `Ma_hang`,#(lf)  SP.name AS `Tên hàng`,#(lf)  SP.Quantity AS `SL`,#(lf)  SP.price AS `Đơn giá`,#(lf)  (SP.price * SP.Quantity) AS `Thành tiền`,#(lf)  online.PaymentDiscountAmount AS PromotionPackValue,#(lf)  online.TotalAlterDiscountAmount AS TotalAfterDiscount,#(lf)  online.TotalAmount AS `Tổng đơn hàng`,#(lf)  onlinePayment.RealPaymentAmount AS `Đã trả trước`,#(lf)  onlinePayment.PaymentContact AS `Hình thức thanh toán`,#(lf)  online.VoucherCode AS `Mã KM`,#(lf)  online.ProvinceId AS ProvinceId,#(lf)  SPRO.Name AS `Thành phố`,#(lf)  online.DistrictId AS DistrictId,#(lf)  SDIS.Name AS `Quận huyện`,#(lf)  SO.CreatedDate AS `Ngày xử lý`,#(lf)  online.shippingmethod AS `Vận chuyển`,#(lf)  UPPER(reviewPS.Code) AS ReviewByCode,#(lf)  reviewPS.FullName AS `Người xử lý`,#(lf)  empReviewTitle.Name AS `Chức danh người xử lý`,#(lf)  departmentEmpReview.Name AS `Phòng ban người xử lý`,#(lf)  UPPER(cancelPS.Code) AS CancelByCode,#(lf)  cancelPS.FullName AS `Người từ chối`,#(lf)  departmentEmpCancel.Name AS `Phòng ban người từ chối`,#(lf)  empCancelTitle.Name AS `Chức danh người từ chối`,#(lf)  online.CancelReason AS `Lý do`,#(lf)  online.DenyReason AS `Lý do từ chối`,#(lf)  onlinePayment.TransactionId AS `Mã giao dịch online`,#(lf)  onlinePayment.BankCode AS `Mã ngân hàng`,#(lf)  online.PlatformFee AS `Phí giao dịch`,  -- Phí nền tảng#(lf)  online.ExtraFee AS `Phí phụ thu`,#(lf)  onlinePayment.MerchantCode AS MerchantCode,#(lf)  map.MethodId AS MethodId_N,#(lf)  map.PhieuNhap_N AS PhieuNhapTra_N,#(lf)  CASE onlinePayment.PaymentStatus#(lf)    WHEN 1 THEN 'Chờ thanh toán'#(lf)    WHEN 2 THEN 'Đã thanh toán'#(lf)    WHEN 0 THEN 'Chưa thanh toán'#(lf)    ELSE NULL#(lf)    END AS `Nội dung thanh toán`,#(lf)  CASE#(lf)    WHEN so.Id IS NOT NULL AND reviewPS.FullName = 'SEP Admin'#(lf)      THEN 'Đơn tự động'#(lf)    ELSE 'Không tự động'#(lf)    END AS LoaiDon,#(lf)  so.SSHH_Date,#(lf)  iem.Name AS PhuongThuc,#(lf)  CASE tempbill_hn.TypeDelivery#(lf)    WHEN 1 THEN 'Giao trong ngày'#(lf)    WHEN 2 THEN 'Giao 2 giờ'#(lf)    WHEN 3 THEN 'Giao 3 giờ'#(lf)    WHEN 4 THEN 'Giao 4 giờ'#(lf)    WHEN 8 THEN 'Giao giờ hành chính'#(lf)    WHEN 10 THEN 'Giao theo thỏa thuận'#(lf)    WHEN 0 THEN 'Giao thông thường'#(lf)    WHEN 12 THEN 'Giao hàng liên tỉnh'#(lf)    ELSE NULL#(lf)    END AS loai_giao_hang,#(lf)  CASE SO.TypeDelivery#(lf)    WHEN 1 THEN 'Giao trong ngày'#(lf)    WHEN 2 THEN 'Giao 2 giờ'#(lf)    WHEN 3 THEN 'Giao 3 giờ'#(lf)    WHEN 4 THEN 'Giao 4 giờ'#(lf)    WHEN 8 THEN 'Giao giờ hành chính'#(lf)    WHEN 10 THEN 'Giao theo thỏa thuận'#(lf)    WHEN 0 THEN 'Giao thông thường'#(lf)    WHEN 12 THEN 'Giao hàng liên tỉnh'#(lf)    ELSE NULL#(lf)    END AS loai_giao_hang2#(lf)FROM `cellphones-data-platform.postgres_data_sale_s3759_dwh.OnlineOrders` online#(lf)JOIN#(lf)  `cellphones-data-platform.postgres_data_sale_s3759_dwh.OnlineOrderDetails` SP#(lf)  ON online.Id = SP.OnlineOrderId#(lf)JOIN#(lf)  `cellphones-data-platform.postgres_data_sale_s3759_dwh.OnlineOrderPayments`#(lf)    onlinePayment#(lf)  ON online.Id = onlinePayment.OnlineOrderId#(lf)LEFT JOIN cte_so_hn SO#(lf)  ON online.OnlineNo = SO.OnlineNo#(lf)LEFT JOIN tempbill_hn#(lf)  ON tempbill_hn.Id = SO.SOId#(lf)LEFT JOIN cte_map_nhap_xuat map#(lf)  ON tempbill_hn.AutoCode = map.PhieuXuatBan_SP#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_ImportExportMethod` iem#(lf)  ON iem.Id = so.MethodId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_OrderState` sot#(lf)  ON sot.Id = so.StateId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch` branch#(lf)  ON branch.Id = COALESCE(SO.shop_external_ud, online.BranchId)#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` reviewPS#(lf)  ON (SO.ReviewById IS NOT NULL AND reviewPS.Id = SO.ReviewById)#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` reviewEmp#(lf)  ON reviewEmp.Id = reviewPS.Id#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department`#(lf)    departmentEmpReview#(lf)  ON reviewEmp.DepartmentId = departmentEmpReview.Id#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_EmployeeTitle`#(lf)    empReviewTitle#(lf)  ON empReviewTitle.Id = reviewEmp.TitleId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` cancelPS#(lf)  ON (online.CancelBy IS NOT NULL AND cancelPS.Id = online.CancelBy)#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` cancelEmp#(lf)  ON cancelEmp.Id = online.CancelBy#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department`#(lf)    departmentEmpCancel#(lf)  ON cancelEmp.DepartmentId = departmentEmpCancel.Id#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_EmployeeTitle`#(lf)    empCancelTitle#(lf)  ON empCancelTitle.Id = cancelEmp.TitleId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Province` SPRO#(lf)  ON SPRO.Id = online.ProvinceId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_District` SDIS#(lf)  ON SDIS.Id = online.DistrictId#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_OrderState_Mapping` state#(lf)  ON state.StateId = SO.StateId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_Reason` sr#(lf)  ON sr.id = so.IOReasonId#(lf)WHERE#(lf)  COALESCE(SO.shop_external_ud, online.BranchId) != 9999#(lf)  AND branch.Name IS NOT NULL#(lf)  AND (#(lf)    DATE(online.CreatedDate)#(lf)      >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH)#(lf)    OR DATE(so.CreatedDate)#(lf)      >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH))#(lf)            AND NOT EXISTS (#(lf)  SELECT 1#(lf)  FROM cte_test_phone_rule t#(lf)  WHERE t.phone = online.CustomerTelephone#(lf)    AND DATE(online.CreatedDate) BETWEEN t.start_date AND t.end_date#(lf))#(lf)UNION ALL#(lf)#(lf)-- HCM#(lf)SELECT#(lf)  'HCM' AS `Chi nhánh`,#(lf)  branch.Name AS `Cửa hàng`,#(lf)  SO.AutoCode AS `Số đơn hàng`,#(lf)  online.OnlineNo AS `Số online`,#(lf)  tempbill_hcm.AutoCode AS PhieuBanLe,#(lf)  tempbill_hcm.ContactPhone AS SDT_SP,#(lf)  TIMESTAMP(tempbill_hcm.Date) AS NgayBanLe,#(lf)  sr.name AS LyDoHuyDon,#(lf)  CASE#(lf)    WHEN so.MethodId IN (14, 56, 57, 58, 59)#(lf)      THEN#(lf)        CASE#(lf)          WHEN sot.Id = 4#(lf)            THEN#(lf)              CASE#(lf)                WHEN FireCompleted = TRUE AND BillDate IS NOT NULL#(lf)                  THEN 'Đã hoàn thành'#(lf)                WHEN BillDate IS NOT NULL THEN 'Đã xuất kho'#(lf)                ELSE 'Đã tiếp nhận/Đã tư vấn'#(lf)                END#(lf)          WHEN sot.Id = 5 THEN 'Đã tiếp nhận/Chưa tư vấn'#(lf)          WHEN sot.Id = 6 THEN 'Sẵn sàng hàng hóa'#(lf)          WHEN sot.Id = 7 THEN 'Hủy đơn'#(lf)          WHEN sot.Id = 8 THEN 'Đã xuất kho'#(lf)          WHEN sot.Id = 13 THEN 'Lưu thông tin'#(lf)          WHEN sot.Id = 15 THEN 'Chờ thanh toán'#(lf)          ELSE sot.Name#(lf)          END#(lf)    ELSE#(lf)      CASE#(lf)        WHEN FireCompleted = TRUE AND BillDate IS NOT NULL#(lf)          THEN 'Đã hoàn thành'#(lf)        WHEN BillDate IS NOT NULL THEN 'Đã xuất kho'#(lf)        ELSE sot.Name#(lf)        END#(lf)    END AS TrangThaiDon,#(lf)  CASE#(lf)    WHEN state.SOState IS NULL#(lf)      THEN#(lf)        CASE online.OrderStatus#(lf)          WHEN 1 THEN 'Hủy chờ chi'#(lf)          WHEN 2 THEN 'Hủy đơn'#(lf)          ELSE 'Chưa xử lý'#(lf)          END#(lf)    ELSE state.SOState#(lf)    END AS `Trạng thái đơn`,#(lf)  TIMESTAMP(COALESCE(online.SyncDate, online.CreatedDate))#(lf)    AS `Đồng bộ lúc`,#(lf)  CASE#(lf)    WHEN SO.StatusPaymentId = 1 THEN 'Chờ thanh toán'#(lf)    WHEN SO.StatusPaymentId = 2 THEN 'Đã thanh toán'#(lf)    ELSE NULL#(lf)    END AS `Trạng thái thanh toán`,#(lf)  timestamp(online.CreatedDate) AS `Ngày đặt`,#(lf)  --  online.customername                                                           AS `Tên khách hàng`,#(lf)  --  online.customeraddress                                                        AS `Địa chỉ`,#(lf)  online.customertelephone AS `SDT_WN`,#(lf)  online.OtherContactPhone AS `Số điện thoại liên hệ`,#(lf)  --  online.customeremail                                                          AS `Email`,#(lf)  so.SDT_DH            ,#(lf)  --  online.customernote                                                           AS `Ghi chú`,#(lf)  --  online.CustomerCompanyName                                                    AS `Tên công ty`,#(lf)  --  online.CustomerCompanyAddress                                                 AS `Địa chỉ công ty`,#(lf)  --  online.CustomerCompanyTaxCode                                                 AS `Mã Số thuế`,#(lf)  SP.sku AS `Ma_hang`,#(lf)  SP.name AS `Tên hàng`,#(lf)  SP.Quantity AS `SL`,#(lf)  SP.price AS `Đơn giá`,#(lf)  (SP.price * SP.Quantity) AS `Thành tiền`,#(lf)  online.PaymentDiscountAmount AS PromotionPackValue,#(lf)  online.TotalAlterDiscountAmount AS TotalAfterDiscount,#(lf)  online.TotalAmount AS `Tổng đơn hàng`,#(lf)  onlinePayment.RealPaymentAmount AS `Đã trả trước`,#(lf)  onlinePayment.PaymentContact AS `Hình thức thanh toán`,#(lf)  online.VoucherCode AS `Mã KM`,#(lf)  online.ProvinceId AS ProvinceId,#(lf)  SPRO.Name AS `Thành phố`,#(lf)  online.DistrictId AS DistrictId,#(lf)  SDIS.Name AS `Quận huyện`,#(lf)  SO.CreatedDate AS `Ngày xử lý`,#(lf)  online.shippingmethod AS `Vận chuyển`,#(lf)  UPPER(reviewPS.Code) AS ReviewByCode,#(lf)  reviewPS.FullName AS `Người xử lý`,#(lf)  empReviewTitle.Name AS `Chức danh người xử lý`,#(lf)  departmentEmpReview.Name AS `Phòng ban người xử lý`,#(lf)  UPPER(cancelPS.Code) AS CancelByCode,#(lf)  cancelPS.FullName AS `Người từ chối`,#(lf)  departmentEmpCancel.Name AS `Phòng ban người từ chối`,#(lf)  empCancelTitle.Name AS `Chức danh người từ chối`,#(lf)  online.CancelReason AS `Lý do`,#(lf)  online.DenyReason AS `Lý do từ chối`,#(lf)  onlinePayment.TransactionId AS `Mã giao dịch online`,#(lf)  onlinePayment.BankCode AS `Mã ngân hàng`,#(lf)  online.PlatformFee AS `Phí giao dịch`,  -- Phí nền tảng#(lf)  online.ExtraFee AS `Phí phụ thu`,#(lf)  onlinePayment.MerchantCode AS MerchantCode,#(lf)  map.MethodId AS MethodId_N,#(lf)  map.PhieuNhap_N AS PhieuNhapTra_N,#(lf)  CASE onlinePayment.PaymentStatus#(lf)    WHEN 1 THEN 'Chờ thanh toán'#(lf)    WHEN 2 THEN 'Đã thanh toán'#(lf)    WHEN 0 THEN 'Chưa thanh toán'#(lf)    ELSE NULL#(lf)    END AS `Nội dung thanh toán`,#(lf)  CASE#(lf)    WHEN so.Id IS NOT NULL AND reviewPS.FullName = 'SEP Admin'#(lf)      THEN 'Đơn tự động'#(lf)    ELSE 'Không tự động'#(lf)    END AS LoaiDon,#(lf)  so.SSHH_Date,#(lf)  iem.Name AS PhuongThuc,#(lf)  CASE tempbill_hcm.TypeDelivery#(lf)    WHEN 1 THEN 'Giao trong ngày'#(lf)    WHEN 2 THEN 'Giao 2 giờ'#(lf)    WHEN 3 THEN 'Giao 3 giờ'#(lf)    WHEN 4 THEN 'Giao 4 giờ'#(lf)    WHEN 8 THEN 'Giao giờ hành chính'#(lf)    WHEN 10 THEN 'Giao theo thỏa thuận'#(lf)    WHEN 0 THEN 'Giao thông thường'#(lf)    WHEN 12 THEN 'Giao hàng liên tỉnh'#(lf)    ELSE NULL#(lf)    END AS loai_giao_hang,#(lf)  CASE SO.TypeDelivery#(lf)    WHEN 1 THEN 'Giao trong ngày'#(lf)    WHEN 2 THEN 'Giao 2 giờ'#(lf)    WHEN 3 THEN 'Giao 3 giờ'#(lf)    WHEN 4 THEN 'Giao 4 giờ'#(lf)    WHEN 8 THEN 'Giao giờ hành chính'#(lf)    WHEN 10 THEN 'Giao theo thỏa thuận'#(lf)    WHEN 0 THEN 'Giao thông thường'#(lf)    WHEN 12 THEN 'Giao hàng liên tỉnh'#(lf)    ELSE NULL#(lf)    END AS loai_giao_hang2#(lf)FROM#(lf)  `cellphones-data-platform.postgres_data_sale_s12869_dwh.OnlineOrders` online#(lf)JOIN#(lf)  `cellphones-data-platform.postgres_data_sale_s12869_dwh.OnlineOrderDetails` SP#(lf)  ON online.Id = SP.OnlineOrderId#(lf)JOIN#(lf)  `cellphones-data-platform.postgres_data_sale_s12869_dwh.OnlineOrderPayments`#(lf)    onlinePayment#(lf)  ON online.Id = onlinePayment.OnlineOrderId#(lf)LEFT JOIN cte_so_hcm SO#(lf)  ON online.OnlineNo = SO.OnlineNo#(lf)LEFT JOIN tempbill_hcm#(lf)  ON tempbill_hcm.Id = SO.SOId#(lf)LEFT JOIN cte_map_nhap_xuat map#(lf)  ON tempbill_hcm.AutoCode = map.PhieuXuatBan_SP#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_ImportExportMethod` iem#(lf)  ON iem.Id = so.MethodId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_OrderState` sot#(lf)  ON sot.Id = so.StateId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch` branch#(lf)  ON branch.Id = COALESCE(SO.shop_external_ud, online.BranchId)#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` reviewPS#(lf)  ON (SO.ReviewById IS NOT NULL AND reviewPS.Id = SO.ReviewById)#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` reviewEmp#(lf)  ON reviewEmp.Id = reviewPS.Id#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department`#(lf)    departmentEmpReview#(lf)  ON reviewEmp.DepartmentId = departmentEmpReview.Id#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_EmployeeTitle`#(lf)    empReviewTitle#(lf)  ON empReviewTitle.Id = reviewEmp.TitleId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` cancelPS#(lf)  ON (online.CancelBy IS NOT NULL AND cancelPS.Id = online.CancelBy)#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` cancelEmp#(lf)  ON cancelEmp.Id = online.CancelBy#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department`#(lf)    departmentEmpCancel#(lf)  ON cancelEmp.DepartmentId = departmentEmpCancel.Id#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_EmployeeTitle`#(lf)    empCancelTitle#(lf)  ON empCancelTitle.Id = cancelEmp.TitleId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Province` SPRO#(lf)  ON SPRO.Id = online.ProvinceId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_District` SDIS#(lf)  ON SDIS.Id = online.DistrictId#(lf)LEFT JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_OrderState_Mapping` state#(lf)  ON state.StateId = SO.StateId#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_Reason` sr#(lf)  ON sr.id = so.IOReasonId#(lf)WHERE#(lf)  COALESCE(SO.shop_external_ud, online.BranchId) != 9999#(lf)  AND branch.Name IS NOT NULL#(lf)  AND (#(lf)    DATE(online.CreatedDate)#(lf)      >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH)#(lf)    OR DATE(so.CreatedDate)#(lf)      >= DATE_ADD(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL -6 MONTH))#(lf)  AND NOT EXISTS (#(lf)  SELECT 1#(lf)  FROM cte_test_phone_rule t#(lf)  WHERE t.phone = online.CustomerTelephone#(lf)    AND DATE(online.CreatedDate) BETWEEN t.start_date AND t.end_date)", null, [EnableFolding=true]),
+				    // #"Inserted Date" = Table.AddColumn(Source, "Date", each if [Ngày xử lý] is null then [Ngày đặt] else [Ngày xử lý]),
+				    #"Inserted Date" = Table.AddColumn(Source, "Date", each if [Ngày xử lý] is null then [Ngày đặt] else [Ngày đặt]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Inserted Date",{{"Date", type date}}),
+				    #"Inserted Start of Month" = Table.AddColumn(#"Changed Type", "Startdate", each Date.StartOfMonth([Date]), type date),
+				    #"Replaced Value" = Table.ReplaceValue(#"Inserted Start of Month",null,"",Replacer.ReplaceValue,{"Phòng ban người xử lý", "Phòng ban người từ chối"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Replaced Value", "Bộ phận xử lý", each if Text.Contains([Phòng ban người xử lý], "Hotline") then "CS" else if Text.Contains([Phòng ban người xử lý], "chatline") then "CS" else if Text.Contains([Phòng ban người xử lý], "hotline") then "CS" else if Text.Contains([Phòng ban người xử lý], "Chatline") then "CS" else if Text.Contains([Phòng ban người xử lý], "Facebook") then "CS" else "Shop"),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column", "Bộ phận từ chối", each if Text.Contains([Phòng ban người từ chối], "Hotline") then "CS" else if Text.Contains([Phòng ban người từ chối], "hotline") then "CS" else if Text.Contains([Phòng ban người từ chối], "Chatline") then "CS" else if Text.Contains([Phòng ban người từ chối], "chatline") then "CS" else if Text.Contains([Phòng ban người từ chối], "Facebook") then "CS" else "Shop"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Conditional Column1",{{"loai_giao_hang", "loai_giao_hang theo SP"}, {"loai_giao_hang2", "loai_giao_hang theo DH"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

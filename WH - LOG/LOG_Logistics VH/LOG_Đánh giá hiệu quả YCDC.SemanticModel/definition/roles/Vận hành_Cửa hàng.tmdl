@@ -1,0 +1,20 @@
+role 'Vận hành_Cửa hàng'
+	modelPermission: read
+
+	tablePermission D_Date = 'D_Date'[Date]>=LOOKUPVALUE('D_Phân quyền_User'[Startdate],'D_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission 'D_Phân quyền_Vận hành' = ```
+			IF( 
+			LOOKUPVALUE('D_Phân quyền_User'[Title],'D_Phân quyền_User'[Mail] ,USERPRINCIPALNAME()) = "SHOP", 
+			[Cửa hàng] IN DISTINCT(
+			    SELECTCOLUMNS(
+			        FILTER(
+			            ADDCOLUMNS(
+			                CROSSJOIN(
+			                    FILTER('D_Phân quyền_Vận hành','D_Phân quyền_Vận hành'[Cửa hàng] = LOOKUPVALUE('D_Phân quyền_User'[Tên],'D_Phân quyền_User'[Mail],USERPRINCIPALNAME())),'D_Phân quyền_User'),
+			                        "Path leader", PATHCONTAINS('D_Phân quyền_User'[Path],'D_Phân quyền_Vận hành'[Cửa hàng])),[Path leader]),"Cửa hàng",'D_Phân quyền_User'[Tên]))
+			,True)
+			```
+
+	annotation PBI_Id = c548a35683974400a11a124d7fb7d743
+

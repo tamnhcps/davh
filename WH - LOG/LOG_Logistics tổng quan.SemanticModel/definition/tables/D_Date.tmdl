@@ -1,0 +1,232 @@
+table D_Date
+	lineageTag: fb3bf887-18c3-4046-998a-50e2c1207ff9
+	dataCategory: Time
+
+	column Ngày_IsActive = ```
+			
+			    IF (
+			        'D_Date'[Date] >= MIN ( 'F_Logistics'[Date] )
+			            && 'D_Date'[Date] <= MAX ( 'F_Logistics'[Date] ),
+			        1,
+			        BLANK ()
+			    )
+			```
+		formatString: 0
+		lineageTag: 0b550f37-ff77-44ac-bbcb-31a87625f551
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: a38223cf-f3b4-453b-81d0-182ea1db5a16
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Năm/Tháng
+		dataType: string
+		lineageTag: eb7b21d1-6c3b-4cf4-8552-4ccb80cb310f
+		summarizeBy: none
+		sourceColumn: Năm/Tháng
+		sortByColumn: Index_NamThang
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column apple_year_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 6995f330-c11c-44ad-95c6-af12486a199f
+		summarizeBy: sum
+		sourceColumn: apple_year_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tuần
+		dataType: string
+		lineageTag: a45c1cbb-2943-4088-9c20-65d481764ea1
+		summarizeBy: none
+		sourceColumn: Tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đầu tháng'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: b55e8fde-20c1-47a4-904b-51231544dc8a
+		summarizeBy: none
+		sourceColumn: Đầu tháng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Cuối tháng'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f1207c73-782e-4479-b2e5-9e6b4f4212c9
+		summarizeBy: none
+		sourceColumn: Cuối tháng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Năm
+		dataType: int64
+		formatString: 0
+		lineageTag: b2f82924-5ebc-4ff7-94d5-355e6cec804e
+		summarizeBy: sum
+		sourceColumn: Năm
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tháng
+		dataType: string
+		lineageTag: 8d871a62-f6f6-4882-a58e-98b91d9c591f
+		summarizeBy: none
+		sourceColumn: Tháng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngày
+		dataType: int64
+		formatString: 0
+		lineageTag: 5f89f134-0f80-4266-82f5-7086089d8d4b
+		summarizeBy: sum
+		sourceColumn: Ngày
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayOfYear
+		dataType: string
+		lineageTag: d91337fe-57dd-407a-b584-49971ae6ab3d
+		summarizeBy: none
+		sourceColumn: dayOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quí
+		dataType: string
+		lineageTag: e27314d1-c3ad-4db8-b4e6-f6792468cc18
+		summarizeBy: none
+		sourceColumn: Quí
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tuần
+		dataType: string
+		lineageTag: 4289d9a7-9509-4b99-8310-599f36183684
+		summarizeBy: none
+		sourceColumn: Năm/Tuần
+		sortByColumn: Tuần
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Quí
+		dataType: string
+		lineageTag: e1172084-e319-441e-aa90-03c51d94a985
+		summarizeBy: none
+		sourceColumn: Năm/Quí
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayName
+		dataType: string
+		lineageTag: 5e6233a6-c482-4567-864d-6ccb11231caa
+		summarizeBy: none
+		sourceColumn: dayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayNameLong
+		dataType: string
+		lineageTag: 5beca011-6bbf-49ae-aebf-17a45cbff503
+		summarizeBy: none
+		sourceColumn: dayNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthName
+		dataType: string
+		lineageTag: 43df42ed-9acf-4d60-97a0-1fb51d9cc95a
+		summarizeBy: none
+		sourceColumn: monthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthNameLong
+		dataType: string
+		lineageTag: 515dd81d-f811-4b93-84d6-6ab41ebaf3a9
+		summarizeBy: none
+		sourceColumn: monthNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cuối tuần'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4db61f8a-6673-425a-b3f8-aac9db4df35c
+		summarizeBy: none
+		sourceColumn: Cuối tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngày_IsActiveYear =
+			
+			VAR count_active =
+			    CALCULATE (
+			        SUM ( 'D_Date'[Ngày_IsActive] ),
+			        FILTER (
+			            'D_Date',
+			           'D_Date'[Năm]
+			                = EARLIER ( 'D_Date'[Năm] )
+			        )
+			    )
+			RETURN
+			    IF (
+			        count_active > 0,
+			        1,
+			        BLANK ()
+			    )
+		formatString: 0
+		lineageTag: fd9b8e30-76f6-4f3d-a1b6-30ab3d4cb19b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index_NamThang
+		dataType: int64
+		formatString: 0
+		lineageTag: f31aecfa-9610-4b54-a8c9-8324ecc30c4d
+		summarizeBy: sum
+		sourceColumn: Index_NamThang
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Date-367bd2f0-950f-4550-98b1-bf03b8493a1f = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=0c443b5c-c2db-4617-b273-e61ac25f9b66”#(lf)WITH TempDistinctYearMonth AS (#(lf)    SELECT DISTINCT yearMonth#(lf)    FROM cellphones-data-platform.cps_DA_General_Transform.dim_date#(lf)    ORDER BY yearMonth#(lf)),#(lf)IndexYearMonth AS (#(lf)    SELECT #(lf)        yearMonth,#(lf)        ROW_NUMBER() OVER (ORDER BY yearMonth ASC) AS Index_NamThang#(lf)    FROM TempDistinctYearMonth#(lf))#(lf)SELECT #(lf)    a.*, #(lf)    b.Index_NamThang#(lf)FROM #(lf)    cellphones-data-platform.cps_DA_General_Transform.dim_date a#(lf)JOIN #(lf)    IndexYearMonth b#(lf)ON #(lf)    a.yearMonth = b.yearMonth", null, [EnableFolding=true]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"date", "Date"}, {"FirstDayOfMonth", "Đầu tháng"}, {"LastDayOfMonth", "Cuối tháng"}, {"year", "Năm"}, {"month", "Tháng"}, {"day", "Ngày"}, {"quarter", "Quí"}, {"yearMonth", "Năm/Tháng"}, {"year_week", "Tuần"}, {"weekend", "Cuối tuần"}, {"YearWeek", "Năm/Tuần"}, {"quy_nam", "Năm/Quí"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","-","/",Replacer.ReplaceText,{"Năm/Tháng", "Năm/Tuần", "Năm/Quí"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,54 @@
+table Parameter_SLA
+	lineageTag: c2b94c6e-022c-4f75-9f96-457d5c521d20
+
+	column Parameter_SLA
+		lineageTag: bc5c38f5-5036-4a1f-870e-a7be1fa52c00
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_SLA Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_SLA Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_SLA Fields'
+		isHidden
+		lineageTag: 0176f511-ac7d-40a0-b905-222ba0d5266b
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_SLA Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_SLA Order'
+		isHidden
+		formatString: 0
+		lineageTag: fbf65eee-fc28-4543-8268-cc03260e0a6d
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_SLA = calculated
+		mode: import
+		source =
+				{
+				    ("TyTrong/Tổng đơn Online", NAMEOF('Measure'[TyTrong Online]), 0),
+				    ("Avg_SLA ra DH", NAMEOF('Measure'[Avg_SLA_DH]), 1),
+				    ("Avg_SLA ra DH g%", NAMEOF('Measure'[Avg_SLA_DH_LM g%]), 2),
+				    ("Đánh giá SLA ra DH", NAMEOF('Measure'[Avg_SLA_DH_Comt]), 3),
+				    ("Avg_SLA ra SSHH", NAMEOF('Measure'[Avg_SLA_SSHH]), 4),
+				    ("Đánh giá SLA ra SSHH", NAMEOF('Measure'[Avg_SLA_SSHH_Comt]), 5),
+				    ("Avg_SLA ra SP", NAMEOF('Measure'[Avg_SLA_SP]), 6),
+				    ("Avg_SLA ra SP g%", NAMEOF('Measure'[Avg_SLA_SP_LM g%]), 7)
+				}
+
+	annotation PBI_Id = f4dc6edc880c445781beedd76b8ff1ec
+

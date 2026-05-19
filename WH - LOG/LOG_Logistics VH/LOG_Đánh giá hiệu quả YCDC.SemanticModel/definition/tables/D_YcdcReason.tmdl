@@ -1,0 +1,26 @@
+table D_YcdcReason
+	excludeFromModelRefresh
+	lineageTag: 71c74e61-4ea0-4770-acc8-b939e80f3680
+
+	column 'Lý do YCDC'
+		dataType: string
+		lineageTag: 7124e5a2-cab6-49b3-97b2-c6bf9916b48c
+		summarizeBy: none
+		sourceColumn: Lý do YCDC
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_YcdcReason = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcj68KE8h4/CCvHSlWJ1opYhMZJ53xuGFyWCWc0ZmIkwiFgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Lý do YCDC" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Lý do YCDC", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,246 @@
+table F_Logistics
+	lineageTag: 4c162c3a-7c81-493b-a8aa-096f3ed98533
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 5f9a6c4d-a4b0-471d-892b-0790c864810a
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tình trạng đơn'
+		dataType: string
+		lineageTag: f15fabb2-722f-4a7f-895d-664052afe5ed
+		summarizeBy: none
+		sourceColumn: Tình trạng đơn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu'
+		dataType: string
+		lineageTag: 8ef7f531-d768-46ef-8735-506a8c5c8361
+		summarizeBy: none
+		sourceColumn: Số phiếu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã chuyến đi'
+		dataType: string
+		lineageTag: dad7a585-73d9-40ce-8128-03071956aa55
+		summarizeBy: none
+		sourceColumn: Mã chuyến đi
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập phiếu'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3fbb04c4-662f-4ac1-8ffd-993203d10608
+		summarizeBy: none
+		sourceColumn: Ngày lập phiếu
+
+		variation Variation
+			isDefault
+			relationship: b5de89a0-2baa-423b-9cbd-1c2ce82e3e94
+			defaultHierarchy: LocalDateTable_c153c3f2-b8a8-4100-9f4f-ec0eb230325e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày tạo chuyến đi'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: cedd1bfe-d37f-4165-9d5e-84811e5110a2
+		summarizeBy: none
+		sourceColumn: Ngày tạo chuyến đi
+
+		variation Variation
+			isDefault
+			relationship: 67845de5-1a30-427b-807e-87fbd53e1549
+			defaultHierarchy: LocalDateTable_632176b0-d57f-412b-b5cb-9ac4d92189b9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhận lúc'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3fb361e4-b37a-4b24-96c1-6faa87da5b03
+		summarizeBy: none
+		sourceColumn: Nhận lúc
+
+		variation Variation
+			isDefault
+			relationship: d6ae58a5-8532-4768-b199-6086b654224f
+			defaultHierarchy: LocalDateTable_12d2897f-447e-4b74-82ca-ffcd8f16970a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian hoàn tất'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 397cc175-6eeb-43e4-a7fd-43d52d67289c
+		summarizeBy: none
+		sourceColumn: Thời gian hoàn tất
+
+		variation Variation
+			isDefault
+			relationship: 93e73e36-fd5e-43b3-bd53-134e6a6aef92
+			defaultHierarchy: LocalDateTable_f755cf69-b9bc-432f-a08d-199b69cd3947.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian hủy'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 32a23d7d-bcf4-4fa5-b7a3-c60f39d4f936
+		summarizeBy: none
+		sourceColumn: Thời gian hủy
+
+		variation Variation
+			isDefault
+			relationship: c5140f69-1ad9-4797-bc3d-d7dd4abd86ef
+			defaultHierarchy: LocalDateTable_17488ddf-4325-4313-8fcb-b0fc39927f20.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Datasource
+		dataType: string
+		lineageTag: 10607f60-04f3-4076-9ea5-d7c18df86340
+		summarizeBy: none
+		sourceColumn: Datasource
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Slg phiếu' = ```
+			
+			VAR _AutoCode = F_Logistics[số phiếu]
+			RETURN 
+			CALCULATE(
+			    COUNT('F_Logistics'[Số phiếu]),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[số phiếu] = _AutoCode --EARLIER('F_Logistics'[số phiếu])
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: cc4f2016-f248-4ecf-8a3a-e8f673f973c4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập phiếu chuyển kho CH' =
+			
+			VAR _AutoCode = F_Logistics[số phiếu]
+			VAR zDC =
+			CALCULATE(
+			    MIN('F_Logistics'[Ngày tạo chuyến đi]),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[số phiếu] = _AutoCode --EARLIER('F_Logistics'[số phiếu])
+			            && 'F_Logistics'[Tình trạng đơn] IN {"Hoàn tất", "Giao thành công", "Mới tạo", "Đang giao"}
+			    )
+			)
+			RETURN
+			IF(
+			    'F_Logistics'[Tình trạng đơn] = "HTTC đã xác nhận"
+			        && 'F_Logistics'[Ngày tạo chuyến đi] <= zDC,
+			        zDC,
+			        BLANK()
+			)
+		formatString: General Date
+		lineageTag: 1683cbce-eb6d-40b3-b962-c28555a3951c
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 83eeba07-3e11-4dab-8610-0885d07de966
+			defaultHierarchy: LocalDateTable_591a8371-6534-481e-b6b2-b5b2569942b8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian tại kho phân loại' = DATEDIFF([Ngày tạo chuyến đi], [Ngày lập phiếu chuyển kho CH], SECOND)/ 86400
+		lineageTag: be323e52-9a42-418e-afd8-bb29918d296b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 77c6a03b-b1be-498b-9863-c76b1fdb8aca
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Miền =
+			
+			SWITCH(
+			    TRUE(),
+			    SEARCH("MN", 'F_Logistics'[Datasource], 1, 0) > 0 || SEARCH("HCM", 'F_Logistics'[Datasource], 1, 0), "Miền Nam",
+			    "Miền Bắc"
+			)
+		lineageTag: 38a2f89a-e03e-47ee-ab67-9be4c929796b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên xe'
+		dataType: string
+		lineageTag: d9a74da8-a8a7-4155-b7c7-59fbf4b82862
+		summarizeBy: none
+		sourceColumn: Tên xe
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hình thức vận chuyển' = ```
+			
+			IF(
+			    'F_Logistics'[Miền] = "Miền Nam",
+			    SWITCH(
+			        TRUE(),
+			        'F_Logistics'[Tên xe] IN {"XE MÁY LOG", "Ô TÔ LOG", "Giao hàng cho khách B2B", "XE KHO TRUNG TÂM"} 
+			            || CONTAINSSTRING('F_Logistics'[Tên xe], "XEKHO") 
+			            || CONTAINSSTRING('F_Logistics'[Tên xe], "XELOG"), "NV LOG",
+			        'F_Logistics'[Tên xe] IN {"Nhân Viên Shop Giao", "NV shop giao", "Nội bộ liên tỉnh"}, "NV SHOP",
+			        'F_Logistics'[Datasource] IN {"AHAMOVE-MN (SEP)", "AHAMOVE-MN"}, "AHAMOVE",
+			        'F_Logistics'[Datasource] IN {"LAZADA-MN (SEP)"}, "LAZADA",
+			        'F_Logistics'[Datasource] IN {"NHATTIN-MN", "NHATTIN-MN (SEP)"}, "NHẤT TÍN",
+			        "KHÁC"
+			    ),
+			    SWITCH(
+			        TRUE(),
+			        'F_Logistics'[Datasource] IN {"AHAMOVE-MB (SEP)", "AHAMOVE-MB"}, "AHAMOVE",
+			        'F_Logistics'[Tên xe] IN {"XE MÁY LOG", "Ô TÔ LOG"}, "NV LOG",
+			        'F_Logistics'[Tên xe] IN {"NHÂN VIÊN SHOP GIAO", "XE KHO ĐI KHO TRUNG TÂM", "XE KHO TÔNG (KHO TÔNG CHON)", "XE KHO TRUNG CHUYỂN"}
+			            || ('F_Logistics'[Datasource] = "HTVRT-HN" && 'F_Logistics'[Tên xe] <> BLANK()), "NV SHOP",
+			        'F_Logistics'[Datasource] IN {"LAZADA-MB (SEP)"}, "LAZADA",
+			        'F_Logistics'[Datasource] IN {"NHATTIN-MB (SEP)"}, "NHẤT TÍN",
+			        "KHÁC"
+			    )
+			)
+			```
+		lineageTag: 5aca25ac-fb5f-4882-89ee-703a02966b5b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Logistics = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)SELECT #(lf)  cua_hang AS `Cửa hàng`,#(lf)  tinh_trang_don AS `Tình trạng đơn`,#(lf)  so_phieu AS `Số phiếu`,#(lf)  ma_chuyen_di AS `Mã chuyến đi`,#(lf)  ngay_lap_phieu AS `Ngày lập phiếu`,#(lf)  ngay_tao_chuyen_di AS `Ngày tạo chuyến đi`,#(lf)  nhan_luc AS `Nhận lúc`,#(lf)  thoi_gian_hoan_tat AS `Thời gian hoàn tất`,#(lf)  DATE(thoi_gian_hoan_tat) AS Date,#(lf)  thoi_gian_huy AS `Thời gian hủy`,#(lf)  ten_xe AS `Tên xe`,#(lf)  data_source AS Datasource#(lf)FROM `cellphones-data-platform.datamart_cps_logistics.rpt_logistics`#(lf)WHERE 1=1 #(lf)AND so_phieu LIKE 'DC.%'#(lf)AND DATE(ngay_tao_chuyen_di) >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 7 MONTH)", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

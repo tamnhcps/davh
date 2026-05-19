@@ -1,0 +1,91 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "3a38fbd66005ede74231",
+  "displayName": "Tổng quan",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "objects": {
+    "displayArea": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Middle'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#E6E6E6'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspace": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#CCCCCC'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "68ad3f291b2c5018beeb",
+      "target": "67accc8edec4552a4f3d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "68ad3f291b2c5018beeb",
+      "target": "fa09784169d740c28160",
+      "type": "NoFilter"
+    },
+    {
+      "source": "68ad3f291b2c5018beeb",
+      "target": "2ded3ce79d9914d86fec",
+      "type": "NoFilter"
+    },
+    {
+      "source": "fa09784169d740c28160",
+      "target": "3546b5fada13665ce200",
+      "type": "DataFilter"
+    },
+    {
+      "source": "fa09784169d740c28160",
+      "target": "2ded3ce79d9914d86fec",
+      "type": "DataFilter"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+table D_DeliveryType
+	lineageTag: 5b3ee38b-400e-454b-93b7-6dc60949a7c3
+
+	column 'Loại giao hàng'
+		lineageTag: 9203d8b9-3459-4a3e-8658-7ab452241784
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F_Logistics[Loại giao hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_DeliveryType = calculated
+		mode: import
+		source = ```
+				
+				SUMMARIZE(
+				    FILTER(
+				        'F_Logistics',
+				        'F_Logistics'[Loại giao hàng] <> BLANK()
+				    ),
+				    'F_Logistics'[Loại giao hàng]
+				)
+				
+				```
+
+	annotation PBI_Id = 61fe0bb106c14ba69e2c9b7c086a5cba
+

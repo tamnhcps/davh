@@ -1,0 +1,53 @@
+table F_PO
+	lineageTag: bdb5fc75-41cc-4332-903a-79c34fb93805
+
+	column 'Ngày lập phiếu'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 8e972d52-2681-43bb-999c-65a828e8f7ba
+		summarizeBy: none
+		sourceColumn: Ngày lập phiếu
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Slg
+		dataType: double
+		lineageTag: c7a6f847-bdf2-4ac4-b9bf-ea78f90d13ab
+		summarizeBy: sum
+		sourceColumn: Slg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Miền
+		dataType: string
+		lineageTag: 193be624-4422-4401-968f-0c16f496412f
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm hàng'
+		dataType: string
+		lineageTag: cd8ab54c-e5b9-4558-b764-64db257e69ef
+		summarizeBy: none
+		sourceColumn: Nhóm hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_PO = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=0c443b5c-c2db-4617-b273-e61ac25f9b66”#(lf)SELECT #(lf)  DATE(p.CreatedDate) AS `Ngày lập phiếu`,#(lf)  UPPER(spg.Name) AS `Nhóm hàng`,#(lf)  SUM(pd.Quantity) AS Slg,#(lf)  'Miền Nam' AS `Miền`#(lf)FROM#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.PO_Order p#(lf)INNER JOIN#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.PO_OrderDetail pd ON p.Id = pd.OrderId#(lf)INNER JOIN#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product sp ON sp.Id = pd.ProductId#(lf)INNER JOIN #(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup spg ON spg.id = sp.ProductGroupId#(lf)WHERE #(lf)  p.MethodId = 2#(lf)  AND p.StateId = 16#(lf)  AND DATE(p.CreatedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)GROUP BY#(lf)  p.CreatedDate,#(lf)  spg.Name#(lf)#(lf)UNION ALL#(lf)#(lf)SELECT #(lf)  DATE(p.CreatedDate) AS `Ngày lập phiếu`,#(lf)  UPPER(spg.Name) AS `Nhóm hàng`,#(lf)  SUM(pd.Quantity) AS Slg,#(lf)  'Miền Bắc' AS `Miền`#(lf)FROM#(lf)  cellphones-data-platform.cps_cdc_sep_hn_dbo.PO_Order p#(lf)INNER JOIN#(lf)  cellphones-data-platform.cps_cdc_sep_hn_dbo.PO_OrderDetail pd ON p.Id = pd.OrderId#(lf)INNER JOIN#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product sp ON sp.Id = pd.ProductId#(lf)INNER JOIN #(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup spg ON spg.id = sp.ProductGroupId#(lf)WHERE #(lf)  p.MethodId = 2#(lf)  AND p.StateId = 16#(lf)  AND DATE(p.CreatedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)GROUP BY#(lf)  p.CreatedDate,#(lf)  spg.Name", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

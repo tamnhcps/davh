@@ -1,0 +1,31 @@
+table LastUpdated
+	lineageTag: e2324c44-ad66-42c8-8111-8409fee823ac
+
+	column update
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cbdeb021-7a0d-45ad-9b95-5441433a2ac6
+		summarizeBy: none
+		sourceColumn: update
+
+		variation Variation
+			isDefault
+			relationship: 009a379d-62a8-4d49-8780-0dcb3c15049c
+			defaultHierarchy: LocalDateTable_36be7f4c-f59c-4742-b1da-5dad1d027307.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition LastUpdated = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)select#(lf)current_date(""Asia/Ho_Chi_Minh"") -1 as `update`", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

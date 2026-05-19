@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "VH_Xử lý Đơn hàng_new"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e525c489-c7a1-432f-ac7e-fa79bd747e1c"
+  }
+}

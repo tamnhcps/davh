@@ -1,0 +1,5 @@
+role Chung
+	modelPermission: read
+
+	annotation PBI_Id = 36ecfd1e87444d59a9006baa730ec655
+

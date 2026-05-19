@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "58ac85e6c57d73159135",
+  "position": {
+    "x": 326.19402985074629,
+    "y": 874.47761194029852,
+    "z": 4000,
+    "height": 33.544776119402982,
+    "width": 1023.6940298507462,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "*Phí vận chuyển áp dụng cho Nhân viên cửa hàng và Nhân viên kho theo khoảng cách (km) được đề xuất bởi chị Thủy @thuynt_ops, khác rule phụ cấp vận chuyển từ CnB ",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#113d3c"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "right"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

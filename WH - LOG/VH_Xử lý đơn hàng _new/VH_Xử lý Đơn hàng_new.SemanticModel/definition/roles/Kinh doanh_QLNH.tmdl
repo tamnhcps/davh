@@ -1,0 +1,35 @@
+role 'Kinh doanh_QLNH'
+	modelPermission: read
+
+	tablePermission 'DIM_Danh mục_Ngày' = 'DIM_DANH MỤC_NGÀY'[Date]>=LOOKUPVALUE('Dim_Phân quyền_User'[Startdate],'Dim_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission 'Dim_Phân Quyền_Kinh doanh' = ```
+			var zName = 
+			    lookupvalue( 
+			        'Dim_Phân quyền_User'[Tên]
+			        ,'Dim_Phân quyền_User'[Mail], userprincipalname()
+			    )
+			var zTable_AddColumns =
+			    addcolumns(
+			        'Dim_Phân quyền_Kinh doanh'
+			        ,"zPath"
+			        ,lookupvalue(
+			            'Dim_Phân quyền_User'[Path]
+			            ,'Dim_Phân quyền_User'[Tên], 'Dim_Phân quyền_Kinh doanh'[QLNH]
+			        )
+			    )
+			
+			return
+			    [Phân quyền_Kinh doanh]
+			    in
+			    summarize(
+			        filter(
+			            zTable_AddColumns
+			            ,pathcontains([zPath],zName)
+			        )
+			        ,'Dim_Phân quyền_Kinh doanh'[Phân quyền_Kinh doanh]
+			    )
+			```
+
+	annotation PBI_Id = bbae313249674913bf7a747817be0fd1
+

@@ -1,0 +1,38 @@
+table D_SelectedMeasure
+	excludeFromModelRefresh
+	lineageTag: 9acd3619-f74b-43dc-9fb1-5b373eb3f4f4
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: a769c74d-b544-4b6c-b9d8-714d7515236f
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column Measure
+		dataType: string
+		lineageTag: c4732812-e86b-42f4-9c34-46fb786ac680
+		summarizeBy: none
+		sourceColumn: Measure
+		sortByColumn: Index
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_SelectedMeasure = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUVJViHR2cTZUitWJVjKC883BfGOEvIlSbCwA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Index = _t, Measure = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Index", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,42 @@
+table Dim_KhoangCach
+	lineageTag: 093c2b05-4962-4a4d-a58f-660383622af9
+
+	column 'Khoảng cách'
+		lineageTag: d3344fdd-63cc-428f-8152-5a2d47fff1db
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Khoảng cách]
+		sortByColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		formatString: 0
+		lineageTag: 7bef5389-b125-428c-8fda-af5c8e0749ef
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_KhoangCach = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE (
+				    "Khoảng cách", STRING,
+				    "Sort", INTEGER,
+				    {
+				        { "0 - 5km", 1 },
+				        { "5 - 10km", 2 },
+				        { "10 - 15km", 3 },
+				        { "15 - 20km", 4 },
+				        { "20 - 25km", 5 },
+				        { "> 25km", 6 }
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 56f1a276f09d4522a220c255b0032695
+

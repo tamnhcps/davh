@@ -1,0 +1,26 @@
+table D_Area
+	excludeFromModelRefresh
+	lineageTag: 9077b50d-ebbf-4962-bfb6-f79a0c39d0f5
+
+	column 'Khu vực'
+		dataType: string
+		lineageTag: dc394b9b-bf60-4493-b9c8-e539925388dc
+		summarizeBy: none
+		sourceColumn: Khu vực
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Area = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8nD2VdBVAJJKsTowXsjD3Z15GWABCBNZhR+I44dgY1UMkffJPLwqT6EEIuqLTcxJKTYWAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Khu vực" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Khu vực", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

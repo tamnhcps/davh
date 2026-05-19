@@ -1,0 +1,50 @@
+table Dim_KhungGio
+	lineageTag: 95f3ab06-10b1-4c52-8c01-c4b1e6e24b54
+
+	column 'Khung giờ'
+		lineageTag: ea9589d3-ccd8-4f41-84db-795c95096583
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Khung giờ]
+		sortByColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		formatString: 0
+		lineageTag: a6be1293-6b38-4e8c-b792-ce9cd29a400d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_KhungGio = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE (
+				    "Khung giờ", STRING,
+				    "Sort", INTEGER,
+				    {
+				        { "0 - <7h", 1 },
+				        { "7h", 2 },
+				        { "8h", 3 },
+				        { "9h", 4 },
+				        { "10h", 5 },
+				        { "11h", 6 },
+				        { "12h", 7 },
+				        { "13h", 8 },
+				        { "14h", 9 },
+				        { "15h", 10 },
+				        { "16h", 11 },
+				        { "17h", 12 },
+				        { "18h", 13 },
+				        { "19 - <24h", 14 }
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = b173dad4cfc04cd08ed0ec44289b8f46
+

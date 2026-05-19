@@ -1,0 +1,57 @@
+table 'D_Phân quyền_Vận hành'
+	lineageTag: d04d7a15-b6cb-4b6e-b73f-090134dbabbc
+
+	column 'Mã kho'
+		lineageTag: a8381391-4cad-4dd2-8997-15892f700cc8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: D_Storage[Mã kho]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		lineageTag: 0f38803e-d634-4a91-ac84-ff3ad4da8dea
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: D_Storage[Cửa hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader = LOOKUPVALUE('D_Phân quyền_User'[Leader],'D_Phân quyền_User'[Tên],'D_Phân quyền_Vận hành'[Cửa hàng],BLANK())
+		lineageTag: b70fef12-903e-45af-a76c-0002c3eeb563
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền =
+			
+			RELATED(D_Storage[Miền])
+		lineageTag: 35d8e435-2a99-4a2b-b2d2-7203086e7c22
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column OP = ```
+			
+			var mien = 
+			MAX('D_Phân quyền_Vận hành'[Miền])
+			RETURN
+			    LOOKUPVALUE( 'D_Phân quyền_Vận hành_Vùng'[Tên],'D_Phân quyền_Vận hành_Vùng'[Miền],mien)
+			```
+		lineageTag: 3ee37aa5-cc30-4cbf-96f4-f7ca60e978c7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D_Phân quyền_Vận hành' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE (
+				    'D_Storage',
+				    'D_Storage'[Mã kho],
+				    'D_Storage'[Cửa hàng]
+				)
+
+	annotation PBI_Id = 45de5f86f06844ff803ab080b8d3bd14
+

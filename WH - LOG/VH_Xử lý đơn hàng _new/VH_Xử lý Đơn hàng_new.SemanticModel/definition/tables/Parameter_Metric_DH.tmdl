@@ -1,0 +1,52 @@
+table Parameter_Metric_DH
+	lineageTag: 285c58cf-a6e3-452e-9327-93fdd93c32d6
+
+	column Parameter_Metric_DH
+		lineageTag: f8b447e4-4911-4ca4-a33f-d73989931a8d
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Metric_DH Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Metric_DH Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Metric_DH Fields'
+		isHidden
+		lineageTag: a3bdeffd-bfb4-4c65-a6ed-812def2947d6
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Metric_DH Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Metric_DH Order'
+		isHidden
+		formatString: 0
+		lineageTag: 482f178b-af64-470c-b43a-788f8892bb99
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Metric_DH = calculated
+		mode: import
+		source =
+				{
+				    ("Slg DH", NAMEOF('Measure'[Slg DH]), 0),
+				    ("Tỷ trọng/Tổng đơn", NAMEOF('Measure'[TyTrong DH_Tong]), 1),
+				    ("Tỷ trọng/Nguồn", NAMEOF('Measure'[TyTrong DH]), 2),
+				    ("Giá trị DH", NAMEOF('Measure'[Gia tri DH]), 3),
+				    ("Giá trị trung bình DH", NAMEOF('Measure'[AVG_Gia tri DH]), 4),
+				    ("Slg sp", NAMEOF('Measure'[Slg sp]), 5)
+				}
+
+	annotation PBI_Id = aa1180c925144ab6ba290a6b33689230
+

@@ -1,0 +1,26 @@
+table 'DIM_Danh mục_Lý do Hủy đơn'
+	excludeFromModelRefresh
+	lineageTag: 6049e492-46fb-4276-88d2-886ad2877f53
+
+	column CancelReason
+		dataType: string
+		lineageTag: f2b93c6f-7379-4dc7-99c5-90e5d108c8df
+		summarizeBy: none
+		sourceColumn: CancelReason
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Lý do Hủy đơn' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("hVNNi9RAEP0rxZxWiOx/WC/CfiBmQXCZQxKHdDOTzrjTAXP05MGLgwcPIk4YZJlBYXD0YBrZQ435H/1PrOok82XAS3/Vy6tXryo3N73HOFMxCFwHMBT4g86bKRZjsGah4l7fI4Q1dzmE1nyWIKx5A5rW6X+C8LCli635JsG/9E+fX/num3OBRbQ7Cc44hxALtf84DBOv5dDVqip4P/qwCUf4XYESGUS2vMs6AJupNe9px98QSyxI5AHqZRbkMLJlIfdftQgSIrDlPIVIVKuA8qyZgtneKnGguJaxhoktfypIsMg5N9OwJnrJAge9sObDkVMnI7oRkJV50FyGIsttec9Uc+mBZv3AUh44mktO8Ir423ps+WXsIldxtbLmkyQ/cLY1SKQ7tdciwyWEQUq0g4n2YBJIYqiNlkeY07aMhknFYuDKq2G3+MvZWzXcm3fUSarVZaMZOMMldSZOcSY744+e+IeNYLyMRmmmXmybL1IsNCehwubRoeNdjT+eGA/Ou8Rf7GyHE7eyKI+HA6I/Cz4E1GVN2dWe6yPXQSWkNa+zf+x/as1HDfqWWgUxrseNm9tJ8sDPchayWbDny6QG4NekZqF/iS1wpjfkNCUaROvw9XYSKEITC75Ix92RZ4Ow1+//BQ==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [CancelReason = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"CancelReason", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,71 @@
+table F_PriceTag
+	lineageTag: ba7e88f7-e269-4d63-8005-a65fdd7bcf8e
+
+	column barcode
+		dataType: string
+		lineageTag: 9fb2e7fc-d50b-4741-8223-3b6fa4a6c1fa
+		summarizeBy: none
+		sourceColumn: barcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column productcode
+		dataType: string
+		lineageTag: 4bdd60ec-7d5a-4437-9cf0-dcf9fdd66c8f
+		summarizeBy: none
+		sourceColumn: productcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column branchname
+		dataType: string
+		lineageTag: 1131ba85-6cfe-4910-a415-2881d87a3fda
+		summarizeBy: none
+		sourceColumn: branchname
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã kho' = ```
+			
+			VAR _branchname = F_PriceTag[branchname] 
+			VAR minindex_kho =
+			    CALCULATE (
+			        MIN ( 'D_Storage'[Index] ),
+			        FILTER (
+			            'D_Storage',
+			            'D_Storage'[Tên kho] = _branchname
+			        )
+			    )
+			VAR minindex_cuahang =
+			    CALCULATE (
+			        MIN ( 'D_Storage'[Index] ),
+			        FILTER (
+			            'D_Storage',
+			            'D_Storage'[Phân loại kho] = "Kho cửa hàng"
+			            && 'D_Storage'[Kho phân tích] = "Kho bình thường"            
+			            && 'D_Storage'[Cửa hàng] = _branchname
+			        )
+			    )
+			VAR minindex =
+			    IF ( minindex_cuahang <> BLANK (), minindex_cuahang, minindex_kho )
+			RETURN
+			    LOOKUPVALUE ( 'D_Storage'[Mã kho], 'D_Storage'[Index], minindex )
+			```
+		lineageTag: b5df5205-d5d9-4391-9060-c68478142780
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_PriceTag = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)with cte as   #(lf)(#(lf)  select *#(lf)  from cellphones-data-platform.cps_postgre_data_report_dwh.product_price_tags_hcm#(lf)  union all#(lf)  select *#(lf)  from cellphones-data-platform.cps_postgre_data_report_dwh.product_price_tags_hn#(lf))#(lf)Select #(lf) barcode,#(lf) productcode,#(lf) y.name as branchname#(lf)from cte x#(lf)left join cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch y#(lf)  on x.branchid = y.id", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

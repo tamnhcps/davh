@@ -1,0 +1,112 @@
+table D_Department
+	lineageTag: 1569dcf1-ddf9-4f9a-bf60-f068a94b2190
+
+	column hara_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 34ae453e-b545-46f5-ba79-72f9f1e6f1e3
+		summarizeBy: sum
+		sourceColumn: hara_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bo_phan
+		dataType: string
+		lineageTag: f12015a7-da6f-49ea-aaaa-066dd8f10d91
+		summarizeBy: none
+		sourceColumn: bo_phan
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma_kho
+		dataType: string
+		lineageTag: 83ed5904-f54e-4fc8-a926-d2932bb6dc8e
+		summarizeBy: none
+		sourceColumn: ma_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 53765e01-1e76-410d-854b-a3d1963c018d
+		summarizeBy: none
+		sourceColumn: is_inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column hara_workplace_name
+		dataType: string
+		lineageTag: d1823a65-7f0e-44a6-a326-c2249b81a6e3
+		summarizeBy: none
+		sourceColumn: hara_workplace_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column mien
+		dataType: string
+		lineageTag: f58a8c27-75ab-47f3-ab2d-67dc95aa83f5
+		summarizeBy: none
+		sourceColumn: mien
+
+		annotation SummarizationSetBy = Automatic
+
+	column tinh_thanh_pho
+		dataType: string
+		lineageTag: cf320885-7ce7-4eb3-b9a3-1ded1608cecf
+		summarizeBy: none
+		sourceColumn: tinh_thanh_pho
+
+		annotation SummarizationSetBy = Automatic
+
+	column quan_huyen
+		dataType: string
+		lineageTag: 5ea3e716-bde2-4b16-bcab-129b2cdaac55
+		summarizeBy: none
+		sourceColumn: quan_huyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column am
+		dataType: string
+		lineageTag: 57b62c2d-a451-4620-a71c-36b96c29908d
+		summarizeBy: none
+		sourceColumn: am
+
+		annotation SummarizationSetBy = Automatic
+
+	column size
+		dataType: string
+		lineageTag: b7ceb95d-25a6-42d2-b87d-6b5ead4f54f5
+		summarizeBy: none
+		sourceColumn: size
+
+		annotation SummarizationSetBy = Automatic
+
+	column am_final =
+			
+			SWITCH(
+			    TRUE(),
+			    'D_Department'[am] <> BLANK(), 'D_Department'[am],
+			    CONTAINSSTRING('D_Department'[hara_workplace_name], "Shop"), "AM",
+			    CONTAINSSTRING('D_Department'[hara_workplace_name], "Văn Phòng"), "QLNH/KHO"
+			)
+		lineageTag: 659bddd9-adec-4e85-8f0e-b7da3e517853
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Department = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)SELECT #(lf)  d.hara_id, #(lf)  d.bo_phan,#(lf)  d.size,#(lf)  d.ma_kho,#(lf)  d.is_inactive,#(lf)  d.mien,#(lf)  d.tinh_thanh_pho, #(lf)  d.quan_huyen,#(lf)  d.am,#(lf)  d.hara_workplace_name#(lf)FROM `cellphones-data-platform.cps_DA_General_Transform.dim_department` d#(lf)#(lf)UNION ALL#(lf)#(lf)SELECT#(lf)  NULL hara_id,#(lf)  sb.Name AS bo_phan,#(lf)  NULL size,#(lf)  NULL ma_kho,#(lf)  NULL is_inactive,#(lf)  CASE#(lf)    WHEN sb.CenterId = 3759 THEN 'Miền Bắc'#(lf)    WHEN sb.CenterId = 12869 THEN 'Miền Nam'#(lf)  ELSE NULL#(lf)  END mien,#(lf)  CASE#(lf)    WHEN sb.Name IN ('CPS HCM') THEN 'Thành phố Hồ Chí Minh'#(lf)    WHEN sb.Name IN ('CPS Hà Nội', 'CPSHN TTBH') THEN 'Thành phố Hà Nội'#(lf)  END tinh_thanh_pho,#(lf)  NULL quan_huyen,#(lf)  NULL am,#(lf)  HaraWorkPlaceName hara_workplace_name#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch` sb#(lf)WHERE sb.Name IN ('CPS HCM', 'CPS Hà Nội', 'CPSHN TTBH')#(lf)#(lf)UNION ALL#(lf)#(lf)SELECT#(lf)  NULL hara_id,#(lf)  'Admin' AS bo_phan,#(lf)  NULL size,#(lf)  NULL ma_kho,#(lf)  NULL is_inactive,#(lf)  'Admin' mien,#(lf)  NULL tinh_thanh_pho,#(lf)  NULL quan_huyen,#(lf)  'Admin' am,#(lf)  'Admin' hara_workplace_name", null, [EnableFolding=true]),
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([hara_workplace_name] = "CPS - Shop (Miền Bắc)" or [hara_workplace_name] = "CPS - Shop (Miền Nam)" or [hara_workplace_name] = "CPS - Văn Phòng (Miền Bắc)" or [hara_workplace_name] = "CPS - Văn Phòng (Miền Nam)" or [hara_workplace_name] = "Admin"))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

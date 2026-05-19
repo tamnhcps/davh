@@ -1,0 +1,37 @@
+table D_User_Warehouse
+	lineageTag: 9e391ea3-e12f-43f6-a036-e6b2cb15e916
+
+	column OP =
+			
+			if('D_User_Warehouse'[Miền]="Miền Nam", "KHO MIỀN NAM", "KHO MIỀN BẮC")
+		lineageTag: 36bb4c15-dae1-4728-8ee0-a869e22885de
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader = LOOKUPVALUE('D_User'[Leader],'D_User'[Tên],'D_User_Warehouse'[OP],BLANK())
+		lineageTag: d074b7fb-6adb-4bc9-bbe4-25b827f276d1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		lineageTag: e3402336-2602-4f36-a46d-9cd7d9744f74
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: D_Region[Miền]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_User_Warehouse = calculated
+		mode: import
+		source = ```
+				
+				    SUMMARIZE (
+				        'D_Region',
+				        'D_Region'[Miền]
+				    )
+				```
+
+	annotation PBI_Id = f0ea38463c0f485bbc88113e28c46589
+

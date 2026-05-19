@@ -1,0 +1,43 @@
+table D_DeliveryMethod
+	excludeFromModelRefresh
+	lineageTag: 93710986-ec7d-4669-b45c-825159f75041
+
+	column 'Nội_ngoại thành'
+		dataType: string
+		lineageTag: 63cc26a3-bfd8-4f98-bd7a-00668510f818
+		summarizeBy: none
+		sourceColumn: Nội_ngoại thành
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hình thức vận chuyển'
+		dataType: string
+		lineageTag: a7dc1798-127a-4e33-8e3a-3b42c7059e42
+		summarizeBy: none
+		sourceColumn: Hình thức vận chuyển
+
+		annotation SummarizationSetBy = Automatic
+
+	column MethodId
+		dataType: string
+		lineageTag: 336fd489-a7cd-4148-81bc-a1fd06271005
+		summarizeBy: none
+		sourceColumn: MethodId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_DeliveryMethod = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8vY43OispAOlY3Wilfzc/R/uWuCpEOJxuMHPAyjl4xjl6OKIXc7P4+GuJSEKIYd7/SAKHu6egSTt6OHo6x/mik0qwlXB93BjpIKPvzs2ab8whWAP/wDstrp7hHhj0+Qe5OiETfzwFKALp0CsigUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Nội_ngoại thành" = _t, #"Hình thức vận chuyển" = _t]),
+				    #"Added Custom" = Table.AddColumn(Source, "MethodId", each [Nội_ngoại thành] & "-" & [Hình thức vận chuyển]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"MethodId", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

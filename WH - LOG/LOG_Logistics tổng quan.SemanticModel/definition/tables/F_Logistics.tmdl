@@ -1,0 +1,802 @@
+table F_Logistics
+	lineageTag: d1bdd543-1573-480a-8d50-b847c782a1fd
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 977bdb6f-ce25-4ba3-8781-6f22817b515e
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày đơn hàng'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 40abea60-3548-4f1e-aa67-d55b3e850081
+		summarizeBy: none
+		sourceColumn: Ngày đơn hàng
+
+		variation Variation
+			isDefault
+			relationship: 1ee1eae3-4f18-402a-b72f-b34375fea48e
+			defaultHierarchy: LocalDateTable_d9c79dd0-c6bc-42c3-b194-5127d882cf25.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tình trạng đơn'
+		dataType: string
+		lineageTag: 70b56192-9fb9-4d7d-881f-c7d567b822ee
+		summarizeBy: none
+		sourceColumn: Tình trạng đơn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu'
+		dataType: string
+		lineageTag: 2e279bdf-6173-4c5b-aadc-f9e02d334db3
+		summarizeBy: none
+		sourceColumn: Số phiếu
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Giá trị đơn'
+		dataType: double
+		formatString: #,0
+		lineageTag: 75cedb05-dda3-4b85-8b06-50fe94b589e0
+		summarizeBy: sum
+		sourceColumn: Giá trị đơn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Ngày tạo chuyến đi'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e5a5088c-9232-4146-9751-dc12c8bf35d0
+		summarizeBy: none
+		sourceColumn: Ngày tạo chuyến đi
+
+		variation Variation
+			isDefault
+			relationship: a2ffcb7f-392b-432a-8301-7c3fe1439450
+			defaultHierarchy: LocalDateTable_499db68b-f487-45af-9a34-d0bfa6ce8116.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập phiếu'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1ae561e8-b02b-4939-af0b-da9b46d4d382
+		summarizeBy: none
+		sourceColumn: Ngày lập phiếu
+
+		variation Variation
+			isDefault
+			relationship: df446480-3b54-4f42-928c-d57527740afa
+			defaultHierarchy: LocalDateTable_d2ac3caf-162d-4f63-83b6-867d9f39df0b.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã chuyến đi'
+		dataType: string
+		lineageTag: ab2a8d47-f3bc-4adb-aced-17eca2fc9e40
+		summarizeBy: none
+		sourceColumn: Mã chuyến đi
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên xe'
+		dataType: string
+		lineageTag: 980184a3-aab5-416d-ae44-1219e7f4d815
+		summarizeBy: none
+		sourceColumn: Tên xe
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại giao hàng'
+		dataType: string
+		lineageTag: 846672eb-b6a7-45ce-8fb5-c4099e221b7c
+		summarizeBy: none
+		sourceColumn: Loại giao hàng
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian hoàn tất'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 061ec50d-569b-4c8b-b81b-665f84e8d1ab
+		summarizeBy: none
+		sourceColumn: Thời gian hoàn tất
+
+		variation Variation
+			isDefault
+			relationship: 268048bf-8f74-4ea4-a5f2-c5f5c715c407
+			defaultHierarchy: LocalDateTable_b60e48ab-7d68-49be-9d81-12350cd53431.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian hủy'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 34ff6a26-b029-44a1-951f-436d19cccff1
+		summarizeBy: none
+		sourceColumn: Thời gian hủy
+
+		variation Variation
+			isDefault
+			relationship: d3eaaa40-7651-49d5-bf11-bc8c5243b465
+			defaultHierarchy: LocalDateTable_c3582277-f171-47ae-9b32-7c83088f4435.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Datasource
+		dataType: string
+		lineageTag: 31273267-67e4-4959-b6c6-8dd40bbf7a76
+		summarizeBy: none
+		sourceColumn: Datasource
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân loại trễ hạn' = ```
+			
+			-- Trường hợp Ngày đơn hàng và Ngày tạo chuyến đi ngoài giờ làm việc (sau 9PM-8AM hôm sau) => Đúng hạn 
+			-- Trường hợp Ngày đơn hàng ngoài giờ làm việc (sau 9PM-8AM hôm sau) và Ngày tạo chuyến đi sau 8AM hôm sau => Xét từ Ngày đơn hàng lúc 8AM hôm sau đến Ngày tạo chuyến đi có vượt 25 phút (giao 2 giờ) và 30 phút (giao 3 giờ và giao 4 giờ) hay không
+			VAR zType = 'F_Logistics'[Loại giao hàng]
+			VAR zStatus = 'F_Logistics'[Trạng thái phiếu]
+			VAR zCreatedTimeDH = [Ngày đơn hàng]
+			VAR zCreatedDateDH = [Ngày đơn hàng].[Date]
+			VAR zAdjustedTimeDH =
+			SWITCH(
+			    TRUE(),
+			    zCreatedTimeDH >= zCreatedDateDH + TIME(21,00,00), zCreatedDateDH + 1 + TIME(8,00,00),
+			    zCreatedTimeDH < zCreatedDateDH + TIME(8,00,00), zCreatedDateDH + TIME(8,00,00),
+			    zCreatedTimeDH
+			)
+			VAR zCreatedTimeRT = [Ngày tạo chuyến đi]
+			VAR zCreatedDateRT = [Date]
+			VAR zFinishedTimeRT = [Thời gian hoàn tất]
+			VAR zCancelledTimeRT = [Thời gian hủy]
+			VAR zShopX = DATEDIFF(zCreatedTimeDH, zCreatedTimeRT, MINUTE)
+			VAR zShopY = DATEDIFF(zAdjustedTimeDH, zCreatedTimeRT, MINUTE)
+			VAR zShipper = 
+			COALESCE(
+			    DATEDIFF(zCreatedTimeRT, zFinishedTimeRT, MINUTE), 
+			    DATEDIFF(zCreatedTimeRT, zCancelledTimeRT, MINUTE)
+			)
+			
+			-- Xác định ngưỡng thời gian theo loại giao hàng (thay đổi từ 24/06/2025)
+			VAR zShopThreshold = 
+			IF(
+			    zCreatedDateRT >= DATE(2025, 6, 24),
+			    SWITCH(
+			        zType,
+			        "Giao 2 giờ", 25,
+			        "Giao 3 giờ", 30,
+			        "Giao 4 giờ", 30,
+			        BLANK()
+			    ),
+			    SWITCH(
+			        zType,
+			        "Giao 2 giờ", 15,
+			        "Giao 3 giờ", 15,
+			        "Giao 4 giờ", 15,
+			        BLANK()
+			    )
+			)
+			VAR zShipperThreshold = 
+			IF(
+			    zCreatedDateRT >= DATE(2025, 6, 24),
+			    SWITCH(
+			        zType,
+			        "Giao 2 giờ", 95,
+			        "Giao 3 giờ", 150,
+			        "Giao 4 giờ", 210,
+			        BLANK()
+			    ),
+			    SWITCH(
+			        zType,
+			        "Giao 2 giờ", 105,
+			        "Giao 3 giờ", 165,
+			        "Giao 4 giờ", 225,
+			        BLANK()
+			    )
+			)
+			
+			-- Kiểm tra trạng thái trễ hạn Shop (thay đổi từ 24/06/2025)
+			VAR zIsShopLate = 
+			IF(
+			    zCreatedDateRT >= DATE(2025, 6, 24),
+			    zShopY > zShopThreshold,
+			    zShopX > zShopThreshold
+			)
+			
+			-- Kiểm tra trạng thái trễ hạn Shipper
+			VAR zIsShipperLate = zShipper > zShipperThreshold
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    -- Kiểm tra loại giao hàng trước
+			    zShopThreshold = BLANK(), BLANK(),
+			    
+			    -- Kiểm tra trạng thái chưa hoàn tất
+			    zStatus = "Chưa hoàn tất", BLANK(),
+			    
+			    -- Phân loại dựa trên trễ hạn
+			    zIsShopLate && zIsShipperLate, "Shop và Shipper trễ hạn",
+			    zIsShopLate, "Shop trễ hạn", 
+			    zIsShipperLate, "Shipper trễ hạn",
+			    "Shop và Shipper đúng hạn"
+			)
+			```
+		lineageTag: 7ede6266-186b-4d7c-9c00-28370a92dc24
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trạng thái phiếu' = ```
+			
+			        SWITCH (
+			            TRUE (),
+			            'F_Logistics'[Tình trạng đơn]
+			                IN { 
+			                    "Chờ lấy hàng", 
+			                    "Đã lấy", 
+			                    "Đang giao",
+			                    "Mới tạo",
+			                    "Thả hàng chưa xác nhận",
+			                    "Thả hàng đã xác nhận",
+			                    "Tài xế từ chối nhận hàng",
+			                    "HTTC chưa xác nhận",
+			                    BLANK()
+			                }, "Chưa hoàn tất",
+			            'F_Logistics'[Tình trạng đơn]
+			                IN {
+			                    "Lấy hàng thất bại",
+			                    "Chờ trả hàng",
+			                    "Đã trả hàng",
+			                    "Hủy giao",
+			                    "Hủy giao đã hoàn hàng",
+			                    "Mất hàng",
+			                    "Đã huỷ",
+			                    "Hủy giao chưa hoàn hàng",
+			                    "Hủy giao kho đã nhận hàng"
+			                }, "Hủy giao",
+			            'F_Logistics'[Tình trạng đơn] IN { "Giao thành công", "Hoàn tất", "HTTC đã xác nhận" }, "Hoàn tất",
+			            BLANK ()
+			        )
+			
+			```
+		lineageTag: 56cdc6bd-7b0b-4267-adb4-281c50565f5f
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column B2B/B2C = IF(FIND("B2B", 'F_Logistics'[Cửa hàng], 1, 0) > 0, "B2B", "B2C")
+		lineageTag: 3e3c5a32-1f60-4bd4-84dc-792d2dad9d35
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tính chất phiếu giao' =
+			
+			SWITCH (
+			    TRUE (),
+			    FIND ( "SP.", 'F_Logistics'[Số phiếu], 1, 0 ) > 0, "SP",
+			    FIND ( "DC.", 'F_Logistics'[Số phiếu], 1, 0 ) > 0, "DC",
+			    FIND ( "SO.", 'F_Logistics'[Số phiếu], 1, 0 ) > 0, "SO",
+			    "Khác"
+			)
+		lineageTag: b33845c8-2e24-4ecb-ab48-d75fd53b5598
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian xử lý đơn' = ```
+			
+			VAR z1 = IF ([Tính chất phiếu giao] = "SP", MAX(DATEDIFF([Ngày đơn hàng], [Ngày lập phiếu], SECOND)/3600, 0))
+			VAR z2 = IF ([Tính chất phiếu giao] = "SP", MAX(DATEDIFF([Ngày lập phiếu], [Ngày tạo chuyến đi], SECOND)/3600, 0))
+			RETURN 
+			    z1 + z2
+			```
+		lineageTag: cfdd97b0-e725-4ba5-af5e-968ff920cf7a
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Thời gian chờ lấy hàng' = IF ([Tính chất phiếu giao] = "SP", MAX(DATEDIFF([Ngày tạo chuyến đi], [Nhận lúc], SECOND)/3600, 0))
+		lineageTag: 11e70f95-c9f5-4c90-8861-754212f03af8
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Thời gian giao cho khách' =
+			
+			--Ahamove web miền Bắc không ghi nhận cột Nhận lúc, nên tính leadtime bằng cách [Thời gian chờ lấy hàng] = 0 và dồn về [Thời gian giao cho khách]
+			VAR z1 = COALESCE([Nhận lúc], [Ngày tạo chuyến đi])
+			VAR z2 = COALESCE([Thời gian hoàn tất], [Thời gian hủy])
+			RETURN
+			    IF ([Tính chất phiếu giao] = "SP", MAX(DATEDIFF(z1, z2, SECOND)/3600, 0))
+		lineageTag: 8db8895c-c1d7-41b8-839a-a09f34c0785b
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date = [Ngày tạo chuyến đi].[Date]
+		formatString: Short Date
+		lineageTag: 3d800f77-1155-45f7-8777-76966afe8430
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trễ hạn_RT' = ```
+			
+			VAR ChenhLechHoanTat =
+			    MAX(0, 'F_Logistics'[Thời gian hoàn tất] - 'F_Logistics'[Giao hàng trước])
+			VAR ChenhLechHuy =
+			    MAX(0, 'F_Logistics'[Thời gian hủy] - 'F_Logistics'[Giao hàng trước])
+			VAR zTG = 
+			SWITCH(TRUE(),
+			    'F_Logistics'[Giao hàng trước] = BLANK(), BLANK(),
+			    'F_Logistics'[Thời gian hoàn tất] <> BLANK (), ChenhLechHoanTat,
+			    'F_Logistics'[Thời gian hủy] <> BLANK (), ChenhLechHuy,
+			    BLANK()
+			)
+			RETURN
+			IF(
+			    'F_Logistics'[Mã chuyến đi] = BLANK(),
+			    BLANK(),
+			            IF(
+			                zTG > 0,
+			                "Trễ hạn",
+			                "Đúng hạn"
+			                    )
+			            )
+			```
+		lineageTag: ec8daa2e-d71c-42b9-8418-4e83475fa9ee
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Trễ hạn_DH' =
+			
+			VAR starts = 'F_Logistics'[Thời gian giao]
+			VAR ends = 'F_Logistics'[Thời gian hoàn tất]
+			VAR thoigiantaodon_taophieu = max( ends - starts, 0) -- Thời gian ngoài giờ làm việc (không ghi nhận)
+			VAR zTG = IF (starts = BLANK () || ends = BLANK (), BLANK (), thoigiantaodon_taophieu )
+			RETURN
+			IF(
+			    ISBLANK(zTG),
+			    BLANK(),
+			        IF(
+			            zTG > 0,
+			            "Trễ hạn",
+			            "Đúng hạn"
+			        )
+			    )
+		lineageTag: 55fcc054-0e24-42b9-8598-fd46d3cc2583
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'K.Cách từ CH theo bản đồ'
+		dataType: double
+		lineageTag: 0f76a601-8c60-4287-a6a9-43d6c3862681
+		summarizeBy: sum
+		sourceColumn: K.Cách từ CH theo bản đồ
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Giao hàng trước'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a9e094e2-1ba5-46ce-a945-84e988cea35f
+		summarizeBy: none
+		sourceColumn: Giao hàng trước
+
+		variation Variation
+			isDefault
+			relationship: 177ffbd4-700f-4be2-ac3b-3a47e4bf463f
+			defaultHierarchy: LocalDateTable_52b5b49a-596c-4e3d-86a3-f9fb6513ccaa.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian giao'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0cf75c74-9975-4aa4-a348-8f2ad17472d6
+		summarizeBy: none
+		sourceColumn: Thời gian giao
+
+		variation Variation
+			isDefault
+			relationship: 80205554-25aa-4bab-a4d4-83831c8f9519
+			defaultHierarchy: LocalDateTable_d8fd0895-3104-4aa5-abfc-4184fbbe9496.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhận lúc'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f05667fc-8b2f-4c6e-9803-38acfcac63bf
+		summarizeBy: none
+		sourceColumn: Nhận lúc
+
+		variation Variation
+			isDefault
+			relationship: 6504934e-c4de-4232-be6a-9673d5262d67
+			defaultHierarchy: LocalDateTable_3f3e30ae-d2e8-49cf-8ebc-77eb946cfe06.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phí VC'
+		dataType: double
+		formatString: #,0
+		lineageTag: 31abcfbb-9898-4959-a52f-796269c039b3
+		summarizeBy: sum
+		sourceColumn: Phí VC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Phí VC_All' = ```
+			
+			--Phí VC dự kiến theo K.Cách
+			VAR zHTVC = 'F_Logistics'[Hình thức vận chuyển]
+			VAR zKC = 'F_Logistics'[K.Cách từ CH theo bản đồ]
+			VAR zTC = 'F_Logistics'[Tính chất phiếu giao]
+			VAR zP = 
+			IF(
+			    zTC <> "SP",
+			    BLANK(),
+			    IF(
+			        zHTVC = "NV SHOP",
+			        SWITCH(
+			            TRUE(),
+			            zKC <= 0, 0,
+			            zKC < 2, 8000,
+			            zKC < 5, 16000,
+			            zKC < 8, 20000,
+			            zKC < 11, 28000,
+			            zKC < 14, 32000,
+			            zKC < 17, 36000,
+			            40000
+			        ),
+			        IF(
+			            zHTVC = "NV LOG",
+			            SWITCH(
+			                TRUE(),
+			                zKC <= 0, 8000,
+			                zKC < 10, 25000,
+			                35000
+			            ),
+			            BLANK()
+			        )
+			    )
+			)
+			RETURN
+			SWITCH (
+			    TRUE (),
+			    'F_Logistics'[Phí VC] > 0, 'F_Logistics'[Phí VC],
+			    zP > 0, zP,
+			    BLANK()
+			)
+			```
+		formatString: #,0
+		lineageTag: dfc052d7-4d2b-4f84-a56d-b6c6ef760718
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column MethodId =
+			
+			--Nội/Ngoại thành
+			VAR zA =
+			SWITCH(
+			    TRUE(),
+			    'F_Logistics'[Hình thức vận chuyển] = "AHAMOVE"
+			        || 'F_Logistics'[Hình thức vận chuyển] = "XE MÁY LOG"
+			            || 'F_Logistics'[Hình thức vận chuyển] = "Ô TÔ LOG"
+			            || 'F_Logistics'[Hình thức vận chuyển] = "GRAB"
+			            || 'F_Logistics'[Hình thức vận chuyển] = "NV SHOP", "NỘI THÀNH",
+			    'F_Logistics'[Hình thức vận chuyển] = "LAZADA"
+			        || 'F_Logistics'[Hình thức vận chuyển] = "NHẤT TÍN" || 'F_Logistics'[Hình thức vận chuyển] = "GHTK", "NGOẠI THÀNH",
+			    "KHÁC"
+			)
+			VAR zB = 'F_Logistics'[Hình thức vận chuyển]
+			RETURN
+			    zA & "-" & zB
+		lineageTag: 711b6cf2-c38d-4e24-b297-8fd2174ccc2c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsSentDocument
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e17260e-2885-4639-8f35-c05e526afe20
+		summarizeBy: sum
+		sourceColumn: IsSentDocument
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsCareService
+		dataType: int64
+		formatString: 0
+		lineageTag: 5761eaab-c3bd-4fd3-95b1-7ff861543fae
+		summarizeBy: sum
+		sourceColumn: IsCareService
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tỉnh thành'
+		dataType: string
+		lineageTag: a7cef40d-6a39-4185-bfff-735588f7f147
+		summarizeBy: none
+		sourceColumn: Tỉnh thành
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Slg phiếu' = ```
+			
+			CALCULATE(
+			    COUNT('F_Logistics'[Số phiếu]),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[số phiếu] = EARLIER('F_Logistics'[số phiếu])
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 9a85c867-1aa8-4509-b23b-6229da3d10a2
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsUnique = ```
+			
+			// VAR zD =
+			// CALCULATE(
+			//     MAX('FACT_Logistics_Appended'[Ngày tạo chuyến đi]),
+			//     FILTER(
+			//         ALL('FACT_Logistics_Appended'),
+			//         'FACT_Logistics_Appended'[Số phiếu] = EARLIER('FACT_Logistics_Appended'[Số phiếu])
+			//     )
+			// )
+			// RETURN
+			// SWITCH(
+			//     TRUE(),
+			//     'FACT_Logistics_Appended'[Slg phiếu] = 1, 1,
+			//     'FACT_Logistics_Appended'[Slg phiếu] > 1 && 'FACT_Logistics_Appended'[Ngày tạo chuyến đi] = zD, 1,
+			//     0
+			// )
+			// IsUnique = 
+			VAR zD =
+			CALCULATE(
+			    MAX('F_Logistics'[Ngày tạo chuyến đi]),
+			    FILTER(
+			        ALL('F_Logistics'),
+			        'F_Logistics'[Số phiếu] = EARLIER('F_Logistics'[Số phiếu])
+			            && 'F_Logistics'[Trạng thái phiếu] = "Hoàn tất"
+			    )
+			)
+			VAR zRT =
+			CALCULATE(
+			    MAX('F_Logistics'[Thời gian hoàn tất]),
+			    FILTER(
+			        ALL('F_Logistics'),
+			        'F_Logistics'[Số phiếu] = EARLIER('F_Logistics'[Số phiếu])
+			    )
+			)
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    'F_Logistics'[Slg phiếu] = 1, 1,
+			    'F_Logistics'[Slg phiếu] > 1 && 'F_Logistics'[Ngày tạo chuyến đi] = zD, 1,
+			    0
+			)
+			```
+		formatString: 0
+		lineageTag: 47bdd758-af56-4f64-9fc3-f1e9d09dc4dc
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền = RELATED('D_Department'[mien])
+		lineageTag: bfac7304-078d-40ef-961a-b8d41e16784d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hình thức vận chuyển' = ```
+			
+			-- User Bắc Nam đã thống nhất cách phân loại bên dưới
+			IF(
+			    'F_Logistics'[Miền] = "Miền Nam",
+			    SWITCH(
+			        TRUE(),
+			        'F_Logistics'[Tên xe] IN {"Ô TÔ LOG"}, "Ô TÔ LOG", 
+			        'F_Logistics'[Tên xe] IN {"XE MÁY LOG"} || CONTAINSSTRING('F_Logistics'[Tên xe], "XELOG"), "XE MÁY LOG",
+			        'F_Logistics'[Tên xe] IN {"Nhân Viên Shop Giao", "NV shop giao", "Nội bộ liên tỉnh"}, "NV SHOP",
+			        'F_Logistics'[Datasource] IN {"AHAMOVE-MN (SEP)", "AHAMOVE-MN"}, "AHAMOVE",
+			        'F_Logistics'[Datasource] IN {"LAZADA-MN (SEP)"}, "LAZADA",
+			        'F_Logistics'[Datasource] IN {"NHATTIN-MN", "NHATTIN-MN (SEP)"}, "NHẤT TÍN",
+			        'F_Logistics'[Datasource] IN {"GHTK-MN (SEP)"}, "GHTK",
+			        'F_Logistics'[Datasource] IN {"GRAB-MN (SEP)"}, "GRAB",
+			        "KHÁC" //"Giao hàng cho khách B2B","XE KHO TRUNG TÂM" || CONTAINSSTRING('F_Logistics'[Tên xe], "XEKHO"),
+			    ),
+			    SWITCH(
+			        TRUE(),
+			        'F_Logistics'[Datasource] IN {"AHAMOVE-MB (SEP)", "AHAMOVE-MB"}, "AHAMOVE",
+			        'F_Logistics'[Tên xe] IN {"XE MÁY LOG"}, "XE MÁY LOG",
+			        'F_Logistics'[Tên xe] IN {"Ô TÔ LOG"}, "Ô TÔ LOG",
+			        'F_Logistics'[Tên xe] IN {"NHÂN VIÊN SHOP GIAO", "XE KHO ĐI KHO TRUNG TÂM", "XE KHO TÔNG (KHO TÔNG CHON)", "XE KHO TRUNG CHUYỂN"} || ('F_Logistics'[Datasource] = "HTVRT-HN" && 'F_Logistics'[Tên xe] <> BLANK()), "NV SHOP",
+			        'F_Logistics'[Datasource] IN {"LAZADA-MB (SEP)"}, "LAZADA",
+			        'F_Logistics'[Datasource] IN {"NHATTIN-MB (SEP)"}, "NHẤT TÍN",
+			        'F_Logistics'[Datasource] IN {"GHTK-MB (SEP)"}, "GHTK",
+			        'F_Logistics'[Datasource] IN {"GRAB-MB (SEP)"}, "GRAB",
+			        "KHÁC"
+			    )
+			)
+			```
+		lineageTag: da470db6-622e-4af7-8f67-6502ba842e3c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã tài xế'
+		dataType: string
+		lineageTag: e3573018-6984-4aa1-8e1a-9d3ffc42f209
+		summarizeBy: none
+		sourceColumn: Mã tài xế
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOutlier = IF([Tính chất phiếu giao] = "SP" && COALESCE(DATEDIFF([Ngày lập phiếu], [Thời gian hoàn tất], DAY), DATEDIFF([Ngày lập phiếu], [Thời gian hủy], DAY)) > 7, 1, 0)
+		formatString: 0
+		lineageTag: a3a30291-c6df-45b5-936e-fc36b34b2bbc
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian DH ra SP' = IF ([Tính chất phiếu giao] = "SP", MAX(DATEDIFF([Ngày đơn hàng], [Ngày lập phiếu], SECOND)/3600, 0))
+		lineageTag: b5b0873a-7ca9-4f3d-8c3c-ad824a68768d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Thời gian SP ra RT' = IF ([Tính chất phiếu giao] = "SP", MAX(DATEDIFF([Ngày lập phiếu], [Ngày tạo chuyến đi], SECOND)/3600, 0))
+		lineageTag: 1b2df34a-9188-4348-b504-5e2bb8f7f7e6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Distance Group' = ```
+			
+			SWITCH (
+			    TRUE(),
+			    F_Logistics[K.Cách từ CH theo bản đồ] >= 0  && F_Logistics[K.Cách từ CH theo bản đồ] < 5,   "0 - 5km",
+			    F_Logistics[K.Cách từ CH theo bản đồ] >= 5  && F_Logistics[K.Cách từ CH theo bản đồ] < 10,  "5 - 10km",
+			    F_Logistics[K.Cách từ CH theo bản đồ] >= 10 && F_Logistics[K.Cách từ CH theo bản đồ] < 15,  "10 - 15km",
+			    F_Logistics[K.Cách từ CH theo bản đồ] >= 15 && F_Logistics[K.Cách từ CH theo bản đồ] < 20,  "15 - 20km",
+			    F_Logistics[K.Cách từ CH theo bản đồ] >= 20 && F_Logistics[K.Cách từ CH theo bản đồ] < 25,  "20 - 25km",
+			    F_Logistics[K.Cách từ CH theo bản đồ] >= 25,                        "> 25km",
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 320a62d1-7850-4a73-a739-a1adff4232b9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khung giờ' = ```
+			
+			VAR _Hour = HOUR ( F_Logistics[Ngày đơn hàng] )
+			RETURN
+			SWITCH (
+			    TRUE(),
+			    _Hour < 7,                "0 - <7h",
+			    _Hour = 7,                "7h",
+			    _Hour = 8,                "8h",
+			    _Hour = 9,                "9h",
+			    _Hour = 10,               "10h",
+			    _Hour = 11,               "11h",
+			    _Hour = 12,               "12h",
+			    _Hour = 13,               "13h",
+			    _Hour = 14,               "14h",
+			    _Hour = 15,               "15h",
+			    _Hour = 16,               "16h",
+			    _Hour = 17,               "17h",
+			    _Hour = 18,               "18h",
+			    _Hour >= 19 && _Hour < 24,"19 - <24h",
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 775c7574-f828-4863-889b-eb51124b05d9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Logistics = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=0c443b5c-c2db-4617-b273-e61ac25f9b66”#(lf)SELECT #(lf)  cua_hang AS `Cửa hàng`,#(lf)  ngay_don_hang  AS `Ngày đơn hàng`,#(lf)  tinh_trang_don AS `Tình trạng đơn`,#(lf)  so_phieu AS `Số phiếu`,#(lf)  ngay_lap_phieu AS `Ngày lập phiếu`,#(lf)  gia_tri_don AS `Giá trị đơn`,#(lf)  phi_van_chuyen AS `Phí VC`,#(lf)  loai_giao_hang AS `Loại giao hàng`,#(lf)  giao_hang_truoc AS `Giao hàng trước`,#(lf)  nhan_luc AS `Nhận lúc`,#(lf)  ngay_tao_chuyen_di AS `Ngày tạo chuyến đi`,#(lf)  ma_chuyen_di AS `Mã chuyến đi`,#(lf)  ten_xe AS `Tên xe`,#(lf)  ma_tai_xe AS `Mã tài xế`,#(lf)  thoi_gian_hoan_tat AS `Thời gian hoàn tất`,#(lf)  khoang_cach_tu_cua_hang_theo_ban_do AS `K_Cách từ CH theo bản đồ`,#(lf)  thoi_gian_huy AS `Thời gian hủy`,#(lf)  thoi_gian_giao AS `Thời gian giao`,#(lf)  is_sent_document AS IsSentDocument,#(lf)  is_care_service AS IsCareService,#(lf)  tinh_thanh AS `Tỉnh thành`,#(lf)  data_source AS Datasource#(lf)FROM cellphones-data-platform.datamart_cps_logistics.rpt_logistics#(lf)WHERE DATE(ngay_tao_chuyen_di) >= DATE_SUB(DATE_TRUNC(CURRENT_DATE(), MONTH), INTERVAL 6 MONTH)", null, [EnableFolding=true]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"K_Cách từ CH theo bản đồ", "K.Cách từ CH theo bản đồ"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

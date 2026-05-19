@@ -1,0 +1,74 @@
+table Parameter_Value
+	lineageTag: 8f76d43a-1b9b-42dc-bbb2-e3fca438d03d
+
+	column Parameter
+		lineageTag: 4bbb8c1c-118f-4c88-96df-5c8064e2a801
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: a68d1730-0217-4b6c-b839-7f276de0025c
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: c79abc09-2f1b-482c-b296-dc9c131529c2
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Value = calculated
+		mode: import
+		source =
+				{
+				    ("Số phiếu", NAMEOF('Measure'[Số phiếu]), 0),
+				    ("Giá trị đơn", NAMEOF('Measure'[Giá trị đơn]), 1),
+				    ("% Trễ hạn_Shop", NAMEOF('Measure'[% Trễ hạn_Shop]), 2),
+				    ("% Trễ hạn_Shipper", NAMEOF('Measure'[% Trễ hạn_Shipper]), 3),
+				    ("% Trễ hạn_Shop & Shipper", NAMEOF('Measure'[% Trễ hạn_Shop & Shipper]), 4),
+				    ("% Trễ hạn_DH", NAMEOF('Measure'[% Trễ hạn_DH]), 5),
+				    ("% Trễ hạn_RT", NAMEOF('Measure'[% Trễ hạn_RT]), 6),
+				    ("Phí VC_Nội thành", NAMEOF('Measure'[Phí VC_Nội thành]), 7),
+				    ("Phí VC dự báo_Nội thành", NAMEOF('Measure'[Chi phí dự báo_Nội thành]), 8),
+				    ("Chi phí TB đơn_Nội thành", NAMEOF('Measure'[Chi phí TB đơn_Nội thành]), 9),
+				    ("Chi phí TB đơn dự báo_Nội thành", NAMEOF('Measure'[Chi phí TB đơn dự báo_Nội thành]), 10),
+				    ("Phí VC_Ngoại thành", NAMEOF('Measure'[Phí VC_Ngoại thành]), 11),
+				    ("Phí VC dự báo_Ngoại thành", NAMEOF('Measure'[Chi phí dự báo_Ngoại thành]), 12),
+				    ("Chi phí TB đơn_Ngoại thành", NAMEOF('Measure'[Chi phí TB đơn_Ngoại thành]), 13),
+				    ("Chi phí TB đơn dự báo_Ngoại thành", NAMEOF('Measure'[Chi phí TB đơn dự báo_Ngoại thành]), 14),
+				    ("Phí VC_Bảo hành", NAMEOF('Measure'[Phí VC_Bảo hành]), 15),
+				    ("% Phí VC_Nội thành", NAMEOF('Measure'[% Phí VC_Nội thành]), 16),
+				    ("% Phí VC_Ngoại thành", NAMEOF('Measure'[% Phí VC_Ngoại thành]), 17),
+				    ("TG xử lý đơn_TB", NAMEOF('Measure'[TG xử lý đơn_TB]), 18),
+				    ("TG chờ lấy hàng_TB", NAMEOF('Measure'[TG chờ lấy hàng_TB]), 19),
+				    ("TG giao cho khách_TB", NAMEOF('Measure'[TG giao cho khách_TB]), 20),
+				    --("Khoảng cách", NAMEOF('Measure'[Khoảng cách]), 21),
+				    --("Khoảng cách TB/Ngày", NAMEOF('Measure'[Khoảng cách TB/Ngày]), 22),
+				    ("Khoảng cách_TB", NAMEOF('Measure'[Khoảng cách TB/đơn]), 23),
+				    ("g% Số phiếu", NAMEOF('Measure'[g% Số phiếu]), 24),
+				    ("g% Giá trị đơn", NAMEOF('Measure'[g% Giá trị đơn]), 25),
+				    ("Xử lý đơn DH ra SP", NAMEOF('Measure'[TG xử lý DH ra SP]), 26),
+				    ("Xử lý đơn SP ra RT", NAMEOF('Measure'[TG xử lý SP ra RT]), 26)
+				}
+
+	annotation PBI_Id = 5c0355fc7ced4a989b9cf15b4cfa1194
+

@@ -1,0 +1,43 @@
+table D_User_Operations
+	lineageTag: 89b7514f-f7c7-4d2b-a244-08a83554bb0b
+
+	column 'Bộ phận'
+		lineageTag: e01de3f0-4865-4c7f-8573-c7e214ee87af
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Bộ phận]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		lineageTag: 7db3dc44-fc3c-4805-911a-ac9f3a85f5a1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Miền]
+
+		annotation SummarizationSetBy = Automatic
+
+	column OP = IF('D_User_Operations'[Miền]="Miền Nam", "OP Miền Nam", "OP Miền Bắc")
+		lineageTag: 91825fa5-b1ee-489e-b4b9-902e7ae1363e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader = LOOKUPVALUE('D_User'[Leader],'D_User'[Tên],'D_User_Operations'[Bộ phận],BLANK())
+		lineageTag: 0e4acd38-3aaa-4b53-9528-4d27676516e7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_User_Operations = calculated
+		mode: import
+		source =
+				
+				SELECTCOLUMNS(
+				    'D_Department',
+				    "Bộ phận", 'D_Department'[bo_phan],
+				    "Miền", 'D_Department'[mien]
+				)
+
+	annotation PBI_Id = 573c8c0f1b1d4bb58714faa19e25a60f
+

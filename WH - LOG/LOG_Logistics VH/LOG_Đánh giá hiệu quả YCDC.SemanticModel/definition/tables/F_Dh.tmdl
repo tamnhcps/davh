@@ -1,0 +1,188 @@
+table F_Dh
+	lineageTag: 0d345198-09d0-4a66-8c00-9de581f6ee70
+
+	column StoreCode
+		dataType: string
+		lineageTag: da866bd8-23cc-4ea8-9de3-fe36190b2ff6
+		summarizeBy: none
+		sourceColumn: StoreCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column NgayDat
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 83a541f1-7c74-43c2-be23-9ef64d99ada8
+		summarizeBy: none
+		sourceColumn: NgayDat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Quantity
+		dataType: double
+		lineageTag: 7be8915c-45d6-4152-a035-9a3a42604f48
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ProductCode
+		dataType: string
+		lineageTag: cc7e6da9-ea9c-42ea-a07a-1bec34d6730e
+		summarizeBy: none
+		sourceColumn: ProductCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: 0f55dcfb-d37d-456d-be87-197b61a2afe9
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tồn bổ sung' = ```
+			
+			--Trường hợp lập điều chuyển và xác nhận hàng trong ngày. Ta cần cộng vào (chỉ xét theo date) vì
+			--1.Bảng snapshot cập nhật duy nhất 1 lần vào 0h30
+			--2.Báo cáo cập nhật 1 lần/ngày, nên không dùng SO_CurrentInventory
+			--Ghi chú: Kết quả cột Tồn bổ sung => Tồn chỉ dùng để tính tại thời điểm lập DH có tồn hay không
+			VAR _NgayDat = F_Dh[NgayDat]
+			VAR _StoreCode = F_Dh[StoreCode]
+			VAR _ProductCode = F_Dh[ProductCode] 
+			
+			RETURN
+			CALCULATE(
+			    SUM('F_Ycdc'[Quantity]),
+			    FILTER(
+			        'F_Ycdc',
+			        'F_Ycdc'[Ngày xác nhận_date] = _NgayDat &&
+			        'F_Ycdc'[Kho nhận hàng] = _StoreCode &&
+			        'F_Ycdc'[Mã hàng] = _ProductCode &&
+			        'F_Ycdc'[Ngày lập phiếu chuyển].[Date] = 'F_Ycdc'[Ngày xác nhận_date]
+			    )
+			)
+			
+			--Lưu trữ
+			// Ngày lập phiếu chuyển = 
+			// VAR CurrentStoreCode = 'FACT_DS đơn hàng'[StoreCode]
+			// VAR CurrentProductCode = 'FACT_DS đơn hàng'[ProductCode]
+			// VAR CurrentNgayDat = 'FACT_DS đơn hàng'[NgayDat]
+			// VAR NgayLapPhieuChuyen = 
+			//     CALCULATE(
+			//         MAXX(
+			//             FILTER(
+			//                 'FACT_DC',
+			//                 'FACT_DC'[Kho cho hàng] = CurrentStoreCode &&
+			//                 'FACT_DC'[Mã hàng] = CurrentProductCode &&
+			//                 'FACT_DC'[Ngày lập phiếu chuyển] <= CurrentNgayDat
+			//             ),
+			//             'FACT_DC'[Ngày lập phiếu chuyển]
+			//         )
+			//     )
+			
+			// RETURN
+			//     IF(
+			//         DATEDIFF(NgayLapPhieuChuyen, CurrentNgayDat, DAY) <= 14,
+			//         NgayLapPhieuChuyen,
+			//         BLANK()
+			//     )
+			
+			// Lý do YCDC = 
+			// CALCULATE(
+			//     FIRSTNONBLANK(
+			//         'FACT_DC'[Lý do YCDC],
+			//         1
+			//     ),
+			//     FILTER(
+			//         'FACT_DC',
+			//         'FACT_DC'[Ngày lập phiếu chuyển] = EARLIER('FACT_DS đơn hàng'[Ngày lập phiếu chuyển]) &&
+			//         'FACT_DC'[Kho cho hàng] = EARLIER('FACT_DS đơn hàng'[StoreCode]) &&
+			//         'FACT_DC'[Mã hàng] = EARLIER('FACT_DS đơn hàng'[ProductCode])
+			//     )
+			// )
+			```
+		lineageTag: 3a78b5f1-42ef-4381-96e1-b1985daf8fcf
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Tồn = 'F_Dh'[Tồn đầu ngày] + 'F_Dh'[Tồn bổ sung]
+		lineageTag: be56c1be-635d-4a53-9be5-a6b0658556e0
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SoDonHang
+		dataType: string
+		lineageTag: d6b5c6ab-72cc-4b7e-889c-80b25e95a760
+		summarizeBy: none
+		sourceColumn: SoDonHang
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhieuBanLe
+		dataType: string
+		lineageTag: feda5c57-5123-4637-8a02-ede1b699c725
+		summarizeBy: none
+		sourceColumn: PhieuBanLe
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 41729795-210f-4106-b648-d5f427b0fa28
+		summarizeBy: none
+		sourceColumn: CreatedDate
+
+		variation Variation
+			isDefault
+			relationship: ca2961ee-84d5-4268-8446-f244324a1cd2
+			defaultHierarchy: LocalDateTable_8a192c10-a740-4ea5-8e3e-3da16e967b96.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		lineageTag: cd391745-cd8e-4431-834a-9b23769cbdaa
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Tồn đầu ngày'
+		dataType: double
+		lineageTag: 489b3c30-fc84-453b-bd03-6cb4a34c6d84
+		summarizeBy: sum
+		sourceColumn: Tồn đầu ngày
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition F_Dh = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)with#(lf)inv as (#(lf)SELECT#(lf)  DATE_ADD(run_date, INTERVAL 1 DAY) AS start_date,#(lf)  StoreCode, #(lf)  ProductCode,#(lf)  SUM(Quantity) AS Quantity#(lf)FROM `cellphones-data-platform.cps_exported_dataset.cps_snap_inventory_level_daily`#(lf)WHERE#(lf)  DATE(run_date) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH) --DATE_SUB(CURRENT_DATE(), INTERVAL 71 DAY)#(lf)GROUP BY 1, 2, 3#(lf)),#(lf)#(lf)Order_DH as (#(lf)--HCM#(lf)SELECT#(lf)  so.AutoCode AS SoDonHang,#(lf)  TempBill.AutoCode AS PhieuBanLe,#(lf)  es.code AS StoreCode,#(lf)  DATETIME(so.CreatedDate) AS CreatedDate,#(lf)  DATE(so.CreatedDate) AS NgayDat,#(lf)  od.Price,#(lf)  SUM(od.Quantity) AS Quantity,#(lf)  sp.code AS ProductCode,#(lf)  'Miền Nam' AS `Miền`#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_Order` so#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_OrderDetail` od ON od.OrderId = so.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product` sp ON sp.Id = OD.ProductId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` es ON es.Id = od.OutputStoreId#(lf)LEFT JOIN (#(lf)      SELECT#(lf)        sbd.SOOrderDetailId,#(lf)        ag.AutoCode,#(lf)      FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBillDetail` sbd#(lf)      JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_General` ag ON ag.Id = sbd.StoreBillId#(lf)      JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_OrderDetail` sd ON sbd.SOOrderDetailId = sd.Id#(lf)      JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_Order` so ON sd.OrderId = so.Id#(lf)      WHERE#(lf)        DATE(so.CreatedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)        AND ag.ReplaceById IS NULL#(lf)        AND ag.Autocode NOT LIKE '%#%'#(lf)      GROUP BY sbd.SOOrderDetailId,  ag.AutoCode#(lf)    ) TempBill ON TempBill.SOOrderDetailId = od.Id#(lf)WHERE#(lf)  1=1#(lf)  AND DATE(SO.CreatedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND so.MethodId IN (14, 56, 57, 58, 59)#(lf)  AND so.ReplaceById IS NULL#(lf)  AND NOT REGEXP_CONTAINS(UPPER(es.code), r'(B2B)') #(lf)GROUP BY#(lf)  so.AutoCode,#(lf)  TempBill.AutoCode,#(lf)  es.code,#(lf)  so.CreatedDate,#(lf)  od.Price,#(lf)  sp.code#(lf)#(lf)UNION ALL#(lf)#(lf)--HN#(lf)SELECT #(lf)  so.AutoCode AS SoDonHang,#(lf)  TempBill.AutoCode AS PhieuBanLe,#(lf)  es.code AS StoreCode,#(lf)  DATETIME(so.CreatedDate) AS CreatedDate,#(lf)  DATE(so.CreatedDate) AS NgayDat,#(lf)  od.Price,#(lf)  SUM(od.Quantity) AS Quantity,#(lf)  sp.code AS ProductCode,#(lf)  'Miền Bắc' AS `Miền`#(lf)FROM#(lf)  `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_Order` so#(lf)INNER JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_OrderDetail` od#(lf)ON#(lf)  od.OrderId = so.Id#(lf)INNER JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product` sp#(lf)ON#(lf)  sp.Id = OD.ProductId#(lf)INNER JOIN#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` es#(lf)ON#(lf)  es.Id = od.OutputStoreId#(lf)LEFT JOIN (#(lf)  SELECT#(lf)    sbd.SOOrderDetailId,#(lf)    ag.AutoCode,#(lf)  FROM#(lf)    `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBillDetail` sbd#(lf)  JOIN#(lf)    `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_General` ag#(lf)  ON#(lf)    ag.Id = sbd.StoreBillId#(lf)  JOIN#(lf)    `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_OrderDetail` sd#(lf)  ON#(lf)    sbd.SOOrderDetailId = sd.Id#(lf)  JOIN#(lf)    `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_Order` so#(lf)  ON#(lf)    sd.OrderId = so.Id#(lf)  WHERE#(lf)    DATE(so.CreatedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)    AND ag.ReplaceById IS NULL#(lf)    AND ag.Autocode NOT LIKE '%#%'#(lf)  GROUP BY#(lf)    sbd.SOOrderDetailId,#(lf)    ag.AutoCode#(lf)    ) TempBill#(lf)ON#(lf)  TempBill.SOOrderDetailId = od.Id#(lf)WHERE#(lf)  1=1#(lf)  AND DATE(SO.CreatedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND so.MethodId IN (14, 56, 57, 58, 59)#(lf)  AND so.ReplaceById IS NULL#(lf)  AND NOT REGEXP_CONTAINS(UPPER(es.code), r'(B2B)') #(lf)GROUP BY#(lf)  so.AutoCode,#(lf)  TempBill.AutoCode,#(lf)  es.code,#(lf)  so.CreatedDate,#(lf)  od.Price,#(lf)  sp.code#(lf))#(lf)#(lf)select #(lf)  od.*,#(lf)  i.Quantity as `Tồn đầu ngày`#(lf)from Order_DH as od#(lf)left join inv as i on i.start_date = od.NgayDat and i.ProductCode = od.ProductCode  and i.StoreCode = od.StoreCode", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"HN.384XD","HN.360XD",Replacer.ReplaceText,{"StoreCode"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

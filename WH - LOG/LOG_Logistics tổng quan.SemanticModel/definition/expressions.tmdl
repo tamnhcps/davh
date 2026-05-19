@@ -1,0 +1,67 @@
+expression Script_InternalDelivery_Original =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"fc81ffc6-dbab-49b8-beca-9a4a40f47b26" = Source{[workspaceId="fc81ffc6-dbab-49b8-beca-9a4a40f47b26"]}[Data],
+		    #"72ec76be-08d7-419d-8782-46c316304432" = #"fc81ffc6-dbab-49b8-beca-9a4a40f47b26"{[dataflowId="72ec76be-08d7-419d-8782-46c316304432"]}[Data],
+		    Sale_ERP_SQL_Route1 = #"72ec76be-08d7-419d-8782-46c316304432"{[entity="Sale_ERP_SQL_Route"]}[Data],
+		    #"Removed Duplicates" = Table.Distinct(Sale_ERP_SQL_Route1),
+		    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+		    #"Filtered Rows" = Table.SelectRows(#"Added Index", each [Ngày tạo chuyến đi] >= Date.StartOfMonth(Date.AddMonths(DateTime.LocalNow(), -6))),
+		    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows",{"Số OnlineNo", "Số đơn hàng", "Mã đặt hàng", "Người lập", "Công nợ tài xế còn lại", "Địa chỉ", "Xã/ Phường", "Tỉnh thành", "SĐT nhận hàng", "Đối tượng nhận hàng", "NV Nhận Lần 1", "Người Giữ Hàng", "Cồng kềnh", "Hàng hóa", "GPS nhận", "GPS giao", "K.Cách giao nhận theo bản đồ", "K.Cách từ CH dự kiến", "K.Cách chênh lệch", "Ngày dự kiến hoàn hàng", "Ngày thả hàng", "Số lần thả hàng", "Ghi chú thả hàng", "Thời gian trả hàng", "Quá hạn trả", "Lý do hủy", "Shop hủy giao", "Giao Hàng Trước", "Chữ ký", "Hình giao xong", "Ghi Chú Khách", "Đi cùng", "Thứ tự", "GPS dự kiến", "Người duyệt hoàn tất", "Lý do duyệt", "Lý do đổi giờ", "StateId", "MethodIdBill", "TypeDelivery", "Index", "Quá hạn giao","Khởi hành dự kiến", "RouteId"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Tiền COD", "COD"}, {"Giá Trị Đơn", "Giá trị đơn"}, {"Ngày dự kiến giao hàng", "Dự kiến"}, {"Nhận lúc", "Giao thành công"}, {"Trạng thái chuyến đi", "Tình trạng đơn"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: dc885471-054b-49d0-8f54-f8093d8df968
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Script_ExternalDelivery_Original =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"fc81ffc6-dbab-49b8-beca-9a4a40f47b26" = Source{[workspaceId="fc81ffc6-dbab-49b8-beca-9a4a40f47b26"]}[Data],
+		    #"41d120d8-f8ad-4b7f-9e29-191e4c9ed99b" = #"fc81ffc6-dbab-49b8-beca-9a4a40f47b26"{[dataflowId="41d120d8-f8ad-4b7f-9e29-191e4c9ed99b"]}[Data],
+		    #"Sale_ERP_SQL_Giao hàng Đối tác1" = #"41d120d8-f8ad-4b7f-9e29-191e4c9ed99b"{[entity="Sale_ERP_SQL_Giao hàng Đối tác"]}[Data],
+		    #"Renamed Columns" = Table.RenameColumns(#"Sale_ERP_SQL_Giao hàng Đối tác1",{{"Tình trạng", "Tình trạng đơn"}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each [Thời gian tạo phiếu] > #datetime(2023, 6, 1, 0, 0, 0)),
+		    #"Renamed Columns1" = Table.RenameColumns(#"Filtered Rows",{{"Khai giá", "Giá trị đơn"}, {"Loại DV", "Loại phiếu giao hàng"}, {"Ngày tạo", "Ngày đơn hàng"}, {"Ngày", "Ngày tạo chuyến đi"}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Renamed Columns1",{"Khách hàng", "SĐT", "Địa chỉ", "Phí VC", "Phường xã", "Người lập", "Người hủy", "Lý do hủy", "SortCode", "Loại ghi chú", "Người gửi", "SĐT người gửi", "Địa chỉ gửi", "Datasource", "Nhập trả", "BranchId"}),
+		    #"Renamed Columns2" = Table.RenameColumns(#"Removed Columns",{{"Loại phiếu giao hàng", "Loại giao hàng"}, {"Thời gian tạo phiếu", "Ngày lập phiếu"}})
+		in
+		    #"Renamed Columns2"
+	lineageTag: a4668918-5b03-444a-813a-6a4b5d95d70a
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression D_User_Updated =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8vbwV/D1fLi7wU/B6eGudc5KOkrFBoZGBkZ6GZmpeQ7JqTk5BRn5eanFesn5uXpleUB5oBYIqRD2cNcaPyDb0ccHSPplHF6Up1CWeXgVSJXHw909zkqxOlitKMkordTLK6Hc+FgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Tên = _t, Mail = _t, Title = _t, Workspace = _t, #"Khu vực" = _t, Group = _t, Leader = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Tên", type text}, {"Mail", type text}, {"Title", type text}, {"Workspace", type text}, {"Khu vực", type text}, {"Group", type text}, {"Leader", type text}}),
+		    #"Added Custom" = Table.AddColumn(#"Changed Type", "Startdate", each Date.StartOfMonth(Date.AddMonths(DateTime.LocalNow(), -3))),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"Startdate", type date}})
+		in
+		    #"Changed Type1"
+	lineageTag: 2cad0e45-f627-4d06-952f-054313f9bcb7
+	queryGroup: DIM
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Notes_Metric_Updated =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("3ZXfa9NQFMf/lUOfWsnaNNuKTnyRyQbCkK340oXRxpKEtTexS6p9lCHikxvig0ihZYyBWtiYICbIHm7Z/5H/xHN/pE3bdFidL7603cnNOef7Od97Vqlkyq0ofA1WFPTJ3o7luBkFQ9fnUfjJAG2loJYKmqqtrkF2y6S9Dnh40AHD8jtRcEVgeGzDEohHw+PrPgGL9oiZg+c+7UNxFVyLBt4uKUfhl79Op8l0+CgK8WQbm7TBtKsOaPgVhd2COLiszj24LA5Cm/ZEYEUE7oNQ3SUmwghPXHgZhQNo0J+yEWI6tGfLtxu014Q2/nxjQFYrrqnq0l38wG6/NeGg6ufYS5jtxACPDojFXsAQDXh2RJ3Hcg7+gbFLZVYwyuiwrl8BT3vgSAnzoOVhC3/6/x5Tmq6Eg/IAkNGVaVfZrltvzTVWGXl3eV1Uj5AJE3jqFSbiUXjWGVljFkBsOFVqV6BYijEwDdoISiMKzgg0uApPSm44mHASkTKBQKpP8/Etdn9v3Pyqmmy+qN5K8ymTcVzY9VVVK0FiStjuuyo3xXu0oieEYJvoRx/2mesJVKbz6LxWJWXw+kzd9U1uhlEAa9SduJAkFvzAcIt+JrC+CQ8W45yMMS45LnK5DuouuTP9EJ5F4UVV1krC5DdRkUb32OCTKA6bacsr+xhXAL/XgpaBb7zF1+Nrk5thsV1ehMV2eVEWGyMpmEJcvwkcKc/BoJe8g8MZHUlWHv2KEYt/stMXBmvjijPoG5bsuyGBMjcyrEo+n5cUNqZ27F75obRfLCLBvkEDgyUbuMlFqciQa9l8AdYoPmFGTJmN1/JRZI33m11/Wl5DNlgqhxDk1GqIwkTXN0f5OIko/DC+B2PfCGhteRnF/gHPZ1c01sewdVmLpx1xXEjcisKPNtTwk/0jRE4DIvTdtCLmtz884uvbQ+qYb3hUxXOsw8LwiJ4kq/9h/lvHgym3bbSQyfyMeyb4zg5U4UW9psC+KOaJLxbeefQEe70+r4Jp2UAEr2S9BEIFV1A6dx1vjhoPhndoWA6rhl5NGctCe31c//fntEiBG2b6fw1udi76ogtvcYdndP0X", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [measurecaption = _t, description = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"measurecaption", type text}, {"description", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 4db538d0-e3d3-4a9a-bf9c-6b792476a7a2
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

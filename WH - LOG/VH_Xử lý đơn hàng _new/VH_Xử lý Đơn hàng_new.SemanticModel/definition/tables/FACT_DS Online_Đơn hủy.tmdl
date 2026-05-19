@@ -1,0 +1,56 @@
+table 'FACT_DS Online_Đơn hủy'
+	lineageTag: 766c276a-93f5-4f76-838f-cd0c3fc5637f
+
+	column 'Số online'
+		lineageTag: 93bdb1b2-1db2-4ae2-8fbf-e67f034b1c52
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_DS Online[Số online]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		formatString: Short Date
+		lineageTag: b98df283-e66c-454a-9a15-dddc26062657
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_DS Online[Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ngày đặt'
+		formatString: General Date
+		lineageTag: e09a1329-14c6-4be5-9ed2-410886ee3c8a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_DS Online[Ngày đặt]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SDT_WN
+		lineageTag: 118fe6e2-a8d5-492f-936b-b0feda1b7a34
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_DS Online[SDT_WN]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_DS Online_Đơn hủy' = calculated
+		mode: import
+		source =
+				
+				CALCULATETABLE (
+				    SUMMARIZE (
+				        'FACT_DS Online',
+				        'FACT_DS Online'[Số online],
+				        'FACT_DS Online'[SDT_WN],
+				        'FACT_DS Online'[Date],
+				        'FACT_DS Online'[Ngày đặt]
+				    ),
+				    FILTER('FACT_DS Online', 'FACT_DS Online'[Trạng thái đơn] = "Hủy đơn" && ISBLANK('FACT_DS Online'[Số đơn hàng]))
+				)
+
+	annotation PBI_Id = d65059c9e4c44003a3ef7db0d7262c43
+

@@ -1,0 +1,33 @@
+table D_DeliveryMethod
+	excludeFromModelRefresh
+	lineageTag: 6d802997-a920-4b5f-9956-42d505f1814d
+
+	column 'Nhóm hình thức vận chuyển'
+		dataType: string
+		lineageTag: 32296de9-61c1-4edf-8864-f2e479eb82f7
+		summarizeBy: none
+		sourceColumn: Nhóm hình thức vận chuyển
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hình thức vận chuyển'
+		dataType: string
+		lineageTag: 7406c11b-2a5d-4724-a73c-b89408015b05
+		summarizeBy: none
+		sourceColumn: Hình thức vận chuyển
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_DeliveryMethod = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8gtT8PF3V9KBMWJ1wGLBHv4BEEEwCyR6ZMLD3RM8FUIONzoDZRw9HH39w1yxyPg4Rjm6OGKR8PN4uGtJCJDX66cUGwsA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Nhóm hình thức vận chuyển" = _t, #"Hình thức vận chuyển" = _t])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

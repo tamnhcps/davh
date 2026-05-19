@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "LOG_Logistics tổng quan"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9d3df5b2-70de-442c-a770-478b4cd8d8e7"
+  }
+}

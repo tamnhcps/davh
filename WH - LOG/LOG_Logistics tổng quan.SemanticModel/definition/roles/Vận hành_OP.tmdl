@@ -1,0 +1,9 @@
+role 'Vận hành_OP'
+	modelPermission: read
+
+	tablePermission D_Date = 'D_Date'[Date]>=LOOKUPVALUE('D_User'[Startdate],'D_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission D_User_Operations = 'D_User_Operations'[OP]=LOOKUPVALUE('D_User'[Tên],'D_User'[Mail],USERPRINCIPALNAME())
+
+	annotation PBI_Id = 7085e1206d1348afbe1f83f13135969c
+

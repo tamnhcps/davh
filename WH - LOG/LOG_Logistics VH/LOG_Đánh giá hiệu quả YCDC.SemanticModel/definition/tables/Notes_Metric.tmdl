@@ -1,0 +1,44 @@
+table Notes_Metric
+	lineageTag: 375203bd-fad3-4334-b88e-9efbd332e484
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: b5db3955-c667-4baf-a1b7-c3e3854be0e5
+		summarizeBy: sum
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thông tin'
+		dataType: string
+		lineageTag: 730a2a8d-f6fd-46da-8fc2-f8c8ddcb06e8
+		summarizeBy: none
+		sourceColumn: Thông tin
+		sortByColumn: STT
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nội dung'
+		dataType: string
+		lineageTag: f569495f-9fa7-435d-8ebd-75cacb23deb7
+		summarizeBy: none
+		sourceColumn: Nội dung
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Notes_Metric = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("tVZfSxtBEP8qQ0BQuKLRaKzgQ5uURlpLqalQklDiVbKHZhPMRcxj8UGKT1KkFBFMg5S2BFoslN499OHE77HfpDO7e8ne5U+j0JeQ3Z0/v5n5zcwVColkwkpsCP8E6swR3p8mvMpkM8Pu4Pok6MBB0LaBM+F1eaJkFRLzKCpfXbZdg40nL/G8LvwPDlRRmgUXvAIV5mgVcPeCrxyqUsA0boHNhP8OGuSVBxctcK8PUXWXxJPo+qbNYV/4x0W+GXThjfAvV2A+ZiJq1g6uYLGPwkJ1r9uCQgRtCVYhOScjWdCRJM1Q4tJktJB/DFsB4pF2SxhTDZEmgVcQtzSV0qbSdzOVNkwthqhSd4SVMowthXXdvfku/A6vxM+Yf6/DMYXC+1KFUTVPo9oUvs5qquSF/wt2hX8EISgJbzq7mV+BqRmps4xy2dztyZHNTUwNC3ZY8BNftso1qAj/fRWe1oTXdrQnJM2xzUj0cjiLyNdkHMrmDOLcl6GFzl10zKlEJKPvyIy8B7TrH6kSMbwicC5Gd+5gHPh0WMU8et06QinyrPB/lHVSlPb1ifA+N1VBYT+40MJS9S2iZc0W2uD3jIJpGtjBb/yVikPS5O5R/c/xDrF06kqV7Ar/1LHCo7uH5MC0X6ACK7f0sw6YEoH5sBKZF68Hk9FnSIjR0P4GMQVolPHvxvMog5I0qSIcp7NKXsUpY6RBVyYVDaoMmWnQEwyryvWryl3PyzO61J7mlSddisy//Ci5UR56nWB6WFAeTIQThdQzGXFkmhn0lVK+FNt2WI3snY5z5RrXrIawSPfSDfmKNGhTqViAp1w+PzglhqWh11IGAUiGANnC75Z1lw7iXwzxEzUyuVBxN/BsSYbb0CCuSx3tnzm9FtpR/YlDVfFMdcaZjTCdPnTCPIhzaQxOU/UOeOMdPgZ2XDQaggxqEHpaQ0dRGgyEYkiWC+OqoJbQFu0PHOpO0FZIjuTs6uKBeprRPHZl73+U3U6EGl/95fHQYokdCdGU+19QaRFQCfrjPpPD/RuHOGJ3TwC72JybW7Bx8aTUt9dcb3/jXuBRfsbrA9Nr64/WZsZoTNvBJz2G5HI5cPRpBho1TbiG+VWIs7OOQ8CFhsNZkedjW4T8wUFTjg7VTDKHDVarwwML9jBeJ7pqZiObxgRnjTL0EFZlVrYhL/soxKZXpevQ9tS6evlKXDiyrhKl0l8=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [STT = _t, #"Thông tin" = _t, #"Nội dung" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Thông tin", type text}, {"Nội dung", type text}, {"STT", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

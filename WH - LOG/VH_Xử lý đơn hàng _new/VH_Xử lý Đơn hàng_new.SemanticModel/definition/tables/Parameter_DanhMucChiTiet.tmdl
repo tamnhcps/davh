@@ -1,0 +1,58 @@
+table Parameter_DanhMucChiTiet
+	lineageTag: 1287839c-c84f-48f5-aef5-87adcceb8a5e
+
+	column Parameter_Phongban
+		lineageTag: cdf00de4-749d-4848-909a-4ae695d352fd
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Phongban Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Phongban Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Phongban Fields'
+		isHidden
+		lineageTag: 06071749-a4db-4746-8980-49a4961dbf57
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Phongban Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Phongban Order'
+		isHidden
+		formatString: 0
+		lineageTag: 835bc385-8cca-4353-aba8-b8bc687eb576
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_DanhMucChiTiet = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('DIM_Danh mục_Phòng ban'[Miền]), 0),
+				    ("Tỉnh/TP", NAMEOF('DIM_Danh mục_Phòng ban'[Province]), 1),
+				    ("Quận/Huyện", NAMEOF('DIM_Danh mục_Phòng ban'[District]), 2),
+				    ("RSM", NAMEOF('DIM_Danh mục_Phòng ban'[RSM]), 3),
+				    ("AM", NAMEOF('DIM_Danh mục_Phòng ban'[AM]), 4),
+				    ("Cửa hàng", NAMEOF('DIM_Danh mục_Phòng ban'[Cửa hàng]), 5),
+				    ("Tên nhân viên", NAMEOF('DIM_Danh mục_Nhân viên'[Mã-tên]), 6),
+				    ("Nhóm hàng", NAMEOF('DIM_Danh mục_Nhóm hàng'[Nhóm hàng]), 7),
+				    ("Model", NAMEOF('DIM_Danh mục_Sản phẩm'[Model]), 8),
+				    ("Sản phẩm", NAMEOF('DIM_Danh mục_Sản phẩm'[Tên hàng loại màu]), 9),
+				    ("Sản phẩm", NAMEOF('DIM_Danh mục_Sản phẩm'[Tên hàng]), 10),
+				    ("Hình thức thanh toán", NAMEOF('DIM_Danh mục_Hình thức thanh toán'[Hình thức thanh toán]),11)
+				}
+
+	annotation PBI_Id = 99475b1211ce48afb4a323d06c167ccf
+

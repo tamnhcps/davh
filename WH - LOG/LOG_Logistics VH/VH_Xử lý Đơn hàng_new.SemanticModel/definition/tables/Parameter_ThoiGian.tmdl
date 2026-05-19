@@ -1,0 +1,49 @@
+table Parameter_ThoiGian
+	lineageTag: 97614ab2-f02a-4e5e-893d-0f07718f5efe
+
+	column Parameter_NgayTuanThang
+		lineageTag: 0b9af4bc-c3be-459a-8ee7-ab1ccf2f5de3
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_NgayTuanThang Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_NgayTuanThang Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_NgayTuanThang Fields'
+		isHidden
+		lineageTag: 420c2117-5676-4248-b6c4-395e7df3bba1
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_NgayTuanThang Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_NgayTuanThang Order'
+		isHidden
+		formatString: 0
+		lineageTag: e15afcb5-0ef8-4923-9d7d-36fab9e2a89c
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_ThoiGian = calculated
+		mode: import
+		source =
+				{
+				    ("Ngày", NAMEOF('DIM_Danh mục_Ngày'[Date]), 0),
+				    ("Năm/Tuần", NAMEOF('DIM_Danh mục_Ngày'[Năm/Tuần]), 1),
+				    ("Năm/Tháng", NAMEOF('DIM_Danh mục_Ngày'[Năm/Tháng]), 2)
+				}
+
+	annotation PBI_Id = 63d90047a98a4056a7dbd65b7d37d714
+

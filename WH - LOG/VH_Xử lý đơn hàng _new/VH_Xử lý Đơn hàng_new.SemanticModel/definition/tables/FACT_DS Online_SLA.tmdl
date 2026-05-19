@@ -1,0 +1,56 @@
+table 'FACT_DS Online_SLA'
+	lineageTag: 68d6b2f1-7c8c-46c7-b9d5-0ac0a3ae8bbb
+
+	column 'Số đơn hàng'
+		lineageTag: 877c72b6-90b0-4311-9d30-8b3b2c705c15
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_DS Online[Số đơn hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SLA ra DH'
+		lineageTag: fc13ad93-d09f-48bc-9334-d0ee423128a8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [SLA ra DH]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SLA ra SP'
+		lineageTag: e2c4aee2-7916-4d45-8c87-1f690d4733bf
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [SLA ra SP]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SLA ra SSHH'
+		lineageTag: 96d8c4a4-3514-481b-bfdd-79d6ac2ef122
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [SLA ra SSHH]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'FACT_DS Online_SLA' = calculated
+		mode: import
+		source = ```
+				
+				SUMMARIZE(
+				    FILTER('FACT_DS Online','FACT_DS Online'[Số đơn hàng] <> BLANK()),
+				    'FACT_DS Online'[Số đơn hàng],        
+				    "SLA ra DH", MAX('FACT_DS Online'[SLA ra DH]),
+				    "SLA ra SP", MAX('FACT_DS Online'[SLA ra SP]),
+				    "SLA ra SSHH", MAX('FACT_DS Online'[SLA ra SSDH])
+				    )
+				```
+
+	annotation PBI_Id = 60e0e768d857421bac0b8546424e5a89
+

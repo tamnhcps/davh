@@ -1,0 +1,68 @@
+table Parameter_CR
+	lineageTag: 8f7e9968-ff31-4227-b38b-e922664c67e1
+
+	column Parameter_CR
+		lineageTag: 98b851fd-108f-405f-a89d-6bb526b20d8f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_CR Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_CR Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_CR Fields'
+		lineageTag: dffbccae-3fbb-4726-96bd-8aee054913d7
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_CR Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_CR Order'
+		formatString: 0
+		lineageTag: 2e50daff-20f2-4982-a751-e56825bcf082
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value4
+		lineageTag: ee58429d-aed0-40d9-a86d-df780147b641
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value4]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_CR = calculated
+		mode: import
+		source =
+				{
+				    ("Slg Online", NAMEOF('Measure'[Slg Online]), 0,"Online"),
+				    ("Online_LM g%", NAMEOF('Measure'[Slg Online_LM g%]), 1,"Online"),
+				    ("Slg DH", NAMEOF('Measure'[Slg DH_onl]), 2, "DH"),
+				    ("DH_LM g%", NAMEOF('Measure'[Slg DH_onl LM g%]), 3, "DH"),
+				    ("Slg SP", NAMEOF('Measure'[Slg SP_onl]), 4, "SP"),
+				    ("SP_LM g%", NAMEOF('Measure'[Slg SP_onl LM g%]), 5, "SP"),
+				    ("Slg SP không nhập lại", NAMEOF('Measure'[Slg SP không Nhập lại]), 6, "SP"),
+				    ("Avg_Item", NAMEOF('Measure'[Avg_Item]), 7, "Avg"),
+				    ("AOV", NAMEOF('Measure'[Avg_Gia trị DH_onl]), 8, "Avg"),
+				    ("%Hủy Onl", NAMEOF('Measure'[TyTrong Online huy]), 8, "Tỷ lệ"),
+				    ("%Onl ra DH", NAMEOF('Measure'[TyTrong Online ra DH]), 9, "Tỷ lệ"),
+				    ("%Hủy DH", NAMEOF('Measure'[TyTrong DH huy]), 10, "Tỷ lệ"),
+				    ("%Onl ra SP", NAMEOF('Measure'[TyTrong Online ra SP]), 11, "Tỷ lệ"),
+				    ("%Onl ra SP không nhập lại",NAMEOF('Measure'[Slg SP không nhập lại g%]),12,"Tỷ lệ"),
+				    ("% SP Cheating", NAMEOF('Measure'[Slg SP Cheating g%]),13,"Tỷ lệ"),
+				    ("% Onl ra SP NonCheating", NAMEOF('Measure'[Slg Onl ra SP NonCheating %]),14,"Tỷ lệ")
+				}
+
+	annotation PBI_Id = b5699592154f4b959dc1b801bffb8e3c
+

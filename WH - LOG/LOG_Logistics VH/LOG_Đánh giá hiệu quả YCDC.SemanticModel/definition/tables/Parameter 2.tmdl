@@ -1,0 +1,58 @@
+table 'Parameter 2'
+	lineageTag: cce9aeb3-8a73-4ba6-82ef-6c10e9593692
+
+	column Parameter
+		lineageTag: 1d8dddcd-116f-4765-bf97-c304126d9a93
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 3612746c-3911-4b32-b304-546d118ae7de
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 6800fb7c-40e7-4d51-8c96-5c47d75e14bd
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter 2' = calculated
+		mode: import
+		source = ```
+				{
+				    ("TG lập DC", NAMEOF('Measure'[TG lập DC]), 0),
+				    ("TG lập RT tại Shop", NAMEOF('Measure'[TG lập RT tại Shop]), 2),
+				    ("TG chờ lấy hàng", NAMEOF('Measure'[TG chờ lấy hàng]), 3),
+				    ("TG trung chuyển về kho", NAMEOF('Measure'[TG trung chuyển về kho]), 4),
+				    ("TG xử lý hàng hóa ở kho", NAMEOF('Measure'[TG xử lý hàng hóa ở kho]), 5),
+				    ("TG chờ giao", NAMEOF('Measure'[TG chờ giao]), 6),
+				    ("TG giao hàng", NAMEOF('Measure'[TG giao hàng]), 7),
+				    ("TG xác nhận tại shop", NAMEOF('Measure'[TG xác nhận tại shop]), 8),
+				    ("TG xác nhận hàng", NAMEOF('Measure'[TG xác nhận hàng]), 9),
+				    ("Total leadtime YCC", NAMEOF('Measure'[Total leadtime YCC]), 10)
+				    
+				}
+				```
+
+	annotation PBI_Id = 04ad3572dd8941dc916121409e13b632
+

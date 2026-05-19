@@ -1,0 +1,104 @@
+table 'Dim_Phân Quyền_Kinh doanh'
+	lineageTag: dc1d975c-de47-4e7a-a48d-b0b4d774d243
+
+	column Miền
+		dataType: string
+		lineageTag: 21e13842-f5e2-40c7-a219-051168964fb5
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm hàng'
+		dataType: string
+		lineageTag: d4abef29-fb0d-44e2-8f59-c042131cbbe3
+		summarizeBy: none
+		sourceColumn: Nhóm hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column QLNH
+		dataType: string
+		lineageTag: 3b2f8b0d-d9cc-4653-a5f5-b61aaa3349e0
+		summarizeBy: none
+		sourceColumn: QLNH
+
+		annotation SummarizationSetBy = Automatic
+
+	column TLKD
+		dataType: string
+		lineageTag: 8689c213-131d-407c-bb3c-376b731146a2
+		summarizeBy: none
+		sourceColumn: TLKD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quản lý vùng'
+		dataType: string
+		lineageTag: 0dd10321-65e9-4c43-8d2d-b1b894699fbb
+		summarizeBy: none
+		sourceColumn: Quản lý vùng
+
+		annotation SummarizationSetBy = Automatic
+
+	column BOD
+		dataType: string
+		lineageTag: f12d6371-f18e-4c9b-b934-0abccd674592
+		summarizeBy: none
+		sourceColumn: BOD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PK_Ốp bao da'
+		dataType: string
+		lineageTag: a78e359f-4651-46c8-82ca-56669a16a5d6
+		summarizeBy: none
+		sourceColumn: PK_Ốp bao da
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PK_Củ cáp'
+		dataType: string
+		lineageTag: 1f1c43a6-d38b-4cf1-955c-b9c0493629c3
+		summarizeBy: none
+		sourceColumn: PK_Củ cáp
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'QLNH HỌC VIỆC'
+		dataType: string
+		lineageTag: 577c2b41-7c92-4462-8270-c86c96b03858
+		summarizeBy: none
+		sourceColumn: QLNH HỌC VIỆC
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Máy cũ'
+		dataType: string
+		lineageTag: 3bbd9d75-eb5f-4bcc-915d-e76aee2c6b8d
+		summarizeBy: none
+		sourceColumn: Máy cũ
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân quyền_Kinh doanh' =
+			
+			'DIM_Phân quyền_Kinh doanh'[Nhóm hàng] & "-" & 'DIM_Phân quyền_Kinh doanh'[Miền]
+		lineageTag: 488f4904-13f4-4789-900d-19da828c6a08
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dim_Phân Quyền_Kinh doanh' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)select #(lf)mien as `Miền`,#(lf)nhom_hang as `Nhóm hàng`,#(lf)qlnh as `QLNH`,#(lf)tlkd as `TLKD`,#(lf)quan_ly_vung as `Quản lý vùng`,#(lf)bod as `BOD`,#(lf)pk_op_bao_da as `PK_Ốp bao da`,#(lf)pk_cu_cap as `PK_Củ cáp`,#(lf)qlnh_hoc_viec as `QLNH HỌC VIỆC`,#(lf)may_cu as `Máy cũ`#(lf)from cellphones-data-platform.cps_DA_General_Transform.phan_quyen_kinh_doanh", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

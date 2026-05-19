@@ -1,0 +1,100 @@
+table 'D_Phân quyền_User'
+	lineageTag: 000d07cf-47c7-4f00-91f0-7df72c404319
+
+	column Tên
+		dataType: string
+		lineageTag: aed2113f-7cb6-4c69-a0ea-4818a1f462b6
+		summarizeBy: none
+		sourceColumn: Tên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mail
+		dataType: string
+		lineageTag: 2470ff08-4409-4e43-bf4a-441f932a0f96
+		summarizeBy: none
+		sourceColumn: Mail
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 8391f6d8-fd3e-4130-9e3e-62256df4208d
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Workspace
+		dataType: string
+		lineageTag: 429dbbf0-a89d-4633-8f51-94c8512f278c
+		summarizeBy: none
+		sourceColumn: Workspace
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khu vực'
+		dataType: string
+		lineageTag: f9862384-1be5-48e2-b3c9-16910acbfd38
+		summarizeBy: none
+		sourceColumn: Khu vực
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		dataType: string
+		lineageTag: 5454012f-6168-474f-afb8-53bd47d0a725
+		summarizeBy: none
+		sourceColumn: Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader
+		dataType: string
+		lineageTag: 937537f9-1e34-4555-b982-8457957ea20a
+		summarizeBy: none
+		sourceColumn: Leader
+
+		annotation SummarizationSetBy = Automatic
+
+	column Startdate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ccf84a40-d8d8-4f2a-981b-1ef7cf911e2d
+		summarizeBy: none
+		sourceColumn: Startdate
+
+		variation Variation
+			isDefault
+			relationship: c57a836f-d154-458d-b48d-501edd60b8df
+			defaultHierarchy: LocalDateTable_75b60a5b-4821-4eb2-92f4-2b1a3d72b3e6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Path =
+			
+			PATH (
+			    'D_Phân quyền_User'[Tên],
+			    'D_Phân quyền_User'[Leader]
+			)
+		lineageTag: 6265ce6a-dd24-4108-a8a7-55ba34aee1d4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D_Phân quyền_User' = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)SELECT #(lf)    ten AS `Tên`,#(lf)    mail AS Mail,#(lf)    CASE #(lf)        WHEN title = 'QLNH - 6M' THEN 'QLNH'#(lf)        ELSE title#(lf)    END AS `Title`, #(lf)    workspace AS `Workspace`,#(lf)    khu_vuc AS `Khu vực`,#(lf)    `group` `Group`,#(lf)    leader AS `Leader`,#(lf)    so_thang AS `Startdate`#(lf)FROM #(lf)    `cellphones-data-platform.cps_DA_General_Transform.phan_quyen_bi_user`", null, [EnableFolding=true]),
+				    #"Removed Duplicates" = Table.Distinct(Source)
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
