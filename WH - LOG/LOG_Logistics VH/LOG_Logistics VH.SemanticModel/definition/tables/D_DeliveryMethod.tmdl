@@ -1,0 +1,53 @@
+table D_DeliveryMethod
+	lineageTag: 9aabe43c-1830-4d37-b09d-95bbcb62db3e
+
+	column 'Hình thức vận chuyển'
+		dataType: string
+		lineageTag: a30631b4-3908-48a5-8216-85e527b4bc43
+		summarizeBy: none
+		sourceColumn: Hình thức vận chuyển
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân loại khu vực vận chuyển'
+		dataType: string
+		lineageTag: a8d10f2e-d4a0-4eca-8491-c41ebaab482b
+		summarizeBy: none
+		sourceColumn: Phân loại khu vực vận chuyển
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân loại'
+		dataType: string
+		lineageTag: 8f25a945-665c-470a-ad42-fc2ccbce1735
+		summarizeBy: none
+		sourceColumn: Phân loại
+
+		annotation SummarizationSetBy = Automatic
+
+	column MethodId
+		dataType: string
+		lineageTag: 25df33da-5ba2-4991-a3dc-d2fc0b435c25
+		summarizeBy: none
+		sourceColumn: MethodId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_DeliveryMethod = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = F_Logistics,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Hình thức vận chuyển", "Phân loại khu vực vận chuyển"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"Hình thức vận chuyển"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Removed Duplicates", "Custom", each if [Hình thức vận chuyển] = "XE MÁY LOG" then "INHOUSE" else if [Hình thức vận chuyển] = "XE KHO TRUNG TÂM" then "INHOUSE" else if [Hình thức vận chuyển] = "XE LOG" then "INHOUSE" else if [Hình thức vận chuyển] = "Ô TÔ LOG" then "INHOUSE" else if [Hình thức vận chuyển] = "XE MÁY LOG" then "INHOUSE" else if [Hình thức vận chuyển] = "NV SHOP" then "INHOUSE" else "3PLs"),
+				    #"Added Custom" = Table.AddColumn(#"Added Conditional Column", "MethodId", each [Phân loại khu vực vận chuyển] & "-" &  [Hình thức vận chuyển]),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom",{{"Custom", "Phân loại"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

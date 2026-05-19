@@ -1,0 +1,50 @@
+table Parameter_Value_Transfer
+	lineageTag: ac1d8b57-2d72-4593-8a3d-646e49cd8191
+
+	column Parameter
+		lineageTag: 11afcc77-4a63-4321-80c0-ea0307eb0883
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 7767c4b7-67b9-43ad-92cd-4ea2c3f73455
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: d338df04-15e4-41a2-adb5-83b27202b9e2
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Value_Transfer = calculated
+		mode: import
+		source =
+				{
+				    ("Số phiếu DC", NAMEOF('Measure'[Số phiếu DC_Hoàn tất]), 0),
+				    ("Slg Chuyển", NAMEOF('Measure'[Slg Chuyển]), 1),
+				    ("TG đi đường_TB", NAMEOF('Measure'[TG đi đường_TB]), 2),
+				    ("TG hoàn thành phiếu_TB", NAMEOF('Measure'[TG hoàn thành phiếu_TB]), 3)
+				}
+
+	annotation PBI_Id = 9549b56488ba47b99d0fa26546be80e3
+

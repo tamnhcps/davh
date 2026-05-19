@@ -1,0 +1,26 @@
+table D_Car
+	excludeFromModelRefresh
+	lineageTag: 01bd17f2-c42d-4e0e-b4fd-3fba4c606687
+
+	column 'Tên xe'
+		dataType: string
+		lineageTag: ad2cd5e8-528b-4c8d-b968-f8930cda3342
+		summarizeBy: none
+		sourceColumn: Tên xe
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Car = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WinBV8D3cGKng4++uFKsTrXR4ikIIEIO5sQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Tên xe" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Tên xe", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,52 @@
+table Parameter_Metric_Online_Huy
+	lineageTag: d03e3d08-bf9c-4404-9a7d-51ae3d3c0ada
+
+	column Parameter_Metric_Online_Huy
+		lineageTag: 7d1b5593-42a9-4fea-9636-3a8ad181b65b
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Metric_Online_Huy Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Metric_Online_Huy Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Metric_Online_Huy Fields'
+		isHidden
+		lineageTag: 2a987b72-3209-4dfd-8d0b-21bbfd82c084
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Metric_Online_Huy Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Metric_Online_Huy Order'
+		isHidden
+		formatString: 0
+		lineageTag: b0fad8ee-af50-4cf1-a0f9-d258334f6dd3
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Metric_Online_Huy = calculated
+		mode: import
+		source =
+				{
+				    ("Slg Online", NAMEOF('Measure'[Slg Online_Huy]), 0),
+				    ("Tỷ trọng/Tổng", NAMEOF('Measure'[TyTrong Online_Huy]), 1),
+				    ("g% LM", NAMEOF('Measure'[g% LM Online]), 2),
+				    ("Giá trị DH", NAMEOF('Measure'[Gia tri Online]), 3),
+				    ("Giá trị trung bình DH", NAMEOF('Measure'[AVG_Gia tri Online]), 4),
+				    ("Slg sp", NAMEOF('Measure'[Slg sp Online]), 5)
+				}
+
+	annotation PBI_Id = c5128b6371f24d008794751a35f67222
+

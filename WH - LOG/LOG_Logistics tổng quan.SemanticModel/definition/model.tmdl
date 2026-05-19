@@ -1,0 +1,90 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup DIM
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup FACT
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["D_Date","D_Storage","D_Department","D_Employee","Script_InternalDelivery_Original","Script_ExternalDelivery_Original","F_Logistics","F_Transfer_Detail","F_PO","D_ProductGroup","D_Region","D_Province","D_YcdcReason","D_Car","D_Area","D_B2B/B2C","D_Status","D_TicketType","D_DeliveryMethod","D_Status_Driver","Notes","Notes_Status","Notes_Metric","Notes_ProjectedCost","D_SelectedMeasure_Late","D_User","D_User_Updated","Notes_Metric_Updated"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
+
+ref table D_Date
+ref table DateTableTemplate_5d9cbf20-c028-4718-b6c0-55cbc1aa33f7
+ref table D_Storage
+ref table D_Department
+ref table Measure
+ref table Parameter_Value
+ref table Parameter_Category
+ref table F_Logistics
+ref table LocalDateTable_d9c79dd0-c6bc-42c3-b194-5127d882cf25
+ref table LocalDateTable_b60e48ab-7d68-49be-9d81-12350cd53431
+ref table LocalDateTable_c3582277-f171-47ae-9b32-7c83088f4435
+ref table LocalDateTable_d2ac3caf-162d-4f63-83b6-867d9f39df0b
+ref table D_Employee
+ref table LocalDateTable_b32af61b-658e-4da9-a3ea-7d14f473ae42
+ref table LocalDateTable_7e093b24-e00e-4293-a115-0727b814938f
+ref table LocalDateTable_4caaf1f8-671b-4a9c-850a-c2d436a5349b
+ref table F_Transfer
+ref table LocalDateTable_1add7735-e27b-4ea9-a180-81d3c8325108
+ref table F_Transfer_Detail
+ref table Parameter_Category_Transfer
+ref table Parameter_Value_Transfer
+ref table LocalDateTable_01e6f8fd-eaec-42d1-b5f5-5a3969b3f187
+ref table LocalDateTable_499db68b-f487-45af-9a34-d0bfa6ce8116
+ref table F_PO
+ref table D_ProductGroup
+ref table D_Region
+ref table Parameter_Value_PO
+ref table Parameter_Category_Driver
+ref table LocalDateTable_52b5b49a-596c-4e3d-86a3-f9fb6513ccaa
+ref table Parameter_Time
+ref table LocalDateTable_d8fd0895-3104-4aa5-abfc-4184fbbe9496
+ref table LocalDateTable_3f3e30ae-d2e8-49cf-8ebc-77eb946cfe06
+ref table D_YcdcReason
+ref table F_Logistics_Status
+ref table LocalDateTable_e47c36f8-d449-4c95-94c9-6424af26d4d9
+ref table D_Car
+ref table D_Area
+ref table D_B2B/B2C
+ref table D_Status
+ref table D_TicketType
+ref table D_DeliveryMethod
+ref table D_Status_Driver
+ref table D_DeliveryType
+ref table Notes_Metric
+ref table Notes
+ref table Notes_Status
+ref table Notes_ProjectedCost
+ref table D_SelectedMeasure_Late
+ref table D_User
+ref table LocalDateTable_d14f45a1-3bd5-4af6-8197-78228ec83513
+ref table D_User_Warehouse
+ref table D_User_Operations
+ref table D_Province
+ref table LocalDateTable_ee8f21a5-d7cc-42ac-b362-3d16edeb16dd
+ref table Dim_KhungGio
+ref table Dim_KhoangCach
+ref table Parameter
+ref table Parameter_Category__
+
+ref role Chung
+ref role 'Kho vận'
+ref role 'Vận hành_AM'
+ref role 'Vận hành_Cửa hàng'
+ref role 'Vận hành_OP'
+ref role CS_TTS
+
+ref cultureInfo en-US
+

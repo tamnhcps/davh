@@ -1,0 +1,26 @@
+table D_Status
+	excludeFromModelRefresh
+	lineageTag: abda8b3c-57c9-43b7-918e-6fa4472fc100
+
+	column 'Trạng thái phiếu'
+		dataType: string
+		lineageTag: fd89e61f-33b8-491f-ad18-2f7faa23effe
+		summarizeBy: none
+		sourceColumn: Trạng thái phiếu
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Status = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcs44tiFRISP/8II8hZKHu5aWKMXqRCt5oPMf7l5eqZCemZivFBsLAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Trạng thái phiếu" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Trạng thái phiếu", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

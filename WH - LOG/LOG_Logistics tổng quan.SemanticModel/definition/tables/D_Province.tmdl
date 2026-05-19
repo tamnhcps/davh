@@ -1,0 +1,27 @@
+table D_Province
+	excludeFromModelRefresh
+	lineageTag: cc8b4560-4ff8-4f72-95af-70a304703afd
+
+	column 'Tỉnh thành'
+		dataType: string
+		lineageTag: 4be31b7c-4aaa-4f37-a211-44268b974f3a
+		summarizeBy: none
+		sourceColumn: Tỉnh thành
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Province = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("XVPLattAFP2Vi9ftRyQKxGBF5DEYislCmKIZSsbFoEWWJYsuQiGQVenGshclbU3cpN1IiyzG1X/Mn/TMSxplY3TOfZ5zx7PZ6EDSschlMbp8MxsdqhWd6+Y2p7c0/fcgC2JqVbqQrqs5pUL96PDjnCZgZYSjVhZnQvIAXySx5Xs/55fkdNTu2qqbbJj9HYaHCsuc8nanm2/ziGK81PXWTU2w8EnuNkryBWHMb98x0fV3TORtZeH+DqmZrv/6MEbVjx8oNb8xkak/XYbQzWdJh9AsQ0pzD1OyXAww46r6aBnop9RHxxjY+2FQll/137r52uex/YOXPdb1RgysccwpV089sS0HrZ9yst74cHNPCVdbOgnuj9sd1nwXdEywL4w0dQ4bhVHDyQLGlW5XqDHN1s7j1Ny7oIvWXz1VqwUlXnCq1lfkPXHEArkHLhPaB+fNCg53uyg2jSRYGN8Z6msQuvnSw07OGfI2mNTXByYY3uFCbcSQEa9K2BI7WuZCPc8B9zdejRGN49pvptbXfa25v4jGO5wV5XVYkfHcGv7sy6HkZw5B1vgxRr84Hi/uU3wJtsTjmHZzbEM6K0N4ap4NGZsjaMxx/xfjENaqIPnyPw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Tỉnh thành" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Tỉnh thành", type text}}),
+				    #"Uppercased Text" = Table.TransformColumns(#"Changed Type",{{"Tỉnh thành", Text.Upper, type text}})
+				in
+				    #"Uppercased Text"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

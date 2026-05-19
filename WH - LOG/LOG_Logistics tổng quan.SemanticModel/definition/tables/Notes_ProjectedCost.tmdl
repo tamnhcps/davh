@@ -1,0 +1,58 @@
+table Notes_ProjectedCost
+	excludeFromModelRefresh
+	lineageTag: cd6fe298-eb35-450d-b445-d7c0be983287
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: 5c3c27c6-ed8b-4d88-94b4-1a431856bad1
+		summarizeBy: none
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khoảng cách (km)'
+		dataType: double
+		lineageTag: 9fda0769-af8c-4c82-81ab-c5f0be450717
+		summarizeBy: sum
+		sourceColumn: Khoảng cách (km)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Nhân viên cửa hàng'
+		dataType: double
+		formatString: #,0
+		lineageTag: 463ac6ff-157c-4642-b32f-8bfdef406122
+		summarizeBy: sum
+		sourceColumn: Nhân viên cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'Nhân viên log'
+		dataType: double
+		formatString: #,0
+		lineageTag: 3d291499-1d8e-4d60-a38a-19fb7dcdec08
+		summarizeBy: sum
+		sourceColumn: Nhân viên log
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	partition Notes_ProjectedCost = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("Zc7BDcAgDAPAXfJOJScBSmdB7L9G8aMVTR9Bik8YxhATlYMH1nQAMnWI74GK1weC2xprWcraKhNkYdqZ/Noam7BRvHSS+K/wTOwyPhct00Xi1YIPzRs=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [STT = _t, #"Khoảng cách (km)" = _t, #"Nhân viên cửa hàng" = _t, #"Nhân viên log" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Khoảng cách (km)", type number}, {"Nhân viên cửa hàng", type number}, {"Nhân viên log", type number}, {"STT", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

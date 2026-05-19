@@ -1,0 +1,57 @@
+table Parameter_Metric
+	lineageTag: 79c9622a-c012-498d-a426-4b2ab410b6a7
+
+	column Parameter
+		lineageTag: 05be8a00-30ed-4906-a308-8b02a90ee366
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: ac0a1728-1113-4456-a83a-4afce8ce6d63
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 0890bddc-cc40-4b47-8f88-d906a65f342e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Metric = calculated
+		mode: import
+		source =
+				{
+				    ("Số phiếu YCDC", NAMEOF('Measure'[Số phiếu YCDC]), 0),
+				    ("YCDC theo SKU", NAMEOF('Measure'[YCDC]), 1),
+				    ("Số lượng", NAMEOF('Measure'[Số lượng]), 2),
+				    ("% DC/YCDC", NAMEOF('Measure'[% DC/YCDC]), 3),
+				    ("% YCDC1 theo SKU", NAMEOF('Measure'[% YCDC1 theo SKU]), 4),
+				    ("% YCDC7 theo SKU", NAMEOF('Measure'[% YCDC7 theo SKU]), 5),
+				    ("% YCDC14 theo SKU", NAMEOF('Measure'[% YCDC14 theo SKU]), 6),
+				    ("TG tồn CH đến lúc bán", NAMEOF('Measure'[TG tồn CH đến lúc bán]), 7),
+				    ("TG tồn CH đến chuyển kho", NAMEOF('Measure'[TG tồn CH đến chuyển kho]), 8),
+				    ("% DH không tồn", NAMEOF('Measure'[% DH không tồn]), 9),
+				    ("CR_DH không tồn", NAMEOF('Measure'[CR_DH không tồn]), 10)
+				}
+
+	annotation PBI_Id = 9bfa2b31c5d048518bd34c808b2cb72b
+

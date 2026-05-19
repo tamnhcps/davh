@@ -1,0 +1,9 @@
+role 'Kho vận'
+	modelPermission: read
+
+	tablePermission D_User_Warehouse = 'D_User_Warehouse'[OP]=LOOKUPVALUE('D_User'[Tên],'D_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission D_Date = 'D_Date'[Date]>=LOOKUPVALUE('D_User'[Startdate],'D_User'[Mail],USERPRINCIPALNAME())
+
+	annotation PBI_Id = 18e0e9b8b8bd4247b10000f4b7a4702b
+

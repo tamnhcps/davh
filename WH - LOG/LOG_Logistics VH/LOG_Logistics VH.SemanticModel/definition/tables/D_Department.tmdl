@@ -1,0 +1,142 @@
+table D_Department
+	lineageTag: c3465ceb-c98d-4c15-823f-068301066cf2
+
+	column hara_id
+		dataType: int64
+		formatString: 0
+		lineageTag: cac6c4e3-8f16-4855-9ee9-3db6e3dc2e11
+		summarizeBy: sum
+		sourceColumn: hara_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bo_phan
+		dataType: string
+		lineageTag: fd4ef7ce-3375-46b4-9e8e-4b39306755d4
+		summarizeBy: none
+		sourceColumn: bo_phan
+
+		annotation SummarizationSetBy = Automatic
+
+	column size
+		dataType: string
+		lineageTag: e0318391-2600-4905-a9f1-f8f58d8b2781
+		summarizeBy: none
+		sourceColumn: size
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma_kho
+		dataType: string
+		lineageTag: 56c04593-7be4-48d8-8950-1732fcc737c3
+		summarizeBy: none
+		sourceColumn: ma_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1182ab9c-80e8-4178-8fe8-40bd1f6cb932
+		summarizeBy: none
+		sourceColumn: is_inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column mien
+		dataType: string
+		lineageTag: f3973597-0cc0-401c-a14a-90b8ade7543a
+		summarizeBy: none
+		sourceColumn: mien
+
+		annotation SummarizationSetBy = Automatic
+
+	column tinh_thanh_pho
+		dataType: string
+		lineageTag: 05ac199b-2f39-443d-be80-d2c31e704e26
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: tinh_thanh_pho
+
+		annotation SummarizationSetBy = Automatic
+
+	column quan_huyen
+		dataType: string
+		lineageTag: 0be56d4e-be9c-4a4d-8cc8-ad372322bdf3
+		summarizeBy: none
+		sourceColumn: quan_huyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column am
+		dataType: string
+		lineageTag: 155390ab-bea5-4f12-b9f4-cf10fd91d235
+		summarizeBy: none
+		sourceColumn: am
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm cửa hàng' = ```
+			
+			IF(
+			    LEFT('D_Department'[bo_phan], 4) = "CPS-",
+			    SWITCH(
+			        TRUE(),
+			        SEARCH("ONLINE", 'D_Department'[bo_phan], 1, 0) > 0, "ONLINE",
+			        SEARCH("HCM-", 'D_Department'[bo_phan], 1, 0) 
+			            || SEARCH("HNO-", 'D_Department'[bo_phan], 1, 0), "HCM/HN",
+			        "TỈNH"
+			    )
+			)
+			```
+		lineageTag: 6e8ea3bf-678b-4289-9a10-28cefc98f9b9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm cửa hàng lv2' =
+			
+			SWITCH(
+			    TRUE(),
+			    'D_Department'[Nhóm cửa hàng] = "HCM/HN" && LEFT('D_Department'[bo_phan], 8) = "CPS-HNO-", "")
+		lineageTag: d8557a5d-237f-44cc-9c23-9a1bbf7612ea
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column am_visual =
+			
+			VAR zAM = [am]
+			VAR zBoPhan = [bo_phan]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    zAM <> BLANK(), zAM,
+			    zBoPhan = "Phòng B2B", "PHÒNG B2B"
+			)
+		lineageTag: 986068b4-a1d2-4a7e-a6cc-b08818bce82f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column vung
+		dataType: string
+		lineageTag: c80a9baa-91ca-416d-9ba8-86a5477aa5df
+		summarizeBy: none
+		sourceColumn: vung
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Department-385bf01e-8c39-4e5b-a7c8-24ec533c12e9 = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=0c443b5c-c2db-4617-b273-e61ac25f9b66”#(lf)SELECT #(lf)  d.hara_id, #(lf)  d.bo_phan,#(lf)  d.size,#(lf)  d.ma_kho,#(lf)  d.is_inactive,#(lf)  d.vung,#(lf)  d.mien,#(lf)  d.tinh_thanh_pho, #(lf)  d.quan_huyen,#(lf)  d.am #(lf)FROM `cellphones-data-platform.cps_DA_General_Transform.dim_department` d#(lf)WHERE d.size IS NOT NULL", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

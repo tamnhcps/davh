@@ -1,0 +1,118 @@
+table 'FACT_Warehouse_Current Inventory'
+	lineageTag: b9351053-d8f0-4a4d-819e-b0edf51158af
+
+	column id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3bdbafc0-3ec6-445c-84d1-d87eea8c29ba
+		summarizeBy: sum
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreTypeId
+		dataType: int64
+		formatString: 0
+		lineageTag: 362bbba2-9809-4430-bc27-d67485b12cf1
+		summarizeBy: count
+		sourceColumn: StoreTypeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreCode
+		dataType: string
+		lineageTag: 7b1696e5-fd0e-445a-bfbb-ab257f07a03c
+		summarizeBy: none
+		sourceColumn: StoreCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreName
+		dataType: string
+		lineageTag: 86851f6a-6213-4778-b76c-cfe45b62983e
+		summarizeBy: none
+		sourceColumn: StoreName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCode
+		dataType: string
+		lineageTag: 6c28b49f-d6e0-4cad-90c1-8e4a8424f5b6
+		summarizeBy: none
+		sourceColumn: ProductCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: double
+		lineageTag: 9347e831-79c6-44c5-a975-70aebd8f82f2
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsMain
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a03a726e-745f-4c9a-b25e-1635ebc6a814
+		summarizeBy: none
+		sourceColumn: IsMain
+
+		annotation SummarizationSetBy = Automatic
+
+	column Datasource
+		dataType: string
+		lineageTag: 3d841e43-d1f1-42f4-be23-9d12edd706a0
+		summarizeBy: none
+		sourceColumn: Datasource
+
+		annotation SummarizationSetBy = Automatic
+
+	column ton_di_duong
+		dataType: double
+		lineageTag: b7bf3c56-8859-46c4-b64f-4f76e7b404fb
+		summarizeBy: sum
+		sourceColumn: ton_di_duong
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Miền = RELATED('DIM_Danh mục_Kho'[Miền])
+		lineageTag: d23da914-4c80-4340-b2ed-353606867724
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column DMC3 = RELATED('DIM_Danh mục_Nhóm hàng'[Nhóm hàng] )
+		lineageTag: 06953143-42c7-4265-8f33-246b44e7a705
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân quyền kinh doanh' = 'FACT_Warehouse_Current Inventory'[Miền] &"-"& 'FACT_Warehouse_Current Inventory'[DMC3]
+		lineageTag: 8f010ee7-08b9-4634-9f28-bd0cea935415
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phân_Quyền = 'FACT_Warehouse_Current Inventory'[DMC3]&"-"&'FACT_Warehouse_Current Inventory'[Miền]
+		lineageTag: 359a7bec-25c9-4807-bfac-9f4f68bf91b2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Warehouse_Current Inventory' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=8cc95609-f041-4368-a7a2-25617b22271a""#(lf)--Tồn đi đường#(lf)WITH on_street_inventory_staging AS (#(lf)SELECT#(lf)  Acc_StoreBillDetail.ProductId#(lf)  , ERP_Store.Code AS StoreCode#(lf)  , COALESCE(Acc_StoreBillDetail.Quantity,0) AS quantity#(lf)  , ""HCM"" AS region#(lf)  , ""Tồn đi đường"" AS Type#(lf)FROM `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBillDetail` AS Acc_StoreBillDetail#(lf)INNER JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBill` AS Acc_StoreBill#(lf)  ON Acc_StoreBillDetail.StoreBillId = Acc_StoreBill.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_ImportExportMethod` AS Store_ImportExportMethod#(lf)  ON Acc_StoreBill.MethodId = Store_ImportExportMethod.Id#(lf)INNER JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General` AS Acc_General#(lf)  ON Acc_StoreBill.Id = Acc_General.Id#(lf)INNER JOIN  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Product` AS ERP_Product#(lf)  ON ERP_Product.Id = Acc_StoreBillDetail.ProductId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` AS ERP_Store#(lf)  ON ERP_Store.id = Acc_StoreBillDetail.InputStoreId#(lf)WHERE 1=1#(lf)AND Store_ImportExportMethod.MethodType = 3 -- Phiếu điều chuyển#(lf)AND Acc_General.ReplaceById is null#(lf)AND Acc_StoreBill.ConfirmByDate is NULL#(lf)AND ERP_Product.IsStock IS TRUE#(lf)AND Acc_General.BillTypeId=1#(lf)#(lf)UNION ALL#(lf)SELECT#(lf)  Acc_StoreBillDetail.ProductId#(lf)  , ERP_Store.code AS StoreCode#(lf)  , COALESCE(Acc_StoreBillDetail.Quantity,0) AS quantity#(lf)  , ""HN"" AS region#(lf)  , ""Tồn đi đường"" AS Type#(lf)FROM `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBillDetail` AS Acc_StoreBillDetail#(lf)INNER JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBill` AS Acc_StoreBill#(lf)  ON Acc_StoreBillDetail.StoreBillId = Acc_StoreBill.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_ImportExportMethod` AS Store_ImportExportMethod#(lf)  ON Acc_StoreBill.MethodId = Store_ImportExportMethod.Id#(lf)INNER JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_General` AS Acc_General#(lf)  ON Acc_StoreBill.Id = Acc_General.Id#(lf)INNER JOIN  `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Product` AS ERP_Product#(lf)  ON ERP_Product.Id = Acc_StoreBillDetail.ProductId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` AS ERP_Store#(lf)  ON ERP_Store.id = Acc_StoreBillDetail.InputStoreId#(lf)WHERE 1=1#(lf)AND Store_ImportExportMethod.MethodType = 3 -- Phiếu điều chuyển#(lf)AND Acc_General.ReplaceById is null#(lf)AND Acc_StoreBill.ConfirmByDate is NULL#(lf)AND ERP_Product.IsStock IS TRUE#(lf)AND Acc_General.BillTypeId=1#(lf))#(lf)#(lf), on_street_inventory AS (#(lf)SELECT#(lf)s.ProductId, #(lf)s.StoreCode,#(lf)dp.ma_hang,#(lf)dp.ten_hang,#(lf)SUM(quantity) AS quantity,#(lf)Type#(lf)FROM on_street_inventory_staging as s#(lf)LEFT JOIN `cellphones-data-platform.cps_DA_General_Transform.dim_product` dp on dp.product_id = s.ProductId#(lf)WHERE quantity <> 0 AND quantity IS NOT NULL#(lf)GROUP BY s.ProductId, s.StoreCode, dp.ma_hang, dp.ten_hang , s.Type#(lf))#(lf)#(lf)--Tồn ngày#(lf), ton_ngay as (#(lf)select#(lf)st.id,#(lf)st.StoreTypeId,#(lf)st.code StoreCode,#(lf)st.name as StoreName,#(lf)p.Code as ProductCode,#(lf)CI.Quantity,#(lf)st.IsMain,#(lf)'DPRT-HCM' Datasource#(lf)from cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_CurrentInventory CI#(lf)INNER join cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store st on st.Id = ci.StoreId#(lf)inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch sb on sb.id = st.BranchId#(lf)inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product p on p.Id = Ci.ProductId#(lf)inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup pg on pg.id = p.ProductGroupId#(lf)inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductType pt on pt.id = p.ProductTypeId#(lf)where #(lf)--sb.CenterId in (1,3759) and #(lf)CI.Quantity > 0 #(lf)#(lf)UNION ALL#(lf)#(lf)select#(lf)st.id,#(lf)st.StoreTypeId,#(lf)st.code StoreCode,#(lf)st.name as StoreName,#(lf)p.Code as ProductCode,#(lf)CI.Quantity,#(lf)st.IsMain,#(lf)'DPRT-HN' Datasource#(lf)from cellphones-data-platform.cps_cdc_sep_hn_dbo.Store_CurrentInventory CI#(lf)INNER join cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store st on st.Id = ci.StoreId#(lf)inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_SubBranch sb on sb.id = st.BranchId#(lf)inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product p on p.Id = Ci.ProductId#(lf)inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup pg on pg.id = p.ProductGroupId#(lf)inner join cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductType pt on pt.id = p.ProductTypeId#(lf)where #(lf)--sb.CenterId in (1,3759) and #(lf)CI.Quantity > 0 #(lf))#(lf)#(lf)select #(lf)ton_ngay.*,#(lf)on_street_inventory.quantity as ton_di_duong#(lf)from ton_ngay #(lf)left join on_street_inventory on ton_ngay.StoreCode = on_street_inventory.StoreCode and ton_ngay.ProductCode = on_street_inventory.ma_hang", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

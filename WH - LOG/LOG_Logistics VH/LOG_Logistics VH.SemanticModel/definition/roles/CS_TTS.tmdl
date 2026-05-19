@@ -1,0 +1,48 @@
+role CS_TTS
+	modelPermission: read
+
+	tablePermission D_Date = 'D_Date'[Date]>=LOOKUPVALUE('D_User'[Startdate],'D_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission D_User_Operations = ```
+			VAR zName = 
+			    LOOKUPVALUE(
+			        'D_User'[Tên],
+			        'D_User'[Mail], 
+			        USERPRINCIPALNAME()
+			    )
+			
+			VAR zTable_AddColumns = 
+			    ADDCOLUMNS(
+			        'D_User_Operations',
+			        "zPath",
+			        LOOKUPVALUE(
+			            'D_User'[Path],
+			            'D_User'[Tên], 
+			            'D_User_Operations'[Bộ phận]
+			        )
+			    )
+			
+			VAR zFilteredTable = 
+			    FILTER(
+			        zTable_AddColumns,
+			        PATHCONTAINS([zPath], zName)
+			    )
+			
+			VAR zDistinctStores = 
+			    DISTINCT(
+			        SELECTCOLUMNS(
+			            zFilteredTable,
+			            "Cửa hàng", 'D_User_Operations'[Bộ phận]
+			        )
+			    )
+			
+			RETURN
+			IF(
+			    LOOKUPVALUE('D_User'[Title], 'D_User'[Mail], USERPRINCIPALNAME()) = "CS",
+			    [Bộ phận] IN zDistinctStores,
+			    TRUE
+			)
+			```
+
+	annotation PBI_Id = 86c6c784e9724cfcb17203b9a9f48009
+

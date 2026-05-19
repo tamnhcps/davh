@@ -1,0 +1,55 @@
+table Parameter_Category__
+	lineageTag: bd220c6b-9afe-4313-ae01-70fc93d34b7b
+
+	column Parameter
+		lineageTag: ab2eb8c1-a981-4783-8d41-34bbb19e9a2c
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 8b4a1df5-0b4a-488b-9b82-5540763d40fd
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 84810b34-59fa-43be-b05c-f9db5f3dcb22
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Category__ = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('D_Department'[mien]), 0),
+				    ("Tỉnh/Thành phố", NAMEOF('D_Department'[tinh_thanh_pho]), 1),
+				    ("AM", NAMEOF('D_Department'[am_visual]), 2),
+				    ("Cửa hàng", NAMEOF('D_Department'[bo_phan]), 3),
+				    ("NV giao hàng", NAMEOF('D_Employee'[Nhân viên]), 4),
+				    // ("Loại giao hàng", NAMEOF('D_DeliveryType'[Loại giao hàng]), 5),
+				    ("Đơn vị vận chuyển", NAMEOF('D_DeliveryMethod'[Hình thức vận chuyển]), 6),
+				    ("Khung giờ tạo đơn", NAMEOF('Dim_KhungGio'[Khung giờ]), 7),
+				    ("Khoảng cách", NAMEOF('Dim_KhoangCach'[Khoảng cách]), 8)
+				}
+
+	annotation PBI_Id = 01b0feec43d94773aa35b4e7bb9a3f3b
+

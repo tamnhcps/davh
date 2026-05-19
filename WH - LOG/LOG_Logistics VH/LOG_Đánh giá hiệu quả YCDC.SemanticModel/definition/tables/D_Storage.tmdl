@@ -1,0 +1,74 @@
+table D_Storage
+	lineageTag: 02952943-4f29-4a53-af11-94034e2b4914
+
+	column 'Mã kho'
+		dataType: string
+		lineageTag: e9341638-6ed0-41a0-822f-cc1f3e14b940
+		summarizeBy: none
+		sourceColumn: Mã kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên kho'
+		dataType: string
+		lineageTag: 4c12b0e5-7dee-431d-9703-7524b15288d9
+		summarizeBy: none
+		sourceColumn: Tên kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kho phân tích'
+		dataType: string
+		lineageTag: 577ef9d1-b561-45d2-b528-6566b4d00af5
+		summarizeBy: none
+		sourceColumn: Kho phân tích
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: 7ed0c3d5-30e0-460c-98a0-2746e5b67bb5
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: c9ac46f0-aeae-4724-8af5-c3ff4ee42a8f
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân loại kho'
+		dataType: string
+		lineageTag: bd6402be-3366-4a1d-bc7d-31ed6d6c0392
+		summarizeBy: none
+		sourceColumn: Phân loại kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: f56ba394-4713-4c9b-b679-557947dcc665
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Storage = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)select #(lf)  ma_kho `Mã kho`,#(lf)  ten_kho `Tên kho`,#(lf)  kho_phan_tich `Kho phân tích`,#(lf)  mien `Miền`,#(lf)  cua_hang `Cửa hàng`,#(lf)  phan_loai_kho `Phân loại kho`,#(lf)from#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_storage`#(lf)where #(lf)  cong_ty <> 'DTV' or cong_ty is null#(lf)order by #(lf)  ma_kho", null, [EnableFolding=true]),
+				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

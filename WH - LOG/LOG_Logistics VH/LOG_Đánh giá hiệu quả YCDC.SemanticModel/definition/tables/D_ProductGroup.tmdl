@@ -1,0 +1,24 @@
+table D_ProductGroup
+	lineageTag: e1eebdda-1f33-4d14-836f-3784746b84d0
+
+	column nhom_hang
+		dataType: string
+		lineageTag: f8f911b2-ee91-47e7-bf82-f9b0d573af02
+		summarizeBy: none
+		sourceColumn: nhom_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_ProductGroup = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)SELECT UPPER(nhom_hang) nhom_hang#(lf)FROM cellphones-data-platform.cps_DA_General_Transform.dim_product_group", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

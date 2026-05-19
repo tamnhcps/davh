@@ -1,0 +1,1741 @@
+table Measure
+	lineageTag: dc78e311-43d8-4a2f-be23-c7f4a9a468b5
+
+	/// Số phiếu SP/DC
+	/// 
+	measure 'Số phiếu' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT ( 'F_Logistics'[Số phiếu]),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Tính chất phiếu giao] IN {"SP", "DC"}
+			            && 'F_Logistics'[IsUnique] = 1
+			    )
+			)
+			--Lưu trữ
+			// CALCULATE(
+			//     DISTINCTCOUNT ( 'FACT_Logistics_Appended'[Số phiếu]),
+			//     FILTER(
+			//         'FACT_Logistics_Appended',
+			//         'FACT_Logistics_Appended'[Tính chất phiếu giao] IN {"SP", "DC"}
+			//     )
+			// )
+			
+			
+			```
+		formatString: #,0
+		displayFolder: Giao hàng combined\Số phiếu
+		lineageTag: ef6a5b1e-dc2e-4a1e-a4f2-009a19bed672
+
+		changedProperty = FormatString
+
+	measure 'Hoàn tất %' = ```
+			
+			DIVIDE(
+			   [Hoàn tất],
+			   [Số phiếu],
+			   blank()
+			   )
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: Giao hàng combined\Số phiếu
+		lineageTag: d6f026ad-af89-4330-a05d-937e99f302f5
+
+		changedProperty = FormatString
+
+	/// Số phiếu SP/DC có trạng thái hoàn tất
+	/// 
+	measure 'Hoàn tất' =
+			
+			CALCULATE (
+			    [Số phiếu],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trạng thái phiếu] = "Hoàn tất"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Giao hàng combined\Số phiếu
+		lineageTag: dce4f497-f354-4f63-b7a3-038cdecdb01b
+
+		changedProperty = FormatString
+
+	measure 'Maxdate_Nội bộ' =
+			CALCULATE(MAX ( 'F_Logistics'[Ngày tạo chuyến đi] ), ALL())
+			// // CALCULATE(
+			//     MAX ( 'FACT_Logistics_Appended'[Ngày tạo chuyến đi] )
+			// //     FILTER(FACT_Logistics_Appended, FACT_Logistics_Appended[Mã chuyến đi] <> BLANK())
+			// // )
+		formatString: General Date
+		displayFolder: Other
+		lineageTag: 4132cb1a-4646-4b90-96f1-01768c2ebf2f
+
+		changedProperty = FormatString
+
+	/// Tổng khoảng cách từ CH theo bản đồ (DVT: m)
+	/// 
+	measure 'Khoảng cách' =
+			
+			SUM ( 'F_Logistics'[K.Cách từ CH theo bản đồ] )
+		formatString: #,0
+		displayFolder: Giao hàng combined\Khoảng cách
+		lineageTag: d40ca420-b938-41c1-984e-f259763b69c6
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Số giờ trong ngày' = 24
+		formatString: 0
+		displayFolder: Other
+		lineageTag: 5c918d6e-9326-4810-8224-34a4199395d8
+
+	/// Khoảng cách từ CH theo bản đồ trung bình (DVT: m)
+	measure 'Khoảng cách_TB' =
+			
+			CALCULATE(
+			    AVERAGE ( 'F_Logistics'[K.Cách từ CH theo bản đồ] ),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[K.Cách từ CH theo bản đồ] > 0
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Giao hàng combined\Khoảng cách
+		lineageTag: ce69d39d-b2a7-44fa-b58d-cd4f49d9fe35
+
+		changedProperty = FormatString
+
+	/// (Ngày tạo chuyến đi - Ngày đơn hàng) trung bình (DVT: giờ)
+	/// *Không bao gồm phiếu có tổng thời gian giao hàng vượt quá 1 tuần
+	measure 'TG xử lý đơn_TB' =
+			
+			CALCULATE (
+			    AVERAGE ( 'F_Logistics'[Thời gian xử lý đơn] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Thời gian xử lý đơn] <> BLANK ()
+			            && 'F_Logistics'[IsOutlier] = 0
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Giao hàng combined\Thời gian giao hàng
+		lineageTag: 5e312014-e026-45d2-b32d-5d9a89afd1a7
+
+		changedProperty = FormatString
+
+	/// Nội bộ: (Thời gian kết thúc đơn hàng - Thời gian nhận lúc) trung bình (DVT: giờ)
+	/// Đối tác: (Thời gian giao thành công - Thời gian đang giao) trung bình (DVT: giờ)
+	/// *Không bao gồm phiếu có tổng thời gian giao hàng vượt quá 1 tuần
+	measure 'TG giao cho khách_TB' =
+			
+			CALCULATE (
+			    AVERAGE ( 'F_Logistics'[Thời gian giao cho khách] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Thời gian giao cho khách] <> BLANK ()
+			            && 'F_Logistics'[IsOutlier] = 0
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Giao hàng combined\Thời gian giao hàng
+		lineageTag: d8b1500f-642d-413b-b193-41c131790fcb
+
+		changedProperty = FormatString
+
+	/// Nội bộ: (Thời gian nhận lúc lần đầu - Thời gian tạo số tuyến) trung bình (DVT: giờ)
+	/// Đối tác: (Thời gian đã lấy hàng - Thời gian tạo vận đơn) trung bình (DVT: giờ)
+	/// *Không bao gồm phiếu có tổng thời gian giao hàng vượt quá 1 tuần
+	/// 
+	measure 'TG chờ lấy hàng_TB' =
+			
+			CALCULATE (
+			    AVERAGE ( 'F_Logistics'[Thời gian chờ lấy hàng] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Thời gian chờ lấy hàng] <> BLANK ()
+			            && 'F_Logistics'[IsOutlier] = 0
+			    )
+			)
+		formatString: 0.00
+		displayFolder: Giao hàng combined\Thời gian giao hàng
+		lineageTag: f0ccad06-bb5f-4cbf-b6c7-2ed2441151af
+
+		changedProperty = FormatString
+
+	measure 'Giá trị đơn' = ```
+			
+			SUMX(
+			    SUMMARIZE(
+			        FILTER(
+			            F_Logistics, 
+			            F_Logistics[Tính chất phiếu giao old] = "SP"
+			                && F_Logistics[IsUnique] = 1
+			        ),
+			        F_Logistics[Số phiếu],
+			        F_Logistics[Giá trị đơn]
+			    ),
+			    F_Logistics[Giá trị đơn]
+			   )
+			```
+		formatString: #,0
+		displayFolder: Giao hàng combined\Doanh thu
+		lineageTag: d67200b6-0b54-4119-a1ff-19f6099e5c39
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Khoảng cách từ CH theo bản đồ trung bình đơn (DVT: m)
+	measure 'Khoảng cách TB/đơn' = [Khoảng cách]/[Số phiếu]
+		displayFolder: Giao hàng combined\Khoảng cách
+		lineageTag: 4213304a-e95f-48e1-939b-e06fc9e1091e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Giá trị đơn_LM' =
+			
+			CALCULATE (
+			    [Giá trị đơn],
+			    PREVIOUSMONTH ( 'D_Date'[Date] )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Doanh thu
+		lineageTag: f91928b6-eac8-4fa9-971a-c253a5048f97
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Giá trị đơn so với tháng trước (DVT: %)
+	measure 'g% Giá trị đơn' =
+			
+			VAR dso_lm_g =
+			    DIVIDE (
+			        [Giá trị đơn],
+			        [Giá trị đơn_LM],
+			        BLANK ()
+			    ) - 1
+			RETURN
+			    IF (
+			        [Giá trị đơn_LM] <> 0
+			            && [Giá trị đơn] <> 0,
+			        dso_lm_g,
+			        BLANK()
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Doanh thu
+		lineageTag: 12cbb744-5c83-4d49-9553-56029bd074dc
+
+	/// (Ngày tạo chuyến đi - ngày đơn hàng) quá 15 phút
+	/// 
+	measure 'Trễ hạn_Shop' =
+			
+			CALCULATE (
+			    count ( 'F_Logistics'[Trạng thái xử lý đơn] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trạng thái xử lý đơn] IN {"Shop trễ hạn", "Shop và Shipper trễ hạn"}
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 2d035713-71e9-4893-9607-f89ff914789b
+
+	/// (Thời gian hoàn tất - Ngày tạo chuyến đi) quá 105 phút đối với loại đơn giao 2h, tương tự cho loại đơn giao 3h và 4h
+	/// 
+	measure 'Trễ hạn_Shipper' =
+			
+			CALCULATE (
+			    COUNT('F_Logistics'[Trạng thái xử lý đơn] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trạng thái xử lý đơn] IN {"Shipper trễ hạn", "Shop và Shipper trễ hạn"}
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: c34ff185-590c-4db4-8907-07ab748ad511
+
+	/// Thoả đồng thời điều kiện [% Late by shop] và [% Late by shipper]
+	/// 
+	measure 'Trễ hạn_Shop & Shipper' =
+			
+			CALCULATE (
+			    count ( 'F_Logistics'[Trạng thái xử lý đơn] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trạng thái xử lý đơn]= "Shop và Shipper trễ hạn"
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 39f5e7da-fdda-4f93-9daf-57daffe86a61
+
+	measure 'Đúng hạn_Shop & Shipper' =
+			
+			CALCULATE (
+			    count ( 'F_Logistics'[Trạng thái xử lý đơn] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trạng thái xử lý đơn]= "Shop và Shipper đúng hạn"
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: e823295f-ce68-4753-984d-1b7e19182150
+
+	measure 'Tổng phân loại' =
+			
+			CALCULATE (
+			    COUNT ( 'F_Logistics'[Trạng thái xử lý đơn] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trạng thái xử lý đơn] IN {"Shop trễ hạn", "Shipper trễ hạn", "Shop và Shipper trễ hạn", "Shop và Shipper đúng hạn"}
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: bb22013c-b0ab-4989-9235-9c0122533899
+
+	measure '% Trễ hạn_Shop' =
+			
+			DIVIDE(
+			   [Trễ hạn_Shop],
+			   [Tổng phân loại],
+			   blank()
+			   )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: a6a6f636-9633-4205-8394-613857921db6
+
+	measure '% Trễ hạn_Shipper' = ```
+			
+			DIVIDE(
+			   [Trễ hạn_Shipper],
+			   [Tổng phân loại],
+			   blank()
+			   )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 503dac04-fb31-4137-8847-fce4d687c21f
+
+	measure '% Trễ hạn_Shop & Shipper' =
+			
+			DIVIDE(
+			   [Trễ hạn_Shop & Shipper],
+			   [Tổng phân loại],
+			   blank()
+			   )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: ea0dc653-80ba-4aa9-a0f1-4ec5803ef352
+
+	measure '% Đúng hạn_Shop & Shipper' =
+			
+			DIVIDE(
+			   [Đúng hạn_Shop & Shipper],
+			   [Tổng phân loại],
+			   blank()
+			   )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: b8213957-92c5-4974-8b34-4eaa77d4463b
+
+	/// Trễ hạn theo thời gian hẹn trên RT = (Thời gian hoàn tất/Thời gian huỷ - Giao hàng trước) > 0
+	measure 'Trễ hạn_RT' =
+			
+			CALCULATE (
+			    COUNT('F_Logistics'[Trễ hạn theo RT] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trễ hạn theo RT] = "Trễ hạn"
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 802eb0c5-a959-42a2-8c53-9ece37d5bfe9
+
+	/// Trễ hạn theo thời gian hẹn trên DH = (Thời gian hoàn tất - Thời gian giao) > 0
+	/// 
+	/// 
+	measure 'Trễ hạn_DH' =
+			
+			CALCULATE (
+			    COUNT('F_Logistics'[Trễ hạn theo DH] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trễ hạn theo DH]= "Trễ hạn"
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: fee2236d-9275-48d1-91dc-f4dd140b60ab
+
+	measure 'Tổng phân loại_Trễ hạn_DH' =
+			
+			CALCULATE (
+			    COUNT('F_Logistics'[Trễ hạn theo DH] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trễ hạn theo DH] <> BLANK()
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: ef005644-5082-44af-908a-e9ab1a296bd6
+
+	measure '% Trễ hạn_RT' =
+			
+			DIVIDE(
+			   [Trễ hạn_RT],
+			   [Tổng phân loại_Trễ hạn_RT],
+			   blank()
+			   )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 4339d7bb-0d25-4a34-be05-70180b7cf2d2
+
+	measure '% Trễ hạn_DH' =
+			
+			DIVIDE(
+			   [Trễ hạn_DH],
+			   [Tổng phân loại_Trễ hạn_DH],
+			   blank()
+			   )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 173e9044-54b4-463c-8106-a2fd82cd9888
+
+	measure 'Số phiếu DC_Hoàn tất' = DISTINCTCOUNT ( 'F_Transfer_Detail'[Số phiếu])
+		formatString: #,0
+		displayFolder: Phiếu DC
+		lineageTag: 2980ef36-72ba-435d-8865-ae38c806b025
+
+	/// (Thời gian hoàn tất - Ngày lập phiếu) trung bình (DVT: ngày)
+	/// 
+	measure 'TG hoàn thành phiếu_TB' =
+			
+			CALCULATE (
+			    AVERAGE ( 'F_Transfer_Detail'[Thời gian hoàn tất phiếu] ),
+			    FILTER (
+			        'F_Transfer_Detail',
+			        'F_Transfer_Detail'[Thời gian hoàn tất phiếu]
+			            > 0
+			    )
+			)
+		displayFolder: Phiếu DC
+		lineageTag: da4e183d-74ac-4ad8-9e07-220877800792
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Số lượng sản phẩm điều chuyển có trạng thái hoàn tất
+	measure 'Slg Chuyển' = ```
+			
+			SUM('F_Transfer_Detail'[SL])
+			
+			```
+		formatString: #,0
+		displayFolder: Phiếu DC
+		lineageTag: c65e7c5c-bab8-498f-acc7-0024f583ae1a
+
+	/// (Thời gian hoàn tất - Nhận lần đầu lúc) trung bình (DVT: ngày)
+	measure 'TG đi đường_TB' =
+			
+			CALCULATE (
+			    AVERAGE ( 'F_Transfer_Detail'[Thời gian đi đường] ),
+			    FILTER (
+			        'F_Transfer_Detail',
+			        'F_Transfer_Detail'[Thời gian đi đường]
+			            > 0
+			    )
+			)
+		displayFolder: Phiếu DC
+		lineageTag: 4a6d82b4-0455-4c3c-8028-fbd08fa781c4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Số lượng sản phẩm điều chuyển có trạng thái hoàn tất so với tháng trước (DVT: %)
+	/// 
+	measure '% Slg Chuyển LM' =
+			
+			DIVIDE(
+			    [Slg Chuyển] - [Slg Chuyển_LM],
+			    [Slg Chuyển_LM],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: So sánh nhập chuyển
+		lineageTag: 5f09aefe-9535-497e-ae4d-4e551b417bf7
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MonthOverMonth"
+				}
+
+	/// Số lượng sản phẩm theo phương thức nhập mua trong nước và trạng thái đã hoàn thành
+	/// 
+	measure 'Slg Nhập' =
+			
+			SUM('F_PO'[Slg])
+		formatString: #,0
+		displayFolder: So sánh nhập chuyển
+		lineageTag: 0391cfd7-a2be-42cc-bae1-e00fe8cd6aab
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Maxdate_Item =
+			
+			CALCULATE(MAX( 'F_Transfer_Detail'[Ngày lập phiếu] ), ALL())
+		formatString: General Date
+		displayFolder: Other
+		lineageTag: 5747fbbd-ba56-4339-8d33-04556befe6bf
+
+	/// Số lượng sản phẩm theo phương thức nhập mua trong nước và trạng thái đã hoàn thành so với tháng trước (DVT: %)
+	/// 
+	/// 
+	measure '% Slg Nhập LM' =
+			
+			DIVIDE(
+			    [Slg Nhập] - [Slg Nhập_LM],
+			    [Slg Nhập_LM],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: So sánh nhập chuyển
+		lineageTag: 091e957f-4e77-4e37-bbaa-7dc720854ead
+
+	measure 'Slg_Hoàn tất' =
+			
+			CALCULATE (
+			    [Số phiếu_Tình trạng đơn],
+			    FILTER (
+			        'F_Logistics_Status',
+			        'F_Logistics_Status'[Tính chất phiếu giao] = "SP"
+			            && 'F_Logistics_Status'[Tình trạng đơn] = "Hoàn tất"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Tài xế
+		lineageTag: c22a7cbf-9f7e-499d-9177-679380dfe027
+
+	measure 'Slg_Chưa hoàn tất' = ```
+			
+			CALCULATE (
+			    [Số phiếu_Tình trạng đơn],
+			    FILTER (
+			        'F_Logistics_Status',
+			        'F_Logistics_Status'[Tính chất phiếu giao] = "SP"
+			            && 'F_Logistics_Status'[Tình trạng đơn] IN {"Đang giao", "Mới tạo", "Thả hàng chưa xác nhận", "Thả hàng đã xác nhận"} 
+			    )
+			)
+			// [Đang giao] + [Mới tạo] + [Thả hàng chưa xác nhận] + [Thả hàng đã xác nhận]
+			```
+		formatString: #,0
+		displayFolder: Tài xế
+		lineageTag: b4529ad6-f8cc-42b4-acf9-c869990e91fc
+
+	measure 'Slg_Hủy giao' =
+			
+			CALCULATE (
+			    [Số phiếu_Tình trạng đơn],
+			    FILTER (
+			        'F_Logistics_Status',
+			        'F_Logistics_Status'[Tính chất phiếu giao] = "SP"
+			            && 'F_Logistics_Status'[Tình trạng đơn] IN {"Hủy giao chưa hoàn hàng", "Hủy giao đã hoàn hàng", "Hủy giao kho đã nhận hàng", "Tài xế từ chối nhận hàng"}
+			    )
+			)
+			// [Hủy giao chưa hoàn hàng] + [Hủy giao đã hoàn hàng] + [Hủy giao kho đã nhận hàng] + [Tài xế từ chối nhận hàng]
+		formatString: #,0
+		displayFolder: Tài xế
+		lineageTag: ba6b5b3f-c02d-4436-9ff4-9be3183fd877
+
+	measure 'Số phiếu SP' =
+			
+			[Slg_Hoàn tất] + [Slg_Chưa hoàn tất] + [Slg_Hủy giao]
+		formatString: #,0
+		displayFolder: Tài xế
+		lineageTag: a550ae50-a002-4a55-b814-41a4fe75f4eb
+
+	/// Khoảng cách từ CH theo bản đồ trung bình ngày (DVT: m)
+	measure 'Khoảng cách TB/Ngày' =
+			
+			DIVIDE(
+			    [Khoảng cách],
+			    DISTINCTCOUNT('F_Logistics'[Date])
+			)
+		displayFolder: Giao hàng combined\Khoảng cách
+		lineageTag: 520a5275-069c-4126-9b3e-47ed8e729623
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Giá trị đơn_nội bộ' = ```
+			
+			   SUMX(
+			    SUMMARIZE(
+			        FILTER(
+			            F_Logistics, 
+			            'F_Logistics'[Tính chất phiếu giao] = "SP"
+			            && 'F_Logistics'[Hình thức vận chuyển] IN {"NV LOG", "NV SHOP", "AHAMOVE"}
+			            && NOT CONTAINSSTRING('F_Logistics'[Cửa hàng], "B2B")
+			            && 'F_Logistics'[Tên xe] <> "Giao hàng cho khách B2B"
+			            && 'F_Logistics'[Tình trạng đơn] IN {"Hoàn tất", "Giao thành công"}
+			        ),
+			        F_Logistics[Số phiếu],
+			        F_Logistics[Giá trị đơn]
+			    ),
+			    F_Logistics[Giá trị đơn]
+			   )
+			```
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: 1b06c030-d22c-4c2e-941e-e37ecdaf85ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Giá trị đơn_đối tác' = ```
+			
+			   SUMX(
+			    SUMMARIZE(
+			        FILTER(
+			            F_Logistics, 
+			            'F_Logistics'[Tính chất phiếu giao] = "SP"
+			            && 'F_Logistics'[Hình thức vận chuyển] IN {"LAZADA", "NHẤT TÍN", "GHTK"}
+			            && NOT CONTAINSSTRING('F_Logistics'[Cửa hàng], "B2B")
+			            && 'F_Logistics'[IsSentDocument] = BLANK()
+			            && 'F_Logistics'[Tình trạng đơn] IN {"Hoàn tất", "Giao thành công"}
+			        ),
+			        F_Logistics[Số phiếu],
+			        F_Logistics[Giá trị đơn]
+			    ),
+			    F_Logistics[Giá trị đơn]
+			   )
+			```
+		formatString: #,0
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: 3aa8e5b0-e3c1-44f3-9e3f-9107dc4262d6
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng doanh số nội thành của nhân viên cửa hàng
+	measure 'Dso_Nội thành_NV Shop' =
+			
+			CALCULATE (
+			    [Giá trị đơn_nội bộ],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "NV SHOP"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: 0df4ef1d-a460-41e0-8070-5ca15bceafd4
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng doanh số nội thành của nhân viên log
+	measure 'Dso_Nội thành_NV Log' =
+			
+			CALCULATE (
+			    [Giá trị đơn_nội bộ],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "XE MÁY LOG"|| 'F_Logistics'[Hình thức vận chuyển] = "Ô TÔ LOG"
+			
+			    )
+			)
+		formatString: #,0
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: 0c0abd2d-0588-4592-ac2c-d1dde530b62c
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng doanh số nội thành của Ahamove
+	measure 'Dso_Nội thành_Ahamove' = ```
+			
+			CALCULATE (
+			    [Giá trị đơn_nội bộ],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "AHAMOVE"
+			    )
+			)
+			
+			//    SUMX(
+			//     SUMMARIZE(
+			//         FILTER(
+			//             FACT_Logistics_Appended, 
+			//             'FACT_Logistics_Appended'[Tính chất phiếu giao] = "SP"
+			//             && 'FACT_Logistics_Appended'[Mã chuyến đi] <> BLANK()
+			//             && NOT CONTAINSSTRING('FACT_Logistics_Appended'[Cửa hàng], "B2B")
+			//             && 'FACT_Logistics_Appended'[Tên xe] <> "Giao hàng cho khách B2B"
+			//             && 'FACT_Logistics_Appended'[Hình thức vận chuyển_2] = "AHAMOVE"
+			//         ),
+			//         FACT_Logistics_Appended[Số phiếu],
+			//         FACT_Logistics_Appended[Giá trị đơn]
+			//     ),
+			//     FACT_Logistics_Appended[Giá trị đơn]
+			//    )
+			```
+		formatString: #,0
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: d2c385aa-2b51-4476-a42c-90ba98c50ea9
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// [Phí VC] nội thành của Ahamove (Sau khi thêm 10% VAT)
+	/// 
+	measure 'Phí VC_Nội thành_Ahamove' =
+			
+			CALCULATE (
+			    [Phí VC] * 1.1,
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "AHAMOVE"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 0a7a3dc5-3968-4419-95ea-e57958cfaf54
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// [Phí VC] nội thành của nhân viên cửa hàng
+	/// 
+	measure 'Phí VC_Nội thành_NV Shop' =
+			
+			CALCULATE (
+			    [Phí VC],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "NV SHOP"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: a1a0642f-af88-46f7-99a3-0c2c4bea6cdd
+
+	/// [Phí VC] nội thành của nhân viên kho
+	/// 
+	measure 'Phí VC_Nội thành_NV Log' =
+			
+			CALCULATE (
+			    [Phí VC],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "XE MÁY LOG"|| 'F_Logistics'[Hình thức vận chuyển] = "Ô TÔ LOG"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: dea60a9d-0f24-46e9-b360-862f48f82fb8
+
+	/// [Phí VC] ngoại thành của Lazada (loại SP gửi chứng từ về 30 mai anh tuấn)
+	measure 'Phí VC_Ngoại thành_Lazada' =
+			
+			CALCULATE (
+			    [Phí VC],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "LAZADA"
+			
+			    )
+			)
+		formatString: #,0
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 89e2502f-44b0-4df2-9834-89c12a1b796d
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// [Phí VC] ngoại thành của Nhất Tín
+	/// 
+	measure 'Phí VC_Ngoại thành_Nhất Tín' =
+			
+			CALCULATE (
+			    [Phí VC],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "NHẤT TÍN"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 58b1f096-da73-4495-8236-997a8fa936a2
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng doanh số ngoại thành của Lazada
+	/// 
+	measure 'Dso_Ngoại thành_Lazada' =
+			
+			CALCULATE (
+			    [Giá trị đơn_đối tác],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "LAZADA"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: 423796da-b330-41cd-a6d2-1d3e7fe86f08
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng doanh số ngoại thành của Nhất Tín
+	/// 
+	measure 'Dso_Ngoại thành_Nhất Tín' =
+			
+			CALCULATE (
+			    [Giá trị đơn_đối tác],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "NHẤT TÍN"
+			    )
+			)
+		formatString: #,0
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: 370fc689-121a-4b27-a2de-88d93620da41
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// [Phí VC] nội thành của nhân viên kho, nhân viên cửa hàng và Ahamove
+	measure 'Phí VC_Nội thành' = [Phí VC_Nội thành_Ahamove] + [Phí VC_Nội thành_NV Log] + [Phí VC_Nội thành_NV Shop]
+		formatString: #,0
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 002b12d6-8600-40b9-a373-f1f9534501d6
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng doanh số nội thành của nhân viên kho, nhân viên cửa hàng và Ahamove
+	measure 'Dso_Nội thành' = [Dso_Nội thành_Ahamove] + [Dso_Nội thành_NV Log] + [Dso_Nội thành_NV Shop]
+		formatString: #,0
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: 9480b52c-a512-4b72-8eef-5829699b3521
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng doanh số ngoại thành của Lazada và Nhất Tín
+	/// 
+	measure 'Dso_Ngoại thành' = [Dso_Ngoại thành_Lazada] + [Dso_Ngoại thành_Nhất Tín] + [Dso_Ngoại thành_GHTK]
+		formatString: #,0
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: f453d0bd-56e2-4a7b-8708-04ba8319eab3
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// [Phí VC] ngoại thành của Lazada và Nhất Tín
+	/// 
+	measure 'Phí VC_Ngoại thành' = [Phí VC_Ngoại thành_Lazada] + [Phí VC_Ngoại thành_Nhất Tín] + [Phí VC_Ngoại thành_GHTK]
+		formatString: #,0
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 5b81960b-a0bb-4890-bfa8-e3497b92c9b0
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '% Phí VC_Nội thành' =
+			
+			DIVIDE
+			    (
+			        [Phí VC_Nội thành],
+			        [Dso_Nội thành],
+			        0
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 671e7e3f-8e88-4654-80db-b745aedba791
+
+	measure '% Phí VC_Ngoại thành' =
+			
+			DIVIDE
+			    (
+			        [Phí VC_Ngoại thành],
+			        [Dso_Ngoại thành],
+			        0
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: ac3b3946-fb23-45bc-b914-8a80012f9eff
+
+	measure 'Chi phí dự báo_Nội thành' =
+			
+			VAR z1 = CALCULATE([Phí VC_Nội thành], PARALLELPERIOD('D_Date'[Date], -1, MONTH))
+			VAR z2 = CALCULATE([Phí VC_Nội thành], PARALLELPERIOD('D_Date'[Date], -2, MONTH))
+			VAR z3 = CALCULATE([Phí VC_Nội thành], PARALLELPERIOD('D_Date'[Date], -3, MONTH))
+			VAR zDaysInMonth = COUNTROWS(FILTER(ALL('D_Date'), 'D_Date'[Năm/Tháng] = MAX('D_Date'[Năm/Tháng])))
+			VAR zAvgCost =
+			IF(
+			    z1 <> BLANK()
+			        && z2 <> BLANK()
+			            && z3 <> BLANK(),
+			            AVERAGEX(
+			                {
+			                    z1,
+			                    z2,
+			                    z3
+			                },
+			                [Value]
+			            )
+			)
+			RETURN
+			IF(
+			    ISINSCOPE('D_Date'[Date]),
+			        zAvgCost / zDaysInMonth,
+			        zAvgCost
+			)
+		formatString: #,0
+		displayFolder: Chi phí dự báo_Nội ngoại thành
+		lineageTag: c9a37ea9-c754-4176-b151-5eb23e3e9f5a
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Chi phí dự báo_Ngoại thành' =
+			
+			VAR z1 = CALCULATE([Phí VC_Ngoại thành], PARALLELPERIOD('D_Date'[Date], -1, MONTH))
+			VAR z2 = CALCULATE([Phí VC_Ngoại thành], PARALLELPERIOD('D_Date'[Date], -2, MONTH))
+			VAR z3 = CALCULATE([Phí VC_Ngoại thành], PARALLELPERIOD('D_Date'[Date], -3, MONTH))
+			VAR zDaysInMonth = COUNTROWS(FILTER(ALL('D_Date'), 'D_Date'[Năm/Tháng] = MAX('D_Date'[Năm/Tháng])))
+			VAR zAvgCost =
+			IF(
+			    z1 <> BLANK()
+			        && z2 <> BLANK()
+			            && z3 <> BLANK(),
+			            AVERAGEX(
+			                {
+			                    z1,
+			                    z2,
+			                    z3
+			                },
+			                [Value]
+			            )
+			)
+			RETURN
+			IF(
+			    ISINSCOPE('D_Date'[Date]),
+			        zAvgCost / zDaysInMonth,
+			        zAvgCost
+			)
+		formatString: #,0
+		displayFolder: Chi phí dự báo_Nội ngoại thành
+		lineageTag: f4f19b85-3052-46bc-827f-a4764cd69f65
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Phí vận chuyển nội thành/Số phiếu giao hàng nội thành
+	measure 'Chi phí TB đơn_Nội thành' = ```
+			
+			DIVIDE(
+			    [Phí VC_Nội thành], 
+			    [Số phiếu_Nội thành],
+			    0
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: Chi phí dự báo_Nội ngoại thành
+		lineageTag: 47d39bbe-4b7c-4a93-a225-49d1c2b0b73f
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Phí vận chuyển ngoại thành/Số phiếu giao hàng ngoại thành
+	measure 'Chi phí TB đơn_Ngoại thành' = ```
+			
+			DIVIDE(
+			    [Phí VC_Ngoại thành], 
+			    [Số phiếu_Ngoại thành],
+			    0
+			)
+			
+			```
+		displayFolder: Chi phí dự báo_Nội ngoại thành
+		lineageTag: 381867dd-b0c9-4613-9b45-c3cbed34c0a8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Chi phí trung bình đơn nội thành dự báo dựa trên 3 tháng gần nhất
+	measure 'Chi phí TB đơn dự báo_Nội thành' =
+			
+			VAR z1 = CALCULATE([Chi phí TB đơn_Nội thành], PARALLELPERIOD('D_Date'[Date], -1, MONTH))
+			VAR z2 = CALCULATE([Chi phí TB đơn_Nội thành], PARALLELPERIOD('D_Date'[Date], -2, MONTH))
+			VAR z3 = CALCULATE([Chi phí TB đơn_Nội thành], PARALLELPERIOD('D_Date'[Date], -3, MONTH))
+			RETURN
+			IF(
+			    z1 <> BLANK()
+			        && z2 <> BLANK()
+			            && z3 <> BLANK(),
+			            AVERAGEX(
+			                {
+			                    z1,
+			                    z2,
+			                    z3
+			                },
+			                [Value]
+			            )
+			)
+		formatString: #,0
+		displayFolder: Chi phí dự báo_Nội ngoại thành
+		lineageTag: 69088b8f-6071-4d76-b655-c94a38b46ad8
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Chi phí trung bình đơn ngoại thành dự báo dựa trên 3 tháng gần nhất
+	/// 
+	measure 'Chi phí TB đơn dự báo_Ngoại thành' =
+			
+			VAR z1 = CALCULATE([Chi phí TB đơn_Ngoại thành], PARALLELPERIOD('D_Date'[Date], -1, MONTH))
+			VAR z2 = CALCULATE([Chi phí TB đơn_Ngoại thành], PARALLELPERIOD('D_Date'[Date], -2, MONTH))
+			VAR z3 = CALCULATE([Chi phí TB đơn_Ngoại thành], PARALLELPERIOD('D_Date'[Date], -3, MONTH))
+			RETURN
+			IF(
+			    z1 <> BLANK()
+			        && z2 <> BLANK()
+			            && z3 <> BLANK(),
+			            AVERAGEX(
+			                {
+			                    z1,
+			                    z2,
+			                    z3
+			                },
+			                [Value]
+			            )
+			)
+		formatString: #,0
+		displayFolder: Chi phí dự báo_Nội ngoại thành
+		lineageTag: d31b9c98-a0e0-469f-a63e-2c265a7f8a73
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Số phiếu_Tình trạng đơn' = COUNT('F_Logistics_Status'[Số phiếu])
+		formatString: #,0
+		displayFolder: Tài xế
+		lineageTag: 69ca7083-1167-4d0c-b72c-5f988a82a328
+
+	measure 'Số phiếu_LM' =
+			
+			-- Min date in current filter
+			VAR x = MIN('D_Date'[Date])
+			-- First date with f_table
+			VAR y = EOMONTH([Date_LogsFrom], 0)
+			RETURN
+			-- Show LM only if previous month exists
+			    IF(
+			        x > y,
+			        CALCULATE(
+			            [Số phiếu],
+			            DATEADD('D_Date'[Date], -1, MONTH)
+			        ),
+			        BLANK()
+			    )
+		formatString: #,0
+		displayFolder: Giao hàng combined\Số phiếu
+		lineageTag: 52eaf3f3-efe1-40da-a09f-5719ed5bc37c
+
+	/// Số phiếu so với tháng trước (DVT: %)
+	/// 
+	measure 'g% Số phiếu' =
+			
+			VAR dso_lm_g =
+			    DIVIDE (
+			        [Số phiếu],
+			        [Số phiếu_LM],
+			        BLANK ()
+			    ) - 1
+			RETURN
+			    IF (
+			        [Số phiếu_LM] <> 0
+			            && [Số phiếu] <> 0,
+			        dso_lm_g,
+			        BLANK()
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Số phiếu
+		lineageTag: c4095ef6-71ea-414c-8ea0-712b9d31b798
+
+	measure 'Slg Nhập_LM' =
+			
+			CALCULATE(
+			    [Slg Nhập],
+			    DATEADD('D_Date'[Date], -1, MONTH)
+			)
+		formatString: #,0
+		displayFolder: So sánh nhập chuyển
+		lineageTag: 00add612-0ece-4d29-b823-5e76279ba322
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Slg Chuyển_LM' =
+			
+			CALCULATE(
+			    [Slg Chuyển],
+			    DATEADD('D_Date'[Date], -1, MONTH)
+			)
+		formatString: #,0
+		displayFolder: So sánh nhập chuyển
+		lineageTag: c015a11e-44ad-4840-8f8b-57f0eb142251
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng phí vận chuyển bảo hành, lấy từ phiếu SP giao vận chuyển bảo hành và phiếu SO (gồm cả B2B và B2C)
+	measure 'Phí VC_Bảo hành' =
+			
+			CALCULATE (
+			    SUM('F_Logistics'[Phí VC]),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[IsCareService] = 1
+			    )
+			)
+		formatString: #,0
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 68991ea3-5804-4d96-9788-7e73401821e7
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Tổng phí vận chuyển từ phiếu SP có trạng thái Hoàn tất (Chỉ gồm B2C)
+	measure 'Phí VC' =
+			
+			CALCULATE (
+			    SUM ( 'F_Logistics'[Phí VC] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Tính chất phiếu giao] = "SP"
+			        && NOT CONTAINSSTRING('F_Logistics'[Cửa hàng], "B2B")
+			        && 'F_Logistics'[Tên xe] <> "Giao hàng cho khách B2B"
+			        && 'F_Logistics'[IsSentDocument] = BLANK()
+			        && 'F_Logistics'[Tình trạng đơn] IN {"Hoàn tất", "Giao thành công"}
+			    )
+			)
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 244b6a1b-e04a-404b-bf37-39da82ba7c38
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Số phiếu_Nội thành' =
+			
+			CALCULATE(
+			    [Số phiếu],
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] IN {"AHAMOVE", "NV LOG", "NV SHOP"}
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Số phiếu
+		lineageTag: 5a717119-2758-4ee3-8aff-58e032c69e96
+
+	measure 'Số phiếu_Ngoại thành' =
+			
+			CALCULATE(
+			    [Số phiếu],
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] IN {"LAZADA", "NHẤT TÍN", "GHTK"}
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Số phiếu
+		lineageTag: 0ca6cafe-3b08-43e6-9d4d-4e97c099608c
+
+	measure 'Selected_% Trễ hạn' =
+			
+			VAR Selection =
+			    SELECTEDVALUE ( 'D_SelectedMeasure_Late'[Measure] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        Selection = "Shop", [% Trễ hạn_Shop],
+			        Selection = "Shipper", [% Trễ hạn_Shipper],
+			        Selection = "Shop & Shipper", [% Trễ hạn_Shop & Shipper],
+			        Selection = "DH", [% Trễ hạn_DH],
+			        [% Trễ hạn_RT]
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Other
+		lineageTag: 8a8f6f1b-70fc-4728-8b80-02fc6aacf590
+
+	measure 'Selected_Trễ hạn' =
+			
+			VAR Selection =
+			    SELECTEDVALUE ( 'D_SelectedMeasure_Late'[Measure] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        Selection = "Shop", [Trễ hạn_Shop],
+			        Selection = "Shipper", [Trễ hạn_Shipper],
+			        Selection = "Shop & Shipper", [Trễ hạn_Shop & Shipper],
+			        Selection = "DH", [Trễ hạn_DH],
+			        [Trễ hạn_RT]
+			    )
+		formatString: 0
+		displayFolder: Other
+		lineageTag: 424a8b1a-1b2a-43d6-a262-3a0659c16781
+
+	measure 'Phí VC_Visual' = [Phí VC_Nội thành_Ahamove] + [Phí VC_Nội thành_NV Log] + [Phí VC_Nội thành_NV Shop] + [Phí VC_Ngoại thành_Nhất Tín] + [Phí VC_Ngoại thành_Lazada]
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: d66767b0-ca5a-4979-9434-49cb3cdafb0d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Update-Filtered = ```
+			
+			--Update
+			VAR zFmt_HeaderStart = 
+				"<a> <span style='color:#17283c'> <b> "
+			VAR zFmt_HeaderEnd = 
+				": </b> </a>"
+			VAR zUpdate_time =
+			    [Maxdate_Nội bộ]
+			VAR zUpdate = 
+				"<font_update> <span style='color:#17283c'>
+			        <u> Cập nhật đến </u>: " & zUpdate_time & 
+			    "</font_update>" 
+			
+			--Thời gian
+			VAR zFil_Ngay =
+			    ISFILTERED( 'D_Date'[date] )
+			VAR zNgay =
+			    zFmt_HeaderStart & "Ngày" & zFmt_HeaderEnd
+			        & "Từ " & MIN('D_Date'[date])
+			        & " đến " & MAX('D_Date'[date]) & "."
+			VAR zFil_Thang =
+			    ISFILTERED('D_Date'[Năm/Tháng])
+			VAR zThang =
+			    zFmt_HeaderStart & "Năm/Tháng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Date'[Năm/Tháng] ), 'D_Date'[Năm/Tháng] , ", " ) & "."
+			
+			VAR zFil_ThoiGian = 
+				zFil_Ngay + zFil_Thang + 0
+			
+			--Chủ thể
+			VAR zFil_B2BB2C =
+			    ISFILTERED( 'D_B2B/B2C'[B2B/B2C] )
+			VAR zB2BB2C =
+			    zFmt_HeaderStart & "B2B/B2C" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES('D_B2B/B2C'[B2B/B2C] ), 'D_B2B/B2C'[B2B/B2C], ", " ) & "."
+			
+			VAR zFil_Mien =
+			    ISFILTERED( 'D_Department'[mien] )
+			VAR zMien =
+			    zFmt_HeaderStart & "Miền" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Department'[mien] ), 'D_Department'[mien], ", " ) & "."
+			
+			VAR zFil_TrangThai =
+			    ISFILTERED( 'D_Status'[Trạng thái phiếu] )
+			VAR zTrangThai =
+			    zFmt_HeaderStart & "Trạng thái phiếu" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES('D_Status'[Trạng thái phiếu] ), 'D_Status'[Trạng thái phiếu], ", " ) & "."
+			
+			VAR zFil_TCPG =
+			    ISFILTERED( 'D_TicketType'[Tính chất phiếu giao] )
+			VAR zTCPG =
+			    zFmt_HeaderStart & "Nguồn phát sinh" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES('D_TicketType'[Tính chất phiếu giao] ), 'D_TicketType'[Tính chất phiếu giao], ", " ) & "."
+			
+			VAR zFil_NNT =
+			    ISFILTERED( 'D_DeliveryMethod'[Phân loại khu vực vận chuyển] )
+			VAR zNNT =
+			    zFmt_HeaderStart & "Nội/Ngoại thành" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES('D_DeliveryMethod'[Phân loại khu vực vận chuyển] ), 'D_DeliveryMethod'[Phân loại khu vực vận chuyển], ", " ) & "."
+			
+			VAR zFil_HTVC =
+			    ISFILTERED( 'D_DeliveryMethod'[Hình thức vận chuyển])
+			VAR zHTVC =
+			    zFmt_HeaderStart & "Hình thức vận chuyển" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES('D_DeliveryMethod'[Hình thức vận chuyển] ), 'D_DeliveryMethod'[Hình thức vận chuyển], ", " ) & "."
+			
+			VAR zFil_AM =
+			    ISFILTERED( 'D_Department'[am_visual] )
+			VAR zAM =
+			    zFmt_HeaderStart & "AM" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Department'[am_visual] ), 'D_Department'[am_visual], ", " ) & "."
+			
+			VAR zFil_CH =
+			    ISFILTERED( 'D_Department'[bo_phan] )
+			VAR zCH =
+			    zFmt_HeaderStart & "Cửa hàng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Department'[bo_phan] ), 'D_Department'[bo_phan], ", " ) & "."
+			
+			VAR zFil_NLGH =
+			    ISFILTERED( 'D_DeliveryType'[Loại giao hàng] )
+			VAR zNLGH =
+			    zFmt_HeaderStart & "Loại giao hàng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_DeliveryType'[Loại giao hàng] ), 'D_DeliveryType'[Loại giao hàng], ", " ) & "."
+			
+			VAR zFil_NV =
+			    ISFILTERED( 'D_Employee'[Nhân viên] )
+			VAR zNV =
+			    zFmt_HeaderStart & "Tài xế" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Employee'[Nhân viên] ), 'D_Employee'[Nhân viên], ", " ) & "."
+			
+			VAR zFil_MienII =
+			    ISFILTERED( 'D_Region'[Miền] )
+			VAR zMienII =
+			    zFmt_HeaderStart & "Miền" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Region'[Miền] ), 'D_Region'[Miền], ", " ) & "."
+			
+			VAR zFil_KV =
+			    ISFILTERED( 'D_Area'[Khu vực] )
+			VAR zKV =
+			    zFmt_HeaderStart & "Khu vực" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Area'[Khu vực] ), 'D_Area'[Khu vực], ", " ) & "."
+			
+			VAR zFil_NH =
+			    ISFILTERED( 'D_ProductGroup'[Nhóm hàng] )
+			VAR zNH =
+			    zFmt_HeaderStart & "Nhóm hàng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_ProductGroup'[Nhóm hàng] ), 'D_ProductGroup'[Nhóm hàng], ", " ) & "."
+			
+			VAR zFil_LD =
+			    ISFILTERED( 'D_YcdcReason'[Lý do YCDC] )
+			VAR zLD =
+			    zFmt_HeaderStart & "Lý do YCDC" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_YcdcReason'[Lý do YCDC] ), 'D_YcdcReason'[Lý do YCDC], ", " ) & "."
+			
+			VAR zFil_TX =
+			    ISFILTERED( 'D_Car'[Tên xe] )
+			VAR zTX =
+			    zFmt_HeaderStart & "Tên xe" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Car'[Tên xe] ), 'D_Car'[Tên xe], ", " ) & "."
+			
+			VAR zFil_TrangThaiIII =
+			    ISFILTERED( 'D_Status_Driver'[Trạng thái phiếu SP] )
+			VAR zTrangThaiIII =
+			    zFmt_HeaderStart & "Nhóm trạng thái" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Status_Driver'[Trạng thái phiếu SP] ), 'D_Status_Driver'[Trạng thái phiếu SP], ", " ) & "."
+			
+			VAR zFil_TTD =
+			    ISFILTERED( 'D_Status_Driver'[Tình trạng đơn] )
+			VAR zTTD =
+			    zFmt_HeaderStart & "Trạng thái" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Status_Driver'[Tình trạng đơn] ), 'D_Status_Driver'[Tình trạng đơn], ", " ) & "."
+			
+			VAR zFil_TinhThanh =
+			    ISFILTERED( 'D_Province'[Tỉnh thành] )
+			VAR zTinhThanh =
+			    zFmt_HeaderStart & "Tỉnh thành" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Province'[Tỉnh thành]), 'D_Province'[Tỉnh thành], ", " ) & "."
+			
+			VAR zFil_RT =
+			    ISFILTERED( 'F_Logistics'[Mã chuyến đi] )
+			VAR zRT =
+			    zFmt_HeaderStart & "Mã chuyến đi" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'F_Logistics'[Mã chuyến đi] ), 'F_Logistics'[Mã chuyến đi], ", " ) & "."
+			
+			VAR zFil_SP =
+			    ISFILTERED( 'F_Logistics'[Số phiếu] )
+			VAR zSP =
+			    zFmt_HeaderStart & "Số phiếu" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'F_Logistics'[Số phiếu]), 'F_Logistics'[Số phiếu], ", " ) & "."
+			
+			VAR zFil_ChuThe = 
+			    zFil_B2BB2C + zFil_Mien + zFil_TrangThai + zFil_TCPG + zFil_NNT + zFil_HTVC + zFil_AM + zFil_CH + zFil_NLGH + zFil_NV +
+			    zFil_MienII + zFil_KV + zFil_NH + zFil_LD + zFil_TX + zFil_TrangThaiIII + zFil_TTD + zFil_TinhThanh + zFil_RT + zFil_SP + 0
+				
+			--Final
+			VAR zFilter =
+			    IF(
+			        zFil_ThoiGian + 
+			        zFil_ChuThe = 0,
+			        BLANK(),
+			        "<br> <u> <span style='color:#17283c'> Bộ lọc áp dụng:</u> "
+			            & IF( zFil_Ngay = TRUE, zNgay, BLANK() )
+			            & IF( zFil_Thang = TRUE, zThang, BLANK() )
+			            & IF( zFil_B2BB2C = TRUE, zB2BB2C, BLANK() )
+			            & IF( zFil_Mien = TRUE, zMien, BLANK() )
+			            & IF( zFil_TrangThai = TRUE, zTrangThai, BLANK() )
+			            & IF( zFil_TCPG = TRUE, zTCPG, BLANK() )
+			            & IF( zFil_NNT = TRUE, zNNT, BLANK() )
+			            & IF( zFil_HTVC = TRUE, zHTVC, BLANK() )
+			            & IF( zFil_AM = TRUE, zAM, BLANK() )
+			            & IF( zFil_CH = TRUE, zCH, BLANK() )
+			            & IF( zFil_NLGH = TRUE, zNLGH, BLANK() )
+			            & IF( zFil_NV = TRUE, zNV, BLANK() )
+			            & IF( zFil_MienII = TRUE, zMienII, BLANK() )
+			            & IF( zFil_KV = TRUE, zKV, BLANK() )
+			            & IF( zFil_NH = TRUE, zNH, BLANK() )
+			            & IF( zFil_LD = TRUE, zLD, BLANK() )
+			            & IF( zFil_TX = TRUE, zTX, BLANK() )
+			            & IF( zFil_TrangThaiIII = TRUE, zTrangThaiIII, BLANK() )
+			            & IF( zFil_TTD = TRUE, zTTD, BLANK() )
+			            & IF( zFil_TinhThanh = TRUE, zTinhThanh, BLANK() )
+			            & IF( zFil_RT = TRUE, zRT, BLANK() )
+			            & IF( zFil_SP = TRUE, zSP, BLANK() )
+			    )
+			RETURN
+			    "<font_all> <i> <span style='color:#df062d'>" & zUpdate & zFilter & "</font_all>"
+			```
+		displayFolder: Other
+		lineageTag: 2f6dd29a-199d-4bd4-b98a-7ad898954ce6
+
+	measure '% Trễ hạn_Shop_LM' =
+			
+			CALCULATE(
+			    [% Trễ hạn_Shop],
+			    DATEADD('D_Date'[Date], -1, MONTH)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 487b585f-154d-477a-a3ef-86ced0dd7740
+
+	measure '% Trễ hạn_Shop_MoM%' = [% Trễ hạn_Shop] - [% Trễ hạn_Shop_LM]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: c584b5d2-28c8-4827-9fba-5a5eaff31e27
+
+	measure '% Trễ hạn_Shipper_LM' =
+			
+			CALCULATE(
+			    [% Trễ hạn_Shipper],
+			    DATEADD('D_Date'[Date], -1, MONTH)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: e93c55d6-bd9c-41ba-bb35-bf465697da0b
+
+	measure '% Trễ hạn_Shipper_MoM%' = [% Trễ hạn_Shipper] - [% Trễ hạn_Shipper_LM]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: d41bb67e-9ab1-43be-8e5e-621be555d78a
+
+	measure '% Trễ hạn_DH_LM' =
+			
+			-- Min date in current filter
+			VAR x = MIN('D_Date'[Date])
+			-- First date with f_table
+			VAR y = EOMONTH([Date_LogsFrom], 0)
+			RETURN
+			-- Show LM only if previous month exists
+			    IF(
+			        x > y,
+			        CALCULATE(
+			            [% Trễ hạn_DH],
+			            DATEADD('D_Date'[Date], -1, MONTH)
+			        ),
+			        BLANK()
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 5e20720e-ed9b-4497-b5e3-76e43168e319
+
+	measure '% Trễ hạn_DH_MoM%' =
+			
+			VAR z = [% Trễ hạn_DH]
+			VAR zLM = [% Trễ hạn_DH_LM]
+			RETURN
+			IF(zLM <> BLANK(), z - zLM, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 96a2ba0a-fcae-4845-8ff2-fb1449b9318f
+
+	measure '% Phí VC_Nội thành_LM' =
+			
+			CALCULATE(
+			    [% Phí VC_Nội thành],
+			    DATEADD('D_Date'[Date], -1, MONTH)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: b4df5216-df02-4a13-b8a2-a44db9755676
+
+	measure '% Phí VC_Ngoại thành_LM' =
+			
+			CALCULATE(
+			    [% Phí VC_Ngoại thành],
+			    DATEADD('D_Date'[Date], -1, MONTH)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 0eac30d3-6d6c-4724-bb84-e4e31a437673
+
+	measure '% Phí VC_Nội thành_MoM%' = [% Phí VC_Nội thành] - [% Phí VC_Nội thành_LM]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: b73e1754-dc14-496f-a737-ab26980b1df7
+
+	measure '% Phí VC_Ngoại thành_MoM%' = [% Phí VC_Ngoại thành] - [% Phí VC_Ngoại thành_LM]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: d63e4c7c-d682-419b-884e-151345b1312e
+
+	measure '% Trễ hạn_DH (Giao 2 giờ)' =
+			
+			CALCULATE(
+			    [% Trễ hạn_DH],
+			    FILTER(
+			        'D_DeliveryType',
+			        'D_DeliveryType'[loại giao hàng] = "Giao 2 giờ"
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: e0ffc5fa-7890-4533-a447-753ae6ccb000
+
+	measure Date_LogsFrom =
+			
+			CALCULATE(
+			    MIN(F_Logistics[Ngày tạo chuyến đi]),
+			    ALL(F_Logistics)
+			)
+		formatString: General Date
+		displayFolder: Other
+		lineageTag: bb07da24-334d-4a3f-afbd-2fc763098562
+
+	measure 'Khoảng cách_TB_LM' =
+			
+			-- Min date in current filter
+			VAR x = MIN('D_Date'[Date])
+			-- First date with f_table
+			VAR y = EOMONTH([Date_LogsFrom], 0)
+			RETURN
+			-- Show LM only if previous month exists
+			    IF(
+			        x > y,
+			        CALCULATE(
+			            [Khoảng cách_TB],
+			            DATEADD('D_Date'[Date], -1, MONTH)
+			        ),
+			        BLANK()
+			    )
+		displayFolder: Giao hàng combined\Khoảng cách
+		lineageTag: 0e6fbccb-02af-4401-9450-4728090c4ee7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Trễ hạn_RT_LM' =
+			
+			-- Min date in current filter
+			VAR x = MIN('D_Date'[Date])
+			-- First date with f_table
+			VAR y = EOMONTH([Date_LogsFrom], 0)
+			RETURN
+			-- Show LM only if previous month exists
+			    IF(
+			        x > y,
+			        CALCULATE(
+			            [% Trễ hạn_RT],
+			            DATEADD('D_Date'[Date], -1, MONTH)
+			        ),
+			        BLANK()
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 0119a213-4c87-4392-9d15-2ac934c4b7a3
+
+	measure '% Trễ hạn_RT_MoM%' =
+			
+			VAR z = [% Trễ hạn_RT]
+			VAR zLM = [% Trễ hạn_RT_LM]
+			RETURN
+			IF(zLM <> BLANK(), z - zLM, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 59d4d42b-f90d-4733-ab20-981fa22bfbdd
+
+	measure 'Số phiếu_MoM%' =
+			
+			DIVIDE(
+			    [Số phiếu] - [Số phiếu_LM],
+			    [Số phiếu_LM],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Số phiếu
+		lineageTag: 7f61af45-c2f7-4229-bcb3-f80b802839c3
+
+	measure 'Khoảng cách_TB_MoM%' =
+			
+			DIVIDE(
+			    [Khoảng cách_TB] - [Khoảng cách_TB_LM],
+			    [Khoảng cách_TB_LM],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Giao hàng combined\Khoảng cách
+		lineageTag: fdef3043-13ed-463b-9db3-5f5c9ac5bd41
+
+	measure 'Tổng phân loại_Trễ hạn_RT' =
+			
+			CALCULATE (
+			    COUNT('F_Logistics'[Trễ hạn theo RT] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Trễ hạn theo RT] <> BLANK()
+			    )
+			)
+		formatString: 0
+		displayFolder: Giao hàng combined\Phân loại trễ hạn
+		lineageTag: 1aa60e47-793c-4771-aeb1-ad861d6d1ed3
+
+	measure 'Phí VC_Ngoại thành_GHTK' =
+			
+			CALCULATE (
+			    [Phí VC],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "GHTK"
+			
+			    )
+			)
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: d51cb23f-beca-4a13-b8b0-5b2b536920df
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dso_Ngoại thành_GHTK' =
+			
+			CALCULATE (
+			    [Giá trị đơn_đối tác],
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Hình thức vận chuyển] = "GHTK"
+			    )
+			)
+		displayFolder: Dso_Nội ngoại thành
+		lineageTag: 7e399300-f51f-4b22-bad1-8fea311d84b6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// (Ngày lập phiếu SP   - Ngày đơn hàng) ) trung bình (DVT: giờ)
+	/// *Không bao gồm phiếu có tổng thời gian giao hàng vượt quá 1 tuần
+	measure 'TG xử lý DH ra SP' =
+			
+			CALCULATE (
+			    AVERAGE ( 'F_Logistics'[Thời gian DH ra SP] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Thời gian DH ra SP] <> BLANK ()
+			            && 'F_Logistics'[IsOutlier] = 0
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Giao hàng combined\Thời gian giao hàng
+		lineageTag: 1afd19ba-99aa-482f-8b47-896a440f8117
+
+	/// (Ngày tạo chuyến đi - Ngày lập phiếu SP) trung bình (DVT: giờ)
+	/// *Không bao gồm phiếu có tổng thời gian giao hàng vượt quá 1 tuần
+	measure 'TG xử lý SP ra RT' =
+			
+			CALCULATE (
+			    AVERAGE ( 'F_Logistics'[Thời gian SP ra RT] ),
+			    FILTER (
+			        'F_Logistics',
+			        'F_Logistics'[Thời gian SP ra RT] <> BLANK ()
+			            && 'F_Logistics'[IsOutlier] = 0
+			    )
+			)
+		displayFolder: Giao hàng combined\Thời gian giao hàng
+		lineageTag: df3b6cef-d7f2-49f8-a4f5-b3a808d5ca95
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Phí VC_LM' =
+			
+			-- Min date in current filter
+			VAR x = MIN('D_Date'[Date])
+			-- First date with f_table
+			VAR y = EOMONTH([Date_LogsFrom], 0)
+			RETURN
+			-- Show LM only if previous month exists
+			    IF(
+			        x > y,
+			        CALCULATE(
+			            [Phí VC],
+			            DATEADD('D_Date'[Date], -1, MONTH)
+			        ),
+			        BLANK()
+			    )
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 3d519abb-e2ca-449c-b44d-a419db1dab97
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Phí VC_MoM%' =
+			
+			DIVIDE(
+			    [Phí VC] - [Phí VC_LM],
+			    [Phí VC_LM],
+			    BLANK()
+			)
+		displayFolder: Phí VC_Nội ngoại thành
+		lineageTag: 6c72ccaa-6e96-4d67-b26e-e8dc298dcb47
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT('F_Logistics'[Mã tài xế])
+			    ,FILTER(
+			        'D_Employee'
+			        , 'D_Employee'[DepartmentName] = "Nhóm Giao nhận Xe máy_KV2"
+			        ||'D_Employee'[DepartmentName] =  "Nhóm Giao nhận Xe máy_KV1"))
+			
+			```
+		formatString: 0
+		lineageTag: 6c3d05ca-6ff5-4a89-ab82-de31f1306b6e
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'NS tài xế' = ```
+			
+			VAR total_edays = 
+			    CALCULATE(
+			    DISTINCTCOUNT('F_Logistics'[Mã tài xế])
+			    ,FILTER(
+			        'D_Employee'
+			        , 'D_Employee'[DepartmentName] = "Nhóm Giao nhận Xe máy_KV2"
+			        ||'D_Employee'[DepartmentName] =  "Nhóm Giao nhận Xe máy_KV1"))
+			VAR total_phieu = 'Measure'[Số phiếu]
+			RETURN
+			DIVIDE(total_phieu,total_edays,BLANK())
+			```
+		lineageTag: af42f5e4-0056-4a82-b3f6-bfdd89d69e07
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Khoảng cách MIN' =
+			
+			CALCULATE(
+			    MIN('F_Logistics'[K.Cách từ CH theo bản đồ])
+			    ,'F_Logistics'[Trạng thái phiếu] = "Hoàn tất"
+			    , F_Logistics[K.Cách từ CH theo bản đồ] > 0
+			    , F_Logistics[K.Cách từ CH theo bản đồ] <> BLANK()
+			)
+		displayFolder: Giao hàng combined\Khoảng cách
+		lineageTag: 8fc88d18-0011-48fb-9702-0094391b1ddd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Khoảng cách MAX' =
+			
+			CALCULATE(
+			    MAX('F_Logistics'[K.Cách từ CH theo bản đồ])
+			    ,'F_Logistics'[Trạng thái phiếu] = "Hoàn tất"
+			    , F_Logistics[K.Cách từ CH theo bản đồ] >0
+			)
+		displayFolder: Giao hàng combined\Khoảng cách
+		lineageTag: c9775acb-1072-4a51-9b91-af0b57e600ee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 854a69c2-bb8d-40f0-9724-e45f263817a8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure-e925c132-e790-4271-9396-049fdc25aeb0 = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 2796154adbbb4058b88b7af2148ac8a5
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

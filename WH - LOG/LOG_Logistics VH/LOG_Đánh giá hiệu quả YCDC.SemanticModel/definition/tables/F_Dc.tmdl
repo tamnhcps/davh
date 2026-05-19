@@ -1,0 +1,84 @@
+table F_Dc
+	lineageTag: 8ba589b0-7d6f-4428-b897-d330060d87a4
+
+	column 'Phiếu chuyển'
+		lineageTag: af36d9fb-df3a-49c6-8796-e3e3d6bf4744
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F_Ycdc[Phiếu chuyển]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kho cho hàng'
+		lineageTag: 7b726b94-910f-4e45-8a38-abc683420077
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F_Ycdc[Kho cho hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập phiếu chuyển'
+		formatString: General Date
+		lineageTag: 1d71e8cb-e745-43d6-8006-b58c2489c7a5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F_Ycdc[Ngày lập phiếu chuyển]
+
+		variation Variation
+			isDefault
+			relationship: f8df6eac-c349-4533-8b9b-8e2126c1c231
+			defaultHierarchy: LocalDateTable_83185cbe-9edb-4c6b-8616-a43d267c9479.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã hàng'
+		lineageTag: 8561b620-3a14-41b6-aba2-ac55363b89f5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F_Ycdc[Mã hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lý do YCDC' = ```
+			
+			VAR _Date_DC = F_Dc[Ngày lập phiếu chuyển]
+			VAR _KCH = F_Dc[Kho cho hàng]
+			VAR _Product = F_Dc[Mã hàng]
+			RETURN 
+			CALCULATE(
+			    FIRSTNONBLANK(
+			        'F_Ycdc'[Lý do YCDC],
+			        1
+			    ),
+			    FILTER(
+			        'F_Ycdc',
+			        'F_Ycdc'[Ngày lập phiếu chuyển] = _Date_DC &&
+			        'F_Ycdc'[Kho cho hàng] = _KCH &&
+			        'F_Ycdc'[Mã hàng] = _Product
+			    )
+			)
+			```
+		lineageTag: 647eb55c-e81d-40eb-aa8c-b2d4673209f3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Dc = calculated
+		mode: import
+		source = ```
+				
+				SUMMARIZE(
+				    FILTER(
+				        'F_Ycdc',
+				        'F_Ycdc'[Lý do YCDC] <> "Khác"
+				    ),
+				    'F_Ycdc'[Kho cho hàng],
+				    'F_Ycdc'[Mã hàng],
+				    'F_Ycdc'[Phiếu chuyển],
+				    'F_Ycdc'[Ngày lập phiếu chuyển]
+				)
+				
+				```
+
+	annotation PBI_Id = 368606e3f7934e96aa4560fade89487b
+

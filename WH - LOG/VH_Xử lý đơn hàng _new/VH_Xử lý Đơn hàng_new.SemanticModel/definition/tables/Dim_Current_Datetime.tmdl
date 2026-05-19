@@ -1,0 +1,25 @@
+table Dim_Current_Datetime
+	lineageTag: 27bf6bc8-f6c0-4f21-9efc-1178d197cb17
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e3099235-89d5-4577-aaec-86b4c5c2c68a
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Current_Datetime = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "select current_datetime(""Asia/Ho_Chi_Minh"") as updated_at#(lf)---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,26 @@
+table 'DIM_Danh mục_Hình thức thanh toán'
+	lineageTag: 96014e9c-c08b-4f98-b1e1-da0d26db85ea
+
+	column 'Hình thức thanh toán'
+		dataType: string
+		lineageTag: ddc2af2d-0bc5-4926-a096-36d0795d6902
+		summarizeBy: none
+		sourceColumn: Hình thức thanh toán
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Hình thức thanh toán' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = #"FACT_DS Online",
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Hình thức thanh toán"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns")
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

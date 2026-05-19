@@ -1,0 +1,137 @@
+table F_Transfer_Detail
+	lineageTag: 0665ae95-5879-4daa-a2e6-d6ae0fe69ed3
+
+	column 'Thời gian hoàn tất phiếu' =
+			
+			IF(
+			    'F_Transfer_Detail'[Lý do YCDC] <> "BHMR",
+			    RELATED('F_Transfer'[Thời gian hoàn tất phiếu]),
+			    BLANK()
+			)
+		lineageTag: 22e7ae9d-4340-4b1c-97a9-09c2d5602207
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Thời gian đi đường' =
+			
+			IF(
+			    'F_Transfer_Detail'[Lý do YCDC] <> "BHMR",
+			    RELATED('F_Transfer'[Thời gian đi đường]),
+			    BLANK()
+			)
+		lineageTag: 40433066-e57b-40bb-a4e3-752e0b4ec10b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Số phiếu'
+		dataType: string
+		lineageTag: 893084c1-00c3-42f0-9dd6-c55318e6d7c8
+		summarizeBy: none
+		sourceColumn: Số phiếu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập phiếu'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: bd0bd747-463a-4641-8964-f33726e3baa7
+		summarizeBy: none
+		sourceColumn: Ngày lập phiếu
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Nhóm hàng'
+		dataType: string
+		lineageTag: f94d48a4-58a5-44dd-ab09-91f6123d5876
+		summarizeBy: none
+		sourceColumn: Nhóm hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lý do YCDC'
+		dataType: string
+		lineageTag: 1fbc53f3-58e9-4616-b025-191ffa77f676
+		summarizeBy: none
+		sourceColumn: Lý do YCDC
+
+		annotation SummarizationSetBy = Automatic
+
+	column SL
+		dataType: double
+		lineageTag: 1e73eab6-0081-4ed7-a6ad-debf54340292
+		summarizeBy: sum
+		sourceColumn: SL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Khu vực' =
+			
+			IF(
+			    'F_Transfer_Detail'[Miền] = "Miền Nam",
+			    SWITCH(
+			        TRUE(),
+			        LEFT('F_Transfer_Detail'[Kho cho hàng],3) IN {"HCM", "KHO"} && LEFT('F_Transfer_Detail'[Kho nhận hàng],3) IN {"HCM", "KHO"}, "HCM - HCM",
+			        LEFT('F_Transfer_Detail'[Kho cho hàng],3) IN {"HCM", "KHO"} && NOT(LEFT('F_Transfer_Detail'[Kho nhận hàng],3) IN {"HCM", "KHO"}), "HCM - Tỉnh",
+			        NOT(LEFT('F_Transfer_Detail'[Kho cho hàng],3) IN {"HCM", "KHO"}) && LEFT('F_Transfer_Detail'[Kho nhận hàng],3) IN {"HCM", "KHO"}, "Tỉnh - HCM",
+			        "Liên tỉnh MN"
+			    ),
+			    SWITCH(
+			        TRUE(),
+			        LEFT('F_Transfer_Detail'[Kho cho hàng],3) IN {"HN ", "KHO"} && LEFT('F_Transfer_Detail'[Kho nhận hàng],3) IN {"HN ", "KHO"}, "HN - HN",
+			        LEFT('F_Transfer_Detail'[Kho cho hàng],3) IN {"HN ", "KHO"} && NOT(LEFT('F_Transfer_Detail'[Kho nhận hàng],3) IN {"HN ", "KHO"}), "HN - Tỉnh",
+			        NOT(LEFT('F_Transfer_Detail'[Kho cho hàng],3) IN {"HN ", "KHO"}) && LEFT('F_Transfer_Detail'[Kho nhận hàng],3) IN {"HN ", "KHO"}, "Tỉnh - HN",
+			        "Liên tỉnh MB"
+			    )
+			)
+		lineageTag: 24a6ff73-7e70-4cc7-9179-bad4d5985aec
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: 253e491d-ddc8-4517-b031-1f79a2444bc1
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kho cho hàng'
+		dataType: string
+		lineageTag: 8a79e6b1-2d32-4b1f-9479-5ffad345a5cb
+		summarizeBy: none
+		sourceColumn: Kho cho hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kho nhận hàng'
+		dataType: string
+		lineageTag: d4a3baaf-e23d-4dd5-a61b-3208ebb10af5
+		summarizeBy: none
+		sourceColumn: Kho nhận hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Transfer_Detail = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=0c443b5c-c2db-4617-b273-e61ac25f9b66”#(lf)WITH TempTransfer AS (#(lf)SELECT UPPER(endS.Name) AS `Kho cho hàng`,#(lf)       UPPER(strS.Name) AS `Kho nhận hàng`,#(lf)       ag.AutoCode AS `Số phiếu`,#(lf)       DATE(ag.CreateDate) AS `Ngày lập phiếu`,#(lf)       UPPER(spg.Name) AS `Nhóm hàng`,#(lf)       CASE#(lf)           WHEN REGEXP_CONTAINS(UPPER(strS.Name), r'(KM|KHO MUON)') THEN 'Khác'#(lf)           WHEN ag.Description = 'Tự động từ cân hàng' THEN 'Cân hàng'#(lf)           WHEN ag.Description = 'Tự động từ chia hàng' THEN 'Chia hàng'#(lf)           WHEN REGEXP_CONTAINS(UPPER(strS.Name), r'(KHO)')#(lf)                AND UPPER(strS.Name) NOT IN ('KHO CCDC (HẬU CẦN)',#(lf)                                             'KHO CÔNG CỤ DỤNG CỤ',#(lf)                                             'KHO CÔNG NGHỆ',#(lf)                                             'KHO CXL HN',#(lf)                                             'KHO MƯỢN MÁY',#(lf)                                             'KHO MÁY LÊN ĐỜI') THEN 'Lỗi'#(lf)          WHEN NOT REGEXP_CONTAINS(UPPER(endS.Name), r'(KHO)')#(lf)                AND NOT REGEXP_CONTAINS(UPPER(strS.Name), r'(KHO)') THEN 'Xin hàng'#(lf)           ELSE 'Khác'#(lf)       END AS `Lý do YCDC`,#(lf)       'Miền Nam' AS `Miền`,#(lf)       SUM(asbd.Quantity) AS SL#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_TransferOrder` sto#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_General` ag ON sto.DeliveryNo = ag.Autocode#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBillDetail` asbd ON asbd.StoreBillId = ag.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` strS ON strS.Id = asbd.InputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` endS ON endS.Id = asbd.OutputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product` sp ON sp.Id = asbd.ProductId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup` spg ON spg.Id = sp.ProductGroupId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` spe ON spe.id = sto.CreatedById#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` ee ON ee.id = spe.id#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department` sd ON sd.id = ee.DepartmentId#(lf)WHERE 1=1#(lf)  AND sto.StateId = 8#(lf)  AND ag.BillTypeId = 1#(lf)  AND ag.ReplaceById IS NULL#(lf)  AND DATE(ag.CreateDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND NOT UPPER(strS.Name) IN ('KHO BẢO HÀNH MỞ RỘNG')#(lf)GROUP BY 1,2,3,4,5,6,7#(lf)#(lf)UNION ALL#(lf)#(lf)SELECT UPPER(endS.Name) AS `Kho cho hàng`,#(lf)       UPPER(strS.Name) AS `Kho nhận hàng`,#(lf)       ag.AutoCode AS `Số phiếu`,#(lf)       DATE(ag.CreateDate) AS `Ngày lập phiếu`,#(lf)       UPPER(spg.Name) AS `Nhóm hàng`,#(lf)       CASE#(lf)           WHEN REGEXP_CONTAINS(UPPER(strS.Name), r'(KM|KHO MUON)') THEN 'Khác'#(lf)           WHEN ag.Description = 'Tự động từ cân hàng' THEN 'Cân hàng'#(lf)           WHEN ag.Description = 'Tự động từ chia hàng' THEN 'Chia hàng'#(lf)           WHEN REGEXP_CONTAINS(UPPER(strS.Name), r'(KHO)')#(lf)                AND UPPER(strS.Name) NOT IN ('KHO CCDC (HẬU CẦN)',#(lf)                                             'KHO CÔNG CỤ DỤNG CỤ',#(lf)                                             'KHO CÔNG NGHỆ',#(lf)                                             'KHO CXL HN',#(lf)                                             'KHO MƯỢN MÁY',#(lf)                                             'KHO MÁY LÊN ĐỜI') THEN 'Lỗi'#(lf)           WHEN NOT REGEXP_CONTAINS(UPPER(endS.Name), r'(KHO)')#(lf)                AND NOT REGEXP_CONTAINS(UPPER(strS.Name), r'(KHO)') THEN 'Xin hàng'#(lf)           ELSE 'Khác'#(lf)       END AS `Lý do YCDC`,#(lf)       'Miền Bắc' AS `Miền`,#(lf)       SUM(asbd.Quantity) AS SL#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.Store_TransferOrder` sto#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_General` ag ON sto.DeliveryNo = ag.Autocode#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBillDetail` asbd ON asbd.StoreBillId = ag.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` strS ON strS.Id = asbd.InputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` endS ON endS.Id = asbd.OutputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product` sp ON sp.Id = asbd.ProductId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup` spg ON spg.Id = sp.ProductGroupId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` spe ON spe.id = sto.CreatedById#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` ee ON ee.id = spe.id#(lf)LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department` sd ON sd.id = ee.DepartmentId#(lf)WHERE 1=1#(lf)  AND sto.StateId = 8#(lf)  AND ag.BillTypeId = 1#(lf)  AND ag.ReplaceById IS NULL#(lf)  AND DATE(ag.CreateDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND NOT UPPER(strS.Name) IN ('KHO BẢO HÀNH MỞ RỘNG')#(lf)GROUP BY 1,2,3,4,5,6#(lf)#(lf)UNION ALL#(lf)--BHMR cần tách luồng vì không tạo YCDC#(lf)SELECT#(lf)  UPPER(endS.Name) AS `Kho cho hàng`,#(lf)  UPPER(strS.Name) AS `Kho nhận hàng`,#(lf)  ag.AutoCode AS `Số phiếu`,#(lf)  DATE(ag.CreateDate) AS `Ngày lập phiếu`,#(lf)  UPPER(spg.Name) AS `Nhóm hàng`,#(lf)  'BHMR' AS `Lý do YCDC`,#(lf)  'Miền Nam' AS `Miền`,#(lf)  SUM(asbd.Quantity) AS SL#(lf)FROM#(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_General` ag#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBillDetail` asbd ON asbd.StoreBillId = ag.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` strS ON strS.Id = asbd.InputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` endS ON endS.Id = asbd.OutputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product` sp ON sp.Id = asbd.ProductId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup` spg ON spg.Id = sp.ProductGroupId#(lf)#(lf)WHERE#(lf)  ag.BillTypeId = 1#(lf)  AND ag.ReplaceById IS NULL#(lf)  AND DATE(ag.CreateDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND ag.Description = 'Tự động điều chuyển BHMR'#(lf)#(lf)GROUP BY 1,2,3,4,5,6#(lf)#(lf)UNION ALL#(lf)#(lf)SELECT#(lf)  UPPER(endS.Name) AS `Kho cho hàng`,#(lf)  UPPER(strS.Name) AS `Kho nhận hàng`,#(lf)  ag.AutoCode AS `Số phiếu`,#(lf)  DATE(ag.CreateDate) AS `Ngày lập phiếu`,#(lf)  UPPER(spg.Name) AS `Nhóm hàng`,#(lf)  'BHMR' AS `Lý do YCDC`,#(lf)  'Miền Bắc' AS `Miền`,#(lf)  SUM(asbd.Quantity) AS SL#(lf)FROM#(lf)  `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_General` ag#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBillDetail` asbd ON asbd.StoreBillId = ag.Id#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` strS ON strS.Id = asbd.InputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` endS ON endS.Id = asbd.OutputStoreId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product` sp ON sp.Id = asbd.ProductId#(lf)INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup` spg ON spg.Id = sp.ProductGroupId#(lf)WHERE#(lf)  ag.BillTypeId = 1#(lf)  AND ag.ReplaceById IS NULL#(lf)  AND DATE(ag.CreateDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  AND ag.Description = 'Tự động điều chuyển BHMR'#(lf)#(lf)GROUP BY 1,2,3,4,5,6#(lf))#(lf)SELECT * EXCEPT (`Kho cho hàng`, `Kho nhận hàng`),#(lf)CASE#(lf)  WHEN `Kho cho hàng` = 'HN 384XD' THEN 'HN 360XD'#(lf)  ELSE `Kho cho hàng`#(lf)END AS `Kho cho hàng`,#(lf)CASE#(lf)  WHEN `Kho nhận hàng` = 'HN 384XD' THEN 'HN 360XD'#(lf)  ELSE `Kho nhận hàng`#(lf)END AS `Kho nhận hàng`#(lf)FROM TempTransfer", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

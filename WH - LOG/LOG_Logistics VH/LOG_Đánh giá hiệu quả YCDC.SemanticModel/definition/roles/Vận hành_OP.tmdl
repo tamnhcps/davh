@@ -1,0 +1,9 @@
+role 'Vận hành_OP'
+	modelPermission: read
+
+	tablePermission D_Date = 'D_Date'[Date]>=LOOKUPVALUE('D_Phân quyền_User'[Startdate],'D_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission 'D_Phân quyền_Vận hành' = 'D_Phân quyền_Vận hành'[OP]=LOOKUPVALUE('D_Phân quyền_User'[Tên],'D_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	annotation PBI_Id = 619bc32730b54b769d99b1e8422a078b
+

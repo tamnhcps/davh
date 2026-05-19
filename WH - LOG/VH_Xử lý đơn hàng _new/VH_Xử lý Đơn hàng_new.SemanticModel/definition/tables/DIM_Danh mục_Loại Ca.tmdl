@@ -1,0 +1,35 @@
+table 'DIM_Danh mục_Loại Ca'
+	excludeFromModelRefresh
+	lineageTag: 0cf6612d-6583-4298-b70c-060fce361cab
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 96c76bb3-686f-4e55-a2f9-ad102381174a
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại ca'
+		dataType: string
+		lineageTag: 7926d755-6bf1-4a73-9e5b-ff5966fec0fe
+		summarizeBy: none
+		sourceColumn: Loại ca
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Loại Ca' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUQopys9LV0jPfLh7rkLO4QW5SrE60UpGQAm/9PzDCzJRZGIB", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, #"Loại ca" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

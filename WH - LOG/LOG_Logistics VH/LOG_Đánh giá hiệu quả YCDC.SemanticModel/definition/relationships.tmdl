@@ -1,0 +1,321 @@
+relationship 58b749c3-adc9-488f-b8e8-3e8acd25c425
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Date.date
+	toColumn: LocalDateTable_60ad6a6d-436e-4e82-8fa5-718ae6cf2e2b.Date
+
+relationship afffcc9b-4e9e-4515-8616-0b04a9488626
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Date.FirstDayOfMonth
+	toColumn: LocalDateTable_161c5424-df43-49b3-ab46-d58f37582194.Date
+
+relationship 15d817c8-2677-470c-8804-51291f287d36
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Date.LastDayOfMonth
+	toColumn: LocalDateTable_8e97c661-4bab-4220-9fd9-0d1591456b0a.Date
+
+relationship 5ab6eb1b-dd62-4850-a227-623a8c93913c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Employee.'Ngày nhận việc'
+	toColumn: LocalDateTable_64d58ed7-7c9d-4edb-b92a-99204e1223bb.Date
+
+relationship 4a40a637-94bf-489f-b947-17c1b633eb7b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Employee.'Ngày kết thúc'
+	toColumn: LocalDateTable_1e0b0cf3-064e-41e2-9678-a4c984a37277.Date
+
+relationship a1b2c010-4e83-485c-80d1-0f046ad78bf7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Product.ngay_tao_ma
+	toColumn: LocalDateTable_7c97e4d5-7830-4b17-aab8-de8659abb881.Date
+
+relationship 1a6571cf-f1e5-4f3d-bc1e-4950a126b9b5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Ngày lập phiếu chuyển'
+	toColumn: LocalDateTable_ef0c7bbc-3f85-46cc-becc-5a1d34a00adf.Date
+
+relationship 32e1e06c-d596-444e-8373-984ed470b897
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Ngày xác nhận'
+	toColumn: LocalDateTable_3acfe47a-a674-4577-a171-a0bb62795355.Date
+
+relationship 7182620d-8b03-48a5-d4cf-58219eedcaf0
+	fromColumn: F_Dh.NgayDat
+	toColumn: D_Date.date
+
+relationship f9d8b364-fcc7-c9b9-022e-f125dc778c3a
+	fromColumn: F_Sales.Date
+	toColumn: D_Date.date
+
+relationship 6f19843d-e8d3-8fa9-063b-98bfb4389746
+	fromColumn: F_Ycdc.'Mã hàng'
+	toColumn: D_Product.ma_hang
+
+relationship f1f6c83e-8215-868b-e2b9-3da6eeb784bf
+	fromColumn: F_Dh.ProductCode
+	toColumn: D_Product.ma_hang
+
+relationship 303d7cf5-d8f1-9305-af4b-fe8d91d828e5
+	fromColumn: F_Sales.ProductCode
+	toColumn: D_Product.ma_hang
+
+relationship 44e0e49f-2d94-63f4-d473-68738672f87a
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	fromColumn: F_Ycdc.'Mã người lập'
+	toColumn: D_Employee.ID
+
+relationship 0b462ae1-9f5a-49a6-8d15-9f0c519a39a2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Ngày xác nhận chuyển kho'
+	toColumn: LocalDateTable_de488614-ea36-4f52-81c4-7c3ca25159d1.Date
+
+relationship f5fd852b-94b9-415d-bbfd-862ad8aa2a54
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Ngày lập'
+	toColumn: LocalDateTable_e12f4ebf-11e2-48f9-abdf-a0fe70102891.Date
+
+relationship 967fafb8-8d20-4818-b6a4-db146b2a61db
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Ngày lập SP'
+	toColumn: LocalDateTable_9f03aa80-5a6e-4beb-bef8-420571fbe3e2.Date
+
+relationship AutoDetected_69182193-6c45-4e5d-8cc5-9b890b2d6b65
+	fromColumn: F_Ycdc.'Lý do YCDC'
+	toColumn: D_YcdcReason.'Lý do YCDC'
+
+relationship AutoDetected_7e944dd6-e63a-4fdb-aa6a-7ecd4e23e0b1
+	fromColumn: F_Sales.Miền
+	toColumn: D_Region.Miền
+
+relationship AutoDetected_ae1c266c-2413-416f-93ff-430526dce865
+	fromColumn: F_Ycdc.Miền
+	toColumn: D_Region.Miền
+
+relationship a4c16004-6509-4536-c35d-8a52a683044e
+	fromColumn: D_Employee.DepartmentName
+	toColumn: D_Department.bo_phan
+
+relationship fb32f280-3e36-483f-9a19-b2da13b4e791
+	fromColumn: D_Product.nhom_hang
+	toColumn: D_ProductGroup.nhom_hang
+
+relationship f8df6eac-c349-4533-8b9b-8e2126c1c231
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Dc.'Ngày lập phiếu chuyển'
+	toColumn: LocalDateTable_83185cbe-9edb-4c6b-8616-a43d267c9479.Date
+
+relationship 85bc28f1-c6b2-484d-9e4f-e9e2417107f3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Ngày lập phiếu chuyển kho'
+	toColumn: LocalDateTable_ae5c0cb7-743f-428a-b7b6-87a78b7fc54a.Date
+
+relationship 009a379d-62a8-4d49-8780-0dcb3c15049c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: LastUpdated.update
+	toColumn: LocalDateTable_36be7f4c-f59c-4742-b1da-5dad1d027307.Date
+
+relationship f49e1918-b98a-4bf8-a7bd-570457fbfcc0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Sales.CreateDate
+	toColumn: LocalDateTable_36314d29-8263-421c-8f42-fae3ac560a1d.Date
+
+relationship 5f068e0a-2cd1-861d-4a20-db42cde35474
+	fromColumn: F_PriceTag.productcode
+	toColumn: D_Product.ma_hang
+
+relationship deb2a718-9fec-cbe5-0333-95feb906b354
+	fromColumn: F_PriceTag.branchname
+	toColumn: D_Department.bo_phan
+
+relationship AutoDetected_69a3123f-2fed-430a-be92-33a041858ee2
+	fromColumn: D_Storage.Miền
+	toColumn: D_Region.Miền
+
+relationship b5de89a0-2baa-423b-9cbd-1c2ce82e3e94
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Logistics.'Ngày lập phiếu'
+	toColumn: LocalDateTable_c153c3f2-b8a8-4100-9f4f-ec0eb230325e.Date
+
+relationship 67845de5-1a30-427b-807e-87fbd53e1549
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Logistics.'Ngày tạo chuyến đi'
+	toColumn: LocalDateTable_632176b0-d57f-412b-b5cb-9ac4d92189b9.Date
+
+relationship d6ae58a5-8532-4768-b199-6086b654224f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Logistics.'Nhận lúc'
+	toColumn: LocalDateTable_12d2897f-447e-4b74-82ca-ffcd8f16970a.Date
+
+relationship 93e73e36-fd5e-43b3-bd53-134e6a6aef92
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Logistics.'Thời gian hoàn tất'
+	toColumn: LocalDateTable_f755cf69-b9bc-432f-a08d-199b69cd3947.Date
+
+relationship c5140f69-1ad9-4797-bc3d-d7dd4abd86ef
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Logistics.'Thời gian hủy'
+	toColumn: LocalDateTable_17488ddf-4325-4313-8fcb-b0fc39927f20.Date
+
+relationship 83eeba07-3e11-4dab-8610-0885d07de966
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Logistics.'Ngày lập phiếu chuyển kho CH'
+	toColumn: LocalDateTable_591a8371-6534-481e-b6b2-b5b2569942b8.Date
+
+relationship a8601921-70db-d0e7-13a7-7cb2904384aa
+	fromColumn: F_Logistics.Date
+	toColumn: D_Date.date
+
+relationship 5044a53f-5b50-f5a4-a0fa-55d9d7c55c78
+	fromColumn: F_Logistics.Miền
+	toColumn: D_Region.Miền
+
+relationship cabf8851-dae7-40aa-9415-655bfa5eb32a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Dc_Imei.'Ngày lập'
+	toColumn: LocalDateTable_922cb299-993a-417a-a629-9ee1cd568d04.Date
+
+relationship 7259b51e-cf2b-4db2-b909-1e2a299caab9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Dc_Imei.'Ngày xác nhận'
+	toColumn: LocalDateTable_bc0350e8-4a04-4652-8f91-96942758284e.Date
+
+relationship AutoDetected_4ecdf7f7-42ae-4055-b772-2ff439807d18
+	fromColumn: F_Dc_Imei.Miền
+	toColumn: D_Region.Miền
+
+relationship d35f4436-122c-68dd-4b50-0175d7f2c0d3
+	fromColumn: F_Dc_Imei.'Mã hàng'
+	toColumn: D_Product.ma_hang
+
+relationship 1f5f405b-dd0b-20a1-e5eb-989d94289150
+	fromColumn: F_Dh.StoreCode
+	toColumn: D_Storage.'Mã kho'
+
+relationship 647a39cb-ad9d-e69a-a84e-4564ccde62b9
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	fromColumn: D_Storage.'Cửa hàng'
+	toColumn: D_Department.bo_phan
+
+relationship ca2961ee-84d5-4268-8446-f244324a1cd2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Dh.CreatedDate
+	toColumn: LocalDateTable_8a192c10-a740-4ea5-8e3e-3da16e967b96.Date
+
+relationship 469d9d8e-f47f-3d4d-8117-70a2f0e30c55
+	fromColumn: F_Logistics.'Hình thức vận chuyển'
+	toColumn: D_DeliveryMethod.'Hình thức vận chuyển'
+
+relationship 15b3e948-63c8-5bbc-f0ce-2846bc58af6d
+	fromColumn: F_Ycdc.'Hình thức vận chuyển'
+	toColumn: D_DeliveryMethod.'Hình thức vận chuyển'
+
+relationship c57a836f-d154-458d-b48d-501edd60b8df
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'D_Phân quyền_User'.Startdate
+	toColumn: LocalDateTable_75b60a5b-4821-4eb2-92f4-2b1a3d72b3e6.Date
+
+relationship 7ea0d9f2-452a-24f0-925a-ae592279af28
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: D_Storage.'Mã kho'
+	toColumn: 'D_Phân quyền_Vận hành'.'Mã kho'
+
+relationship AutoDetected_c2fe28a1-34f2-4d58-8605-da5564660586
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'D_Phân quyền_Vận hành_Vùng'.Miền
+	toColumn: D_Region.Miền
+
+relationship 74c9bbdc-945c-4993-b98f-1460f67b3aa6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Thời gian tạo RT1'
+	toColumn: LocalDateTable_eeb47944-fa06-4eeb-834c-1498aea59e71.Date
+
+relationship 6ecd38b7-f7b1-4448-ab47-fd46cbdcc264
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận'
+	toColumn: LocalDateTable_da4a6aaa-50fc-4549-bf86-50a7ce2bf74d.Date
+
+relationship 1e815e8c-b38a-4dcf-96b1-80a0354eee67
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Thời gian RT1_HT'
+	toColumn: LocalDateTable_00f49b7a-a47c-4ad8-9f9f-195d9056d51c.Date
+
+relationship 7b12599a-5a6a-474a-b428-8e43ab41a38c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Tài xế nhận giao RT1'
+	toColumn: LocalDateTable_841601e8-235c-42c8-87f5-e5681f5d92bb.Date
+
+relationship 3fcf2d8d-5f35-4086-a1a0-803c89e423e6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Tài xế bấm giao hàng thành công RT1'
+	toColumn: LocalDateTable_c33323d6-8e63-446f-b00d-ba9e299c2af4.Date
+
+relationship ec199d49-d6cf-4eac-ba64-ae182ca8389a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Nhận lúc RT1'
+	toColumn: LocalDateTable_371353d4-7b5f-4c68-9169-cfb1ac3e9f6c.Date
+
+relationship 5ed57232-304c-486f-bc81-ed3f5f933315
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Thời gian tạo RT2'
+	toColumn: LocalDateTable_77bc2642-14b9-4fbf-a3af-04cdd434796f.Date
+
+relationship b107cdc7-c9d3-4a41-af0d-24a89c1c5255
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Thời gian RT2_HT'
+	toColumn: LocalDateTable_2c216df9-d528-4ba2-87c6-6c4d9cacb42f.Date
+
+relationship b90e0897-11d6-46f9-a928-f47433b51113
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Tài xế nhận giao RT2'
+	toColumn: LocalDateTable_b78910df-3263-4428-b004-d98174b34721.Date
+
+relationship 5aca866b-5d60-4765-a900-7235c09c8b2d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Tài xế bấm giao hàng thành công RT2'
+	toColumn: LocalDateTable_aa212051-ed4e-4059-8999-97e424e8284e.Date
+
+relationship e5f3c757-3cfb-48fd-9b67-d5d62f0b3f83
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Nhận lúc RT2'
+	toColumn: LocalDateTable_3234b00a-b756-48e8-9ab1-bea5e404eaf7.Date
+
+relationship 2f6d01a0-0714-4acf-93b5-738d24724019
+	joinOnDateBehavior: datePartOnly
+	fromColumn: F_Ycdc.'Ngày xác nhận_date'
+	toColumn: LocalDateTable_156c71d9-4c2c-4b26-9ea2-3fb688a6d06b.Date
+
+relationship 46be7b29-2211-a4fd-96d2-062c044ea885
+	fromColumn: F_Ycdc.'Date_Ngày lập'
+	toColumn: D_Date.date
+
+relationship 5d2c9d70-3a77-41f5-bc6c-8f69f438f353
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Employee_RT1.'Ngày nhận việc'
+	toColumn: LocalDateTable_8b5d2631-20df-40f7-ae70-f607e9d1fc7f.Date
+
+relationship 2d89a860-ed7f-440c-828e-f3e9e9f4fe41
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Employee_RT1.'Ngày kết thúc'
+	toColumn: LocalDateTable_cdd63aac-a59f-4184-942f-37f30809c42b.Date
+
+relationship bf34dd43-1019-48d4-aea6-b366d080c8f0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Employee_RT2.'Ngày nhận việc'
+	toColumn: LocalDateTable_6942693e-a3c3-4c67-a290-d5595bb0f4ca.Date
+
+relationship 4ff83c7b-0f5e-4446-923e-6d120eb3da29
+	joinOnDateBehavior: datePartOnly
+	fromColumn: D_Employee_RT2.'Ngày kết thúc'
+	toColumn: LocalDateTable_0a4e652b-f2f8-4d27-9f46-ff75924e7c50.Date
+
+relationship 0d7ded0d-1600-cc39-33c8-b71247eb4741
+	fromColumn: F_Ycdc.ma_tai_xe_RT1
+	toColumn: D_Employee_RT1.'Mã nhân viên'
+
+relationship 65f8e8a6-f582-d0c6-6e80-2a9b4bcfa9fc
+	fromColumn: F_Ycdc.ma_tai_xe_RT2
+	toColumn: D_Employee_RT2.'Mã nhân viên'
+

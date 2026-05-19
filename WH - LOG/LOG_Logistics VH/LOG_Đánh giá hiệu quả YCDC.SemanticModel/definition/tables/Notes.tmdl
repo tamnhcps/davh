@@ -1,0 +1,41 @@
+table Notes
+	lineageTag: c1f8cd14-5944-4c16-aafa-e6f56e38070e
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: 5d47747a-3d50-4c85-a3df-a29de4995684
+		summarizeBy: sum
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thông tin'
+		dataType: string
+		lineageTag: bb96cc69-385a-4d39-a614-6e0a91a0e727
+		summarizeBy: none
+		sourceColumn: Thông tin
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nội dung'
+		dataType: string
+		lineageTag: 8f109b60-4a5c-4da8-9b96-5469a6196c3b
+		summarizeBy: none
+		sourceColumn: Nội dung
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Notes = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("XY0xCsJAFESvMmydQg02nsBGK7uQQiJkP+giulukFE+QSkQERcQqYL2/sFByj38TvyktZ+bxJstM3yRmKnwkLIIrNYyFD/Ab4Ru8JYkvj6XEZo2ivaKwWmAlfCJ8auE9vHBNaJ9BMwnvgjKh0sWZPMnMQI0ziQ+HbZB49yg6l1NP43Wb6BvBle9L1fHpj7fCZ0JJc/ePD0dpz+T5Fw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [STT = _t, #"Thông tin" = _t, #"Nội dung" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Thông tin", type text}, {"Nội dung", type text}, {"STT", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

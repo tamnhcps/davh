@@ -1,0 +1,50 @@
+table D_Storage
+	lineageTag: bb680b2c-31d4-4e3c-968b-8585816a719d
+
+	column ma_kho
+		dataType: string
+		lineageTag: 13f225a8-e742-4863-aab0-9eae34e5823c
+		summarizeBy: none
+		sourceColumn: ma_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column ten_kho
+		dataType: string
+		lineageTag: 9470a1d4-c417-4a51-939b-25596cab38ab
+		summarizeBy: none
+		sourceColumn: ten_kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column mien
+		dataType: string
+		lineageTag: b4390dfc-6101-4f49-91ff-e0f0faa168b8
+		summarizeBy: none
+		sourceColumn: mien
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: ab913292-74c4-430b-a861-a47eb751b6ff
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Storage-5685eb32-beaf-4303-9a85-0dcba397e398 = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=0c443b5c-c2db-4617-b273-e61ac25f9b66”#(lf)Select ma_kho, ten_kho, mien from `cellphones-data-platform.cps_DA_General_Transform.dim_storage`", null, [EnableFolding=true]),
+				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

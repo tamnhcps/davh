@@ -1,0 +1,36 @@
+table Notes_Metric
+	lineageTag: 7fdf64ef-c715-4073-98aa-7e6b23597524
+
+	column description
+		dataType: string
+		lineageTag: 3038f117-ce42-4bdd-ad5c-d2e7c5dfb54d
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column measurecaption
+		dataType: string
+		lineageTag: 5e801d85-09d8-4ded-ab2f-c4f8d12464d3
+		summarizeBy: none
+		sourceColumn: measurecaption
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Notes_Metric = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=0c443b5c-c2db-4617-b273-e61ac25f9b66”#(lf)select measurecaption, description from cellphones-data-platform.cps_powerbi_metadata_dwh.measure_information#(lf)where datasetId = '0c443b5c-c2db-4617-b273-e61ac25f9b66'", null, [EnableFolding=true]),
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([description] <> "")),
+				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each [measurecaption] <> "Giá trị đơn" and [measurecaption] <> "Late % (First CS Appt)" and [measurecaption] <> "TG giao hàng_TB" and [measurecaption] <> "CCFOT" and [measurecaption] <> "Hoàn tất" and [measurecaption] <> "Khoảng cách" and [measurecaption] <> "Khoảng cách TB/đơn" and [measurecaption] <> "Khoảng cách TB/Ngày"),
+				    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows1", {"measurecaption"}, Notes_Metric_Updated, {"measurecaption"}, "Notes_Metric_Updated", JoinKind.LeftAnti),
+				    #"Removed Columns" = Table.RemoveColumns(#"Merged Queries",{"Notes_Metric_Updated"}),
+				    #"Appended Query" = Table.Combine({#"Removed Columns", Notes_Metric_Updated})
+				in
+				    #"Appended Query"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

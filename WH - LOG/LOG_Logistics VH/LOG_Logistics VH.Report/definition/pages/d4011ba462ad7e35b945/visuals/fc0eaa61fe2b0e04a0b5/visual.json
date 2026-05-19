@@ -1,0 +1,143 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "fc0eaa61fe2b0e04a0b5",
+  "position": {
+    "x": 10.41044776119403,
+    "y": 750.70895522388059,
+    "z": 6000,
+    "height": 115.67164179104478,
+    "width": 190.85820895522389,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Note: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontStyle": "italic",
+                      "fontSize": "11pt",
+                      "textDecoration": "underline",
+                      "color": "#298c8c"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Trang chi tiết tài xế chỉ lấy từ ",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#494847"
+                    }
+                  },
+                  {
+                    "value": "giao hàng nội bộ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#30475e"
+                    }
+                  },
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#494847"
+                    }
+                  },
+                  {
+                    "value": "và tên xe chỉ có",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#494847"
+                    }
+                  },
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#30475e"
+                    }
+                  },
+                  {
+                    "value": "xe máy log",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#30475e"
+                    }
+                  },
+                  {
+                    "value": " và ",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#494847"
+                    }
+                  },
+                  {
+                    "value": "ô tô log",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#30475e"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#CCCCCC'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

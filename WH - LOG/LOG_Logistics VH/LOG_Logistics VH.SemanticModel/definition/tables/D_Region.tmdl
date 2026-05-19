@@ -1,0 +1,26 @@
+table D_Region
+	excludeFromModelRefresh
+	lineageTag: 6b7af03b-fb47-4a13-adf3-8568181e6533
+
+	column Miền
+		dataType: string
+		lineageTag: dd970726-65b9-4136-998e-85a3c335dbe1
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Region = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8s18uLsxT8EvMVcpVgfOdXq4a32yUmwsAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Miền = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Miền", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

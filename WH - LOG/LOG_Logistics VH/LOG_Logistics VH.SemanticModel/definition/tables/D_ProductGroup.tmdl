@@ -1,0 +1,24 @@
+table D_ProductGroup
+	lineageTag: f720622b-bd8f-4fc1-be68-7fed81612994
+
+	column 'Nhóm hàng'
+		dataType: string
+		lineageTag: 6f60986f-7569-4bee-a365-7af75a6ab1eb
+		summarizeBy: none
+		sourceColumn: Nhóm hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_ProductGroup = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=0c443b5c-c2db-4617-b273-e61ac25f9b66”#(lf)SELECT#(lf)  UPPER(Name) AS `Nhóm hàng`#(lf)FROM#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_ProductGroup#(lf)WHERE #(lf)  InActive = FALSE", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

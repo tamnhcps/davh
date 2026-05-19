@@ -1,0 +1,54 @@
+table Parameter_Category
+	lineageTag: 227cd0ef-32d2-4cb0-a9b5-f6f72ce93e58
+
+	column Parameter
+		lineageTag: 088f87ba-4849-4fb1-9c4e-a4a8cfd68ea3
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 688c4665-6b8e-48df-af2f-666d5d2a4dde
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: d568b272-115c-4474-95da-9a518cea15c8
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Category = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('D_Region'[Miền]), 0),
+				    ("Văn phòng/Cửa hàng", NAMEOF('D_Department'[hara_workplace_name]), 1),
+				    ("AM", NAMEOF('D_Department'[am_final]), 2),
+				    ("Đơn vị", NAMEOF('D_Department'[bo_phan]), 3),
+				    ("Nhân viên", NAMEOF('D_Employee'[Nhân viên]), 4),
+				    ("Hình thức vận chuyển", NAMEOF('D_DeliveryMethod'[Nhóm hình thức vận chuyển]), 5),
+				    ("Nhóm hàng", NAMEOF('D_ProductGroup'[nhom_hang]), 6),
+				    ("Model", NAMEOF('D_Product'[Model]), 7)
+				}
+
+	annotation PBI_Id = cf148273d27441c4bd167af5f5e30a7d
+

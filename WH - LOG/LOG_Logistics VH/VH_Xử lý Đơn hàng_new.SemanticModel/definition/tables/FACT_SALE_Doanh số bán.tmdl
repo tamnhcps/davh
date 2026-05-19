@@ -1,0 +1,76 @@
+table 'FACT_SALE_Doanh số bán'
+	lineageTag: 87558157-e147-40e0-acda-e4b2f83db616
+
+	column MaGiaoDich_Datamart
+		dataType: string
+		lineageTag: cccd0c4c-d085-4051-a691-95a4d478f67c
+		summarizeBy: none
+		sourceColumn: MaGiaoDich_Datamart
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhieuNhapTra_N
+		dataType: string
+		lineageTag: 7a721d80-037e-49c7-897a-ace47e96b8e3
+		summarizeBy: none
+		sourceColumn: PhieuNhapTra_N
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhieuXuatBan_SP
+		dataType: string
+		lineageTag: b47d1799-f2dc-47e3-bd82-a36ea7352e36
+		summarizeBy: none
+		sourceColumn: PhieuXuatBan_SP
+
+		annotation SummarizationSetBy = Automatic
+
+	column MethodID
+		dataType: int64
+		formatString: 0
+		lineageTag: b2577a65-5aa7-4f6a-a2c1-b15bf6a28e05
+		summarizeBy: count
+		sourceColumn: MethodID
+
+		annotation SummarizationSetBy = Automatic
+
+	column MethodName
+		dataType: string
+		lineageTag: 73d8acb4-8045-41be-a7c6-56e8e57fa7e4
+		summarizeBy: none
+		sourceColumn: MethodName
+
+		annotation SummarizationSetBy = Automatic
+
+	column KhoangCachNgay
+		dataType: int64
+		formatString: 0
+		lineageTag: ab49e7c1-5571-497c-b0e0-74ed6adff4b0
+		summarizeBy: sum
+		sourceColumn: KhoangCachNgay
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 94d68a19-7d28-4fd5-8f21-6b99b37f769b
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'FACT_SALE_Doanh số bán' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "-- ""dataset_id=b4069954-a7a4-4db6-95b1-e1be03534054""#(lf)WITH#(lf)  tax_exportBill AS (#(lf)    SELECT DISTINCT Code, ReleaseDate#(lf)    FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Tax_ExportBill`#(lf)    WHERE#(lf)      CAST(_airbyte_emitted_at AS DATE)#(lf)        >= DATE_SUB(#(lf)          DATE_TRUNC(CURRENT_DATE(""Asia/Ho_Chi_Minh""), YEAR), INTERVAL 1 YEAR)#(lf)      AND BillType = 3#(lf)      AND SignOfBillNo IN (#(lf)        'C24TAA', 'C24TCP', 'C25TAA', 'C25TCP', 'C26TAA', 'C26TCP', 'C27TAA',#(lf)        'C27TCP')#(lf)    UNION ALL#(lf)    SELECT DISTINCT Code, ReleaseDate#(lf)    FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.Tax_ExportBill`#(lf)    WHERE#(lf)      CAST(_airbyte_emitted_at AS DATE)#(lf)        >= DATE_SUB(#(lf)          DATE_TRUNC(CURRENT_DATE(""Asia/Ho_Chi_Minh""), MONTH), INTERVAL 6 MONTH)#(lf)      AND BillType = 3#(lf)      AND SignOfBillNo IN (#(lf)        'C24TAA', 'C24TCP', 'C25TAA', 'C25TCP', 'C26TAA', 'C26TCP', 'C27TAA',#(lf)        'C27TCP')#(lf)  ),#(lf)  zCustomer AS (#(lf)    SELECT s2.ContactPhone, s2.Date AS NgayMuaDauTien#(lf)    FROM#(lf)      (#(lf)        SELECT#(lf)          s1.ContactPhone,#(lf)          s1.Date,#(lf)          ROW_NUMBER()#(lf)            OVER (PARTITION BY s1.ContactPhone ORDER BY s1.CreateDate ASC)#(lf)            AS Row#(lf)        FROM#(lf)          `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction`#(lf)            s1#(lf)        WHERE#(lf)          s1.IsSales = 1#(lf)          AND LENGTH(s1.ContactPhone) IN (10, 11)#(lf)          AND DATE(s1.CreateDate)#(lf)            >= DATE_SUB(#(lf)              DATE_TRUNC(CURRENT_DATE(""Asia/Ho_Chi_Minh""), YEAR),#(lf)              INTERVAL 1 YEAR)#(lf)      ) s2#(lf)    WHERE s2.Row = 1#(lf)    GROUP BY 1, 2#(lf)  ),#(lf)  cte_map_nhap_xuat AS (#(lf)    -- HCM#(lf)    SELECT#(lf)      A.AutoCode AS PhieuNhap_N,#(lf)      A.CreateDate AS ThoiGianNhap,#(lf)      B.ReferenceExport AS PhieuXuat_SP,#(lf)      C.CreateDate AS ThoiGianXuat,#(lf)      B.IOReasonId AS LyDoID#(lf)    FROM `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBill` B#(lf)    JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General` A#(lf)      ON A.Id = B.Id#(lf)    JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General` C#(lf)      ON C.AutoCode = B.ReferenceExport#(lf)    UNION ALL#(lf)    -- HN#(lf)    SELECT#(lf)      A.AutoCode AS PhieuNhap_N,#(lf)      A.CreateDate AS ThoiGianNhap,#(lf)      B.ReferenceExport AS PhieuXuat_SP,#(lf)      C.CreateDate AS ThoiGianXuat,#(lf)      B.IOReasonId AS LyDoID#(lf)    FROM `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBill` B#(lf)    JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_General` A#(lf)      ON A.Id = B.Id#(lf)    JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_General` C#(lf)      ON C.AutoCode = B.ReferenceExport#(lf)  ),#(lf)  cte_store_reason AS (#(lf)    SELECT DISTINCT Id AS LyDoID, Name AS LyDoName#(lf)    FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_Reason`#(lf)  ),#(lf)  -- ── [TÍCH HỢP] CẦU NỐI ID NHÂN VIÊN CHO 5 VỊ TRÍ ───────────────────────────#(lf)  cte_employee_bridge AS (#(lf)    -- Miền Nam (HCM)#(lf)    SELECT#(lf)      g.AutoCode,#(lf)      MAX(b.SaleEmployeeId) AS ID_Ban,#(lf)      MAX(emp.ManagerStaffId) AS ID_QL,#(lf)      MAX(emp.StoreStaffId) AS ID_Kho,#(lf)      MAX(emp.TechnicalStaffId) AS ID_KyThuat,#(lf)      MAX(emp.CashStaffId) AS ID_ThuNgan#(lf)    FROM `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General` g#(lf)    JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBill` b#(lf)      ON g.Id = b.Id#(lf)    LEFT JOIN#(lf)      `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBillDetail`#(lf)        det#(lf)      ON g.Id = det.StoreBillId#(lf)    LEFT JOIN#(lf)      `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBillEmployee` emp#(lf)      ON det.Id = emp.StoreBillDetailId#(lf)    WHERE#(lf)      DATE(g.CreateDate)#(lf)        >= DATE_SUB(#(lf)          DATE_TRUNC(CURRENT_DATE(""Asia/Ho_Chi_Minh""), MONTH), INTERVAL 6 MONTH)#(lf)      AND DATE(g.CreateDate) < DATE(CURRENT_DATE(""Asia/Ho_Chi_Minh""))#(lf)    GROUP BY g.AutoCode#(lf)    UNION ALL#(lf)    -- Miền Bắc (HN)#(lf)    SELECT#(lf)      g.AutoCode,#(lf)      MAX(b.SaleEmployeeId) AS ID_Ban,#(lf)      MAX(emp.ManagerStaffId) AS ID_QL,#(lf)      MAX(emp.StoreStaffId) AS ID_Kho,#(lf)      MAX(emp.TechnicalStaffId) AS ID_KyThuat,#(lf)      MAX(emp.CashStaffId) AS ID_ThuNgan#(lf)    FROM `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_General` g#(lf)    JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBill` b#(lf)      ON g.Id = b.Id#(lf)    LEFT JOIN#(lf)      `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBillDetail` det#(lf)      ON g.Id = det.StoreBillId#(lf)    LEFT JOIN#(lf)      `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBillEmployee` emp#(lf)      ON det.Id = emp.StoreBillDetailId#(lf)    WHERE#(lf)      DATE(g.CreateDate)#(lf)        >= DATE_SUB(#(lf)          DATE_TRUNC(CURRENT_DATE(""Asia/Ho_Chi_Minh""), MONTH), INTERVAL 6 MONTH)#(lf)      AND DATE(g.CreateDate) < DATE(CURRENT_DATE(""Asia/Ho_Chi_Minh""))#(lf)    GROUP BY g.AutoCode#(lf)  ),#(lf)  -- ── [TÍCH HỢP] DỊCH MÃ CODE TỪ SHARED PERSON ───────────────────────────────#(lf)  cte_final_codes AS (#(lf)    SELECT#(lf)      b.AutoCode,#(lf)      p1.Code AS Code_NV_Ban,#(lf)      p2.Code AS Code_QuanLy,#(lf)      p3.Code AS Code_NV_Kho,#(lf)      p4.Code AS Code_KyThuat,#(lf)      p5.Code AS Code_ThuNgan#(lf)    FROM cte_employee_bridge b#(lf)    LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` p1#(lf)      ON b.ID_Ban = p1.Id#(lf)    LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` p2#(lf)      ON b.ID_QL = p2.Id#(lf)    LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` p3#(lf)      ON b.ID_Kho = p3.Id#(lf)    LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` p4#(lf)      ON b.ID_KyThuat = p4.Id#(lf)    LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` p5#(lf)      ON b.ID_ThuNgan = p5.Id#(lf)  )#(lf)-- ── QUERY CHÍNH (BẢNG FACT) ──────────────────────────────────────────────────#(lf)  , Fact_Sale AS ( #(lf)  SELECT#(lf)  s.CreateDate,#(lf)  EXTRACT(HOUR FROM DATETIME(s.CreateDate)) AS Gio,#(lf)  s.Date,#(lf)  TIMESTAMP_ADD(#(lf)    TIMESTAMP(s.Date),#(lf)    INTERVAL CAST(EXTRACT(HOUR FROM DATETIME(s.CreateDate)) AS INT64) HOUR)#(lf)    AS NgayGio,#(lf)  -- MÃ PHIẾU#(lf)  s.AutoCode AS MaGiaoDich_Datamart,#(lf)  COALESCE(#(lf)    map.PhieuNhap_N,#(lf)    CASE WHEN s.AutoCode LIKE 'N.%' THEN s.AutoCode ELSE NULL END)#(lf)    AS PhieuNhapTra_N,#(lf)  COALESCE(#(lf)    map.PhieuXuat_SP,#(lf)    CASE WHEN s.AutoCode LIKE 'SP.%' THEN s.AutoCode ELSE NULL END)#(lf)    AS PhieuXuatBan_SP,#(lf)  -- TIMESTAMP ĐẦY ĐỦ#(lf)  map.ThoiGianNhap AS CreateDate_PhieuNhap,#(lf)  map.ThoiGianXuat AS CreateDate_PhieuXuat,#(lf)  DATE(map.ThoiGianNhap) AS Ngay_PhieuNhap,#(lf)  DATE(map.ThoiGianXuat) AS Ngay_PhieuBan,#(lf)  EXTRACT(HOUR FROM map.ThoiGianNhap) AS Gio_PhieuNhap,#(lf)  EXTRACT(HOUR FROM map.ThoiGianXuat) AS Gio_PhieuBan,#(lf)  -- LÝ DO ĐỔI TRẢ#(lf)  map.LyDoID AS LyDo_ID,#(lf)  sr.LyDoName AS LyDo_Ten,#(lf)  -- KHOẢNG CÁCH NGÀY & FLAG VI PHẠM#(lf)  DATE_DIFF(DATE(map.ThoiGianNhap), DATE(map.ThoiGianXuat), DAY)#(lf)    AS KhoangCachNgay,#(lf)  CASE#(lf)    WHEN#(lf)      DATE(map.ThoiGianNhap) <> DATE(map.ThoiGianXuat)#(lf)      AND DATE(map.ThoiGianNhap) > DATE(map.ThoiGianXuat)#(lf)      AND DATE_DIFF(DATE(map.ThoiGianNhap), DATE(map.ThoiGianXuat), DAY) <= 3#(lf)      THEN 1#(lf)    ELSE 0#(lf)    END AS Is_Violation,#(lf)  CASE#(lf)    WHEN#(lf)      DATE_DIFF(DATE(map.ThoiGianNhap), DATE(map.ThoiGianXuat), DAY)#(lf)      BETWEEN 4#(lf)      AND 7#(lf)      THEN 1#(lf)    ELSE 0#(lf)    END AS Is_Monitor_4_7,#(lf)  -- THÔNG TIN GIAO DỊCH#(lf)  s.MethodID,#(lf)  s.MethodName,#(lf)  s.IsSales AS IsSale,#(lf)  IF(s.Region = 'HCM', 'Miền Nam', 'Miền Bắc') AS Mien,#(lf)  s.StoreCode,#(lf)  s.StoreName,#(lf)  s.SaleEmployeeCode,#(lf)  s.SaleEmployeeName,#(lf)  s.ProductCode,#(lf)  s.ProductName,#(lf)  s.ContactPhone,#(lf)  s.contactname,#(lf)  UPPER(s.DMC3) AS DMC3,#(lf)  CONCAT(UPPER(s.DMC3), ""-"", IF(s.Region = 'HCM', 'Miền Nam', 'Miền Bắc'))#(lf)    AS PhanQuyen_KinhDoanh,#(lf)  s.Price,#(lf)  CASE#(lf)    WHEN s.SOOrderOnlineNo LIKE '%WB%' OR s.SOOrderOnlineNo LIKE '%WN%' THEN 1#(lf)    WHEN s.StoreCode LIKE '%ONL%' OR s.StoreCode LIKE '%HN.HL%' THEN 1#(lf)    ELSE 0#(lf)    END AS is_online,#(lf)  -- ── CỘT MÃ NHÂN SỰ TỪNG VỊ TRÍ ───────────────────────────────────────────#(lf)  fc.Code_NV_Ban,#(lf)  fc.Code_QuanLy,#(lf)  fc.Code_NV_Kho,#(lf)  fc.Code_KyThuat,#(lf)  fc.Code_ThuNgan,#(lf)  -- SỐ LIỆU DOANH SỐ#(lf)  SUM(s.amount) AS Dso,#(lf)  SUM(s.quantity) AS Slg#(lf)FROM#(lf)  `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction`#(lf)    s#(lf)LEFT JOIN cte_map_nhap_xuat map#(lf)  ON s.AutoCode = map.PhieuNhap_N#(lf)LEFT JOIN cte_store_reason sr#(lf)  ON sr.LyDoID = map.LyDoID#(lf)LEFT JOIN cte_final_codes fc#(lf)  ON s.AutoCode = fc.AutoCode#(lf)WHERE#(lf)  1 = 1#(lf)  AND s.IsSales = 1#(lf)  AND s.ContactPhone NOT IN ('0942482682', '0979453264')#(lf)  AND DATE(s.CreateDate)#(lf)    >= DATE_SUB(#(lf)      DATE_TRUNC(CURRENT_DATE(""Asia/Ho_Chi_Minh""), MONTH), INTERVAL 6 MONTH)#(lf)  AND DATE(s.CreateDate) < DATE(CURRENT_DATE(""Asia/Ho_Chi_Minh""))#(lf)GROUP BY#(lf)  s.CreateDate, s.Date, s.AutoCode, map.PhieuNhap_N, map.PhieuXuat_SP,#(lf)  map.ThoiGianNhap, map.ThoiGianXuat, map.LyDoID, sr.LyDoName, s.MethodID,#(lf)  s.MethodName, s.IsSales, s.GDescription, s.Region, s.StoreCode, s.StoreName,#(lf)  s.SaleEmployeeCode, s.SaleEmployeeName, s.DMC3, s.ProductCode, s.ProductName,#(lf)  s.ContactPhone, s.contactname, s.Price, is_online,#(lf)  -- Group by thêm 5 cột Mã Code#(lf)  fc.Code_NV_Ban, fc.Code_QuanLy, fc.Code_NV_Kho, fc.Code_KyThuat,#(lf)  fc.Code_ThuNgan#(lf)  )#(lf)  SELECT #(lf)    MaGiaoDich_Datamart,#(lf)    PhieuNhapTra_N,#(lf)    PhieuXuatBan_SP,#(lf)    MethodID,#(lf)    MethodName,#(lf)    KhoangCachNgay,#(lf)    Fact_Sale.Date#(lf)  FROM Fact_Sale", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

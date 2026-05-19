@@ -1,0 +1,77 @@
+table 'Ghi chú'
+	lineageTag: 15c1a869-463b-4c8e-bcf6-c7ce20f3e0af
+
+	column STT
+		dataType: int64
+		formatString: 0
+		lineageTag: e726adb1-5fb4-4348-8567-fe91b85cae9c
+		summarizeBy: sum
+		sourceColumn: STT
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trang
+		dataType: string
+		lineageTag: 603ca17e-42f7-4586-8192-e2f54b6c78a4
+		summarizeBy: none
+		sourceColumn: Trang
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chỉ số'
+		dataType: string
+		lineageTag: 0e728c61-2810-48f3-8b45-023838daaf03
+		summarizeBy: none
+		sourceColumn: Chỉ số
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diễn giải'
+		dataType: string
+		lineageTag: 4f264da5-f2d4-4607-ae36-aaf2352445c2
+		summarizeBy: none
+		sourceColumn: Diễn giải
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ghi chú' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Table.FromRows(
+				        {
+				            {1, "Tỷ lệ chốt đơn", "Slg Online", "Số đơn online (bao gồm tất cả trạng thái)"},
+				            {2, "Tỷ lệ chốt đơn", "Slg DH", "Số đơn DH có người xử lý Online"},
+				            {3, "Tỷ lệ chốt đơn", "Slg SP", "Số đơn SP từ đơn DH (trạng thái Order là Thành công)"},
+				            {4, "Tỷ lệ chốt đơn", "%Đơn DH_SP", "Tỷ lệ số đơn SP trên tổng số đơn DH"},
+				            {5, "Tỷ lệ chốt đơn", "%Đơn Online_DH", "Tỷ lệ số đơn DH từ tổng số đơn Online"},
+				            {6, "Tỷ lệ chốt đơn", "Online_LM_g%", "Tỷ lệ thay đổi (tăng/giảm) giữa số đơn online so với tháng trước"},
+				            {7, "Tỷ lệ chốt đơn", "DH_LM_g%", "Tỷ lệ thay đổi (tăng/giảm) giữa số DH so với tháng trước"},
+				            {8, "Tỷ lệ chốt đơn", "SP_LM_g%", "Tỷ lệ thay đổi (tăng/giảm) giữa số SP so với tháng trước"},
+				            {9, "Tỷ lệ chốt đơn", "Avg_Item", "Số lượng item trung bình"},
+				            {10, "Tỷ lệ chốt đơn", "AOV", "Số tiền trung bình (Giá trị đơn hàng/Số lượng đơn hàng)"},
+				            {11, "SLA", "Avg_SLA ra DH", "Trung bình thời gian xử lý ra đơn DH"},
+				            {12, "SLA", "Median_SLA ra DH", "Trung vị thời gian xử lý ra đơn DH"},
+				            {13, "SLA", "Avg_SLA ra SP", "Trung bình thời gian xử lý ra đơn SP"},
+				            {14, "SLA", "Median_SLA ra SP", "Trung vị thời gian xử lý ra đơn SP"},
+				            {15, "SLA", "Ty trọng/Tổng đơn Online", "Tỷ lệ khi chọn các filter, là số lượng đơn Online theo filter trên tổng số đơn"},
+				            {16, "SLA", "- Nhanh: 150%: <= 30p (Xanh)", null},
+				            {17, "Tỷ lệ SP onL cheating ", null, "Tỷ lệ số đơn SP có dấu hiệu CHEATING tên tổng số đơn SP "},
+				            {18, "CR ONL ra SP", "Target 30%", "Tỷ lệ số đơn SP KHÔNG CHEATING trên tổng số đơn Online"}
+				        },
+				        type table
+				        [
+				            STT = Int64.Type,
+				            Trang = text,
+				            #"Chỉ số" = text,
+				            #"Diễn giải" = text
+				        ]
+				    )
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

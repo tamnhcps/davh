@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "LOG_Đánh giá hiệu quả YCDC"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "dfa8cbe4-d5fa-4576-a93e-a8c59401253c"
+  }
+}

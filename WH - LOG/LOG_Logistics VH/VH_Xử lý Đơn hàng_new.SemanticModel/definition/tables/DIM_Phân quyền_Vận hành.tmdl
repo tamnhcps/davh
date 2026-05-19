@@ -1,0 +1,51 @@
+table 'DIM_Phân quyền_Vận hành'
+	lineageTag: 9e7076a6-ab1c-4c6c-9f47-cbf6f68283ba
+
+	column 'Mã kho'
+		lineageTag: 4d158696-9ecb-490d-aa62-591ece871561
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Kho[Mã kho]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		lineageTag: 0d585189-403e-4d39-9127-b6a54dc8ee5c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Kho[Cửa hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column OP =
+			
+			VAR Mien =
+			    LOOKUPVALUE(
+			        'DIM_Danh mục_Kho'[Miền],
+			        'DIM_Danh mục_Kho'[Mã kho], 'DIM_Phân quyền_Vận hành'[Mã kho]
+			    )
+			RETURN
+			    LOOKUPVALUE( 'DIM_Phân quyền_Vận hành_Vùng'[Tên],'DIM_Phân quyền_Vận hành_Vùng'[Miền],Mien)
+		lineageTag: 040b6d0c-6da6-40be-b48d-03bf2f9c02ea
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader = LOOKUPVALUE('DIM_Phân quyền_User'[Leader],'DIM_Phân quyền_User'[Tên],'DIM_Phân quyền_Vận hành'[Cửa hàng],BLANK())
+		lineageTag: 9882bf7c-0055-45fb-b579-f6a13d882077
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_Vận hành' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE (
+				    'DIM_Danh mục_Kho',
+				    'DIM_Danh mục_Kho'[Mã kho],
+				    'DIM_Danh mục_Kho'[Cửa hàng]
+				)
+
+	annotation PBI_Id = 48fb6cbd45894d2c9a39bc9883d47fe1
+

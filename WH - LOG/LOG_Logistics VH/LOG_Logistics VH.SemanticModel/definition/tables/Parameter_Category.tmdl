@@ -1,0 +1,53 @@
+table Parameter_Category
+	lineageTag: b9b8805b-67d0-4a60-af77-6d9269c0e4b3
+
+	column Parameter
+		lineageTag: 80188917-ec03-4927-9d2e-bdc8195b757a
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: cfdd5a6a-bdc3-4a4a-bd66-8e8e4ed0fc9b
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 3468bc7d-80df-4958-9c2e-3032a1e7d6b4
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Category = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('D_Department'[mien]), 0),
+				    ("Tỉnh/Thành phố", NAMEOF('D_Department'[tinh_thanh_pho]), 1),
+				    ("AM", NAMEOF('D_Department'[am_visual]), 2),
+				    ("Cửa hàng", NAMEOF('D_Department'[bo_phan]), 3),
+				    ("NV giao hàng", NAMEOF('D_Employee'[Nhân viên]), 4),
+				    ("Loại giao hàng", NAMEOF('D_DeliveryType'[Loại giao hàng]), 5),
+				    ("Đơn vị vận chuyển", NAMEOF('D_DeliveryMethod'[Hình thức vận chuyển]), 6)
+				}
+
+	annotation PBI_Id = cf0b33d3dea64ca3a52f3d88ac287e8d
+

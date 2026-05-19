@@ -1,0 +1,33 @@
+table 'DIM_Phân quyền_Vận hành_Vùng'
+	lineageTag: 9794d280-d165-4ff8-89a0-db9f3bc3ec35
+
+	column Miền
+		dataType: string
+		lineageTag: 499f69ed-b048-49ec-9911-d86de75c9220
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tên
+		dataType: string
+		lineageTag: f6d7b6c3-b401-43c3-95a4-b23baba196b0
+		summarizeBy: none
+		sourceColumn: Tên
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_Vận hành_Vùng' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8s18uLsxT8Hp4a71yUo6Sv4BCr6eD3c3+IFE1jkrxerAlfgl5qIo8HP0VYqNBQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Miền = _t, Tên = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Miền", type text}, {"Tên", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

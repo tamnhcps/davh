@@ -1,0 +1,171 @@
+table D_Product
+	lineageTag: dd0cb0d3-ec7e-4769-a4b2-a8a831e7df4f
+
+	column nhom_hang
+		dataType: string
+		lineageTag: 72428771-61ef-4d3d-8228-8f05b5aa267d
+		summarizeBy: none
+		sourceColumn: nhom_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	column loai_hang
+		dataType: string
+		lineageTag: 08b3464f-7deb-4d14-b374-86a61805f9ce
+		summarizeBy: none
+		sourceColumn: loai_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma_hang
+		dataType: string
+		lineageTag: d00e8909-45a7-4ce5-b5d4-a6a4d39963b6
+		summarizeBy: none
+		sourceColumn: ma_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	column ten_hang
+		dataType: string
+		lineageTag: 2ec68a5a-1aba-4150-a48c-97188b8bd6b6
+		summarizeBy: none
+		sourceColumn: ten_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	column inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 167eb86b-9f55-4b56-a6ee-876c4d245e86
+		summarizeBy: none
+		sourceColumn: inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column ngay_tao_ma
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1266baf3-0bee-4ac2-a469-36c8445a8e7f
+		summarizeBy: none
+		sourceColumn: ngay_tao_ma
+
+		variation Variation
+			isDefault
+			relationship: a1b2c010-4e83-485c-80d1-0f046ad78bf7
+			defaultHierarchy: LocalDateTable_7c97e4d5-7830-4b17-aab8-de8659abb881.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ten_hang_loai_mau
+		dataType: string
+		lineageTag: 895c0a63-03e8-4b9a-9ebb-a510286e5cd1
+		summarizeBy: none
+		sourceColumn: ten_hang_loai_mau
+
+		annotation SummarizationSetBy = Automatic
+
+	column VAT
+		dataType: int64
+		formatString: 0
+		lineageTag: 1bfe76f5-e9d0-476b-adf2-d047a5717b40
+		summarizeBy: sum
+		sourceColumn: VAT
+
+		annotation SummarizationSetBy = Automatic
+
+	column url
+		dataType: string
+		lineageTag: 0ba15239-1381-4434-b490-6ad86a15ad8b
+		summarizeBy: none
+		sourceColumn: url
+
+		annotation SummarizationSetBy = Automatic
+
+	column thuong_hieu
+		dataType: string
+		lineageTag: 12f96fb4-137a-4356-aec3-440d7f46523d
+		summarizeBy: none
+		sourceColumn: thuong_hieu
+
+		annotation SummarizationSetBy = Automatic
+
+	column model
+		dataType: string
+		lineageTag: 79bf81c0-851b-4be5-a30a-0a9fce7f471e
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column nhom_chuc_nang
+		dataType: string
+		lineageTag: 76be3ff4-2cc4-4985-815a-d2d99997ea13
+		summarizeBy: none
+		sourceColumn: nhom_chuc_nang
+
+		annotation SummarizationSetBy = Automatic
+
+	column nhom_chuc_nang_nho
+		dataType: string
+		lineageTag: 6fbe4485-2268-4704-8227-9e834b9767b9
+		summarizeBy: none
+		sourceColumn: nhom_chuc_nang_nho
+
+		annotation SummarizationSetBy = Automatic
+
+	column Android_exp
+		dataType: int64
+		formatString: 0
+		lineageTag: f7aba206-e2a7-4e4a-ae0a-ddf5f5c35c49
+		summarizeBy: sum
+		sourceColumn: Android_exp
+
+		annotation SummarizationSetBy = Automatic
+
+	column s_star_exp
+		dataType: int64
+		formatString: 0
+		lineageTag: 40b2285a-a613-4842-aeae-002417818034
+		summarizeBy: sum
+		sourceColumn: s_star_exp
+
+		annotation SummarizationSetBy = Automatic
+
+	column ten_chuong_trinh
+		dataType: string
+		lineageTag: d99fc337-c57a-4f00-b2c2-164868882233
+		summarizeBy: none
+		sourceColumn: ten_chuong_trinh
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOversize
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c9169917-7563-478d-963c-e39ca875824e
+		summarizeBy: none
+		sourceColumn: IsOversize
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hàng cồng kềnh' = IF(D_Product[IsOversize] = true, "Hàng cồng kềnh", "Bình thường")
+		lineageTag: 7828ba15-6856-4582-985d-6f0d34b25591
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Product = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)select #(lf)  UPPER(nhom_hang) #(lf)  nhom_hang, #(lf)  loai_hang, #(lf)  ma_hang, #(lf)  ten_hang, #(lf)  p.inactive, #(lf)  ngay_tao_ma, #(lf)  ten_hang_loai_mau, #(lf)  p.VAT, #(lf)  url, #(lf)  thuong_hieu, #(lf)  `model`, #(lf)  nhom_chuc_nang, #(lf)  nhom_chuc_nang_nho, #(lf)  Android_exp, #(lf)  s_star_exp, #(lf)  ten_chuong_trinh,#(lf)  s.IsOversize#(lf)from `cellphones-data-platform.cps_DA_General_Transform.dim_product` p#(lf)left join ( select *#(lf)            from `cps_cdc_sep_hcm_dbo.Shared_Product` s #(lf)            where IsOversize = true#(lf)  ) as s  on s.Id = p.product_id#(lf)--where inactive = false", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

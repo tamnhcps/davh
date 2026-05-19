@@ -1,0 +1,49 @@
+table Parameter_Category_Driver
+	lineageTag: a20fc89d-a213-485e-a39a-ab9f2d0cec67
+
+	column Parameter
+		lineageTag: 6e6d811e-61c4-4c60-8ad3-d7374ec98c2f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: 304c0c27-df94-4147-91c3-5854e3dbb50e
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: a387a4db-2c74-4955-875c-979543e98446
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Category_Driver = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('D_Department'[mien]), 0),
+				    ("Tên xe", NAMEOF('D_Car'[Tên xe]), 1),
+				    ("Tài xế", NAMEOF('D_Employee'[Nhân viên]), 2)
+				}
+
+	annotation PBI_Id = 0878d38d1a2b4ce89d378d25dc106d4f
+

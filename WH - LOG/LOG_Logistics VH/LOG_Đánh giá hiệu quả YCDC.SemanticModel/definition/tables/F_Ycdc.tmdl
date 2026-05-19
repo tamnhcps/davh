@@ -1,0 +1,842 @@
+table F_Ycdc
+	lineageTag: 9a3c9155-8a85-40bf-8c27-5ec647fb97c9
+
+	column 'Kho cho hàng'
+		dataType: string
+		lineageTag: e7fae064-d2eb-4f6b-9ab7-5f19830d2f2a
+		summarizeBy: none
+		sourceColumn: Kho cho hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kho nhận hàng'
+		dataType: string
+		lineageTag: 3de3feaa-3a65-4fca-b867-76cf72e6b8e7
+		summarizeBy: none
+		sourceColumn: Kho nhận hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu'
+		dataType: string
+		lineageTag: cbc794b5-f717-4a65-92e4-9b813f58e1b5
+		summarizeBy: none
+		sourceColumn: Số phiếu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2e10d2f6-daa4-46db-b82d-aaa730ccea80
+		summarizeBy: none
+		sourceColumn: Ngày lập
+
+		variation Variation
+			isDefault
+			relationship: f5fd852b-94b9-415d-bbfd-862ad8aa2a54
+			defaultHierarchy: LocalDateTable_e12f4ebf-11e2-48f9-abdf-a0fe70102891.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phiếu chuyển'
+		dataType: string
+		lineageTag: 743a6e98-dbda-4b2e-af16-b1d943daa836
+		summarizeBy: none
+		sourceColumn: Phiếu chuyển
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập phiếu chuyển'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: de101d50-fcc7-45de-b578-000716e2bb8f
+		summarizeBy: none
+		sourceColumn: Ngày lập phiếu chuyển
+
+		variation Variation
+			isDefault
+			relationship: 1a6571cf-f1e5-4f3d-bc1e-4950a126b9b5
+			defaultHierarchy: LocalDateTable_ef0c7bbc-3f85-46cc-becc-5a1d34a00adf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày xác nhận'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3181c4e1-5fd4-4bbe-9f5b-488f09d1c012
+		summarizeBy: none
+		sourceColumn: Ngày xác nhận
+
+		variation Variation
+			isDefault
+			relationship: 32e1e06c-d596-444e-8373-984ed470b897
+			defaultHierarchy: LocalDateTable_3acfe47a-a674-4577-a171-a0bb62795355.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã người lập'
+		dataType: int64
+		formatString: 0
+		lineageTag: b0055e9c-3813-4fd6-8f96-b249f1679f4e
+		summarizeBy: none
+		sourceColumn: Mã người lập
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã hàng'
+		dataType: string
+		lineageTag: d7e12d26-23ae-40b3-b3c7-bbf0d8a739b1
+		summarizeBy: none
+		sourceColumn: Mã hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lý do YCDC'
+		dataType: string
+		lineageTag: aac8b4b7-8797-4398-9f1e-92d1cad7a789
+		summarizeBy: none
+		sourceColumn: Lý do YCDC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: 477b0b2b-1c89-49d6-b624-69afc35f832d
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: double
+		formatString: 0
+		lineageTag: 7cd43a27-4ddc-404f-a4d3-35287eefd905
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày xác nhận chuyển kho' = ```
+			
+			VAR _KNH = F_Ycdc[Kho nhận hàng]
+			VAR _Product = F_Ycdc[Mã hàng]
+			
+			// VAR CurrentRank = 
+			//     RANKX(
+			//         FILTER(
+			//             ALL(F_Ycdc),
+			//             F_Ycdc[Mã hàng] = EARLIER(F_Ycdc[Mã hàng]) &&
+			//             F_Ycdc[Kho nhận hàng] = EARLIER(F_Ycdc[Kho nhận hàng])
+			//         ),
+			//         F_Ycdc[Ngày xác nhận],
+			//         ,
+			//         ASC,
+			//         DENSE
+			//     )
+			VAR CurrentRank = 
+			    RANKX(
+			        FILTER(
+			            ALL(F_Ycdc),
+			            F_Ycdc[Mã hàng] = _Product &&
+			            F_Ycdc[Kho nhận hàng] = _KNH
+			        ),
+			        F_Ycdc[Ngày xác nhận],
+			        ,
+			        ASC,
+			        DENSE
+			    )
+			// VAR NextDate = 
+			//     CALCULATE(
+			//         MIN(F_Ycdc[Ngày xác nhận]),
+			//         FILTER(
+			//             ALL(F_Ycdc),
+			//             F_Ycdc[Mã hàng] = EARLIER(F_Ycdc[Mã hàng]) &&
+			//             F_Ycdc[Kho nhận hàng] = EARLIER(F_Ycdc[Kho nhận hàng]) &&
+			//             RANKX(
+			//                 FILTER(
+			//                     ALL(F_Ycdc),
+			//                     F_Ycdc[Mã hàng] = EARLIER(F_Ycdc[Mã hàng]) &&
+			//                     F_Ycdc[Kho nhận hàng] = EARLIER(F_Ycdc[Kho nhận hàng])
+			//                 ),
+			//                 F_Ycdc[Ngày xác nhận],
+			//                 ,
+			//                 ASC,
+			//                 DENSE
+			//             ) = CurrentRank + 1
+			//         )
+			//     )
+			VAR NextDate = 
+			    CALCULATE(
+			        MIN(F_Ycdc[Ngày xác nhận]),
+			        FILTER(
+			            ALL(F_Ycdc),
+			            F_Ycdc[Mã hàng] = _Product &&
+			            F_Ycdc[Kho nhận hàng] = _KNH &&
+			            RANKX(
+			                FILTER(
+			                    ALL(F_Ycdc),
+			                    F_Ycdc[Mã hàng] = _Product &&
+			                    F_Ycdc[Kho nhận hàng] = _KNH
+			                ),
+			                F_Ycdc[Ngày xác nhận],
+			                ,
+			                ASC,
+			                DENSE
+			            ) = CurrentRank + 1
+			        )
+			    )
+			
+			RETURN
+			    NextDate
+			```
+		formatString: General Date
+		lineageTag: 0fb652fe-d8fa-4bff-b17f-01c4207453cc
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 0b462ae1-9f5a-49a6-8d15-9f0c519a39a2
+			defaultHierarchy: LocalDateTable_de488614-ea36-4f52-81c4-7c3ca25159d1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày lập SP' = ```
+			
+			VAR _KNH = F_Ycdc[Kho nhận hàng]
+			VAR _Product = F_Ycdc[Mã hàng]
+			VAR _Date_XN = F_Ycdc[Ngày xác nhận]
+			VAR _Date_XNC = F_Ycdc[Ngày xác nhận chuyển kho]
+			
+			RETURN 
+			IF('F_Ycdc'[Ngày xác nhận chuyển kho] <> BLANK(),
+			CALCULATE(
+			    MIN('F_Sales'[CreateDate]),
+			    FILTER(
+			        'F_Sales',
+			        'F_Sales'[StoreCode] = _KNH &&
+			        'F_Sales'[ProductCode] = _Product &&
+			        'F_Sales'[CreateDate] >= _Date_XN &&
+			        'F_Sales'[CreateDate] <= _Date_XNC --&&
+			        // NOT 'FACT_Sale'[MethodName] IN {"Nhập đổi", "Nhập trả", "Nhập trả dịch vụ"}
+			    )
+			),
+			CALCULATE(
+			    MIN('F_Sales'[CreateDate]),
+			    FILTER(
+			        'F_Sales',
+			        'F_Sales'[StoreCode] = _KNH &&
+			        'F_Sales'[ProductCode] = _Product &&
+			        'F_Sales'[CreateDate] >= _Date_XN --&&
+			        // NOT 'FACT_Sale'[MethodName] IN {"Nhập đổi", "Nhập trả", "Nhập trả dịch vụ"}
+			    )
+			)
+			)
+			// IF('F_Ycdc'[Ngày xác nhận chuyển kho] <> BLANK(),
+			// CALCULATE(
+			//     MIN('F_Sales'[CreateDate]),
+			//     FILTER(
+			//         'F_Sales',
+			//         'F_Sales'[StoreCode] = EARLIER('F_Ycdc'[Kho nhận hàng]) &&
+			//         'F_Sales'[ProductCode] = EARLIER('F_Ycdc'[Mã hàng]) &&
+			//         'F_Sales'[CreateDate] >= EARLIER('F_Ycdc'[Ngày xác nhận]) &&
+			//         'F_Sales'[CreateDate] <= EARLIER('F_Ycdc'[Ngày xác nhận chuyển kho]) --&&
+			//         // NOT 'FACT_Sale'[MethodName] IN {"Nhập đổi", "Nhập trả", "Nhập trả dịch vụ"}
+			//     )
+			// ),
+			// CALCULATE(
+			//     MIN('F_Sales'[CreateDate]),
+			//     FILTER(
+			//         'F_Sales',
+			//         'F_Sales'[StoreCode] = EARLIER('F_Ycdc'[Kho nhận hàng]) &&
+			//         'F_Sales'[ProductCode] = EARLIER('F_Ycdc'[Mã hàng]) &&
+			//         'F_Sales'[CreateDate] >= EARLIER('F_Ycdc'[Ngày xác nhận]) --&&
+			//         // NOT 'FACT_Sale'[MethodName] IN {"Nhập đổi", "Nhập trả", "Nhập trả dịch vụ"}
+			//     )
+			// )
+			// )
+			
+			```
+		formatString: General Date
+		lineageTag: 614eb7f6-8964-47ad-b060-1441f292cb5d
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 967fafb8-8d20-4818-b6a4-db146b2a61db
+			defaultHierarchy: LocalDateTable_9f03aa80-5a6e-4beb-bef8-420571fbe3e2.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày xác nhận_date' = 'F_Ycdc'[Ngày xác nhận].[Date]
+		formatString: Short Date
+		lineageTag: 65a352d6-be17-40c4-b410-d9c2e3575417
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 2f6d01a0-0714-4acf-93b5-738d24724019
+			defaultHierarchy: LocalDateTable_156c71d9-4c2c-4b26-9ea2-3fb688a6d06b.'Date Hierarchy'
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'TG_Xác nhận_Lập phiếu bán' = DATEDIFF('F_Ycdc'[Ngày xác nhận], 'F_Ycdc'[Ngày lập SP], SECOND)/ 86400
+		lineageTag: e3ca1f14-ce1a-4f79-80a2-cf0219c7887d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Ngày lập phiếu chuyển kho' = ```
+			
+			VAR _KNH = F_Ycdc[Kho nhận hàng]
+			VAR _Product = F_Ycdc[Mã hàng]
+			VAR _Date_XN = F_Ycdc[Ngày xác nhận]
+			VAR _Date_XNC = F_Ycdc[Ngày xác nhận chuyển kho]
+			RETURN
+			 IF('F_Ycdc'[Ngày xác nhận chuyển kho] <> BLANK(),
+			CALCULATE(
+			    MIN('F_Dc'[Ngày lập phiếu chuyển]),
+			    FILTER(
+			        'F_Dc',
+			        'F_Dc'[Kho cho hàng] = _KNH &&
+			        'F_Dc'[Mã hàng] = _Product &&
+			        'F_Dc'[Ngày lập phiếu chuyển] >= _Date_XN &&
+			        'F_Dc'[Ngày lập phiếu chuyển] <= _Date_XNC
+			    )
+			),
+			CALCULATE(
+			    MIN('F_Dc'[Ngày lập phiếu chuyển]),
+			    FILTER(
+			        'F_Dc',
+			        'F_Dc'[Kho cho hàng] = _KNH &&
+			        'F_Dc'[Mã hàng] = _Product &&
+			        'F_Dc'[Ngày lập phiếu chuyển] >= _Date_XN
+			    )
+			)
+			)
+			// IF('F_Ycdc'[Ngày xác nhận chuyển kho] <> BLANK(),
+			// CALCULATE(
+			//     MIN('F_Dc'[Ngày lập phiếu chuyển]),
+			//     FILTER(
+			//         'F_Dc',
+			//         'F_Dc'[Kho cho hàng] = EARLIER('F_Ycdc'[Kho nhận hàng]) &&
+			//         'F_Dc'[Mã hàng] = EARLIER('F_Ycdc'[Mã hàng]) &&
+			//         'F_Dc'[Ngày lập phiếu chuyển] >= EARLIER('F_Ycdc'[Ngày xác nhận]) &&
+			//         'F_Dc'[Ngày lập phiếu chuyển] <= EARLIER('F_Ycdc'[Ngày xác nhận chuyển kho])
+			//     )
+			// ),
+			// CALCULATE(
+			//     MIN('F_Dc'[Ngày lập phiếu chuyển]),
+			//     FILTER(
+			//         'F_Dc',
+			//         'F_Dc'[Kho cho hàng] = EARLIER('F_Ycdc'[Kho nhận hàng]) &&
+			//         'F_Dc'[Mã hàng] = EARLIER('F_Ycdc'[Mã hàng]) &&
+			//         'F_Dc'[Ngày lập phiếu chuyển] >= EARLIER('F_Ycdc'[Ngày xác nhận])
+			//     )
+			// )
+			// )
+			
+			```
+		formatString: General Date
+		lineageTag: 51321bb0-b9fd-489f-9d64-4579b9270f64
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 85bc28f1-c6b2-484d-9e4f-e9e2417107f3
+			defaultHierarchy: LocalDateTable_ae5c0cb7-743f-428a-b7b6-87a78b7fc54a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TG_Xác nhận_Lập phiếu chuyển' = DATEDIFF('F_Ycdc'[Ngày xác nhận_date], 'F_Ycdc'[Ngày lập phiếu chuyển kho].[Date], DAY)
+		formatString: 0
+		lineageTag: d2b7f512-62e2-4845-95f3-f8bad5bfe98e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TG_Lập YCDC_Lập DC' = MAX(DATEDIFF([Ngày lập], [Ngày lập phiếu chuyển], SECOND)/ 86400, 0)
+		lineageTag: f2aa5503-c6a4-41a0-9438-757f536f124b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'TG_Lập DC_Xác nhận' = MAX(DATEDIFF([Ngày lập phiếu chuyển], [Ngày xác nhận], SECOND)/ 86400, 0)
+		lineageTag: 891c92ba-6ac2-4ba2-bead-a8714876e052
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Số phiếu_SKU' = 'F_Ycdc'[Số phiếu] & "_" & 'F_Ycdc'[Mã hàng]
+		lineageTag: daf507ea-c331-4a13-8b75-0ae34de4d433
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TG tồn CH đến lúc bán' =
+			
+			VAR zSP = DATEDIFF([Ngày xác nhận], [Ngày lập SP], SECOND)/ 86400
+			VAR zDC = DATEDIFF([Ngày xác nhận], [Ngày lập phiếu chuyển kho], SECOND)/ 86400
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    zDC = BLANK(), zSP,
+			    zSP <= zDC, zSP
+			)
+		lineageTag: 476852e1-7649-4ee2-8ad9-236cdf736508
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'TG tồn CH đến lúc chuyển kho' =
+			
+			VAR zSP = DATEDIFF([Ngày xác nhận], [Ngày lập SP], SECOND)/ 86400
+			VAR zDC = DATEDIFF([Ngày xác nhận], [Ngày lập phiếu chuyển kho], SECOND)/ 86400
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    zSP = BLANK(), zDC,
+			    zDC <= zSP,  zDC
+			)
+		lineageTag: b77f736c-cbdd-45d1-be5a-f5a8d39f0330
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PriceTag =
+			
+			VAR _KNH = F_Ycdc[Kho nhận hàng]
+			VAR _Product = F_Ycdc[Mã hàng]
+			RETURN
+			 CALCULATE(
+			    FIRSTNONBLANK('F_PriceTag'[barcode], 1),
+			    FILTER(
+			        'F_PriceTag',
+			        'F_PriceTag'[productcode] = _Product
+			            && 'F_PriceTag'[Mã kho] = _KNH
+			    )
+			)
+			// CALCULATE(
+			//     FIRSTNONBLANK('F_PriceTag'[barcode], 1),
+			//     FILTER(
+			//         'F_PriceTag',
+			//         'F_PriceTag'[productcode] = EARLIER('F_Ycdc'[Mã hàng])
+			//             && 'F_PriceTag'[Mã kho] = EARLIER('F_Ycdc'[Kho nhận hàng])
+			//     )
+			// )
+		lineageTag: 3dbc9b42-9092-4095-89bd-270ff764e18d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khu vực' =
+			
+			IF(
+			    'F_Ycdc'[Miền] = "Miền Nam",
+			    SWITCH(
+			        TRUE(),
+			        LEFT('F_Ycdc'[Kho cho hàng],3) = "HCM" && LEFT('F_Ycdc'[Kho nhận hàng],3) = "HCM", "HCM - HCM",
+			        LEFT('F_Ycdc'[Kho cho hàng],3) = "HCM" && LEFT('F_Ycdc'[Kho nhận hàng],3) <> "HCM", "HCM - Tỉnh",
+			        LEFT('F_Ycdc'[Kho cho hàng],3) <> "HCM" && LEFT('F_Ycdc'[Kho nhận hàng],3) = "HCM", "Tỉnh - HCM",
+			        "Tỉnh - Tỉnh"
+			    ),
+			    SWITCH(
+			        TRUE(),
+			        LEFT('F_Ycdc'[Kho cho hàng],2) = "HN" && LEFT('F_Ycdc'[Kho nhận hàng],2) = "HN", "HN - HN",
+			        LEFT('F_Ycdc'[Kho cho hàng],2) = "HN" && LEFT('F_Ycdc'[Kho nhận hàng],2) <> "HN", "HN - Tỉnh",
+			        LEFT('F_Ycdc'[Kho cho hàng],2) <> "HN" && LEFT('F_Ycdc'[Kho nhận hàng],2) = "HN", "Tỉnh - HN",
+			        "Tỉnh - Tỉnh"
+			    )
+			)
+		lineageTag: 71113020-b84c-42b2-882a-8ff5467e96de
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hình thức vận chuyển' = ```
+			
+			VAR _DC = F_Ycdc[Phiếu chuyển]
+			RETURN 
+			CALCULATE(
+			    FIRSTNONBLANK('F_Logistics'[Hình thức vận chuyển], 1),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Số phiếu] = _DC
+			    )
+			)
+			// CALCULATE(
+			//     FIRSTNONBLANK('F_Logistics'[Hình thức vận chuyển], 1),
+			//     FILTER(
+			//         'F_Logistics',
+			//         'F_Logistics'[Số phiếu] = EARLIER('F_Ycdc'[Phiếu chuyển])
+			//     )
+			// )
+			```
+		lineageTag: 2de682bb-a1c6-4dc4-8854-918e49b249f1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column RT1
+		dataType: string
+		lineageTag: 0609de07-6833-4c5f-915e-621aebc8a7ea
+		summarizeBy: none
+		sourceColumn: RT1
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransitStoreId
+		dataType: int64
+		formatString: 0
+		lineageTag: c57d259d-4c6a-4b76-b628-9fb9773c3918
+		summarizeBy: count
+		sourceColumn: TransitStoreId
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian tạo RT1'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d3882d6a-12d2-43e6-8a04-00281ad67219
+		summarizeBy: none
+		sourceColumn: Thời gian tạo RT1
+
+		variation Variation
+			isDefault
+			relationship: 74c9bbdc-945c-4993-b98f-1460f67b3aa6
+			defaultHierarchy: LocalDateTable_eeb47944-fa06-4eeb-834c-1498aea59e71.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1f8c9444-c698-4641-8dc0-e4b59171f4d8
+		summarizeBy: none
+		sourceColumn: Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận
+
+		variation Variation
+			isDefault
+			relationship: 6ecd38b7-f7b1-4448-ab47-fd46cbdcc264
+			defaultHierarchy: LocalDateTable_da4a6aaa-50fc-4549-bf86-50a7ce2bf74d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian RT1_HT'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c9b431c5-323c-41ef-9459-204ad7870982
+		summarizeBy: none
+		sourceColumn: Thời gian RT1_HT
+
+		variation Variation
+			isDefault
+			relationship: 1e815e8c-b38a-4dcf-96b1-80a0354eee67
+			defaultHierarchy: LocalDateTable_00f49b7a-a47c-4ad8-9f9f-195d9056d51c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tài xế nhận giao RT1'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 373c78e2-d669-4060-adbb-e27c390011cc
+		summarizeBy: none
+		sourceColumn: Tài xế nhận giao RT1
+
+		variation Variation
+			isDefault
+			relationship: 7b12599a-5a6a-474a-b428-8e43ab41a38c
+			defaultHierarchy: LocalDateTable_841601e8-235c-42c8-87f5-e5681f5d92bb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tài xế bấm giao hàng thành công RT1'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: fc8f1ac5-d974-4917-a59e-57438dfca9d9
+		summarizeBy: none
+		sourceColumn: Tài xế bấm giao hàng thành công RT1
+
+		variation Variation
+			isDefault
+			relationship: 3fcf2d8d-5f35-4086-a1a0-803c89e423e6
+			defaultHierarchy: LocalDateTable_c33323d6-8e63-446f-b00d-ba9e299c2af4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhận lúc RT1'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1b9ef10e-a013-4f94-ae65-edb15debd737
+		summarizeBy: none
+		sourceColumn: Nhận lúc RT1
+
+		variation Variation
+			isDefault
+			relationship: ec199d49-d6cf-4eac-ba64-ae182ca8389a
+			defaultHierarchy: LocalDateTable_371353d4-7b5f-4c68-9169-cfb1ac3e9f6c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column RT2
+		dataType: string
+		lineageTag: 1b07947f-7367-40b5-87fd-5d54e6dd4d9c
+		summarizeBy: none
+		sourceColumn: RT2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian tạo RT2'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7b21ca6f-c9b8-45dd-a575-d0033ca10b02
+		summarizeBy: none
+		sourceColumn: Thời gian tạo RT2
+
+		variation Variation
+			isDefault
+			relationship: 5ed57232-304c-486f-bc81-ed3f5f933315
+			defaultHierarchy: LocalDateTable_77bc2642-14b9-4fbf-a3af-04cdd434796f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian RT2_HT'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9d469114-b760-491b-9cfd-0c82ce58f1f7
+		summarizeBy: none
+		sourceColumn: Thời gian RT2_HT
+
+		variation Variation
+			isDefault
+			relationship: b107cdc7-c9d3-4a41-af0d-24a89c1c5255
+			defaultHierarchy: LocalDateTable_2c216df9-d528-4ba2-87c6-6c4d9cacb42f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tài xế nhận giao RT2'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ff6beadd-7f25-4157-849b-bbdc4326bbf4
+		summarizeBy: none
+		sourceColumn: Tài xế nhận giao RT2
+
+		variation Variation
+			isDefault
+			relationship: b90e0897-11d6-46f9-a928-f47433b51113
+			defaultHierarchy: LocalDateTable_b78910df-3263-4428-b004-d98174b34721.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tài xế bấm giao hàng thành công RT2'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ae420194-f0bd-4823-a84c-4611659f252e
+		summarizeBy: none
+		sourceColumn: Tài xế bấm giao hàng thành công RT2
+
+		variation Variation
+			isDefault
+			relationship: 5aca866b-5d60-4765-a900-7235c09c8b2d
+			defaultHierarchy: LocalDateTable_aa212051-ed4e-4059-8999-97e424e8284e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhận lúc RT2'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 450ac9d8-a397-4fbe-8aeb-0f613097ed6d
+		summarizeBy: none
+		sourceColumn: Nhận lúc RT2
+
+		variation Variation
+			isDefault
+			relationship: e5f3c757-3cfb-48fd-9b67-d5d62f0b3f83
+			defaultHierarchy: LocalDateTable_3234b00a-b756-48e8-9ab1-bea5e404eaf7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOversize
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ee36ddab-d52f-4ea8-bac7-b330c8e20d1c
+		summarizeBy: none
+		sourceColumn: IsOversize
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TG lập RT' = MAX( DATEDIFF([Ngày lập phiếu chuyển], [Thời gian tạo RT1], SECOND)/ 86400, 0)
+		lineageTag: 7ed7e9aa-fdd4-4457-9d60-9cee664a5f9c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'TG chờ lấy hàng' = MAX( DATEDIFF([Thời gian tạo RT1], [Tài xế nhận giao RT1], SECOND)/ 86400, 0)
+		lineageTag: afdeec2d-d68e-4798-a187-b85708657bcb
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'TG trung chuyển về kho' = MAX( DATEDIFF([Tài xế nhận giao RT1], [Tài xế bấm giao hàng thành công RT1], SECOND)/ 86400, 0)
+		lineageTag: ad9d5d5a-e476-4ca8-a57d-c8a3386ba8e8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'TG xử lý hàng hóa ở kho' = MAX( DATEDIFF([Tài xế bấm giao hàng thành công RT1], [Thời gian tạo RT2], SECOND)/ 86400, 0)
+		lineageTag: 37de3b6f-112a-47f3-bd1a-4d4ea36a824b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'TG giao hàng' = MAX( DATEDIFF([Tài xế nhận giao RT2], [Thời gian RT2_HT], SECOND)/ 86400, 0)
+		lineageTag: 53f63166-5398-41ac-92cf-147145fbdffe
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'TG chờ giao' = MAX( DATEDIFF([Thời gian tạo RT2], [Tài xế nhận giao RT2], SECOND)/ 86400, 0)
+		lineageTag: 2b769663-b939-40dd-8d36-fe1d24a03232
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'TG xác nhận tại shop' = MAX( DATEDIFF([Thời gian RT2_HT], [Ngày xác nhận], SECOND)/ 86400, 0)
+		lineageTag: a2852498-8ed5-4d17-a54f-18af45f24961
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DC_Type = ```
+			
+			VAR IsKho_From =
+			    CONTAINSSTRING ( F_Ycdc[Kho cho hàng], "KHO" )
+			        || F_Ycdc[Kho cho hàng] = "HCM.HC"
+			
+			VAR IsKho_To =
+			    CONTAINSSTRING ( F_Ycdc[Kho nhận hàng], "KHO" )
+			        || F_Ycdc[Kho nhận hàng] = "HCM.HC"
+			
+			VAR IsShop_From =
+			    NOT IsKho_From
+			VAR IsShop_To =
+			    NOT IsKho_To
+			
+			VAR HasDC =
+			    NOT ISBLANK ( F_Ycdc[TransitStoreId] )
+			
+			RETURN
+			SWITCH (
+			    TRUE(),
+			
+			    -- KHO - KHO
+			    IsKho_From && IsKho_To && NOT HasDC,
+			    "KHO - KHO",
+			
+			    -- KHO - SHOP
+			    IsKho_From && IsShop_To && NOT HasDC,
+			    "KHO - SHOP",
+			
+			    -- SHOP - KHO
+			    IsShop_From && IsKho_To && NOT HasDC,
+			    "SHOP - KHO",
+			
+			    -- SHOP - SHOP
+			    IsShop_From && IsShop_To && NOT HasDC,
+			    "SHOP - SHOP",
+			
+			    -- SHOP - DC - SHOP
+			    IsShop_From && IsShop_To && HasDC,
+			    "SHOP - DC - SHOP",
+			
+			    -- KHO - DC - SHOP
+			    IsKho_From && IsShop_To && HasDC,
+			    "KHO - DC - SHOP",
+			
+			    -- SHOP - DC - KHO
+			    IsShop_From && IsKho_To && HasDC,
+			    "SHOP - DC - KHO",
+			
+			    BLANK()
+			)
+			
+			```
+		lineageTag: b0175d3e-6981-4ed4-9ac4-f5190c0fcafe
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date_Ngày lập' = 'F_Ycdc'[Ngày lập].[Date]
+		formatString: General Date
+		lineageTag: f2654938-3da9-4d54-bbc6-57feb502507b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total leadtime YCC' = MAX( DATEDIFF([Ngày lập], [Ngày xác nhận], SECOND)/ 86400, 0)
+		lineageTag: 792eedfe-5fbd-4fd3-b561-bc13fb4d2055
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ma_tai_xe_RT1
+		dataType: string
+		lineageTag: 8506571b-6ba1-4059-9bdb-58fcef51e124
+		summarizeBy: none
+		sourceColumn: ma_tai_xe_RT1
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma_tai_xe_RT2
+		dataType: string
+		lineageTag: 3a581d27-4ddf-4881-9bd4-f3526ed3955d
+		summarizeBy: none
+		sourceColumn: ma_tai_xe_RT2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Ycdc = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)with#(lf)-------------Miền Nam----------------------#(lf)SO_RouteLog_MN as (#(lf)  select *,#(lf)        rank() over( partition by RouterDetailId order by PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S',StartDate) desc) as rank1#(lf)  from `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_RouteLog` #(lf)  where#(lf)    IsFinal = TRUE#(lf)    AND IsTransit IS NULL#(lf)),#(lf)#(lf)SO_RouteLog_MN_Final as (#(lf)  select *#(lf)  from SO_RouteLog_MN#(lf)  where#(lf)    rank1 = 1#(lf))#(lf)#(lf), RT1_MN as (#(lf)  select #(lf)    srd.StoreBillCode,#(lf)    sr.Code as ma_RT,#(lf)    sr.CreateByName as `ma_nv_tao_rt`,#(lf)    srd.CreateDate as  `Thời gian tạo RT1`,#(lf)    if(srd.TransitStoreId is null, null, PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.TakeDate)) as `Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận`,#(lf)    srd.FinishDate as `Thời gian RT1_HT`,#(lf)    PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.StartDate) as `Tài xế nhận giao`,#(lf)    PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.EndDate) as `Tài xế bấm giao hàng thành công`,#(lf)    srd.StartDate as `Nhận lúc`,#(lf)    srd.TransitStoreId,#(lf)    CASE srd.StateId#(lf)        WHEN 1 THEN 'Mới tạo'#(lf)        WHEN 2 THEN 'Đang giao'#(lf)        WHEN 3 THEN 'Hoàn tất'#(lf)        WHEN 4 THEN 'Hủy giao chưa hoàn hàng'#(lf)        WHEN 5 THEN 'Hủy giao đã hoàn hàng'#(lf)        WHEN 7 THEN 'Đã giao đơn vị vận chuyển'#(lf)        WHEN 8 THEN 'HTTC chưa xác nhận'#(lf)        WHEN 9 THEN 'Tài xế từ chối nhận hàng'#(lf)        WHEN 10 THEN 'Hủy giao kho đã nhận hàng'#(lf)        WHEN 11 THEN 'Thả hàng chưa xác nhận'#(lf)        WHEN 12 THEN IF(srd.TransitStoreId IS NULL, 'Thả hàng đã xác nhận', 'HTTC đã xác nhận')#(lf)        ELSE NULL#(lf)      END AS tinh_trang_don,#(lf)      IFNULL(driverLog.Code, driver.Code) AS ma_tai_xe,#(lf)      rank() over( partition by srd.StoreBillCode order by srd.CreateDate asc) as rank1,#(lf)  from `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_Route` sr#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_RouteDetail` srd on srd.RouteId = sr.id#(lf)  -- left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_RouteLog`  srl on srl.RouterDetailID = srd.id#(lf)  left join SO_RouteLog_MN_Final as srl on srl.RouterDetailID = srd.id#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` driver ON driver.Id = srd.DriverStaffId#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` driverLog ON driverLog.Id = srl.DriverStaffId#(lf)#(lf)  where #(lf)    srd.DeleteDate is null #(lf)    -- and srl.TakeDate IS NOT NULL #(lf)    -- and  srd.StoreBillCode = 'DC.04NVC.25.11.000139'#(lf)    and date(_airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)#(lf))#(lf)#(lf), RT1_MN_Final as (#(lf)  select * from RT1_MN#(lf)  where #(lf)    rank1 = 1 #(lf)    and `Tài xế bấm giao hàng thành công` is not null#(lf))#(lf)#(lf), RT2_MN as (#(lf)  select #(lf)    srd.StoreBillCode,#(lf)    sr.Code as ma_RT,#(lf)    sr.CreateByName as `ma_nv_tao_rt`,#(lf)    srd.CreateDate as  `Thời gian tạo RT2`,#(lf)    srd.FinishDate as `Thời gian RT2_HT`,#(lf)    PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.StartDate) as `Tài xế nhận giao`,#(lf)    PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.EndDate) as `Tài xế bấm giao hàng thành công`,#(lf)    srd.StartDate as `Nhận lúc`,#(lf)    srd.TransitStoreId,#(lf)    CASE srd.StateId#(lf)        WHEN 1 THEN 'Mới tạo'#(lf)        WHEN 2 THEN 'Đang giao'#(lf)        WHEN 3 THEN 'Hoàn tất'#(lf)        WHEN 4 THEN 'Hủy giao chưa hoàn hàng'#(lf)        WHEN 5 THEN 'Hủy giao đã hoàn hàng'#(lf)        WHEN 7 THEN 'Đã giao đơn vị vận chuyển'#(lf)        WHEN 8 THEN 'HTTC chưa xác nhận'#(lf)        WHEN 9 THEN 'Tài xế từ chối nhận hàng'#(lf)        WHEN 10 THEN 'Hủy giao kho đã nhận hàng'#(lf)        WHEN 11 THEN 'Thả hàng chưa xác nhận' #(lf)        WHEN 12 THEN IF(srd.TransitStoreId IS NULL, 'Thả hàng đã xác nhận', 'HTTC đã xác nhận')#(lf)        ELSE NULL#(lf)      END AS tinh_trang_don,#(lf)    IFNULL(driverLog.Code, driver.Code) AS ma_tai_xe,#(lf)    rank() over( partition by srd.StoreBillCode order by srd.CreateDate desc) as rank1#(lf)  from `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_Route` sr#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_RouteDetail` srd on srd.RouteId = sr.id#(lf)  -- left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_RouteLog` srl on srl.RouterDetailID = srd.id#(lf)  left join SO_RouteLog_MN_Final as srl on srl.RouterDetailID = srd.id#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` driver ON driver.Id = srd.DriverStaffId#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` driverLog ON driverLog.Id = srl.DriverStaffId#(lf)  where#(lf)    srd.DeleteDate is null --and srl.TakeDate IS NOT NULL #(lf)    AND date(_airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH) #(lf))#(lf)#(lf), RT2_MN_final as (#(lf)  select * #(lf)  from RT2_MN#(lf)  where #(lf)    rank1 = 1 #(lf)    and `Tài xế bấm giao hàng thành công` is not null#(lf))#(lf)-------------Miền Bắc----------------------#(lf), SO_RouteLog_MB as (#(lf)  select *,#(lf)        rank() over( partition by RouterDetailId order by PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S',StartDate) desc) as rank1#(lf)  from `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_RouteLog`#(lf)  where#(lf)    IsFinal = TRUE#(lf)    AND IsTransit IS NULL#(lf)),#(lf)#(lf)SO_RouteLog_MB_Final as (#(lf)  select *#(lf)  from SO_RouteLog_MB#(lf)  where#(lf)    rank1 = 1#(lf))#(lf)#(lf)#(lf), RT1_MB as (#(lf)  select #(lf)    srd.StoreBillCode,#(lf)    sr.Code as ma_RT,#(lf)    sr.CreateByName as `ma_nv_tao_rt`,#(lf)    srd.CreateDate as  `Thời gian tạo RT1`,#(lf)    -- sr.CreateDate as `Thời gian RT1 chuyển trạng thái sang HTTC Chưa Xác nhận`,#(lf)    if(srd.TransitStoreId is null, null, PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.TakeDate)) as `Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận`,#(lf)    srd.FinishDate as `Thời gian RT1_HT`,#(lf)    PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.StartDate) as `Tài xế nhận giao`,#(lf)    PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.EndDate) as `Tài xế bấm giao hàng thành công`,#(lf)    srd.StartDate as `Nhận lúc`,#(lf)    srd.TransitStoreId,#(lf)    CASE srd.StateId#(lf)        WHEN 1 THEN 'Mới tạo'#(lf)        WHEN 2 THEN 'Đang giao'#(lf)        WHEN 3 THEN 'Hoàn tất'#(lf)        WHEN 4 THEN 'Hủy giao chưa hoàn hàng'#(lf)        WHEN 5 THEN 'Hủy giao đã hoàn hàng'#(lf)        WHEN 7 THEN 'Đã giao đơn vị vận chuyển'#(lf)        WHEN 8 THEN 'HTTC chưa xác nhận'#(lf)        WHEN 9 THEN 'Tài xế từ chối nhận hàng'#(lf)        WHEN 10 THEN 'Hủy giao kho đã nhận hàng'#(lf)        WHEN 11 THEN 'Thả hàng chưa xác nhận'#(lf)        WHEN 12 THEN IF(srd.TransitStoreId IS NULL, 'Thả hàng đã xác nhận', 'HTTC đã xác nhận')#(lf)        ELSE NULL#(lf)      END AS tinh_trang_don,#(lf)    IFNULL(driverLog.Code, driver.Code) AS ma_tai_xe,#(lf)    rank() over( partition by srd.StoreBillCode order by srd.CreateDate asc) as rank1,#(lf)  from `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_Route` sr#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_RouteDetail` srd on srd.RouteId = sr.id#(lf)  -- left join `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_RouteLog` srl on srl.RouterDetailID = srd.id#(lf)  left join SO_RouteLog_MB_Final as srl on srl.RouterDetailID = srd.id#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` driver ON driver.Id = srd.DriverStaffId#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` driverLog ON driverLog.Id = srl.DriverStaffId#(lf)  where #(lf)    srd.DeleteDate is null #(lf)    AND date(_airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf))#(lf)#(lf), RT1_MB_Final as (#(lf)  select * #(lf)  from RT1_MB#(lf)  where #(lf)    rank1 = 1 #(lf)    and `Tài xế bấm giao hàng thành công` is not null#(lf))#(lf)#(lf), RT2_MB as (#(lf)  select #(lf)    srd.StoreBillCode,#(lf)    sr.Code as ma_RT,#(lf)    sr.CreateByName as `ma_nv_tao_rt`,#(lf)    srd.CreateDate as  `Thời gian tạo RT2`,#(lf)    srd.FinishDate as `Thời gian RT2_HT`,#(lf)    PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.StartDate) as `Tài xế nhận giao`,#(lf)    PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*S', srl.EndDate) as `Tài xế bấm giao hàng thành công`,#(lf)    srd.StartDate as `Nhận lúc`,#(lf)    srd.TransitStoreId,#(lf)    CASE srd.StateId#(lf)        WHEN 1 THEN 'Mới tạo'#(lf)        WHEN 2 THEN 'Đang giao'#(lf)        WHEN 3 THEN 'Hoàn tất'#(lf)        WHEN 4 THEN 'Hủy giao chưa hoàn hàng'#(lf)        WHEN 5 THEN 'Hủy giao đã hoàn hàng'#(lf)        WHEN 7 THEN 'Đã giao đơn vị vận chuyển'#(lf)        WHEN 8 THEN 'HTTC chưa xác nhận'#(lf)        WHEN 9 THEN 'Tài xế từ chối nhận hàng'#(lf)        WHEN 10 THEN 'Hủy giao kho đã nhận hàng'#(lf)        WHEN 11 THEN 'Thả hàng chưa xác nhận' #(lf)        WHEN 12 THEN IF(srd.TransitStoreId IS NULL, 'Thả hàng đã xác nhận', 'HTTC đã xác nhận')#(lf)        ELSE NULL#(lf)      END AS tinh_trang_don,#(lf)    IFNULL(driverLog.Code, driver.Code) AS ma_tai_xe,#(lf)    rank() over( partition by srd.StoreBillCode order by srd.CreateDate desc) as rank1#(lf)  from `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_Route` sr#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_RouteDetail` srd on srd.RouteId = sr.id#(lf)  -- left join `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_RouteLog` srl on srl.RouterDetailID = srd.id#(lf)  left join SO_RouteLog_MB_Final as srl on srl.RouterDetailID = srd.id#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` driver ON driver.Id = srd.DriverStaffId#(lf)  left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` driverLog ON driverLog.Id = srl.DriverStaffId#(lf)  where#(lf)    srd.DeleteDate is null #(lf)    and date(_airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf))#(lf)#(lf), RT2_MB_final as (#(lf)  select * #(lf)  from RT2_MB#(lf)  where #(lf)    rank1 = 1 #(lf)    and `Tài xế bấm giao hàng thành công` is not null#(lf))#(lf)-------------Yêu cầu điều chuyển----------------#(lf)#(lf)-- Miền Nam --#(lf), YCDC_MN as (#(lf)  SELECT #(lf)      UPPER(endS.Code) AS `Kho cho hàng`,#(lf)      UPPER(strS.Code) AS `Kho nhận hàng`,#(lf)      sto.AutoCode AS `Số phiếu`,#(lf)      sto.CreatedDate AS `Ngày lập`,#(lf)      ag.Autocode AS `Phiếu chuyển`,#(lf)      ag.CreateDate AS `Ngày lập phiếu chuyển`,#(lf)      asb.ConfirmByDate AS `Ngày xác nhận`,#(lf)      sto.CreatedById AS `Mã người lập`,#(lf)      p.ma_hang AS `Mã hàng`,#(lf)      Shared_Product.IsOversize,#(lf)      CASE#(lf)        WHEN REGEXP_CONTAINS(UPPER(strS.Name), r'(KM|KHO MUON)') THEN 'Khác'#(lf)        WHEN ag.Description = 'Tự động từ cân hàng' THEN 'Cân hàng'#(lf)        WHEN ag.Description = 'Tự động từ chia hàng' THEN 'Chia hàng'#(lf)        WHEN NOT REGEXP_CONTAINS(UPPER(endS.Name), r'(KHO)')#(lf)          AND NOT REGEXP_CONTAINS(UPPER(strS.Name), r'(KHO)') THEN 'Xin hàng'#(lf)        ELSE 'Khác'#(lf)      END AS `Lý do YCDC`,#(lf)      rt1.ma_RT as RT1,#(lf)      rt1.TransitStoreId,#(lf)      rt1.`Thời gian tạo RT1`,#(lf)      rt1.`Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận`,#(lf)      rt1.`Thời gian RT1_HT`,#(lf)      rt1.ma_tai_xe as ma_tai_xe_RT1,#(lf)      rt1.`Tài xế nhận giao` as `Tài xế nhận giao RT1`,#(lf)      rt1.`Tài xế bấm giao hàng thành công` as `Tài xế bấm giao hàng thành công RT1`,#(lf)      rt1.`Nhận lúc` as `Nhận lúc RT1`,#(lf)      rt2.ma_RT as RT2,#(lf)      rt2.`Thời gian tạo RT2`,#(lf)      rt2.`Thời gian RT2_HT`,#(lf)      rt2.ma_tai_xe as ma_tai_xe_RT2,#(lf)      rt2.`Tài xế nhận giao` as `Tài xế nhận giao RT2`,#(lf)      rt2.`Tài xế bấm giao hàng thành công` as `Tài xế bấm giao hàng thành công RT2`,#(lf)      rt2.`Nhận lúc` as `Nhận lúc RT2`,#(lf)      -- rpt.data_source,#(lf)      'Miền Nam' AS `Miền`,#(lf)      SUM(asbd.Quantity) AS Quantity#(lf)  from `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_TransferOrder` sto#(lf)  INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Store_TransferOrderDetail` stod ON stod.OrderId = sto.Id#(lf)  INNER JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_General` ag ON sto.DeliveryNo = ag.Autocode#(lf)  INNER JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBill` asb ON asb.Id = ag.Id#(lf)  INNER JOIN `cellphones-data-platform.sqlserver_dprt_hcm_dbo.vw_Acc_StoreBillDetail` asbd ON asbd.StoreBillId = ag.Id AND stod.ProductId = asbd.ProductId#(lf)  INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` strS ON strS.Id = asbd.InputStoreId#(lf)  INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Store` endS ON endS.Id = asbd.OutputStoreId#(lf)  INNER JOIN `cellphones-data-platform.cps_DA_General_Transform.dim_product` p ON p.product_id = asbd.ProductId#(lf)  LEFT JOIN  (#(lf)              select *#(lf)              from `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Product`#(lf)              where#(lf)                  IsOversize = true#(lf)             ) as  Shared_Product on Shared_Product.id = p.product_id#(lf)  INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` sp ON sp.id = sto.CreatedById#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` ee ON ee.id = sp.id#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department` sd ON sd.id = ee.DepartmentId#(lf)  LEFT JOIN RT1_MN_Final as rt1 on rt1.StoreBillCode = ag.Autocode#(lf)  LEFT JOIN RT2_MN_Final as rt2 on rt2.StoreBillCode = ag.Autocode#(lf)  WHERE #(lf)      sto.StateId = 8#(lf)      AND ag.BillTypeId = 1#(lf)      AND ag.ReplaceById IS NULL#(lf)      AND DATE(asb.ConfirmByDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH) #(lf)      --AND DATE(asbd._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)      --AND DATE(ag._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)      AND DATE(stod._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)      AND DATE(sto.CreatedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  GROUP BY #(lf)      endS.Code,#(lf)      strS.Code,#(lf)      sto.AutoCode,#(lf)      sto.CreatedDate,#(lf)      ag.Autocode,#(lf)      ag.CreateDate,#(lf)      asb.ConfirmByDate,#(lf)      sto.CreatedById,#(lf)      p.ma_hang,#(lf)      strS.Name,#(lf)      ag.Description,#(lf)      endS.Name,#(lf)      RT1,#(lf)      TransitStoreId,#(lf)      `Thời gian tạo RT1`,#(lf)      `Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận`,#(lf)      `Thời gian RT1_HT`,#(lf)      `Tài xế nhận giao RT1`,#(lf)      `Tài xế bấm giao hàng thành công RT1`,#(lf)      `Nhận lúc RT1`,#(lf)      RT2,#(lf)      `Thời gian tạo RT2`,#(lf)      `Thời gian RT2_HT`,#(lf)      `Tài xế nhận giao Rt2`,#(lf)      `Tài xế bấm giao hàng thành công Rt2`,#(lf)      `Nhận lúc RT2`,#(lf)      Shared_Product.IsOversize,#(lf)      ma_tai_xe_RT1,#(lf)      ma_tai_xe_RT2#(lf))#(lf)#(lf)-- Miền Bắc --#(lf), YCDC_MB as (#(lf)    SELECT #(lf)      UPPER(endS.Code) AS `Kho cho hàng`,#(lf)      UPPER(strS.Code) AS `Kho nhận hàng`,#(lf)      sto.AutoCode AS `Số phiếu`,#(lf)      sto.CreatedDate AS `Ngày lập`,#(lf)      ag.Autocode AS `Phiếu chuyển`,#(lf)      ag.CreateDate AS `Ngày lập phiếu chuyển`,#(lf)      asb.ConfirmByDate AS `Ngày xác nhận`,#(lf)      sto.CreatedById AS `Mã người lập`,#(lf)      p.ma_hang AS `Mã hàng`,#(lf)      Shared_Product.IsOversize,#(lf)      CASE#(lf)        WHEN REGEXP_CONTAINS(UPPER(strS.Name), r'(KM|KHO MUON)') THEN 'Khác'#(lf)        WHEN ag.Description = 'Tự động từ cân hàng' THEN 'Cân hàng'#(lf)        WHEN ag.Description = 'Tự động từ chia hàng' THEN 'Chia hàng'#(lf)        WHEN NOT REGEXP_CONTAINS(UPPER(endS.Name), r'(KHO)')#(lf)          AND NOT REGEXP_CONTAINS(UPPER(strS.Name), r'(KHO)') THEN 'Xin hàng'#(lf)        ELSE 'Khác'#(lf)      END AS `Lý do YCDC`,#(lf)      rt1.ma_RT as RT1,#(lf)      rt1.TransitStoreId,#(lf)      rt1.`Thời gian tạo RT1`,#(lf)      rt1.`Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận`,#(lf)      rt1.`Thời gian RT1_HT`,#(lf)      rt1.ma_tai_xe as ma_tai_xe_RT1,#(lf)      rt1.`Tài xế nhận giao` as `Tài xế nhận giao RT1`,#(lf)      rt1.`Tài xế bấm giao hàng thành công` as `Tài xế bấm giao hàng thành công RT1`,#(lf)      rt1.`Nhận lúc` as `Nhận lúc RT1`,#(lf)      rt2.ma_RT as RT2,#(lf)      rt2.`Thời gian tạo RT2`,#(lf)      rt2.`Thời gian RT2_HT`,#(lf)      rt1.ma_tai_xe as ma_tai_xe_RT2,#(lf)      rt2.`Tài xế nhận giao` as `Tài xế nhận giao RT2`,#(lf)      rt2.`Tài xế bấm giao hàng thành công` as `Tài xế bấm giao hàng thành công RT2`,#(lf)      rt2.`Nhận lúc` as `Nhận lúc RT2`,#(lf)      -- rpt.data_source,#(lf)      'Miền Bắc' AS `Miền`,#(lf)      SUM(asbd.Quantity) AS Quantity#(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.Store_TransferOrder` sto#(lf)  INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Store_TransferOrderDetail` stod ON stod.OrderId = sto.Id#(lf)  INNER JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_General` ag ON sto.DeliveryNo = ag.Autocode#(lf)  INNER JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBill` asb ON asb.Id = ag.Id#(lf)  INNER JOIN `cellphones-data-platform.sqlserver_htv_hn_dbo.vw_Acc_StoreBillDetail` asbd ON asbd.StoreBillId = ag.Id AND stod.ProductId = asbd.ProductId#(lf)  INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` strS ON strS.Id = asbd.InputStoreId#(lf)  INNER JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.ERP_Store` endS ON endS.Id = asbd.OutputStoreId#(lf)  INNER JOIN `cellphones-data-platform.cps_DA_General_Transform.dim_product` p ON p.product_id = asbd.ProductId#(lf)    LEFT JOIN  (#(lf)              select *#(lf)              from `cellphones-data-platform.cps_cdc_sep_hn_dbo.Shared_Product`#(lf)              where#(lf)                  IsOversize = true#(lf)             ) as  Shared_Product on Shared_Product.id = p.product_id#(lf)  INNER JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person` sp ON sp.id = sto.CreatedById#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee` ee ON ee.id = sp.id#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department` sd ON sd.id = ee.DepartmentId#(lf)  LEFT JOIN RT1_MB_Final as rt1 on rt1.StoreBillCode = ag.Autocode#(lf)  LEFT JOIN RT2_MB_Final as rt2 on rt2.StoreBillCode = ag.Autocode#(lf)  WHERE #(lf)    1=1#(lf)    AND sto.StateId = 8#(lf)    AND ag.BillTypeId = 1#(lf)    AND ag.ReplaceById IS NULL#(lf)    AND DATE(asb.ConfirmByDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)    --AND DATE(asbd._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)    --AND DATE(ag._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)    AND DATE(stod._airbyte_emitted_at) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)    AND DATE(sto.CreatedDate) >= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH), MONTH)#(lf)  GROUP BY#(lf)      endS.Code,#(lf)      strS.Code,#(lf)      sto.AutoCode,#(lf)      sto.CreatedDate,#(lf)      ag.Autocode,#(lf)      ag.CreateDate,#(lf)      asb.ConfirmByDate,#(lf)      sto.CreatedById,#(lf)      p.ma_hang,#(lf)      strS.Name,#(lf)      ag.Description,#(lf)      endS.Name,#(lf)      RT1,#(lf)      TransitStoreId,#(lf)      `Thời gian tạo RT1`,#(lf)      `Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận`,#(lf)      `Thời gian RT1_HT`,#(lf)      `Tài xế nhận giao RT1`,#(lf)      `Tài xế bấm giao hàng thành công RT1`,#(lf)      `Nhận lúc RT1`,#(lf)      RT2,#(lf)      `Thời gian tạo RT2`,#(lf)      `Thời gian RT2_HT`,#(lf)      `Tài xế nhận giao Rt2`,#(lf)      `Tài xế bấm giao hàng thành công Rt2`,#(lf)      `Nhận lúc RT2`,#(lf)      Shared_Product.IsOversize,#(lf)      ma_tai_xe_RT1,#(lf)      ma_tai_xe_RT2#(lf))#(lf)#(lf)  select #(lf)      `Kho cho hàng`,#(lf)      `Kho nhận hàng`,#(lf)      `Số phiếu`,#(lf)      `Ngày lập`,#(lf)      `Phiếu chuyển`,#(lf)      `Ngày lập phiếu chuyển`,#(lf)      `Ngày xác nhận`,#(lf)      `Mã người lập`,#(lf)      `Mã hàng`,#(lf)      IsOversize,#(lf)      `Lý do YCDC`,#(lf)      RT1,#(lf)      TransitStoreId,#(lf)      `Thời gian tạo RT1`,#(lf)      `Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận`,#(lf)      `Thời gian RT1_HT`,#(lf)      ma_tai_xe_RT1,#(lf)      `Tài xế nhận giao RT1`,#(lf)      `Tài xế bấm giao hàng thành công RT1`,#(lf)      `Nhận lúc RT1`,#(lf)      if(TransitStoreId is null, null, RT2) as RT2,#(lf)      if(TransitStoreId is null, null, `Thời gian tạo RT2`) as `Thời gian tạo RT2`,#(lf)      if(TransitStoreId is null, null, `Thời gian RT2_HT`) as `Thời gian RT2_HT`,#(lf)      if(TransitStoreId is null, null, ma_tai_xe_RT2) as ma_tai_xe_RT2,#(lf)      if(TransitStoreId is null, null, `Tài xế nhận giao RT2`) as `Tài xế nhận giao RT2`,#(lf)      if(TransitStoreId is null, null, `Tài xế bấm giao hàng thành công RT2`) as `Tài xế bấm giao hàng thành công RT2`,#(lf)      if(TransitStoreId is null, null, `Nhận lúc RT2`) as `Nhận lúc RT2`,#(lf)      -- rpt.data_source,#(lf)      `Miền`,#(lf)      Quantity#(lf)  from YCDC_MB#(lf)  where `Lý do YCDC` IN ('Cân hàng', 'Xin hàng', 'Chia hàng') #(lf)union all#(lf)    select #(lf)      `Kho cho hàng`,#(lf)      `Kho nhận hàng`,#(lf)      `Số phiếu`,#(lf)      `Ngày lập`,#(lf)      `Phiếu chuyển`,#(lf)      `Ngày lập phiếu chuyển`,#(lf)      `Ngày xác nhận`,#(lf)      `Mã người lập`,#(lf)      `Mã hàng`,#(lf)      IsOversize,#(lf)      `Lý do YCDC`,#(lf)      RT1,#(lf)      TransitStoreId,#(lf)      `Thời gian tạo RT1`,#(lf)      `Thời gian RT1 chuyển trạng thái sang HTTC Đã xác nhận`,#(lf)      `Thời gian RT1_HT`,#(lf)      ma_tai_xe_RT1,#(lf)      `Tài xế nhận giao RT1`,#(lf)      `Tài xế bấm giao hàng thành công RT1`,#(lf)      `Nhận lúc RT1`,#(lf)      if(TransitStoreId is null, null, RT2) as RT2,#(lf)      if(TransitStoreId is null, null, `Thời gian tạo RT2`) as `Thời gian tạo RT2`,#(lf)      if(TransitStoreId is null, null, `Thời gian RT2_HT`) as `Thời gian RT2_HT`,#(lf)      if(TransitStoreId is null, null, ma_tai_xe_RT2) as ma_tai_xe_RT2,#(lf)      if(TransitStoreId is null, null, `Tài xế nhận giao RT2`) as `Tài xế nhận giao RT2`,#(lf)      if(TransitStoreId is null, null, `Tài xế bấm giao hàng thành công RT2`) as `Tài xế bấm giao hàng thành công RT2`,#(lf)      if(TransitStoreId is null, null, `Nhận lúc RT2`) as `Nhận lúc RT2`,#(lf)      -- rpt.data_source,#(lf)      `Miền`,#(lf)      Quantity#(lf)  from YCDC_MN#(lf)  where `Lý do YCDC` IN ('Cân hàng', 'Xin hàng', 'Chia hàng')", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

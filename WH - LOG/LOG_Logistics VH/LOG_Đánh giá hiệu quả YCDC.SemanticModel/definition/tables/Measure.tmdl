@@ -1,0 +1,939 @@
+table Measure
+	lineageTag: 7575a8fd-32c3-462f-bde6-59faae4ab74d
+
+	/// Số lượng sản phẩm YCDC đã xác nhận
+	measure 'Số lượng' = ```
+			
+			CALCULATE(
+			    SUM('F_Ycdc'[Quantity]),
+			    KEEPFILTERS('F_Ycdc'[Lý do YCDC] <> "Khác")
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: SL
+		lineageTag: e4fa86cf-3585-4537-9d52-3c490c46c213
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	/// Số phiếu YCDC đã xác nhận
+	measure YCDC =
+			--DISTINCTCOUNT(FACT_YCDC[Số phiếu])
+			        COUNT('F_Ycdc'[Số phiếu_SKU])
+			// CALCULATE(
+			//     COUNT('FACT_YCDC'[Số phiếu_SKU]),
+			//     FILTER(
+			//         'FACT_YCDC',
+			//         'FACT_YCDC'[Lý do YCDC] <> "Khác"
+			//     )
+			// )
+		formatString: #,0
+		displayFolder: YCDC
+		lineageTag: 4c61fc37-3545-4124-b8b2-4b36c603e88a
+
+	/// Thời gian tính từ ngày xác nhận YCDC đến ngày lập SP (DVT: Ngày)
+	measure 'TG bán hàng' = ```
+			
+			VAR TG =
+			    CALCULATE(
+			        AVERAGE('F_Ycdc'[TG_Xác nhận_Lập phiếu bán]),
+			        KEEPFILTERS('F_Ycdc'[Lý do YCDC] <> "Khác")
+			    )
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISINSCOPE('D_Employee'[Nhân viên]), BLANK(),
+			        TG
+			    )
+			
+			```
+		formatString: #,0.00
+		displayFolder: TG
+		lineageTag: 122611df-adaa-4d1e-ae3d-1c988a62d5cd
+
+	measure 'TG điều chuyển' = ```
+			
+			CALCULATE(
+			    AVERAGE('F_Ycdc'[TG_Xác nhận_Lập phiếu chuyển]),
+			    KEEPFILTERS('F_Ycdc'[Lý do YCDC] <> "Khác")
+			)
+			
+			```
+		displayFolder: TG
+		lineageTag: 41c49415-4306-4d71-9602-4601c6e616bd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// [DH] không có tồn hiện hành tại thời điểm lập DH
+	/// 
+	measure 'DH không tồn' = ```
+			
+			CALCULATE(
+			    [DH],
+			    KEEPFILTERS( ISBLANK('F_Dh'[Tồn]) )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: DH
+		lineageTag: 4a313788-3610-437b-86c3-b8f3d533d97f
+
+	/// Số đơn hàng có mã hàng bị lấy đi cân hàng/xin hàng trong 14 ngày
+	/// 
+	measure DH = ```
+			
+			CALCULATE(
+			    COUNTROWS('F_Dh'),
+			    KEEPFILTERS('D_Product'[loai_hang] <> "DỊCH VỤ")
+			)
+			
+			```
+		formatString: 0
+		displayFolder: DH
+		lineageTag: eb226c22-bf63-4762-992e-99eaba311184
+
+	measure '% DH không tồn' = ```
+			
+			VAR OOS =
+			DIVIDE(
+			    [DH không tồn],
+			    [DH],
+			    0
+			)
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    ISINSCOPE('D_Employee'[Nhân viên]), BLANK(),
+			    OOS
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: DH
+		lineageTag: c1884ffd-1b20-4e0b-b419-4d5e1c5ffb77
+
+	measure 'DC hợp lệ' = ```
+			
+			CALCULATE(
+			    [DC],
+			    KEEPFILTERS('F_Ycdc'[TG_Xác nhận_Lập phiếu chuyển] > 7)
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: DC
+		lineageTag: 12c09001-af64-4de7-b70b-bc3a229a3294
+
+	measure 'Tổng YCDC' =
+			
+			CALCULATE(
+			    [YCDC],
+			    ALLSELECTED('D_Date'[date])
+			)
+		formatString: #,0
+		displayFolder: YCDC
+		lineageTag: fdce32c6-318a-49a8-b95e-40e9afec9fe4
+
+	measure '% DC hợp lệ' =
+			
+			DIVIDE(
+			    [DC hợp lệ],
+			    [Tổng DC],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: DC
+		lineageTag: 4eacb9ca-62f9-4f2b-971b-ecd0334d32ee
+
+	/// [YCDC] có [TG bán hàng] trong 7 ngày
+	measure YCDC7 =
+			
+			VAR _updateDate = SELECTEDVALUE('LastUpdated'[update])
+			RETURN
+			CALCULATE(
+			    [YCDC],
+			    KEEPFILTERS(
+			        NOT ISBLANK('F_Ycdc'[Ngày lập SP]) &&
+			        'F_Ycdc'[TG_Xác nhận_Lập phiếu bán] <= 7 &&
+			        'F_Ycdc'[Ngày xác nhận_date] <= _updateDate - 7
+			    )
+			)
+			// CALCULATE(
+			//     [YCDC],
+			//     FILTER(
+			//         'F_Ycdc',
+			//         'F_Ycdc'[Ngày lập SP] <> BLANK()
+			//             && 'F_Ycdc'[TG_Xác nhận_Lập phiếu bán] <= 7
+			//             && 'F_Ycdc'[Ngày xác nhận_date] <= AVERAGE('LastUpdated'[update]) - 7
+			//     )
+			// )
+		formatString: #,0
+		displayFolder: YCDC
+		lineageTag: 5a6beb0e-ae3d-43a7-9ef6-73a95da4ba7d
+
+	measure '% YCDC7 theo SKU' =
+			
+			DIVIDE(
+			    [YCDC7],
+			    [Tổng YCDC7],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: YCDC
+		lineageTag: 46bf5d0c-800d-4839-8ab5-e472ac1b740e
+
+	/// Thời gian tính từ ngày lập YCDC đến ngày lập DC (DVT: Ngày)
+	measure 'TG lập DC' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG_Lập YCDC_Lập DC] <> BLANK() && 
+			            'F_Ycdc'[TG_Lập YCDC_Lập DC] <> 0
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG lập YCDC_lập DC", AVERAGE('F_Ycdc'[TG_Lập YCDC_Lập DC])
+			    ),
+			    [Avg_TG lập YCDC_lập DC]
+			)
+			```
+		displayFolder: TG
+		lineageTag: a182ba74-f70e-4314-8dcb-f69848c6c544
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Thời gian tính từ ngày lập DC đến ngày xác nhận (DVT: Ngày)
+	measure 'TG xác nhận hàng' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG_Lập DC_Xác nhận] <> BLANK() && 
+			            'F_Ycdc'[TG_Lập DC_Xác nhận] <> 0
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG_lập DC_xác nhận", AVERAGE('F_Ycdc'[TG_Lập DC_Xác nhận])
+			    ),
+			    [Avg_TG_lập DC_xác nhận]
+			)
+			
+			
+			
+			```
+		displayFolder: TG
+		lineageTag: 48f8358a-af54-462b-a1bb-137639482ffd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DC = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT('F_Ycdc'[Phiếu chuyển]),
+			        'F_Ycdc'[Lý do YCDC] <> "Khác"
+			    )
+			
+			```
+		formatString: 0
+		displayFolder: DC
+		lineageTag: 414dc740-d14e-4929-871a-f4841a2ed160
+
+	measure 'Tổng DC' =
+			
+			CALCULATE(
+			    [DC],
+			    FILTER(
+			        'F_Ycdc',
+			        'F_Ycdc'[TG_Xác nhận_Lập phiếu chuyển] <> BLANK()
+			            || ('F_Ycdc'[TG_Xác nhận_Lập phiếu chuyển] = BLANK() && 'F_Ycdc'[Ngày xác nhận_date] <= AVERAGE('LastUpdated'[update]) - 7)
+			    ),
+			    ALLSELECTED('D_Date'[date])
+			)
+		formatString: #,0
+		displayFolder: DC
+		lineageTag: 7ac45209-b49b-44bc-9ab4-db0abdd70c32
+
+	measure 'Thời gian cập nhật' =
+			
+			CALCULATE(
+			    MAX('F_Ycdc'[Ngày xác nhận]),
+			    ALL()
+			)
+		formatString: General Date
+		displayFolder: FILTER
+		lineageTag: ba75d0e0-095e-481d-8633-9f2accda4664
+
+	measure Update-Filtered = ```
+			
+			--Update
+			VAR zFmt_HeaderStart = 
+				"<a> <span style='color:#FFDA78'> <b> "
+			VAR zFmt_HeaderEnd = 
+				": </b> </a>"
+			VAR zUpdate_time =
+			    [Thời gian cập nhật]
+			VAR zUpdate = 
+				"<font_update> <span style='color:LightYellow'>
+			        <u> Cập nhật đến </u>: " & zUpdate_time & 
+			    "</font_update>" 
+			
+			--Thời gian
+			VAR zFil_Ngay =
+			    ISFILTERED( 'D_Date'[date] )
+			VAR zNgay =
+			    zFmt_HeaderStart & "Ngày" & zFmt_HeaderEnd
+			        & "Từ " & MIN('D_Date'[date])
+			        & " đến " & MAX('D_Date'[date]) & "."
+			
+			VAR zFil_NamThang =
+			    ISFILTERED( 'D_Date'[yearMonth])
+			VAR zNamThang =
+			    zFmt_HeaderStart & "Năm tháng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Date'[yearMonth] ), 'D_Date'[yearMonth] , ", " ) & "."
+			
+			VAR zFil_ThoiGian = 
+				zFil_Ngay + zFil_NamThang + 0
+			
+			--Chủ thể
+			VAR zFil_Mien =
+			    ISFILTERED( 'D_Region'[Miền] )
+			VAR zMien =
+			    zFmt_HeaderStart & "Miền" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Region'[Miền] ), 'D_Region'[Miền], ", " ) & "."
+			
+			VAR zFil_LyDoYCDC =
+			    ISFILTERED( 'D_YcdcReason'[Lý do YCDC] )
+			VAR zLyDoYCDC =
+			    zFmt_HeaderStart & "Lý do YCDC" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_YcdcReason'[Lý do YCDC] ), 'D_YcdcReason'[Lý do YCDC] , ", " ) & "."
+			
+			VAR zFil_VanPhongCongTy =
+			    ISFILTERED( 'D_Department'[hara_workplace_name] )
+			VAR zVanPhongCongTy =
+			    zFmt_HeaderStart & "Văn phòng/Công ty" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Department'[hara_workplace_name] ), 'D_Department'[hara_workplace_name], ", " ) & "."
+			
+			VAR zFil_TinhThanh =
+			    ISFILTERED( 'D_Department'[tinh_thanh_pho] )
+			VAR zTinhThanh =
+			    zFmt_HeaderStart & "Tỉnh thành" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Department'[tinh_thanh_pho] ), 'D_Department'[tinh_thanh_pho], ", " ) & "."
+			
+			VAR zFil_DonVi =
+			    ISFILTERED( 'D_Department'[bo_phan] )
+			VAR zDonVi =
+			    zFmt_HeaderStart & "Đơn vị" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Department'[bo_phan] ), 'D_Department'[bo_phan] , ", " ) & "."
+			
+			VAR zFil_NhanVien =
+			    ISFILTERED( 'D_Employee'[Nhân viên])
+			VAR zNhanVien =
+			    zFmt_HeaderStart & "Nhân viên" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Employee'[Nhân viên] ), 'D_Employee'[Nhân viên], ", " ) & "."
+			
+			VAR zFil_NhomHang =
+			    ISFILTERED( 'D_ProductGroup'[nhom_hang] )
+			VAR zNhomHang =
+			    zFmt_HeaderStart & "Nhóm hàng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_ProductGroup'[nhom_hang] ), 'D_ProductGroup'[nhom_hang], ", " ) & "."
+			
+			VAR zFil_Model =
+			    ISFILTERED( 'D_Product'[Model] )
+			VAR zModel =
+			    zFmt_HeaderStart & "Model" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Product'[Model] ), 'D_Product'[Model], ", " ) & "."
+			
+			VAR zFil_TenHang =
+			    ISFILTERED( 'D_Product'[ten_hang] )
+			VAR zTenHang =
+			    zFmt_HeaderStart & "Tên hàng" & zFmt_HeaderEnd
+			        & CONCATENATEX( VALUES( 'D_Product'[ten_hang] ), 'D_Product'[ten_hang], ", " ) & "."
+			
+			VAR zFil_ChuThe = 
+			    zFil_Mien + zFil_LyDoYCDC + zFil_VanPhongCongTy + zFil_TinhThanh + zFil_DonVi + zFil_NhanVien + zFil_NhomHang + zFil_Model + zFil_TenHang + 0
+				
+			--Final
+			VAR zFilter =
+			    IF(
+			        zFil_ThoiGian + 
+			        zFil_ChuThe = 0,
+			        BLANK(),
+			        "<br> <u> <span style='color:LightYellow'> Bộ lọc áp dụng:</u> "
+			            & IF( zFil_Ngay = TRUE, zNgay, BLANK() )
+			            & IF( zFil_NamThang = TRUE, zNamThang, BLANK() )
+			            & IF( zFil_Mien = TRUE, zMien, BLANK() )
+			            & IF( zFil_LyDoYCDC = TRUE, zLyDoYCDC, BLANK() )
+			            & IF( zFil_VanPhongCongTy = TRUE, zVanPhongCongTy, BLANK() )
+			            & IF( zFil_TinhThanh = TRUE, zTinhThanh, BLANK() )
+			            & IF( zFil_DonVi = TRUE, zDonVi, BLANK() )
+			            & IF( zFil_NhanVien = TRUE, zNhanVien, BLANK() )
+			            & IF( zFil_NhomHang = TRUE, zNhomHang, BLANK() )
+			            & IF( zFil_Model = TRUE, zModel, BLANK() )
+			            & IF( zFil_TenHang = TRUE, zTenHang, BLANK() )
+			    )
+			RETURN
+			    "<font_all> <i> <span style='color:#F5F5F5'>" & zUpdate & zFilter & "</font_all>"
+			```
+		displayFolder: FILTER
+		lineageTag: 10c632f6-58a7-4146-b68b-984b60517c69
+
+	measure Active = SIGN([YCDC] + [DH])
+		formatString: 0
+		displayFolder: FILTER
+		lineageTag: b7c317ea-ab33-4753-aca5-faaf9630ad46
+
+	measure '% DH không tồn_TB' =
+			
+			AVERAGEX(
+			    ALLSELECTED('D_Date'[dayName],'D_Date'[dayOfWeek]),
+			    [% DH không tồn]
+			)
+		displayFolder: DH
+		lineageTag: ec457e97-83e6-47f1-ba05-5a414ea8de48
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CF_DH = IF([% DH không tồn] >= [% DH không tồn_TB], "#EA8BB9", "#FDD3E8")
+		displayFolder: DH
+		lineageTag: cc21a625-3080-4401-a02d-803f2f365426
+
+	/// [YCDC] có [TG bán hàng] trong 14 ngày
+	measure YCDC14 =
+			
+			VAR _updateDate = SELECTEDVALUE('LastUpdated'[update])
+			RETURN
+			CALCULATE(
+			    [YCDC],
+			    KEEPFILTERS(
+			        NOT ISBLANK('F_Ycdc'[Ngày lập SP]) &&
+			        'F_Ycdc'[TG_Xác nhận_Lập phiếu bán] <= 14 &&
+			        'F_Ycdc'[Ngày xác nhận_date] <= _updateDate - 14
+			    )
+			)
+			
+			// CALCULATE(
+			//     [YCDC],
+			//     FILTER(
+			//         'F_Ycdc',
+			//         'F_Ycdc'[Ngày lập SP] <> BLANK()
+			//             && 'F_Ycdc'[TG_Xác nhận_Lập phiếu bán] <= 14
+			//             && 'F_Ycdc'[Ngày xác nhận_date] <= AVERAGE('LastUpdated'[update]) - 14
+			//     )
+			// )
+		formatString: 0
+		displayFolder: YCDC
+		lineageTag: ddea57b6-b84c-4f1c-b866-02eb4f41a767
+
+	measure '% YCDC14 theo SKU' =
+			
+			DIVIDE(
+			    [YCDC14],
+			    [Tổng YCDC14],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: YCDC
+		lineageTag: 8a8bcaf9-3632-4cf3-8c86-f1f680d67cd2
+
+	measure 'Title Bar_Đơn vị' =
+			
+			var z = SELECTEDVALUE('D_SelectedMeasure'[Measure])
+			var zResult = z & " theo Đơn vị"
+			return zResult
+		displayFolder: TITLE
+		lineageTag: 455c3479-ffbd-4e44-950b-702a040558a5
+
+	measure 'Selected_% YCDC7 | % YCDC14' =
+			
+			VAR Selection =
+			    SELECTEDVALUE ( 'D_SelectedMeasure'[Measure] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        Selection = "% YCDC7", [% YCDC7 theo SKU],
+			        Selection = "% YCDC14", [% YCDC14 theo SKU],
+			        [% YCDC1 theo SKU]
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Selected Measure
+		lineageTag: 54e55b9a-9527-47db-a7df-8690a261c833
+
+	measure 'Title Line_Lý do YCDC' =
+			
+			var z = SELECTEDVALUE('D_SelectedMeasure'[Measure])
+			var zResult = z & " theo Lý do YCDC"
+			return zResult
+		displayFolder: TITLE
+		lineageTag: 4c8c1d61-cdbd-4146-98a4-af2b3a8cb93e
+
+	measure 'Title Stacked Bar_Lý do YCDC và Miền' =
+			
+			var z = SELECTEDVALUE('D_SelectedMeasure'[Measure])
+			var zResult = z & " theo Lý do YCDC và Miền"
+			return zResult
+		displayFolder: TITLE
+		lineageTag: f8eae256-e16e-4cd6-8483-533604d245ba
+
+	measure 'Title Bar_Nhóm hàng' =
+			
+			var z = SELECTEDVALUE('D_SelectedMeasure'[Measure])
+			var zResult = z & " theo Nhóm hàng"
+			return zResult
+		displayFolder: TITLE
+		lineageTag: 380d8448-256f-426e-9db7-116364940ba5
+
+	measure 'Tổng YCDC7' =
+			
+			VAR _updateDate = SELECTEDVALUE('LastUpdated'[update])
+			RETURN
+			CALCULATE(
+			    [YCDC],
+			    KEEPFILTERS('F_Ycdc'[Ngày xác nhận_date] <= _updateDate - 7),
+			    ALLSELECTED('D_Date'[date])
+			)
+			
+			// CALCULATE(
+			//     [YCDC],
+			//     FILTER(
+			//         'F_Ycdc',
+			//         'F_Ycdc'[Ngày xác nhận_date] <= AVERAGE('LastUpdated'[update]) - 7
+			//     ),
+			//     ALLSELECTED('D_Date'[date])
+			// )
+		formatString: #,0
+		displayFolder: YCDC
+		lineageTag: a39187d2-1511-4190-8139-12bc28029c96
+
+	measure 'Tổng YCDC14' =
+			
+			VAR _updateDate = SELECTEDVALUE('LastUpdated'[update])
+			RETURN
+			CALCULATE(
+			    [YCDC],
+			    KEEPFILTERS('F_Ycdc'[Ngày xác nhận_date] <= _updateDate - 14),
+			    ALLSELECTED('D_Date'[date])
+			)
+			
+			// CALCULATE(
+			//     [YCDC],
+			//     FILTER(
+			//         'F_Ycdc',
+			//         'F_Ycdc'[Ngày xác nhận_date] <= AVERAGE('LastUpdated'[update]) - 14
+			//     ),
+			//     ALLSELECTED('D_Date'[date])
+			// )
+		formatString: #,0
+		displayFolder: YCDC
+		lineageTag: 9eed6a42-69d6-4d65-a53d-b0b7bd58f5d9
+
+	measure 'DH không tồn_Xuất SP' = ```
+			
+			CALCULATE(
+			    [DH không tồn],
+			    KEEPFILTERS( NOT ISBLANK('F_Dh'[PhieuBanLe]) )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: DH
+		lineageTag: c37f7dd0-a87a-4afc-bd73-82d357dbcc42
+
+	measure 'Số phiếu YCDC' = DISTINCTCOUNT('F_Ycdc'[Số phiếu])
+		formatString: #,0
+		displayFolder: YCDC
+		lineageTag: cd07d4cc-c5da-42b2-9203-801ba29c157a
+
+	measure 'Số phiếu DC' = DISTINCTCOUNT('F_Ycdc'[Phiếu chuyển])
+		formatString: #,0
+		displayFolder: YCDC
+		lineageTag: 7062b9c0-ba42-4769-9372-747509318d3b
+
+	measure '% DC/YCDC' =
+			
+			DIVIDE(
+			    [Số phiếu DC],
+			    [Số phiếu YCDC],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: YCDC
+		lineageTag: ee144e39-5106-4fdd-9761-85abbcde94f5
+
+	measure 'TG tồn CH đến lúc bán' = ```
+			
+			CALCULATE(
+			    AVERAGE('F_Ycdc'[TG tồn CH đến lúc bán]),
+			    KEEPFILTERS( NOT ISBLANK('F_Ycdc'[TG tồn CH đến lúc bán]) )
+			)
+			
+			```
+		displayFolder: TG
+		lineageTag: 6a8003e1-5d0e-4ee5-8136-d8b9dcd66f94
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG tồn CH đến chuyển kho' = ```
+			
+			CALCULATE(
+			    AVERAGE('F_Ycdc'[TG tồn CH đến lúc chuyển kho]),
+			    KEEPFILTERS( NOT ISBLANK('F_Ycdc'[TG tồn CH đến lúc chuyển kho]) )
+			)
+			
+			```
+		displayFolder: TG
+		lineageTag: 4bb54b2b-aae2-4a8d-8d38-f15b7b21b3f9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'SKU chuyển kho theo YCDC' = ```
+			
+			CALCULATE(
+			    COUNTROWS('F_Ycdc'),
+			        'F_Ycdc'[TG tồn CH đến lúc chuyển kho] <> BLANK()
+			    )
+			
+			```
+		formatString: 0
+		displayFolder: YCDC
+		lineageTag: fe4e90be-ff45-44af-bb5f-168f87c49a04
+
+	measure 'SKU có thời gian tồn CH14' = ```
+			
+			CALCULATE(
+			    [SKU chuyển kho theo YCDC],
+			    KEEPFILTERS('F_Ycdc'[TG tồn CH đến lúc chuyển kho] <= 14)
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: YCDC
+		lineageTag: 6bc09024-b823-49d1-9fe2-5d66b4bbd289
+
+	measure '% SKU có tồn CH14 chuyển kho' =
+			
+			DIVIDE(
+			    [SKU có thời gian tồn CH14],
+			    [SKU chuyển kho theo YCDC],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: YCDC
+		lineageTag: 96f22a33-559f-4ca2-b288-eb59a273cf66
+
+	measure 'CR_DH không tồn' =
+			
+			DIVIDE(
+			    [DH không tồn_Xuất SP],
+			    [DH không tồn],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: DH
+		lineageTag: 4eaacd6f-e084-4886-9e41-1f6e8ac823af
+
+	measure 'TG tại kho tổng' = ```
+			
+			CALCULATE(
+			    AVERAGE('F_Logistics'[Thời gian tại kho phân loại]),
+			    KEEPFILTERS( NOT ISBLANK('F_Logistics'[Thời gian tại kho phân loại]) )
+			)
+			
+			```
+		displayFolder: TG
+		lineageTag: 8d3157bf-1793-4307-88d6-83b974a020ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG trưng bày đến lúc bán' = ```
+			
+			CALCULATE(
+			    [TG tồn CH đến lúc bán],
+			    KEEPFILTERS( NOT ISBLANK('F_Ycdc'[PriceTag]) )
+			)
+			
+			```
+		displayFolder: TG
+		lineageTag: e9fecf10-4492-435b-8db9-a2b3431a9c80
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG trưng bày đến chuyển kho' = ```
+			
+			CALCULATE(
+			    [TG tồn CH đến chuyển kho],
+			    KEEPFILTERS( NOT ISBLANK('F_Ycdc'[PriceTag]) )
+			)
+			
+			```
+		displayFolder: TG
+		lineageTag: 56261e31-8771-447a-a707-a8750df85282
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Số lần chuyển kho đến khi bán' =
+			
+			VAR zSP = DISTINCTCOUNT('F_Dc_Imei'[imei])
+			VAR zDC = COUNTROWS('F_Dc_Imei')
+			RETURN
+			DIVIDE(
+			    zDC,
+			    zSP
+			)
+		displayFolder: YCDC
+		lineageTag: f58b8c8f-bab0-4318-bee6-6da6d1864e5f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure YCDC1 =
+			
+			VAR _updateDate = SELECTEDVALUE('LastUpdated'[update])
+			RETURN
+			CALCULATE(
+			    [YCDC],
+			    KEEPFILTERS(
+			        NOT ISBLANK('F_Ycdc'[Ngày lập SP]) &&
+			        'F_Ycdc'[TG_Xác nhận_Lập phiếu bán] <= 1 &&
+			        'F_Ycdc'[Ngày xác nhận_date] <= _updateDate - 1
+			    )
+			)
+			
+			// CALCULATE(
+			//     [YCDC],
+			//     FILTER(
+			//         'F_Ycdc',
+			//         'F_Ycdc'[Ngày lập SP] <> BLANK()
+			//             && 'F_Ycdc'[TG_Xác nhận_Lập phiếu bán] <= 1
+			//             && 'F_Ycdc'[Ngày xác nhận_date] <= AVERAGE('LastUpdated'[update]) - 1
+			//     )
+			// )
+		formatString: 0
+		displayFolder: YCDC
+		lineageTag: f2c4d571-4bb5-47e8-a347-0a42b093cfb2
+
+	measure 'Tổng YCDC1' =
+			
+			VAR _updateDate = AVERAGE('LastUpdated'[update])
+			RETURN
+			CALCULATE(
+			    [YCDC],
+			    KEEPFILTERS('F_Ycdc'[Ngày xác nhận_date] <= _updateDate - 1),
+			    ALLSELECTED('D_Date'[date])
+			)
+			
+			// CALCULATE(
+			//     [YCDC],
+			//     FILTER(
+			//         'F_Ycdc',
+			//         'F_Ycdc'[Ngày xác nhận_date] <= AVERAGE('LastUpdated'[update]) - 1
+			//     ),
+			//     ALLSELECTED('D_Date'[date])
+			// )
+		formatString: 0
+		displayFolder: YCDC
+		lineageTag: 58b1a65f-b012-4d58-9d66-365cbf1faae4
+
+	measure '% YCDC1 theo SKU' =
+			
+			DIVIDE(
+			    [YCDC1],
+			    [Tổng YCDC1],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: YCDC
+		lineageTag: 91b62806-94a2-4814-9ff0-440add439b5c
+
+	measure 'Selected_YCDC7 | YCDC14 theo SKU' =
+			
+			VAR Selection =
+			    SELECTEDVALUE ( 'D_SelectedMeasure'[Measure] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        Selection = "% YCDC7", [YCDC7],
+			        [YCDC14]
+			    )
+		formatString: 0
+		displayFolder: Selected Measure
+		lineageTag: 05c65b4d-8769-4dc7-a078-bdbb321f4ed7
+
+	measure 'TG chờ lấy hàng' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG chờ lấy hàng] <> BLANK() && 
+			            'F_Ycdc'[TG chờ lấy hàng] <> 0
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG chờ lấy hàng", AVERAGE('F_Ycdc'[TG chờ lấy hàng])
+			    ),
+			    [Avg_TG chờ lấy hàng]
+			)
+			```
+		lineageTag: bc3b1d9f-e43d-4825-8f55-a19bd952122d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG lập RT tại Shop' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG lập RT] <> BLANK() && 
+			            'F_Ycdc'[TG lập RT] <> 0
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG lập RT", AVERAGE('F_Ycdc'[TG lập RT])
+			    ),
+			    [Avg_TG lập RT]
+			)
+			
+			
+			
+			```
+		lineageTag: 995c05c0-15fc-4ced-8882-e349283a66f2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG trung chuyển về kho' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG trung chuyển về kho] <> BLANK() && 
+			            'F_Ycdc'[TG trung chuyển về kho] <> 0 &&
+			            'F_Ycdc'[DC_Type] <> "SHOP - SHOP"
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG trung chuyển về kho", AVERAGE('F_Ycdc'[TG trung chuyển về kho])
+			    ),
+			    [Avg_TG trung chuyển về kho]
+			)
+			```
+		lineageTag: 8472e7f5-c916-4a08-97a2-bbfd7facd9bd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG xử lý hàng hóa ở kho' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG xử lý hàng hóa ở kho] <> BLANK() && 
+			            'F_Ycdc'[TG xử lý hàng hóa ở kho] <> 0 &&
+			            'F_Ycdc'[DC_Type] <> "SHOP - SHOP"
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG xử lý hàng hóa ở kho", AVERAGE('F_Ycdc'[TG xử lý hàng hóa ở kho])
+			    ),
+			    [Avg_TG xử lý hàng hóa ở kho]
+			)
+			```
+		lineageTag: dc6411ca-b133-4c24-89cf-563925fdf2be
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG chờ giao' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG chờ giao] <> BLANK() && 
+			            'F_Ycdc'[TG chờ giao] <> 0 &&
+			            'F_Ycdc'[DC_Type] <> "SHOP - SHOP"
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG chờ giao", AVERAGE('F_Ycdc'[TG chờ giao])
+			    ),
+			    [Avg_TG chờ giao]
+			)
+			```
+		lineageTag: c9c3d174-e9c3-4c08-9b52-a4cf0883e8e5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG giao hàng' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG giao hàng] <> BLANK() && 
+			            'F_Ycdc'[TG giao hàng] <> 0
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG giao hàng", AVERAGE('F_Ycdc'[TG giao hàng])
+			    ),
+			    [Avg_TG giao hàng]
+			)
+			```
+		lineageTag: cf1c32e4-8244-45a8-890a-0d39546041f3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TG xác nhận tại shop' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[TG xác nhận tại shop] <> BLANK() && 
+			            'F_Ycdc'[TG xác nhận tại shop] <> 0
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TG xác nhận tại shop", AVERAGE('F_Ycdc'[TG xác nhận tại shop])
+			    ),
+			    [Avg_TG xác nhận tại shop]
+			)
+			```
+		lineageTag: d4147f26-cc15-41b7-9aaf-e97d4d149401
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total leadtime YCC' = ```
+			
+			AVERAGEX(
+			    SUMMARIZE(
+			        FILTER(
+			            'F_Ycdc',
+			            'F_Ycdc'[Total leadtime YCC] <> BLANK() && 
+			            'F_Ycdc'[Total leadtime YCC] <> 0
+			        ),
+			        'F_Ycdc'[Phiếu chuyển],
+			        "Avg_TTotal leadtime YCC", AVERAGE('F_Ycdc'[Total leadtime YCC])
+			    ),
+			    [Avg_TTotal leadtime YCC]
+			)
+			
+			
+			
+			```
+		lineageTag: 3d892627-b58b-452e-8366-98daa88e58e5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 3a9fe2b4-563d-40e1-8655-97e3ca1c7fc8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 6c75986621df4e29949c06ba4cfaa100
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

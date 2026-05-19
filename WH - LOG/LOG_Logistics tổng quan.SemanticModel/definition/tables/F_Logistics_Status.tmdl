@@ -1,0 +1,142 @@
+table F_Logistics_Status
+	lineageTag: a1818ae2-31a4-4067-83f8-f89438d8e749
+
+	column 'Ngày tạo chuyến đi' =
+			
+			CALCULATE(
+			    MAX(
+			        'F_Logistics'[Ngày tạo chuyến đi]
+			    ),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Số phiếu] = EARLIER('F_Logistics_Status'[Số phiếu])
+			    )
+			)
+		formatString: General Date
+		lineageTag: 3dadd5cd-196e-409f-b65f-bd290fb3279f
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 02cd73a3-b1e1-4c5e-9314-a607cbd7104d
+			defaultHierarchy: LocalDateTable_e47c36f8-d449-4c95-94c9-6424af26d4d9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tình trạng đơn' =
+			
+			CALCULATE(
+			    LASTNONBLANK(
+			        'F_Logistics'[Tình trạng đơn],
+			        1
+			    ),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Số phiếu] = 'F_Logistics_Status'[Số phiếu]
+			            && 'F_Logistics'[Ngày tạo chuyến đi] = 'F_Logistics_Status'[Ngày tạo chuyến đi]
+			    )
+			)
+		lineageTag: 6a0913ab-be8e-4500-b03a-e0559df8b536
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tính chất phiếu giao' =
+			
+			SWITCH (
+			    TRUE (),
+			    FIND ( "SP.", 'F_Logistics_Status'[Số phiếu], 1, 0 ) > 0, "SP",
+			    FIND ( "DC.", 'F_Logistics_Status'[Số phiếu], 1, 0 ) > 0, "DC",
+			    "Khác"
+			)
+		lineageTag: 7d3d4a8f-f39c-465e-9248-6d94f58d9f3a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date = [Ngày tạo chuyến đi].[Date]
+		formatString: Short Date
+		lineageTag: 62559645-5f0c-49b5-b442-785fe8506aee
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Mã tài xế' =
+			
+			CALCULATE(
+			    LASTNONBLANK(
+			        'F_Logistics'[Mã tài xế],
+			        1
+			    ),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Số phiếu] = EARLIER('F_Logistics_Status'[Số phiếu]) &&
+			        'F_Logistics'[Ngày tạo chuyến đi] = EARLIER('F_Logistics_Status'[Ngày tạo chuyến đi])
+			    )
+			)
+		lineageTag: d43a1ad3-ac13-40ee-b2ac-6323fc04f349
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên xe' =
+			
+			CALCULATE(
+			    LASTNONBLANK(
+			        'F_Logistics'[Tên xe],
+			        1
+			    ),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Số phiếu] = 'F_Logistics_Status'[Số phiếu]
+			            && 'F_Logistics'[Ngày tạo chuyến đi] = 'F_Logistics_Status'[Ngày tạo chuyến đi]
+			    )
+			)
+		lineageTag: 95aad3d7-7510-4c79-93fb-5b1e0751227c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng' =
+			
+			CALCULATE(
+			    LASTNONBLANK(
+			        'F_Logistics'[Cửa hàng],
+			        1
+			    ),
+			    FILTER(
+			        'F_Logistics',
+			        'F_Logistics'[Số phiếu] = 'F_Logistics_Status'[Số phiếu]
+			            && 'F_Logistics'[Ngày tạo chuyến đi] = 'F_Logistics_Status'[Ngày tạo chuyến đi]
+			    )
+			)
+		lineageTag: 7dbde683-d5f6-4c11-8bfa-fe5977505b04
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Số phiếu'
+		lineageTag: 4372a231-72ee-4992-9c88-ac40d810b8b6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: F_Logistics[Số phiếu]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Logistics_Status = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(
+				    FILTER(
+				        'F_Logistics',
+				        LEFT('F_Logistics'[Mã chuyến đi], 3) = "RT." &&
+				        'F_Logistics'[Ngày tạo chuyến đi] >= DATE(YEAR(TODAY()), MONTH(TODAY()) - 3, 1)
+				    ),
+				    'F_Logistics'[Số phiếu]
+				)
+
+	annotation PBI_Id = 157f57d4176b4b6788c1cca506df8e98
+

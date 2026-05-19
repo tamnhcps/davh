@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "VH_Xử lý Đơn hàng_new"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d1761df9-5017-4566-b748-417336d3216c"
+  }
+}

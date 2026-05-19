@@ -1,0 +1,1342 @@
+table Measure
+	lineageTag: 34ce4b1e-5d82-4037-9f3e-3f31604daba7
+
+	measure 'Slg DH' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT('FACT_DS Đơn hàng'[SoDonHang]),
+			    FILTER('FACT_DS Đơn hàng', 
+			    'FACT_DS Đơn hàng'[MNV_NguoiLap] <> BLANK()))
+			```
+		formatString: #,0
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 6f74ce1f-3765-416f-a4f7-e37c8f502b73
+
+	measure 'TyTrong DH' =
+			
+			var total = CALCULATE([Slg DH], ALL('DIM_Danh mục_Trạng thái Đơn hàng'))
+			var part = [Slg DH]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 36cea0aa-61de-4811-9f87-9e5e31cab236
+
+	measure 'TyTrong DH_Tong' =
+			
+			var total = CALCULATE([Slg DH], ALL('DIM_Danh mục_Nguồn đơn hàng'), ALL('DIM_Danh mục_Trạng thái Đơn hàng'))
+			var part = [Slg DH]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 2da603d1-9900-414c-b8ce-d72f92b15124
+
+	measure 'Slg sp' = CALCULATE(SUM('FACT_DS Đơn hàng'[Slg]), FILTER('FACT_DS Đơn hàng', 'FACT_DS Đơn hàng'[MNV_NguoiLap] <> BLANK()))
+		formatString: #,0
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 7254647a-aa97-4d9a-81e4-f83cea2277cd
+
+	measure 'Thời gian cập nhật_DH' =
+			
+			CALCULATE(MAX( 'FACT_DS Đơn hàng'[NgayDat] ), ALL())
+		formatString: General Date
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 9ff027aa-f73a-4978-9c4f-7cefed1bb298
+
+	measure 'Gia tri DH' = CALCULATE(SUM('FACT_DS Đơn hàng'[TongDon]), FILTER('FACT_DS Đơn hàng', 'FACT_DS Đơn hàng'[MNV_NguoiLap] <> BLANK()))
+		formatString: #,0
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 4d10dc67-d97b-44f8-bbc4-6cec86712eba
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'AVG_Gia tri DH' = DIVIDE([Gia tri DH], [Slg DH], BLANK())
+		formatString: #,0
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: a53df194-dc34-4c0c-b862-5c1492967a60
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Title_ChiTietDSDH = ```
+			
+			VAR _SelectedValues = SELECTCOLUMNS( 
+			    ALLSELECTED(Parameter_DanhMucChiTiet), 
+			    "PhongBan", Parameter_DanhMucChiTiet[Parameter_Phongban]
+			)
+			VAR _RowCount = COUNTROWS(_SelectedValues)
+			VAR _Result = 
+			    SWITCH(
+			        TRUE(),
+			        _RowCount = 1, CONCATENATEX(_SelectedValues, [PhongBan], ", "),
+			        _RowCount > 1, 
+			            VAR FirstValue = TOPN(_RowCount - 1, _SelectedValues, [PhongBan], ASC)
+			            VAR LastValue = LASTNONBLANK(_SelectedValues, [PhongBan])
+			            RETURN CONCATENATEX(FirstValue, [PhongBan], UNICHAR(44)&UNICHAR(32)) & " và " & LastValue,
+			        BLANK()
+			    )
+			RETURN 
+			"Chi tiết và Trạng thái DH theo " & _Result
+			```
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 6fa2b195-5a42-428e-b00a-412890bbc6a3
+
+	measure 'Slg Online_Huy' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT('FACT_DS Online'[Số online]),
+			    FILTER('FACT_DS Online', 
+			    'FACT_DS Online'[Trạng thái đơn] = "Hủy đơn" 
+			    && ISBLANK('FACT_DS Online'[Số đơn hàng])))
+			```
+		formatString: #,0
+		displayFolder: 2. DS Online
+		lineageTag: 417a85cb-0695-4a16-884e-db6d77df5b24
+
+	measure 'Slg Online_TongHuy' = CALCULATE([Slg Online_Huy], ALL('DIM_Danh mục_Lý do Hủy đơn'), ALL('DIM_Danh mục_Trạng thái Đơn hàng'))
+		formatString: 0
+		displayFolder: 2. DS Online
+		lineageTag: f1bd374e-ff87-489e-ace0-2bf9f6ba354c
+
+	measure 'TyTrong Online_Huy' =
+			
+			var total = CALCULATE([Slg Online_Huy], ALL('DIM_Danh mục_Lý do Hủy đơn'), ALL('DIM_Danh mục_Trạng thái Đơn hàng'))
+			var part = [Slg Online_Huy]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 2. DS Online
+		lineageTag: 0efc6b12-8508-476e-916c-c61c3e3bd5b7
+
+	measure 'Gia tri Online' = CALCULATE(SUM('FACT_DS Online'[Thành tiền]), FILTER('FACT_DS Online', 'FACT_DS Online'[Trạng thái đơn] = "Hủy đơn" && ISBLANK('FACT_DS Online'[Số đơn hàng])))
+		formatString: #,0
+		displayFolder: 2. DS Online
+		lineageTag: 1ff75025-b6aa-493b-be85-ce008ee43230
+
+	measure 'TyTrong DH_Huy' =
+			
+			var total = CALCULATE([Slg DH], ALL('DIM_Danh mục_Lý do Hủy đơn'), ALLEXCEPT('DIM_Danh mục_Trạng thái Đơn hàng','DIM_Danh mục_Trạng thái Đơn hàng'[OrderState]))
+			var part = [Slg DH]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 99122c40-ef98-470b-9557-0bbbad63408d
+
+	measure 'TyTrong DH_Huy LM' =
+			
+			CALCULATE (
+			    [TyTrong DH_Huy],
+			    PREVIOUSMONTH ( 'DIM_Danh mục_Ngày'[Date] )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: acda7308-209e-45d5-81dc-8638822a261d
+
+	measure 'Slg DH_LM' =
+			
+			CALCULATE (
+			    [Slg DH],
+			    PREVIOUSMONTH ( 'DIM_Danh mục_Ngày'[Date] )
+			)
+		formatString: #,0
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 64e2191f-7266-48c9-8ceb-e9572ac7a88e
+
+	measure 'g% LM' =
+			
+			VAR slg =
+			    IF (
+			        [Slg DH_LM] <> 0,
+			        DIVIDE ( [Slg DH], [Slg DH_LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			VAR tytrong =
+			    IF (
+			        [TyTrong DH_Huy LM] <> 0,
+			        DIVIDE ( [TyTrong DH_Huy], [TyTrong DH_Huy LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISINSCOPE ( 'DIM_Danh mục_Trạng thái Đơn hàng'[ChasedState] ), tytrong,
+			        ISINSCOPE ( 'DIM_Danh mục_Lý do Hủy đơn'[CancelReason] ), tytrong,
+			        slg
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 860cb53b-9189-4ed5-a0b6-4081653882f6
+
+	measure 'AVG_Gia tri Online' = DIVIDE([Gia tri Online], [Slg Online_Huy], BLANK())
+		formatString: #,0
+		displayFolder: 2. DS Online
+		lineageTag: 3472a618-ba66-4d92-ad94-efabc484df93
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Thời gian cập nhật_Online' =
+			
+			CALCULATE(MAX( 'FACT_DS Online'[Ngày đặt] ), ALL())
+		formatString: General Date
+		displayFolder: 2. DS Online
+		lineageTag: 47577a12-db93-4b73-a358-262421f32faf
+
+	measure 'Slg Online_Huy LM' =
+			
+			CALCULATE (
+			    [Slg Online_Huy],
+			    PREVIOUSMONTH ( 'DIM_Danh mục_Ngày'[Date] )
+			)
+		formatString: 0
+		displayFolder: 2. DS Online
+		lineageTag: 09cdf12f-5a4a-411b-8457-513e35eee19d
+
+	measure 'Slg sp Online' = CALCULATE(SUM('FACT_DS Online'[SL]), FILTER('FACT_DS Online', 'FACT_DS Online'[Trạng thái đơn] = "Hủy đơn" && ISBLANK('FACT_DS Online'[Số đơn hàng])))
+		formatString: #,0
+		displayFolder: 2. DS Online
+		lineageTag: b9667fd5-f067-4751-b1ce-987a64e54450
+
+	measure Title_ChiTietDSOnline = ```
+			
+			VAR _SelectedValues = SELECTCOLUMNS( 
+			    ALLSELECTED(Parameter_DanhMucChiTiet), 
+			    "PhongBan", Parameter_DanhMucChiTiet[Parameter_Phongban]
+			)
+			VAR _RowCount = COUNTROWS(_SelectedValues)
+			VAR _Result = 
+			    SWITCH(
+			        TRUE(),
+			        _RowCount = 1, CONCATENATEX(_SelectedValues, [PhongBan], ", "),
+			        _RowCount > 1, 
+			            VAR FirstValue = TOPN(_RowCount - 1, _SelectedValues, [PhongBan], ASC)
+			            VAR LastValue = LASTNONBLANK(_SelectedValues, [PhongBan])
+			            RETURN CONCATENATEX(FirstValue, [PhongBan], UNICHAR(44)&UNICHAR(32)) & " và " & LastValue,
+			        BLANK()
+			    )
+			RETURN 
+			"Chi tiết và Trạng thái đơn đặt hàng theo " & _Result
+			```
+		displayFolder: 2. DS Online
+		lineageTag: 93419a8b-95c5-4ab9-9605-ba1228116b88
+
+	measure 'TyTrong Online_Huy LM' =
+			
+			CALCULATE (
+			    [TyTrong Online_Huy],
+			    PREVIOUSMONTH ( 'DIM_Danh mục_Ngày'[Date] )
+			)
+		formatString: 0
+		displayFolder: 2. DS Online
+		lineageTag: a176d4c6-b60c-4e1b-9af8-915f0d1178d4
+
+	measure 'g% LM Online' =
+			
+			VAR slg =
+			    IF (
+			        [Slg Online_Huy LM] <> 0,
+			        DIVIDE ( [Slg Online_Huy], [Slg Online_Huy LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			VAR tytrong =
+			    IF (
+			        [TyTrong Online_Huy LM] <> 0,
+			        DIVIDE ( [TyTrong Online_Huy], [TyTrong Online_Huy LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISINSCOPE ( 'DIM_Danh mục_Trạng thái Đơn hàng'[ChasedState] ), tytrong,
+			        ISINSCOPE ( 'DIM_Danh mục_Lý do Hủy đơn'[CancelReason] ), tytrong,
+			        slg
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 2. DS Online
+		lineageTag: 2a531264-acd2-464d-b2d2-a5e8020ada10
+
+	measure 'Slg DH_TC' = CALCULATE([Slg DH], FILTER('DIM_Danh mục_Trạng thái Đơn hàng', 'DIM_Danh mục_Trạng thái Đơn hàng'[OrderState] = "Thành công"))
+		formatString: 0
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: 7e255b08-3c99-47fb-87a1-c11c42af1dfd
+
+	measure 'Slg Online' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT('FACT_DS Online'[Số online]),
+			    'FACT_DS Online'[Số online] <> BLANK(),
+			    'FACT_DS Online'[Lý do từ chối] <>  "Trùng đơn")
+		formatString: #,0
+		displayFolder: 3. XLDH
+		lineageTag: 14f37880-f440-471c-8536-737a695e0aab
+
+	measure 'TyTrong Online ra SP' =
+			
+			var total = CALCULATE([Slg Online])
+			var part = [Slg SP_onl]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: d932acbf-844d-47b4-8ce0-0fbc09e1e739
+
+	measure 'TyTrong Online ra DH' =
+			
+			var total = CALCULATE([Slg Online])
+			--, ALL('DIM_Danh mục_Nguồn đơn hàng'), ALL('DIM_Danh mục_Trạng thái Đơn hàng'))
+			var part = [Slg DH_onl]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: 787c133c-74a5-4829-bd45-10a15dfcc212
+
+	measure 'Slg DH_TC_LM' =
+			
+			CALCULATE (
+			    [Slg DH_TC],
+			    PREVIOUSMONTH ( 'DIM_Danh mục_Ngày'[Date] )
+			)
+		formatString: 0
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: efce976b-dbde-4ed5-9347-bebb9233b1aa
+
+	measure 'Slg DH_LM g%' = ```
+			
+			    IF (
+			        [Slg DH_LM] <> 0,
+			        DIVIDE ( [Slg DH], [Slg DH_LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: bbc4987c-3406-4a8d-8ee3-4dc4d35cc4a5
+
+	measure 'Slg DH_TC_LM g%' = ```
+			
+			    IF (
+			        [Slg DH_TC_LM] <> 0,
+			        DIVIDE ( [Slg DH_TC], [Slg DH_TC_LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 1. DS Đơn hàng
+		lineageTag: bc2f343c-8023-4f25-96ce-1b5f9fee0b4c
+
+	measure 'Slg Online_LM' =
+			
+			CALCULATE (
+			    [Slg Online],
+			    DATEADD('DIM_Danh mục_Ngày'[Date], -1, MONTH)
+			)
+		formatString: 0
+		displayFolder: 2. DS Online
+		lineageTag: ebed30fa-89b0-438f-8c73-1eacb96985fe
+
+	measure 'Slg Online_LM g%' = ```
+			
+			    IF (
+			        [Slg Online_LM] <> 0,
+			        DIVIDE ( [Slg Online], [Slg Online_LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 2. DS Online
+		lineageTag: 5941e504-3665-4d97-8a10-fa04f43def18
+
+	measure Avg_SLA_DH = ```
+			
+			// VAR AvgSLA = 
+			//     CALCULATE(
+			//         AVERAGE('FACT_DS Online_SLA'[SLA ra DH])
+			//     )
+			// VAR TotalSeconds = AvgSLA * 3600
+			// VAR Hours = INT(TotalSeconds / 3600)
+			// VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			// VAR Seconds = MOD(TotalSeconds, 60)
+			
+			// RETURN
+			//     FORMAT(TIME(Hours, Minutes, Seconds), "hh:mm:ss")
+			
+			VAR AvgSLA = 
+			    CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH])
+			    )
+			
+			-- 1. Tính tổng giây và lấy giá trị tuyệt đối để tránh lỗi số âm
+			VAR TotalSeconds_Raw = AvgSLA * 3600
+			VAR TotalSeconds = ABS(TotalSeconds_Raw) 
+			
+			-- 2. Tách Giờ, Phút, Giây từ số dương
+			VAR Hours = INT(TotalSeconds / 3600)
+			VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			VAR Seconds = INT(MOD(TotalSeconds, 60))
+			
+			-- 3. Xác định dấu (nếu âm thì thêm dấu - phía trước)
+			VAR Sign = IF(TotalSeconds_Raw < 0, "-", "")
+			
+			-- 4. Ghép chuỗi thủ công để hiển thị đúng format hh:mm:ss
+			RETURN
+			    Sign & 
+			    FORMAT(Hours, "00") & ":" & 
+			    FORMAT(Minutes, "00") & ":" & 
+			    FORMAT(Seconds, "00")
+			```
+		displayFolder: 3. XLDH
+		lineageTag: 47ddd75f-ec36-44a0-9542-2956159ca2f4
+
+	measure Med_SLA_DH = ```
+			
+			VAR MedianTimeNum = MEDIANX( 
+			    'FACT_DS Online_SLA',
+			    'FACT_DS Online_SLA'[SLA ra DH]
+			)
+			
+			VAR TotalSeconds = MedianTimeNum * 3600
+			VAR Hours = INT(TotalSeconds / 3600)
+			VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			VAR Seconds = MOD(TotalSeconds, 60)
+			
+			RETURN
+			    FORMAT(TIME(Hours, Minutes, Seconds), "hh:mm:ss")
+			
+			```
+		displayFolder: 3. XLDH
+		lineageTag: a9d89961-e750-4ba7-8f80-1cec779977ac
+
+	measure Avg_SLA_SP = ```
+			
+			VAR AvgSLA = 
+			    CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra SP])
+			        --FILTER('FACT_DS Online_SLA', 'FACT_DS Online_SLA'[SLA ra SP] <> BLANK()) 
+			    )
+			VAR TotalSeconds = AvgSLA * 3600
+			VAR Hours = INT(TotalSeconds / 3600)
+			VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			VAR Seconds = MOD(TotalSeconds, 60)
+			
+			RETURN
+			    FORMAT(TIME(Hours, Minutes, Seconds), "hh:mm:ss")
+			
+			```
+		displayFolder: 3. XLDH
+		lineageTag: c6ed2729-c48e-437e-8937-21121df980f4
+
+	measure Med_SLA_SP = ```
+			
+			VAR MedianTimeNum = 
+			MEDIANX(
+			    'FACT_DS Online_SLA',
+			    'FACT_DS Online_SLA'[SLA ra SP]
+			)
+			
+			VAR TotalSeconds = MedianTimeNum * 3600
+			VAR Hours = INT(TotalSeconds / 3600)
+			VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			VAR Seconds = MOD(TotalSeconds, 60)
+			
+			RETURN
+			    FORMAT(TIME(Hours, Minutes, Seconds), "hh:mm:ss")
+			
+			```
+		displayFolder: 3. XLDH
+		lineageTag: 73621896-b201-4923-a637-d208affc6a5a
+
+	measure 'Avg_SLA_DH_LM g%' = ```
+			
+			
+			VAR SelectedPeriod = SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			VAR SelectedWeekIndex = MAX('DIM_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR AvgSLA_LM =
+			SWITCH(
+			    TRUE(),
+			    SelectedPeriod = 0, 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH]), DATEADD('DIM_Danh mục_Ngày'[Date], -1, DAY)),
+			
+			    SelectedPeriod = 2, 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH]),  PARALLELPERIOD('DIM_Danh mục_Ngày'[Date], -1, MONTH)),
+			
+			    SelectedPeriod = 1, 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH]),
+			        FILTER(
+			                ALL('DIM_Danh mục_Ngày'),
+			                'DIM_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1))
+			)
+			
+			VAR AvgSLA = 
+			    CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH])
+			    )
+			    
+			RETURN
+			IF (
+			        AvgSLA_LM <> 0,
+			        DIVIDE ( AvgSLA, AvgSLA_LM, BLANK () ) - 1,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: fd0d46f1-56ca-4416-8f5b-7c1ef0b86a05
+
+	measure 'Avg_SLA_SP_LM g%' = ```
+			
+			
+			VAR SelectedPeriod = SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			VAR SelectedWeekIndex = MAX('DIM_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR AvgSLA_LM =
+			SWITCH(
+			    TRUE(),
+			    SelectedPeriod = 0, 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra SP]), DATEADD('DIM_Danh mục_Ngày'[Date], -1, DAY)),
+			
+			    SelectedPeriod = 2, 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra SP]), PARALLELPERIOD('DIM_Danh mục_Ngày'[Date], -1, MONTH)),
+			
+			    SelectedPeriod = 1, 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra SP]),
+			        FILTER(
+			                ALL('DIM_Danh mục_Ngày'),
+			                'DIM_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1))
+			        )
+			VAR AvgSLA = 
+			    CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra SP])
+			        --FILTER('FACT_DS Online_SLA', 'FACT_DS Online_SLA'[SLA ra SP] <> BLANK()) 
+			    )
+			
+			VAR Z = 
+			IF (
+			        AvgSLA_LM <> 0,
+			        DIVIDE ( AvgSLA, AvgSLA_LM, BLANK () ) - 1,
+			        BLANK()
+			    )
+			RETURN Z     
+			// FORMAT(AvgSLA_LM, "hh:mm:ss")
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: 717111d7-2815-45a0-8693-e8b76dc1af26
+
+	measure Avg_SLA_DH_LM = ```
+			
+			
+			VAR SelectedPeriod = SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Fields])
+			VAR SelectedWeekIndex = SELECTEDVALUE('DIM_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR _result =
+			SWITCH(
+			    TRUE(),
+			    SelectedPeriod = "Ngày", 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH]), DATEADD('DIM_Danh mục_Ngày'[Date], -1, DAY)),
+			
+			    SelectedPeriod = "Năm/tháng", 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH]),  PARALLELPERIOD('DIM_Danh mục_Ngày'[Date], -1, MONTH)),
+			
+			    SelectedPeriod = "Năm/tuần", 
+			        CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH]), DATEADD('DIM_Danh mục_Ngày'[WeekStartDate], -7, DAY)
+			))
+			VAR TotalSeconds = _result * 3600
+			VAR Hours = INT(TotalSeconds / 3600)
+			VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			VAR Seconds = MOD(TotalSeconds, 60)
+			
+			RETURN
+			    FORMAT(TIME(Hours, Minutes, Seconds), "hh:mm:ss")
+			
+			
+			```
+		displayFolder: 3. XLDH
+		lineageTag: 85822683-abde-406d-9841-3adfc3ea249f
+
+	measure 'Med_SLA_DH_LM g%' = ```
+			
+			
+			VAR SelectedPeriod = SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			VAR SelectedWeekIndex = MAX('DIM_Danh mục_Ngày'[Năm/Tuần_Index])
+			
+			VAR MedSLA_LM =
+			SWITCH(
+			    TRUE(),
+			    SelectedPeriod = 0, 
+			    CALCULATE(
+			    MEDIANX(
+			        'FACT_DS Online_SLA',
+			        'FACT_DS Online_SLA'[SLA ra DH]), DATEADD('DIM_Danh mục_Ngày'[Date], -1, DAY)),
+			
+			    SelectedPeriod = 2, 
+			    CALCULATE(
+			    MEDIANX(
+			        'FACT_DS Online_SLA',
+			        'FACT_DS Online_SLA'[SLA ra DH]),  PARALLELPERIOD('DIM_Danh mục_Ngày'[Date], -1, MONTH)),
+			
+			    SelectedPeriod = 1, 
+			    CALCULATE(
+			    MEDIANX(
+			        'FACT_DS Online_SLA',
+			        'FACT_DS Online_SLA'[SLA ra DH]),
+			        FILTER(
+			                ALL('DIM_Danh mục_Ngày'),
+			                'DIM_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1))
+			)
+			VAR MedSLA = 
+			CALCULATE(
+			    MEDIANX(
+			        'FACT_DS Online_SLA',
+			        'FACT_DS Online_SLA'[SLA ra DH])) 
+			RETURN
+			IF (
+			        MedSLA_LM <> 0,
+			        DIVIDE ( MedSLA, MedSLA_LM, BLANK () ) - 1,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: 9ad2942c-e152-42d1-9480-b67fb062aadd
+
+	measure 'Med_SLA_SP_LM g%' = ```
+			
+			
+			VAR SelectedPeriod = SELECTEDVALUE(Parameter_ThoiGian[Parameter_NgayTuanThang Order])
+			VAR SelectedWeekIndex = MAX('DIM_Danh mục_Ngày'[Năm/Tuần_Index])
+			VAR MedSLA_LM =
+			SWITCH(
+			    TRUE(),
+			    SelectedPeriod = 0, 
+			    CALCULATE(
+			    MEDIANX( 
+			    'FACT_DS Online_SLA', 
+			    'FACT_DS Online_SLA'[SLA ra SP]), DATEADD('DIM_Danh mục_Ngày'[Date], -1, DAY)),
+			
+			    SelectedPeriod = 2, 
+			    CALCULATE(
+			    MEDIANX( 
+			    'FACT_DS Online_SLA', 
+			    'FACT_DS Online_SLA'[SLA ra SP]),  PARALLELPERIOD('DIM_Danh mục_Ngày'[Date], -1, MONTH)),
+			
+			    SelectedPeriod = 1, 
+			    CALCULATE(
+			    MEDIANX( 
+			    'FACT_DS Online_SLA', 
+			    'FACT_DS Online_SLA'[SLA ra SP]),
+			    FILTER(
+			        ALL('DIM_Danh mục_Ngày'),
+			        'DIM_Danh mục_Ngày'[Năm/Tuần_Index] = SelectedWeekIndex + 1)))
+			
+			VAR MedSLA = 
+			    MEDIANX( 
+			    'FACT_DS Online_SLA', 
+			    'FACT_DS Online_SLA'[SLA ra SP])
+			RETURN
+			IF (
+			        MedSLA_LM <> 0,
+			        DIVIDE ( MedSLA, MedSLA_LM, BLANK () ) - 1,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: 638348dc-e800-4526-bf15-2da771829b85
+
+	measure 'TyTrong Online' =
+			
+			var total = CALCULATE([Slg Online], ALL('DIM_Danh mục_Nguồn đơn hàng'), ALL('DIM_Danh mục_Trạng thái Đơn hàng'), ALL('DIM_Danh mục_Trạng thái Thanh toán'))
+			var part = [Slg Online]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 2. DS Online
+		lineageTag: 9a7b7b96-2fbf-4371-9dd7-d2c055bee513
+
+	measure Select_Slg =
+			
+			SWITCH(
+			    TRUE(),
+			    SELECTEDVALUE(Parameter_CR[Value4]) = "DH", [Slg DH_onl],
+			    SELECTEDVALUE(Parameter_CR[Value4]) = "SP", [Slg SP_onl],
+			    SELECTEDVALUE(Parameter_CR[Value4]) = "Online", [Slg Online],
+			    BLANK())
+		formatString: #,0
+		displayFolder: 3. XLDH
+		lineageTag: 30a33c54-41c8-416a-882e-3cd6add45c5e
+
+	measure Select_Slg_LM =
+			
+			SWITCH(
+			    TRUE(),
+			    SELECTEDVALUE(Parameter_CR[Value4]) = "DH", [Slg DH_onl LM],
+			    SELECTEDVALUE(Parameter_CR[Value4]) = "SP", [Slg SP_onl LM],
+			    SELECTEDVALUE(Parameter_CR[Value4]) = "Online", [Slg Online_LM],
+			    BLANK())
+		formatString: #,0
+		displayFolder: 3. XLDH
+		lineageTag: 82916ed3-3938-4dd6-b6cd-880ba859ee27
+
+	measure Avg_Item = ```
+			
+			CALCULATE(AVERAGE('FACT_DS Đơn hàng'[Slg]), 
+			    'FACT_DS Đơn hàng'[MNV_NguoiLap] <> BLANK(),
+			    'FACT_DS Đơn hàng'[IsOnline] = TRUE())
+			```
+		displayFolder: 3. XLDH
+		lineageTag: ae269882-cd56-4795-a6a7-d5ea4323966a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slg DH_onl' = ```
+			
+			    CALCULATE(
+			            DISTINCTCOUNT('FACT_DS Online'[Số đơn hàng])
+			            ,'FACT_DS Online'[Số đơn hàng] <> BLANK()
+			            ,'FACT_DS Online'[Lý do từ chối] <>  "Trùng đơn")
+			```
+		formatString: 0
+		displayFolder: 3. XLDH
+		lineageTag: af3ebbc7-691d-4136-9249-57a30e242aec
+
+	measure 'Slg SP_onl' = CALCULATE([Slg DH_onl], 'FACT_DS Online'[OrderState] = "Thành công")
+		formatString: #,0
+		displayFolder: 3. XLDH
+		lineageTag: 85a11dc9-6bb7-4a04-b946-e8bc07972568
+
+	measure 'Slg DH_onl LM' = ```
+			
+			CALCULATE(
+			    [Slg DH_onl],
+			    DATEADD('DIM_Danh mục_Ngày'[Date], -1, MONTH)
+			)
+			
+			```
+		formatString: 0
+		displayFolder: 3. XLDH
+		lineageTag: 4e17631a-6e13-46a1-aec8-01018f67b9bd
+
+	measure 'Slg DH_onl LM g%' = ```
+			
+			    IF (
+			        [Slg DH_onl LM] <> 0,
+			        DIVIDE ( [Slg DH_onl], [Slg DH_onl LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: 59021e49-95e3-497a-bf1c-fbcf21d8d143
+
+	measure 'Slg SP_onl LM' =
+			
+			CALCULATE (
+			    [Slg SP_onl],
+			    DATEADD('DIM_Danh mục_Ngày'[Date], -1, MONTH)
+			)
+		formatString: 0
+		displayFolder: 3. XLDH
+		lineageTag: a71cce2b-adae-4b20-89c8-f69d361af0a7
+
+	measure 'Slg SP_onl LM g%' = ```
+			
+			    IF (
+			        [Slg SP_onl LM] <> 0,
+			        DIVIDE ( [Slg SP_onl], [Slg SP_onl LM], BLANK () ) - 1,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: 27dcc17a-1361-40e1-a7a1-ea983ce373e1
+
+	measure 'Avg_Gia trị DH_onl' = ```
+			
+			VAR giatri_DH = 
+			    CALCULATE(SUM('FACT_DS Đơn hàng'[TongDon]), 
+			    'FACT_DS Đơn hàng'[MNV_NguoiLap] <> BLANK(),
+			    'FACT_DS Đơn hàng'[IsOnline] = TRUE())
+			RETURN DIVIDE(giatri_DH,[Slg DH_onl])
+			```
+		formatString: #,0
+		displayFolder: 3. XLDH
+		lineageTag: c10f649e-21fb-4228-a741-9e89208939a2
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Avg_SLA_DH_Comt = ```
+			
+			// VAR AvgSLA = 
+			//     CALCULATE(
+			//         AVERAGE('FACT_DS Online_SLA'[SLA ra DH]))
+			// VAR TotalSeconds = AvgSLA * 3600
+			// VAR Hours = INT(TotalSeconds / 3600)
+			// VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			// VAR Seconds = MOD(TotalSeconds, 60)
+			
+			// VAR z = TIME(Hours, Minutes, Seconds)
+			
+			// RETURN
+			// SWITCH(
+			//     TRUE(),
+			//     z <= TIME(0,30,0), "Nhanh",
+			//     z <= TIME(0,45,0), "Bình thường",
+			//     z <= TIME(1,0,0), "Chậm",
+			//     "Trễ")
+			
+			VAR AvgSLA_Hours = 
+			    CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra DH])
+			    )
+			
+			-- Đổi ra tổng số phút để dễ so sánh (1 giờ = 60 phút)
+			VAR TotalMinutes = AvgSLA_Hours * 60
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    ISBLANK(AvgSLA_Hours), BLANK(),      -- Xử lý trường hợp không có dữ liệu
+			    TotalMinutes <= 30, "Nhanh",         -- Nhỏ hơn hoặc bằng 30 phút
+			    TotalMinutes <= 45, "Bình thường",   -- 30 < phút <= 45
+			    TotalMinutes <= 60, "Chậm",          -- 45 < phút <= 60 (1 tiếng)
+			    "Trễ"                                -- Lớn hơn 60 phút
+			)
+			
+			```
+		displayFolder: 3. XLDH
+		lineageTag: 79f7581d-095a-451a-a669-29040bd305f5
+
+	measure Slg_tồn = ```
+			
+			    CALCULATE( SUM( 'FACT_Warehouse_Current Inventory'[Quantity] ), 
+			    FILTER( 'DIM_Danh mục_Sản phẩm', 'DIM_Danh mục_Sản phẩm'[ton_ao] <> 1 ))
+			```
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: 7d071022-2b20-4def-a123-ec1166730b9d
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Slg_tồn_đi_đường = ```
+			
+			CALCULATE( SUM( 'FACT_Warehouse_Current Inventory'[ton_di_duong] ), 
+			    FILTER( 'DIM_Danh mục_Sản phẩm', 'DIM_Danh mục_Sản phẩm'[ton_ao] <> 1 ))
+			```
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: 18b8db9e-831f-4416-b983-659a7eb06006
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Slg_sp_DH =
+			
+			CALCULATE(
+			//     DISTINCTCOUNT('FACT_DS Đơn hàng'[SoDonHang]),
+			    SUM('FACT_DS Đơn hàng'[Slg]),
+			    'FACT_DS Đơn hàng'[is_PhieuBanLe_blank] = 1 && 'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý" )
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: 532bef20-06b3-476c-a7a5-0feb086cd106
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Slg_DH_tiềm_năng = ```
+			
+			VAR zDH =
+			    SUMMARIZE(
+			        'FACT_DS Đơn hàng',
+			        'DIM_Danh mục_Phòng ban'[Miền],
+			        'DIM_Danh mục_Phòng ban'[Province],
+			        'DIM_Danh mục_Phòng ban'[District],
+			        'DIM_Danh mục_Phòng ban'[RSM],
+			        'DIM_Danh mục_Phòng ban'[AM],
+			        'DIM_Danh mục_Phòng ban'[Cửa hàng],
+			        'DIM_Danh mục_Nhóm hàng'[Nhóm hàng],
+			        'DIM_Danh mục_Sản phẩm'[Model],
+			        'DIM_Danh mục_Sản phẩm'[Tên hàng],
+			        "Slg_DHXL",
+			            CALCULATE(
+			                SUM('FACT_DS Đơn hàng'[Slg]),
+			                'FACT_DS Đơn hàng'[is_PhieuBanLe_blank] = 1,
+			                'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý"
+			            )
+			    )
+			
+			VAR zTon =
+			    SUMMARIZE(
+			        'FACT_Warehouse_Current Inventory',
+			        'DIM_Danh mục_Phòng ban'[Miền],
+			        'DIM_Danh mục_Phòng ban'[Province],
+			        'DIM_Danh mục_Phòng ban'[District],
+			        'DIM_Danh mục_Phòng ban'[RSM],
+			        'DIM_Danh mục_Phòng ban'[AM],
+			        'DIM_Danh mục_Phòng ban'[Cửa hàng],
+			        'DIM_Danh mục_Nhóm hàng'[Nhóm hàng],
+			        'DIM_Danh mục_Sản phẩm'[Model],
+			        'DIM_Danh mục_Sản phẩm'[Tên hàng],
+			        "Slg_Ton",
+			            CALCULATE(
+			                SUM('FACT_Warehouse_Current Inventory'[Quantity]),
+			                FILTER(
+			                    'DIM_Danh mục_Sản phẩm',
+			                    'DIM_Danh mục_Sản phẩm'[ton_ao] <> 1
+			                )
+			            )
+			    )
+			
+			VAR zResult =
+			    NATURALINNERJOIN(zDH, zTon)
+			
+			RETURN
+			    SUMX(
+			        zResult,
+			        VAR slgDH = [Slg_DHXL]
+			        VAR slgTon = [Slg_Ton]
+			        RETURN
+			            IF(
+			                NOT(ISBLANK(slgDH)) && NOT(ISBLANK(slgTon)),
+			                MIN(slgDH, slgTon),
+			                BLANK()
+			            )
+			    )
+			
+			```
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: bd1d0d76-ba66-4848-843d-c0d6c95bbbbd
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Slg_DH_CXL_2-3Day = ```
+			
+			VAR zCurrentDate = DATEVALUE(MAX('Dim_Current_Datetime'[updated_at]))
+			RETURN
+			CALCULATE(
+			    [Slg_sp_DH],
+			    'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý",
+			    'FACT_DS Đơn hàng'[NgayDat_Date] IN { zCurrentDate - 2, zCurrentDate - 3 }
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: 3891fe20-c090-4972-9890-389bfa6ddf60
+
+	measure Slg_DH_CXL1 = ```
+			
+			VAR zCurrentDate = DATEVALUE(MAX('Dim_Current_Datetime'[updated_at]))
+			RETURN
+			CALCULATE(
+			    [Slg_sp_DH],
+			    'FACT_DS Đơn hàng'[Loại ca] <> "Ngoài giờ làm",
+			    'FACT_DS Đơn hàng'[NgayDat_Date] = zCurrentDate - 1
+			)
+			
+			
+			```
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: 99066955-896d-4a8a-b3f4-0e4cc07149ea
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Slg_DH_CXL_4DayPlus = ```
+			
+			VAR zCurrentDate = DATEVALUE(MAX('Dim_Current_Datetime'[updated_at]))
+			// VAR zCurrentDate = CALCULATE(
+			//         MAX('DIM_Danh mục_Ngày'[Date]),  -- hoặc [Ngày] tùy cột bạn dùng
+			//         'DIM_Danh mục_Ngày'[Ngày_IsActive] = 1
+			    
+			RETURN
+			CALCULATE(
+			    [Slg_sp_DH],
+			    'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý",
+			    'FACT_DS Đơn hàng'[NgayDat_Date] <= zCurrentDate - 4
+			)
+			
+			
+			```
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: 883e0b2c-f278-49f2-a276-9423a30d6672
+
+	measure Dso_DH = ```
+			SUM('FACT_DS Đơn hàng'[TongDon])
+			
+			```
+		displayFolder: TỒN
+		lineageTag: b526105a-29a2-42c7-bf25-fb3df06954ba
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Dso_DH_tiềm_năng = ```
+			
+			VAR Grain =
+			SUMMARIZECOLUMNS(
+			        'DIM_Danh mục_Phòng ban'[Miền],
+			        'DIM_Danh mục_Phòng ban'[Province],
+			        'DIM_Danh mục_Phòng ban'[District],
+			        'DIM_Danh mục_Phòng ban'[RSM],
+			        'DIM_Danh mục_Phòng ban'[AM],
+			        'DIM_Danh mục_Phòng ban'[Cửa hàng],
+			        'DIM_Danh mục_Nhóm hàng'[Nhóm hàng],
+			        'DIM_Danh mục_Sản phẩm'[Model],
+			        'DIM_Danh mục_Sản phẩm'[Tên hàng],
+			        "slgDH",
+			            CALCULATE (
+			                SUM ( 'FACT_DS Đơn hàng'[Slg] ),
+			                'FACT_DS Đơn hàng'[is_PhieuBanLe_blank] = 1,
+			                'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý"
+			            ),
+			        "slgTon",
+			            CALCULATE (
+			                SUM ( 'FACT_Warehouse_Current Inventory'[Quantity] ),
+			               'DIM_Danh mục_Sản phẩm'[ton_ao] <> 1 
+			            ),
+			        "avg_price",
+			        CALCULATE (
+			            AVERAGE( 'FACT_DS Đơn hàng'[Đơn_giá] ),
+			            'FACT_DS Đơn hàng'[is_PhieuBanLe_blank] = 1,
+			            'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý"
+			        )
+			)
+			var _addColumn = 
+			ADDCOLUMNS(
+			    Grain,
+			    "dso",IF ( [slgDH] <> BLANK() && [slgTon] <> BLANK(), MIN ( [slgDH], [slgTon] ), BLANK() )*[avg_price]
+			)
+			RETURN SUMX(_addColumn, [dso])
+			```
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: 2f050819-03ed-4d3b-bcb3-8cc876ecdccf
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Slg DH_CXL' = CALCULATE([Slg_sp_DH], FILTER('DIM_Danh mục_Trạng thái Đơn hàng', 'DIM_Danh mục_Trạng thái Đơn hàng'[OrderState] = "Chờ xử lý"))
+		formatString: #,0
+		displayFolder: TỒN
+		lineageTag: 4f008d9b-b19c-470f-8a18-3108e49a83d3
+
+	measure _Slg_DH_CXL1 = ```
+			
+			VAR zCurrentDate = 
+			DATEVALUE(MAX('Dim_Current_Datetime'[updated_at]))
+			
+			
+			VAR _ABS = 
+			CALCULATE(
+			    [Slg_sp_DH],
+			    'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý"
+			        && 'FACT_DS Đơn hàng'[Loại ca] <> "Ngoài giờ làm"
+			        && 'FACT_DS Đơn hàng'[NgayDat_Date] = zCurrentDate - 1
+			)
+			VAR _TOTAL = [Slg_sp_DH]
+			
+			VAR _PER = DIVIDE( _ABS, _TOTAL, 0 )
+			
+			RETURN
+			FORMAT(_ABS, "#,#") & " " & FORMAT(_PER, "(0.0%)")
+			
+			```
+		formatString: "LUẬN TRỄ :" #,#
+		displayFolder: TỒN
+		lineageTag: 4f6e753a-3b0a-4a0e-a7b6-85bf9c551ff2
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure _Slg_DH_CXL_2-3Day = ```
+			
+			VAR zCurrentDate = 
+			DATEVALUE(MAX('Dim_Current_Datetime'[updated_at]))
+			
+			
+			VAR _ABS = 
+			CALCULATE(
+			    [Slg_sp_DH],
+			    'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý",
+			    'FACT_DS Đơn hàng'[NgayDat_Date] IN { zCurrentDate - 2, zCurrentDate - 3 }
+			)
+			VAR _TOTAL = [Slg_sp_DH]
+			
+			VAR _PER = DIVIDE( _ABS, _TOTAL, 0 )
+			
+			RETURN
+			FORMAT(_ABS, "#,#") & " " & FORMAT(_PER, "(0.0%)")
+			
+			
+			```
+		displayFolder: TỒN
+		lineageTag: 13a00b89-8fcc-484e-a213-42e5de3a6066
+
+	measure _Slg_DH_CXL_4DayPlus = ```
+			
+			VAR zCurrentDate = 
+			DATEVALUE(MAX('Dim_Current_Datetime'[updated_at]))
+			
+			
+			VAR _ABS = 
+			CALCULATE(
+			    [Slg_sp_DH],
+			    'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý",
+			    'FACT_DS Đơn hàng'[NgayDat_Date] <= zCurrentDate - 4
+			)
+			VAR _TOTAL = [Slg_sp_DH]
+			
+			VAR _PER = DIVIDE( _ABS, _TOTAL, 0 )
+			
+			RETURN
+			FORMAT(_ABS, "#,#") & " " & FORMAT(_PER, "(0.0%)")
+			
+			
+			
+			
+			```
+		displayFolder: TỒN
+		lineageTag: ced40209-0b1c-4ca0-9024-db0ebd8d45a0
+
+	measure 'TyTrong Online huy' =
+			
+			var total = CALCULATE([Slg Online])
+			--, ALL('DIM_Danh mục_Nguồn đơn hàng'), ALL('DIM_Danh mục_Trạng thái Đơn hàng'))
+			var part = [Slg Onl_Huy]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: f0c5b429-c867-410f-b33a-cca34658b6e2
+
+	measure 'Slg DH_huy' = ```
+			
+			    CALCULATE(
+			    DISTINCTCOUNT('FACT_DS Online'[Số đơn hàng]),
+			    'FACT_DS Online'[Trạng thái đơn] = "Hủy đơn" 
+			    ,ISBLANK('FACT_DS Online'[PhieuBanLe])
+			    ,'FACT_DS Online'[Số đơn hàng] <> BLANK()
+			    ,'FACT_DS Online'[Lý do từ chối] <>  "Trùng đơn")
+			```
+		formatString: 0
+		displayFolder: 3. XLDH
+		lineageTag: 2480de47-86f4-40ae-993a-67f5b3fee58f
+
+	measure 'Slg Onl_Huy' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT('FACT_DS Online'[Số online]),
+			    'FACT_DS Online'[Trạng thái đơn] = "Hủy đơn" ,
+			    ISBLANK('FACT_DS Online'[Số đơn hàng]),
+			    'FACT_DS Online'[Lý do từ chối] <>  "Trùng đơn")
+		formatString: 0
+		displayFolder: 3. XLDH
+		lineageTag: 36318f7d-ca8e-4148-ac57-8a15fc4c7469
+
+	measure 'TyTrong DH huy' =
+			
+			var total = CALCULATE([Slg Online])
+			--, ALL('DIM_Danh mục_Nguồn đơn hàng'), ALL('DIM_Danh mục_Trạng thái Đơn hàng'))
+			var part = [Slg DH_Huy]
+			return
+			DIVIDE(part, total, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 3. XLDH
+		lineageTag: fdb1143e-ab04-4104-8385-30c697384419
+
+	measure __Dso_DH_tiem_nang = ```
+			
+			VAR Grain =
+			SUMMARIZECOLUMNS(
+			        'DIM_Danh mục_Phòng ban'[Miền],
+			        'DIM_Danh mục_Phòng ban'[Province],
+			        'DIM_Danh mục_Phòng ban'[District],
+			        'DIM_Danh mục_Phòng ban'[RSM],
+			        'DIM_Danh mục_Phòng ban'[AM],
+			        'DIM_Danh mục_Phòng ban'[Cửa hàng],
+			        'DIM_Danh mục_Nhóm hàng'[Nhóm hàng],
+			        'DIM_Danh mục_Sản phẩm'[Model],
+			        'DIM_Danh mục_Sản phẩm'[Tên hàng],
+			        "slgDH",
+			            CALCULATE (
+			                SUM ( 'FACT_DS Đơn hàng'[Slg] ),
+			                'FACT_DS Đơn hàng'[is_PhieuBanLe_blank] = 1,
+			                'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý"
+			            ),
+			        "slgTon",
+			            CALCULATE (
+			                SUM ( 'FACT_Warehouse_Current Inventory'[Quantity] ),
+			               'DIM_Danh mục_Sản phẩm'[ton_ao] <> 1 
+			            ),
+			        "avg_price",
+			        CALCULATE (
+			            AVERAGE( 'FACT_DS Đơn hàng'[Đơn_giá] ),
+			            'FACT_DS Đơn hàng'[is_PhieuBanLe_blank] = 1,
+			            'FACT_DS Đơn hàng'[ChasedState] = "Chờ xử lý"
+			        )
+			)
+			var _addColumn = 
+			ADDCOLUMNS(
+			    Grain,
+			    "dso",IF ( [slgDH] <> BLANK() && [slgTon] <> BLANK(), MIN ( [slgDH], [slgTon] ), BLANK() )*[avg_price]
+			)
+			RETURN SUMX(_addColumn, [dso])
+			```
+		displayFolder: TỒN
+		lineageTag: c74d694d-fd3c-44da-971f-e12b11cd8179
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_SLA_SSHH = ```
+			
+			VAR AvgSLA = 
+			    CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra SSHH])
+			    )
+			VAR TotalSeconds = AvgSLA * 3600
+			VAR Hours = INT(TotalSeconds / 3600)
+			VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			VAR Seconds = MOD(TotalSeconds, 60)
+			
+			RETURN
+			    FORMAT(TIME(Hours, Minutes, Seconds), "hh:mm:ss")
+			```
+		displayFolder: 3. XLDH
+		lineageTag: 0bbb49cf-9300-4b88-9681-5ae22f5f0fb3
+
+	measure Avg_SLA_SSHH_Comt = ```
+			
+			VAR AvgSLA = 
+			    CALCULATE(
+			        AVERAGE('FACT_DS Online_SLA'[SLA ra SSHH]))
+			VAR TotalSeconds = AvgSLA * 3600
+			VAR Hours = INT(TotalSeconds / 3600)
+			VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			VAR Seconds = MOD(TotalSeconds, 60)
+			
+			VAR z = TIME(Hours, Minutes, Seconds)
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    z <= TIME(0,15,0), "Nhanh",
+			    z <= TIME(0,30,0), "Chậm",
+			    z > TIME(0,30,0), "Trễ",
+			    "Trễ")
+			
+			```
+		displayFolder: 3. XLDH
+		lineageTag: 8959a450-5036-41c1-b403-7fc6fd60f022
+
+	measure Med_SLA_SSHH = ```
+			
+			VAR MedianTimeNum = 
+			MEDIANX(
+			    'FACT_DS Online_SLA',
+			    'FACT_DS Online_SLA'[SLA ra SSHH]
+			)
+			VAR TotalSeconds = MedianTimeNum * 3600
+			VAR Hours = INT(TotalSeconds / 3600)
+			VAR Minutes = INT(MOD(TotalSeconds, 3600) / 60)
+			VAR Seconds = MOD(TotalSeconds, 60)
+			
+			RETURN
+			    FORMAT(TIME(Hours, Minutes, Seconds), "hh:mm:ss")
+			
+			```
+		lineageTag: 32220aef-1a4c-4f06-bd75-c6869c6f5dbe
+
+	measure 'Slg PB' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( 'Fact_Sale_Doanh số bán'[PhieuXuatBan_SP] ),
+			    NOT ISBLANK ( 'Fact_Sale_Doanh số bán'[PhieuXuatBan_SP] ),
+			    LEFT ( 'Fact_Sale_Doanh số bán'[PhieuXuatBan_SP], 3 ) = "SP.",
+			    REMOVEFILTERS ( 'Fact_Sale_Doanh số bán'[KhoangCachNgay] )
+			)
+		formatString: 0
+		lineageTag: f9ebf2e9-ee30-4a7f-b2f7-da19980d9e59
+
+	measure 'Slg SP không Nhập lại' = ```
+			
+			'Measure'[Slg SP_onl] - 
+			CALCULATE (
+			    DISTINCTCOUNT ( 'FACT_DS Online'[PhieuNhapTra_N]),
+			    NOT ISBLANK ( 'FACT_DS Online'[PhieuNhapTra_N]),
+			    LEFT ( 'FACT_DS Online'[PhieuNhapTra_N], 2 ) = "N."
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 95afa04a-ef76-44a5-bc07-183db36265de
+
+	measure 'Slg PB_N g%' =
+			
+			DIVIDE ( [Slg SP không Nhập lại], [Slg SP_onl] )
+		lineageTag: ba839e85-b612-472f-9366-554764f5630f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slg SP Cheating g%' =
+			
+			DIVIDE(
+			    CALCULATE(DISTINCTCOUNT('FACT_DS Online'[PhieuBanLe]),
+			        'FACT_DS Online'[Cheating_check] <> BLANK(),
+			        'FACT_DS Online'[Cheating_check] = "Cheating"),
+			    CALCULATE(DISTINCTCOUNT('FACT_DS Online'[PhieuBanLe]),
+			        'FACT_DS Online'[Cheating_check] <> BLANK()),
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9c56b7b1-f1f0-4ea0-ba90-490a9681da23
+
+	measure 'Slg Onl ra SP NonCheating %' =
+			
+			DIVIDE(
+			    IF(ISBLANK('Measure'[Slg SP Cheating g%])
+			        ,'Measure'[Slg SP_onl]
+			        ,CALCULATE(DISTINCTCOUNT('FACT_DS Online'[PhieuBanLe])
+			            , NOT ISBLANK('FACT_DS Online'[PhieuBanLe])
+			            ,'FACT_DS Online'[Cheating_check] <> "Cheating")
+			    )
+			        ,CALCULATE(DISTINCTCOUNT('FACT_DS Online'[Số online])
+			            ,'FACT_DS Online'[Số online] <> BLANK()
+			        ,'FACT_DS Online'[Lý do từ chối] <>  "Trùng đơn")
+			        ,BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d529ae6e-aa7b-4fb2-a2d1-4a896033c750
+
+	measure 'Slg SP không nhập lại g%' =
+			
+			DIVIDE('Measure'[Slg SP không Nhập lại],'Measure'[Slg Online], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5cea47e6-e010-4e4e-9806-7c63c62c3716
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: c116a164-16a6-4a62-94d5-1d8a48daed77
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 63385d798f154b4594b6673840dd6aff
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

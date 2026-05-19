@@ -1,0 +1,587 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 1420.4104680803728,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 4784.5591836734693,
+            "y": 589.031275750541
+          },
+          "nodeIndex": "Parameter_Value",
+          "nodeLineageTag": "8f76d43a-1b9b-42dc-bbb2-e3fca438d03d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 39
+        },
+        {
+          "location": {
+            "x": 4805.9872307223077,
+            "y": 1209.5344387755101
+          },
+          "nodeIndex": "Measure",
+          "nodeLineageTag": "dc78e311-43d8-4a2f-be23-c7f4a9a468b5",
+          "size": {
+            "height": 193.87755102040819,
+            "width": 234
+          },
+          "zIndex": 40
+        },
+        {
+          "location": {
+            "x": 5373.8265208808862,
+            "y": 627.21155572108114
+          },
+          "nodeIndex": "Notes_Metric",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 7911.4591739421094,
+            "y": 615.21155572108114
+          },
+          "nodeIndex": "D_User",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1020.2107086665385,
+            "y": 580.78659998345336
+          },
+          "nodeIndex": "D_Date",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1073.2424646002387,
+            "y": 49.842457968526219
+          },
+          "nodeIndex": "D_Storage",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1421.0077288300138,
+            "y": 47.38886987164183
+          },
+          "nodeIndex": "D_Department",
+          "size": {
+            "height": 300,
+            "width": 278
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 2374.8384439353704,
+            "y": 684.86855827329282
+          },
+          "nodeIndex": "F_Logistics",
+          "nodeLineageTag": "d1bdd543-1573-480a-8d50-b847c782a1fd",
+          "size": {
+            "height": 676.29272177203234,
+            "width": 234
+          },
+          "zIndex": 41
+        },
+        {
+          "location": {
+            "x": 2028.9935501954478,
+            "y": 975.71545557471848
+          },
+          "nodeIndex": "D_Employee",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 331.79845550203095,
+            "y": 755.98834756577935
+          },
+          "nodeIndex": "F_PO",
+          "size": {
+            "height": 308.65306122448987,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 167.25255517477262,
+            "y": 472.79974489795916
+          },
+          "nodeIndex": "D_ProductGroup",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1280.7780473387672,
+            "y": 1229.0864286915971
+          },
+          "nodeIndex": "D_Region",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 6.1224489795918373,
+            "y": 298.47418379363791
+          },
+          "nodeIndex": "D_YcdcReason",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 2916.2755004727237,
+            "y": 627.0456123650664
+          },
+          "nodeIndex": "D_Car",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 41.173459656396062,
+            "y": 703.29318837414257
+          },
+          "nodeIndex": "D_Area",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 2751.7040719012934,
+            "y": 1197.1707393945508
+          },
+          "nodeIndex": "D_B2B/B2C",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 2919.0510106768047,
+            "y": 937.98706592516294
+          },
+          "nodeIndex": "D_Status",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 2906.4795821053767,
+            "y": 403.29318837414212
+          },
+          "nodeIndex": "D_TicketType",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 3343.2142759829271,
+            "y": 570.88502510883632
+          },
+          "nodeIndex": "D_DeliveryMethod",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 1777.15985421422,
+            "y": 958.5448890544144
+          },
+          "nodeIndex": "D_Status_Driver",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 5651.7040719012939,
+            "y": 675.21155572108114
+          },
+          "nodeIndex": "Notes",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 5929.5816229217016,
+            "y": 675.21155572108114
+          },
+          "nodeIndex": "Notes_Status",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {
+            "x": 6541.4591739421094,
+            "y": 613.21155572108114
+          },
+          "nodeIndex": "Notes_ProjectedCost",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 7627.4591739421094,
+            "y": 687.21155572108114
+          },
+          "nodeIndex": "D_SelectedMeasure_Late",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 21
+        },
+        {
+          "location": {
+            "x": 1867.5330606351724,
+            "y": 7.4855717162470228
+          },
+          "nodeIndex": "D_Province",
+          "nodeLineageTag": "cc8b4560-4ff8-4f72-95af-70a304703afd",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 22
+        },
+        {
+          "location": {
+            "x": 3292.7154097697749,
+            "y": 827.87822238774788
+          },
+          "nodeIndex": "D_DeliveryType",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 23
+        },
+        {
+          "location": {
+            "x": 8195.4591739421085,
+            "y": 651.21155572108114
+          },
+          "nodeIndex": "D_User_Warehouse",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 24
+        },
+        {
+          "location": {
+            "x": 8763.4591739421085,
+            "y": 651.21155572108114
+          },
+          "nodeIndex": "D_User_Operations",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 25
+        },
+        {
+          "location": {
+            "x": 325.96286791490195,
+            "y": 50.350765306122454
+          },
+          "nodeIndex": "F_Transfer",
+          "size": {
+            "height": 224.48979591836735,
+            "width": 234
+          },
+          "zIndex": 26
+        },
+        {
+          "location": {
+            "x": 2096.8067298194824,
+            "y": 314.71660076135157
+          },
+          "nodeIndex": "F_Logistics_Status",
+          "nodeLineageTag": "a1818ae2-31a4-4067-83f8-f89438d8e749",
+          "size": {
+            "height": 312.24489795918373,
+            "width": 234
+          },
+          "zIndex": 27
+        },
+        {
+          "location": {
+            "x": 5094.5612147584352,
+            "y": 743.86193889567869
+          },
+          "nodeIndex": "Parameter_Time",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 28
+        },
+        {
+          "location": {
+            "x": 4792.8040816326538,
+            "y": 413.0108675872757
+          },
+          "nodeIndex": "Parameter_Category",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 29
+        },
+        {
+          "location": {
+            "x": 5093.5816229217007,
+            "y": 1115.2905103242504
+          },
+          "nodeIndex": "Parameter_Category_Driver",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 30
+        },
+        {
+          "location": {
+            "x": 5088.8469290441508,
+            "y": 394.88234705894394
+          },
+          "nodeIndex": "Parameter_Value_PO",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 31
+        },
+        {
+          "location": {
+            "x": 5093.4963060272075,
+            "y": 186.71908175282144
+          },
+          "nodeIndex": "Parameter_Category_Transfer",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 32
+        },
+        {
+          "location": {
+            "x": 4795.5371223537395,
+            "y": 992.84153073241339
+          },
+          "nodeIndex": "Parameter_Value_Transfer",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 33
+        },
+        {
+          "location": {
+            "x": 681.67944548777314,
+            "y": 42.1875
+          },
+          "nodeIndex": "F_Transfer_Detail",
+          "size": {
+            "height": 271.42857142857144,
+            "width": 234
+          },
+          "zIndex": 34
+        },
+        {
+          "location": {
+            "x": 9319.2142759829258,
+            "y": 594.67474489795916
+          },
+          "nodeIndex": "Dim_KhungGio",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 35
+        },
+        {
+          "location": {
+            "x": 9603.2142759829258,
+            "y": 594.67474489795916
+          },
+          "nodeIndex": "Dim_KhoangCach",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 36
+        },
+        {
+          "location": {
+            "x": 9887.2142759829258,
+            "y": 618.67474489795916
+          },
+          "nodeIndex": "Parameter",
+          "nodeLineageTag": "715e1b81-9a0d-4805-ada6-99b81105b654",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 37
+        },
+        {
+          "location": {
+            "x": 10171.214275982926,
+            "y": 618.67474489795916
+          },
+          "nodeIndex": "Parameter_Category__",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 38
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 75.259935351272816,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 76,
+            "y": 104
+          },
+          "nodeIndex": "D_DeliveryMethod",
+          "nodeLineageTag": "93710986-ec7d-4669-b45c-825159f75041",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 434,
+            "y": 163
+          },
+          "nodeIndex": "F_Logistics",
+          "nodeLineageTag": "d1bdd543-1573-480a-8d50-b847c782a1fd",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 95,
+            "y": 511
+          },
+          "nodeIndex": "Dim_KhoangCach",
+          "nodeLineageTag": "093c2b05-4962-4a4d-a58f-660383622af9",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 769,
+            "y": 371
+          },
+          "nodeIndex": "Dim_KhungGio",
+          "nodeLineageTag": "95f3ab06-10b1-4c52-8c01-c4b1e6e24b54",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 1",
+      "zoomValue": 70.95554390096882,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

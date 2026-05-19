@@ -1,0 +1,51 @@
+table 'DIM_Danh mục_Bộ phận Hủy Online'
+	excludeFromModelRefresh
+	lineageTag: 985eb3de-2881-4798-bc09-952aa21647ac
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: fdbbbef8-1559-48f2-b899-1451d739bacd
+		summarizeBy: none
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department_lv1
+		dataType: string
+		lineageTag: e85fdff7-5e55-4b1c-95c4-eb73221fa98f
+		summarizeBy: none
+		sourceColumn: Department_lv1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Department_lv2
+		dataType: string
+		lineageTag: 9b4a3150-64dd-4fab-a078-57499b896513
+		summarizeBy: none
+		sourceColumn: Department_lv2
+
+		annotation SummarizationSetBy = Automatic
+
+	column CancelByDepartment
+		dataType: string
+		lineageTag: e9ea2a22-b5ae-4255-b7a5-559a5222b55a
+		summarizeBy: none
+		sourceColumn: CancelByDepartment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Bộ phận Hủy Online' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlTSUXIOBhIe+SU5mXmpQNaRCccW5ilA+QolD3evVkjOeLh7YqZSrE60khFMg3NGIqoOmACGFmOgkuCM/AIEBdEA4qAqjgUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [ID = _t, Department_lv1 = _t, Department_lv2 = _t, CancelByDepartment = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"ID", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

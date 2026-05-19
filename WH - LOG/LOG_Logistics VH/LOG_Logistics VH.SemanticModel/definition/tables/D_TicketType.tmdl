@@ -1,0 +1,26 @@
+table D_TicketType
+	excludeFromModelRefresh
+	lineageTag: 662a041d-8bb6-4490-ab75-9f29794a2baf
+
+	column 'Tính chất phiếu giao'
+		dataType: string
+		lineageTag: 0fc3a258-d46c-434c-853e-c3c7ce5290e3
+		summarizeBy: none
+		sourceColumn: Tính chất phiếu giao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_TicketType = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcnFWitWJVgoOgFD+SrGxAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Tính chất phiếu giao" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Tính chất phiếu giao", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,160 @@
+table 'DIM_Danh mục_Nhân viên'
+	lineageTag: 752987ae-73bb-424d-a3e3-6aac4bf53e86
+
+	column 'Mã nhân viên'
+		dataType: string
+		lineageTag: 9c9e26c3-edb7-4779-83e1-9bc154446f3e
+		summarizeBy: none
+		sourceColumn: Mã nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã nhân viên Harawork'
+		dataType: int64
+		formatString: 0
+		lineageTag: d948f951-26cd-43f8-aa4f-0aea47b6a604
+		summarizeBy: sum
+		sourceColumn: Mã nhân viên Harawork
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên nhân viên'
+		dataType: string
+		lineageTag: 7b0b0c3a-03a0-43ae-b7f5-aafe72a41d1d
+		summarizeBy: none
+		sourceColumn: Tên nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên rút gọn'
+		dataType: string
+		lineageTag: eb4af75f-1e34-43b6-9ce2-02931264dada
+		summarizeBy: none
+		sourceColumn: Tên rút gọn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3884844b-dc1f-4e72-96af-c51fdb913a9b
+		summarizeBy: none
+		sourceColumn: Inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Giới tính'
+		dataType: string
+		lineageTag: aaf4be64-9d48-46d3-bd54-be2fb460e777
+		summarizeBy: none
+		sourceColumn: Giới tính
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày sinh'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1fd13f2b-3238-48fb-b2e7-3e66d90cd15a
+		summarizeBy: none
+		sourceColumn: Ngày sinh
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày nhận việc'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 0de9f6ea-22a4-4524-9289-ef1f5818158f
+		summarizeBy: none
+		sourceColumn: Ngày nhận việc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày kết thúc'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9d724632-132c-4827-bf5e-2bcb6ef5b978
+		summarizeBy: none
+		sourceColumn: Ngày kết thúc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vị trí'
+		dataType: string
+		lineageTag: 50c6eed3-56ff-4dde-a07b-87a658ca813f
+		summarizeBy: none
+		sourceColumn: Vị trí
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentName
+		dataType: string
+		lineageTag: 921b4560-f080-496e-8443-07cd946a7115
+		summarizeBy: none
+		sourceColumn: DepartmentName
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchName
+		dataType: string
+		lineageTag: 61494aee-20a8-4140-b50f-8350345ae3e7
+		summarizeBy: none
+		sourceColumn: BranchName
+
+		annotation SummarizationSetBy = Automatic
+
+	column WorkingPhone
+		dataType: string
+		lineageTag: af0e4353-c29d-4a33-b891-2a2be008a7d4
+		summarizeBy: none
+		sourceColumn: WorkingPhone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Telephone
+		dataType: string
+		lineageTag: 180cfcb4-2461-4cc8-8397-e1a810ed5766
+		summarizeBy: none
+		sourceColumn: Telephone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 8569bbe1-aae8-4ea7-afa2-7c83a4f5404e
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM
+		dataType: string
+		lineageTag: caeedbbb-3756-46e9-a154-417b9cf1d052
+		summarizeBy: none
+		sourceColumn: AM
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mã-tên =
+			
+			'DIM_Danh mục_Nhân viên'[Mã nhân viên] & " - " & 'DIM_Danh mục_Nhân viên'[Tên nhân viên]
+		lineageTag: ae8c3bc6-6d2f-4e0e-b30a-f6c93c65c572
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Nhân viên' = m
+		mode: import
+		queryGroup: 'Danh mục'
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=8cc95609-f041-4368-a7a2-25617b22271a""#(lf)select * from `cellphones-data-platform.cps_DA_General_Transform.dim_employee_erp`", null, [EnableFolding=true]),
+				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 1, 1, Int64.Type),
+				    #"Added Conditional Column" = Table.AddColumn(#"Added Index", "AM", each if Text.Contains([Vị trí], "Quản lý vùng") then "AM" else if Text.Contains([Vị trí], "Quản lý vùng (AM)") then "AM" else "Khác")
+				in
+				    #"Added Conditional Column"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

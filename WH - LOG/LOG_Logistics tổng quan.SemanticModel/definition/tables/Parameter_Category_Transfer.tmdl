@@ -1,0 +1,49 @@
+table Parameter_Category_Transfer
+	lineageTag: e9310432-a804-4b33-8fa4-254b4030a62a
+
+	column Parameter
+		lineageTag: 6b44f0c2-80ce-4d66-a0f9-290b7ba12093
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Fields'
+		isHidden
+		lineageTag: cc491a26-5c8a-4046-b858-ce047818d3a0
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 00ea6bdd-f1ca-46f7-8b2f-d58b95b1aa75
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Category_Transfer = calculated
+		mode: import
+		source =
+				{
+				    ("Miền", NAMEOF('D_Region'[Miền]), 0),
+				    ("Khu vực", NAMEOF('D_Area'[Khu vực]), 1),
+				    ("Nhóm hàng", NAMEOF('D_ProductGroup'[Nhóm hàng]), 2)
+				}
+
+	annotation PBI_Id = 6141c04957884e3b9d07fa5f75c20da6
+

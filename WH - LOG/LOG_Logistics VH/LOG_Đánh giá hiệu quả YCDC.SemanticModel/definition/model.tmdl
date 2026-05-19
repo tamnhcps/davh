@@ -1,0 +1,104 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup DIM
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup FACT
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["D_Date","D_Storage","D_Department","D_Employee","D_Product","D_YcdcReason","D_Region","F_Sales","F_Ycdc","F_Dh","D_ProductGroup","Notes","Notes_Variable","Notes_Metric","LastUpdated","D_SelectedMeasure","D_DeliveryMethod","D_Phân quyền_User","F_PriceTag","F_Logistics","F_Dc_Imei","D_Phân quyền_Vận hành_Vùng","D_Employee_RT1","D_Employee_RT2"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
+
+ref table DateTableTemplate_105190ac-e8ca-4c09-a644-fd414292d1a2
+ref table D_Date
+ref table LocalDateTable_60ad6a6d-436e-4e82-8fa5-718ae6cf2e2b
+ref table LocalDateTable_161c5424-df43-49b3-ab46-d58f37582194
+ref table LocalDateTable_8e97c661-4bab-4220-9fd9-0d1591456b0a
+ref table D_Storage
+ref table D_Employee
+ref table LocalDateTable_64d58ed7-7c9d-4edb-b92a-99204e1223bb
+ref table LocalDateTable_1e0b0cf3-064e-41e2-9678-a4c984a37277
+ref table D_Product
+ref table LocalDateTable_7c97e4d5-7830-4b17-aab8-de8659abb881
+ref table Measure
+ref table F_Sales
+ref table F_Ycdc
+ref table LocalDateTable_ef0c7bbc-3f85-46cc-becc-5a1d34a00adf
+ref table LocalDateTable_3acfe47a-a674-4577-a171-a0bb62795355
+ref table F_Dh
+ref table LocalDateTable_de488614-ea36-4f52-81c4-7c3ca25159d1
+ref table F_Dc
+ref table LocalDateTable_e12f4ebf-11e2-48f9-abdf-a0fe70102891
+ref table LocalDateTable_9f03aa80-5a6e-4beb-bef8-420571fbe3e2
+ref table D_YcdcReason
+ref table Parameter_Category
+ref table D_Region
+ref table D_Department
+ref table Parameter_Metric
+ref table D_ProductGroup
+ref table Notes
+ref table Notes_Variable
+ref table Notes_Metric
+ref table LocalDateTable_83185cbe-9edb-4c6b-8616-a43d267c9479
+ref table LocalDateTable_ae5c0cb7-743f-428a-b7b6-87a78b7fc54a
+ref table LastUpdated
+ref table LocalDateTable_36be7f4c-f59c-4742-b1da-5dad1d027307
+ref table D_SelectedMeasure
+ref table LocalDateTable_36314d29-8263-421c-8f42-fae3ac560a1d
+ref table F_PriceTag
+ref table F_Logistics
+ref table LocalDateTable_c153c3f2-b8a8-4100-9f4f-ec0eb230325e
+ref table LocalDateTable_632176b0-d57f-412b-b5cb-9ac4d92189b9
+ref table LocalDateTable_12d2897f-447e-4b74-82ca-ffcd8f16970a
+ref table LocalDateTable_f755cf69-b9bc-432f-a08d-199b69cd3947
+ref table LocalDateTable_17488ddf-4325-4313-8fcb-b0fc39927f20
+ref table LocalDateTable_591a8371-6534-481e-b6b2-b5b2569942b8
+ref table F_Dc_Imei
+ref table LocalDateTable_922cb299-993a-417a-a629-9ee1cd568d04
+ref table LocalDateTable_bc0350e8-4a04-4652-8f91-96942758284e
+ref table Parameter_Bar
+ref table LocalDateTable_8a192c10-a740-4ea5-8e3e-3da16e967b96
+ref table D_DeliveryMethod
+ref table 'D_Phân quyền_User'
+ref table LocalDateTable_75b60a5b-4821-4eb2-92f4-2b1a3d72b3e6
+ref table 'D_Phân quyền_Vận hành'
+ref table 'D_Phân quyền_Vận hành_Vùng'
+ref table LocalDateTable_eeb47944-fa06-4eeb-834c-1498aea59e71
+ref table LocalDateTable_da4a6aaa-50fc-4549-bf86-50a7ce2bf74d
+ref table LocalDateTable_00f49b7a-a47c-4ad8-9f9f-195d9056d51c
+ref table LocalDateTable_841601e8-235c-42c8-87f5-e5681f5d92bb
+ref table LocalDateTable_c33323d6-8e63-446f-b00d-ba9e299c2af4
+ref table LocalDateTable_371353d4-7b5f-4c68-9169-cfb1ac3e9f6c
+ref table LocalDateTable_77bc2642-14b9-4fbf-a3af-04cdd434796f
+ref table LocalDateTable_2c216df9-d528-4ba2-87c6-6c4d9cacb42f
+ref table LocalDateTable_b78910df-3263-4428-b004-d98174b34721
+ref table LocalDateTable_aa212051-ed4e-4059-8999-97e424e8284e
+ref table LocalDateTable_3234b00a-b756-48e8-9ab1-bea5e404eaf7
+ref table Parameter
+ref table 'Parameter 2'
+ref table LocalDateTable_156c71d9-4c2c-4b26-9ea2-3fb688a6d06b
+ref table D_Employee_RT1
+ref table LocalDateTable_8b5d2631-20df-40f7-ae70-f607e9d1fc7f
+ref table LocalDateTable_cdd63aac-a59f-4184-942f-37f30809c42b
+ref table D_Employee_RT2
+ref table LocalDateTable_6942693e-a3c3-4c67-a290-d5595bb0f4ca
+ref table LocalDateTable_0a4e652b-f2f8-4d27-9f46-ff75924e7c50
+
+ref role Chung
+ref role 'Vận hành_AM'
+ref role 'Vận hành_Cửa hàng'
+ref role 'Vận hành_OP'
+
+ref cultureInfo en-US
+

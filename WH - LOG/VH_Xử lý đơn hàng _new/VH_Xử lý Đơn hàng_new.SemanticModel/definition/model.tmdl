@@ -1,0 +1,71 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Danh mục'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DIM_Danh mục_Ngày","DIM_Danh mục_Nhân viên","DIM_Danh mục_Nhóm hàng","DIM_Danh mục_Kho","DIM_Danh mục_Phòng ban","DIM_Danh mục_Sản phẩm","DIM_Danh mục_Miền","DIM_Danh mục_Nguồn đơn hàng","DIM_Danh mục_Trạng thái Thanh toán","DIM_Danh mục_Trạng thái Đơn hàng","DIM_Danh mục_Lý do Hủy đơn","DIM_Danh mục_Loại Ca","DIM_Danh mục_Bộ phận Hủy Online","DIM_Phân quyền_User","DIM_Phân quyền_Vận hành_Vùng","fxCalendar","MinYear","MaxYear","fxGetISO8601Week","Dim_Phong ban_bs kho dc","FACT_DS Online","FACT_DS Đơn hàng","Table","FACT_Warehouse_Current Inventory","Dim_Current_Datetime","DIM_Danh mục_QLNH","Dim_Phân Quyền_Kinh doanh","Dim_Danh Mục_QLNH_Quá trình làm việc","DIM_Danh mục_Hình thức thanh toán","FACT_SALE_Doanh số bán","Ghi chú"]
+
+annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
+
+ref table 'DIM_Danh mục_Ngày'
+ref table 'DIM_Danh mục_Nhân viên'
+ref table 'DIM_Danh mục_Nhóm hàng'
+ref table 'DIM_Danh mục_Kho'
+ref table 'DIM_Danh mục_Phòng ban'
+ref table 'DIM_Danh mục_Sản phẩm'
+ref table 'DIM_Danh mục_Miền'
+ref table 'FACT_DS Online'
+ref table 'FACT_DS Đơn hàng'
+ref table 'FACT_DS Online_Đơn hủy'
+ref table 'DIM_Danh mục_Nguồn đơn hàng'
+ref table 'DIM_Danh mục_Trạng thái Thanh toán'
+ref table 'DIM_Danh mục_Trạng thái Đơn hàng'
+ref table Measure
+ref table Parameter_ThoiGian
+ref table Parameter_DanhMucChiTiet
+ref table Parameter_Metric_DH
+ref table 'DIM_Danh mục_Lý do Hủy đơn'
+ref table 'DIM_Danh mục_Bộ phận Hủy Online'
+ref table Parameter_MeTric_DH_Huy
+ref table Parameter_Metric_Online_Huy
+ref table Parameter_CR
+ref table 'DIM_Danh mục_Loại Ca'
+ref table 'DIM_Phân quyền_User'
+ref table 'DIM_Phân quyền_Vận hành'
+ref table 'DIM_Phân quyền_Vận hành_Vùng'
+ref table 'FACT_DS Online_SLA'
+ref table 'FACT_Warehouse_Current Inventory'
+ref table Parameter_DH_CXL
+ref table Dim_Current_Datetime
+ref table 'DIM_Danh mục_QLNH'
+ref table 'Dim_Phân Quyền_Kinh doanh'
+ref table 'Dim_Danh Mục_QLNH_Quá trình làm việc'
+ref table Parameter_SLA
+ref table 'FACT_SALE_Doanh số bán'
+ref table 'DIM_Danh mục_Hình thức thanh toán'
+ref table 'Ghi chú'
+
+ref role Chung
+ref role 'Vận hành_AM'
+ref role 'Vận hành_Cửa hàng'
+ref role 'Vận hành_OP'
+ref role BOD
+ref role 'Kinh doanh_Máy cũ'
+ref role 'Kinh doanh_PK_Củ cáp'
+ref role 'Kinh doanh_PK_Ốp bao da'
+ref role 'Kinh doanh_QLNH'
+ref role 'Kinh doanh_QLNH HỌC VIỆC'
+ref role 'Kinh doanh_Quản lý vùng'
+ref role 'Kinh doanh_TLKD'
+
+ref cultureInfo en-US
+

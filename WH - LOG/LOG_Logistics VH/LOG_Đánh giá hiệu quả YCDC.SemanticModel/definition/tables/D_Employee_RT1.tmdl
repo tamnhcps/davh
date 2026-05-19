@@ -1,0 +1,99 @@
+table D_Employee_RT1
+	lineageTag: 625ae854-0184-4549-b5f8-3b707b105a75
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: b9a537b1-54e9-488a-b6fd-c1f02c44c56f
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã nhân viên'
+		dataType: string
+		lineageTag: 03eb10bc-c5c1-4e43-9496-cfa9b1f2ed6b
+		summarizeBy: none
+		sourceColumn: Mã nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên nhân viên'
+		dataType: string
+		lineageTag: e314661f-cbd4-498a-9e21-2b42d66ac8a7
+		summarizeBy: none
+		sourceColumn: Tên nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Inactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e2fcbf30-ed09-4d8c-b836-60fb9f37beaf
+		summarizeBy: none
+		sourceColumn: Inactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày nhận việc'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4191b1ee-0435-45e4-b23d-ab3a10d42b25
+		summarizeBy: none
+		sourceColumn: Ngày nhận việc
+
+		variation Variation
+			isDefault
+			relationship: 5d2c9d70-3a77-41f5-bc6c-8f69f438f353
+			defaultHierarchy: LocalDateTable_8b5d2631-20df-40f7-ae70-f607e9d1fc7f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ngày kết thúc'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1fe2c9e1-eede-4039-8928-f2a537f6828c
+		summarizeBy: none
+		sourceColumn: Ngày kết thúc
+
+		variation Variation
+			isDefault
+			relationship: 2d89a860-ed7f-440c-828e-f3e9e9f4fe41
+			defaultHierarchy: LocalDateTable_cdd63aac-a59f-4184-942f-37f30809c42b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Vị trí'
+		dataType: string
+		lineageTag: 960c0d27-88a7-433f-a072-c46e87e234a8
+		summarizeBy: none
+		sourceColumn: Vị trí
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentName
+		dataType: string
+		lineageTag: de2c45a2-82c2-4493-9cbf-61e3b10f9f82
+		summarizeBy: none
+		sourceColumn: DepartmentName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Employee_RT1 = m
+		mode: import
+		queryGroup: DIM
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=84704b94-290f-44a3-a451-50c034ea8c35”#(lf)SELECT#(lf)  sp.id AS ID,#(lf)  UPPER(sp.code) AS `Mã nhân viên`,#(lf)  UPPER(sp.fullname) AS `Tên nhân viên`,#(lf)  sp.inactive AS Inactive,#(lf)  COALESCE(DATE(ee.DateJoin), DATE(ee.LastEdit),DATE(hr.start_date)) AS `Ngày nhận việc`,#(lf)  COALESCE(DATE(ee.DayLeave), DATE(hr.end_date)) AS `Ngày kết thúc`,#(lf)  et.name AS `Vị trí`,#(lf)  sd.name AS `DepartmentName`#(lf)FROM#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Person sp#(lf)LEFT JOIN#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_Employee ee#(lf)ON#(lf)  ee.id = sp.id#(lf)LEFT JOIN#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Department sd#(lf)ON#(lf)  sd.id = ee.DepartmentId#(lf)LEFT JOIN#(lf)  cellphones-data-platform.cps_cdc_sep_hcm_dbo.ERP_EmployeeTitle et#(lf)ON#(lf)  et.id = ee.TitleId#(lf)LEFT JOIN#(lf)cellphones-data-platform.cps_unified_postgres_dwh.hrw_hr_profile hr#(lf)ON#(lf) hr.hara_id = sp.HaraId", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"DepartmentName"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,9 @@
+role 'Kinh doanh_TLKD'
+	modelPermission: read
+
+	tablePermission 'Dim_Phân Quyền_Kinh doanh' = 'Dim_Phân quyền_Kinh doanh'[TLKD]=LOOKUPVALUE('Dim_Phân quyền_User'[Tên],'Dim_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	tablePermission 'DIM_Danh mục_Ngày' = 'DIM_DANH MỤC_NGÀY'[Date]>=LOOKUPVALUE('Dim_Phân quyền_User'[Startdate],'Dim_Phân quyền_User'[Mail],USERPRINCIPALNAME())
+
+	annotation PBI_Id = 790d655ee32742d586b738c2e3fabe43
+
