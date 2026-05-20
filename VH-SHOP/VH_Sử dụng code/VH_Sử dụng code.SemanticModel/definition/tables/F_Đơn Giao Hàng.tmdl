@@ -1,0 +1,144 @@
+table 'F_Đơn Giao Hàng'
+	lineageTag: aed7ca3a-0c50-4eab-85bc-00583e71acfa
+
+	column create_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: ff105bde-3448-4f11-b77a-fcbdc1f636de
+		summarizeBy: none
+		sourceColumn: create_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column autocode
+		dataType: string
+		lineageTag: d774dba0-cb0d-43de-9923-88e8fa74d1d7
+		summarizeBy: none
+		sourceColumn: autocode
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_code
+		dataType: string
+		lineageTag: a6cae51a-b206-48c3-9e31-22f7e2fd4164
+		summarizeBy: none
+		sourceColumn: product_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column dmc3
+		dataType: string
+		lineageTag: 09744969-5ee5-4682-ae5a-d65f93936fb5
+		summarizeBy: none
+		sourceColumn: dmc3
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: double
+		lineageTag: d5a90e28-4d3f-45fe-ac19-17774fe9934f
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column amount
+		dataType: double
+		lineageTag: b0451a07-a54a-4f13-b1d8-cca5341b3730
+		summarizeBy: sum
+		sourceColumn: amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column quan_huyen
+		dataType: string
+		lineageTag: 0e046bbf-dbb2-4d20-b870-5e82b45e4c5b
+		summarizeBy: none
+		sourceColumn: quan_huyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column tinh_thanh
+		dataType: string
+		lineageTag: 8395d804-74a5-4671-b6f2-9dbd01cd5d83
+		summarizeBy: none
+		sourceColumn: tinh_thanh
+
+		annotation SummarizationSetBy = Automatic
+
+	column used_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d8c9d684-e5be-42a3-b4f7-06e60ae265ee
+		summarizeBy: none
+		sourceColumn: used_date
+
+		variation Variation
+			isDefault
+			relationship: e8fd158c-ae77-4539-acce-e61cab177a19
+			defaultHierarchy: LocalDateTable_6397de17-f861-41fb-b4a5-a9062e1f0593.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column promotion_code
+		dataType: string
+		lineageTag: 8f76a206-2b6d-4abf-acee-34fdb90aab22
+		summarizeBy: none
+		sourceColumn: promotion_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column autocode_promotion
+		dataType: string
+		lineageTag: dad22255-5442-4a90-83ca-47619814e45a
+		summarizeBy: none
+		sourceColumn: autocode_promotion
+
+		annotation SummarizationSetBy = Automatic
+
+	column take_value
+		dataType: double
+		lineageTag: b25cd93f-d76b-48d9-9951-724e69b62bc3
+		summarizeBy: sum
+		sourceColumn: take_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column quan_huyen_final
+		dataType: string
+		lineageTag: 1d66229c-b264-4aab-b7ef-2e00b1b77f19
+		summarizeBy: none
+		sourceColumn: quan_huyen_final
+
+		annotation SummarizationSetBy = Automatic
+
+	column key =
+			
+			'F_Đơn Giao Hàng'[quan_huyen_final] & "-" & 'F_Đơn Giao Hàng'[tinh_thanh]
+		lineageTag: 24a4fd60-bd9c-4fb8-b26e-10ff703c4c0f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'F_Đơn Giao Hàng' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database(){[Name="cellphones-data-platform"]}[Data], "WITH cte_don_giao_hang AS (#(lf)  SELECT #(lf)      so_phieu,#(lf)      tinh_thanh,#(lf)      quan_huyen#(lf)#(lf)  FROM `cellphones-data-platform.datamart_cps_logistics.rpt_logistics` #(lf)  WHERE #(lf)      so_phieu LIKE 'SP%' #(lf)      AND (DATE(ngay_don_hang) >= '2025-08-01' OR DATE(ngay_lap_phieu) >= '2025-08-01') #(lf)      AND LOWER(tinh_trang_don) NOT LIKE '%hủy%' #(lf)  GROUP BY 1,2,3#(lf))#(lf)#(lf), cte_quan_huyen_cps AS (#(lf)  SELECT #(lf)      cua_hang AS shop,#(lf)      dia_chi_kho AS dia_chi,#(lf)      REGEXP_REPLACE(UPPER(TRIM(quan_huyen)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '') AS quan_huyen,#(lf)      REGEXP_REPLACE(UPPER(TRIM(tinh_thanh)), r'\b(TỈNH|THÀNH PHỐ)\b\s*', '') AS tinh_thanh,#(lf)      mien AS mien#(lf)#(lf)  FROM `cellphones-data-platform.cps_DA_General_Transform.dim_storage` s #(lf)  WHERE #(lf)      cong_ty = 'CPS'#(lf)      AND is_inactive = FALSE#(lf)      AND ma_kho NOT IN ('HD.6NLB.KM','HN.117TH.KM','HN.115TH_KM','HP.34LT_KM')#(lf)      AND REGEXP_REPLACE(UPPER(TRIM(quan_huyen)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '')  IS NOT NULL#(lf))#(lf)#(lf), cte_promotion_code AS (#(lf)  SELECT DISTINCT#(lf)      detail.CreateDate AS create_date, #(lf)      DATE(log.UsedDate) AS used_date,#(lf)      code.Id AS promotion_id, #(lf)      code.Name AS promotion_name, #(lf)      detail.code AS code,#(lf)      log.AutoCode AS autocode,#(lf)      log.TakeValue AS take_value#(lf)#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_PromotionCodeDetail` AS detail#(lf)LEFT JOIN #(lf)  `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_PromotionCode` AS code#(lf)  ON detail.PromotionCodeId = code.Id#(lf)LEFT JOIN #(lf)  `cellphones-data-platform.cps_cdc_sep_shared_data_dbo.SO_PromotionCodeLog` AS log#(lf)    ON log.Code = detail.code AND log.AutoCode = detail.POSCode#(lf)WHERE #(lf)  code.Id IN (3844,3757)#(lf)  AND CancelDate IS NULL#(lf)  AND DATE(log.UsedDate) IS NOT NULL#(lf)  AND isOrder = false#(lf))#(lf)#(lf), cte_quan_huyen AS (#(lf)  #(lf)WITH cps AS (#(lf)  SELECT#(lf)    UPPER(s.ma_kho) AS `Key shop`,                               -- Uppercase#(lf)    REGEXP_REPLACE(s.cua_hang, r' {2,}', ' ') AS `Tên shop`,     -- Fix double spaces#(lf)    s.dia_chi_kho AS `Địa chỉ`,#(lf)    REGEXP_REPLACE(UPPER(TRIM(s.quan_huyen)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '') AS `Quận huyện`,#(lf)    -- Chuẩn hoá tỉnh thành + thay ""THỪA THIÊN HUẾ"" -> ""THỪA THIÊN - HUẾ""#(lf)    REPLACE(#(lf)      REGEXP_REPLACE(UPPER(TRIM(s.tinh_thanh)), r'\b(TỈNH|THÀNH PHỐ)\b\s*', ''),#(lf)      'THỪA THIÊN HUẾ', 'THỪA THIÊN - HUẾ'#(lf)    ) AS `Tỉnh thành`,#(lf)    s.mien AS `Miền`,#(lf)    CAST(s.lat  AS NUMERIC) AS `Lat`,#(lf)    CAST(s.long AS NUMERIC) AS `Long`,#(lf)    'CPS' AS company_norm,                                       -- dùng để tính sort_cty#(lf)    CASE#(lf)      WHEN LOWER(s.cua_hang) LIKE '%onl%'  THEN 1#(lf)      WHEN LOWER(s.cua_hang) LIKE '%98th%' THEN 1#(lf)      ELSE 0#(lf)    END AS is_online#(lf)  FROM `cellphones-data-platform.cps_DA_General_Transform.dim_storage` s#(lf)  WHERE s.cong_ty = 'CPS'#(lf)    AND s.ma_kho NOT IN ('HD.6NLB.KM','HN.117TH.KM','HN.115TH_KM','HP.34LT_KM')#(lf)),#(lf)com AS (#(lf)  SELECT#(lf)    UPPER(com.shop_code) AS `Key shop`,                           -- Uppercase#(lf)    REGEXP_REPLACE(com.shop_name, r' {2,}', ' ') AS `Tên shop`,   -- Fix double spaces#(lf)    com.address_full AS `Địa chỉ`,#(lf)    REGEXP_REPLACE(UPPER(TRIM(com.district)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '') AS `Quận huyện`,#(lf)    -- Chuẩn hoá tỉnh thành + thay ""THỪA THIÊN HUẾ"" -> ""THỪA THIÊN - HUẾ""#(lf)    REPLACE(#(lf)      REGEXP_REPLACE(UPPER(TRIM(com.province)), r'\b(TỈNH|THÀNH PHỐ)\b\s*', ''),#(lf)      'THỪA THIÊN HUẾ', 'THỪA THIÊN - HUẾ'#(lf)    ) AS `Tỉnh thành`,#(lf)    com.mien AS `Miền`,#(lf)    IF(com.latitude  = 'nan', NULL, CAST(com.latitude  AS NUMERIC)) AS `Lat`,#(lf)    IF(com.longitude = 'nan', NULL, CAST(com.longitude AS NUMERIC)) AS `Long`,#(lf)    -- Chuẩn hoá tên công ty: TGDĐ -> TGDD#(lf)    IF(com.company = 'TGDĐ', 'TGDD', com.company) AS company_norm,#(lf)    com.is_online#(lf)  FROM `cellphones-data-platform.competitor_analysis_dwh.competitor_store` com#(lf)  WHERE NOT REGEXP_CONTAINS(com.shop_name, r'^(AK_|BHX_|AK1_)')#(lf)),#(lf)unioned AS (#(lf)  SELECT * FROM cps#(lf)  UNION ALL#(lf)  SELECT * FROM com#(lf)),#(lf)with_sort AS (#(lf)  SELECT#(lf)    `Key shop`,#(lf)    `Tên shop`,#(lf)    `Địa chỉ`,#(lf)    -- loại bỏ thêm tiền tố ""THỊ XÃ "" / ""THÀNH PHỐ "" nếu còn sót#(lf)    REPLACE(REPLACE(`Quận huyện`, 'THỊ XÃ ', ''), 'THÀNH PHỐ ', '') AS `Quận huyện`,#(lf)    `Tỉnh thành`,#(lf)    `Miền`,#(lf)    `Lat`,#(lf)    `Long`,#(lf)    company_norm AS `Công ty`,#(lf)    CASE#(lf)      WHEN company_norm = 'CPS' THEN 1#(lf)      WHEN company_norm = 'FPT' THEN 2#(lf)      ELSE 3#(lf)    END AS sort_cty,#(lf)    is_online#(lf)  FROM unioned#(lf))#(lf)#(lf), final AS (#(lf)  SELECT#(lf)    `Key shop`,#(lf)    `Tên shop`,#(lf)    `Địa chỉ`,#(lf)    `Quận huyện`,#(lf)    `Tỉnh thành`,#(lf)    `Miền`,#(lf)    `Lat`,#(lf)    `Long`,#(lf)    -- mapping cuối cùng: Công ty -> mã màu (R/Y/B)#(lf)    CASE#(lf)      WHEN `Công ty` = 'FPT'  THEN 'B'#(lf)      WHEN `Công ty` = 'TGDD' THEN 'Y'#(lf)      WHEN `Công ty` = 'CPS'  THEN 'R'#(lf)      ELSE `Công ty`#(lf)    END AS `Công ty`,#(lf)    sort_cty,#(lf)    is_online#(lf)  FROM with_sort#(lf)  WHERE `Quận huyện` IS NOT NULL#(lf))#(lf)#(lf)SELECT `Quận huyện`#(lf)FROM final #(lf)GROUP BY 1#(lf))#(lf)#(lf), cte_tinh_thanh AS (#(lf)  WITH cte_base AS (#(lf)    SELECT #(lf)        TRIM(REGEXP_REPLACE(UPPER(quan_huyen), r'(QUẬN|HUYỆN|THỊ XÃ)', '')) AS quan_huyen , #(lf)        REGEXP_REPLACE(UPPER(TRIM(tinh_thanh)), r'\b(TỈNH|THÀNH PHỐ)\b\s*', '') AS tinh_thanh #(lf)    FROM cte_quan_huyen_cps #(lf)    GROUP BY 1,2#(lf)  )#(lf)  SELECT CONCAT(quan_huyen,""-"",tinh_thanh) AS key#(lf)  FROM cte_base#(lf))#(lf)#(lf), cte_data AS (#(lf)#(lf)  SELECT#(lf)      DATE(b.CreateDate) AS create_date, #(lf)      a.so_phieu AS autocode, #(lf)      b.ProductCode AS product_code,#(lf)      -- b.ProductName AS product_name,#(lf)      b.DMC3 AS dmc3,#(lf)      b.quantity AS quantity,#(lf)      b.amount AS amount,#(lf)      UPPER(a.quan_huyen) AS quan_huyen, #(lf)      UPPER(a.tinh_thanh) AS tinh_thanh,#(lf)      c.used_date AS used_date,#(lf)      code AS promotion_code,#(lf)      c.autocode AS autocode_promotion ,#(lf)      take_value / COUNT(*) OVER(PARTITION BY a.so_phieu) AS take_value, #(lf)      COALESCE(d.`Quận huyện`, REGEXP_REPLACE(UPPER(TRIM(a.quan_huyen)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', ''))  AS quan_huyen_final#(lf)#(lf)  FROM cte_don_giao_hang AS a#(lf)  LEFT JOIN  `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` AS b#(lf)    ON b.AutoCode = a.so_phieu#(lf)  LEFT JOIN cte_promotion_code AS c#(lf)    ON c.autocode =  a.so_phieu#(lf)  LEFT JOIN cte_quan_huyen AS d#(lf)    ON d.`Quận huyện` =  REGEXP_REPLACE(UPPER(TRIM(a.quan_huyen)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '')#(lf)#(lf)  WHERE #(lf)    DATE(b.CreateDate) >= '2025-08-01'  #(lf)    --Lấy sản phẩm là LAPTOP CTM.--#(lf)    AND UPPER(b.DMC3) LIKE '%LAPTOP CTM%' #(lf)    --Lấy các đơn được giao tới Quận - Huyện mà CPS không có Shop tại Quận - Huyện đó.--#(lf)    AND CONCAT( (COALESCE(d.`Quận huyện`, REGEXP_REPLACE(UPPER(TRIM(a.quan_huyen)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', ''))), ""-"", REGEXP_REPLACE(UPPER(TRIM(a.tinh_thanh)), r'\b(TỈNH|THÀNH PHỐ)\b\s*', '')) NOT IN (SELECT key FROM cte_tinh_thanh GROUP BY 1)#(lf))#(lf)#(lf), cte_remain AS (#(lf)  WITH cte_having_code AS (#(lf)    SELECT autocode#(lf)    FROM cte_data#(lf)    WHERE promotion_code IS NOT NULL#(lf)  )#(lf)  #(lf)  SELECT *#(lf)  FROM cte_promotion_code #(lf)  WHERE autocode NOT IN (SELECT * FROM cte_having_code)#(lf)#(lf))#(lf)#(lf), cte_so_order AS (#(lf)  SELECT#(lf)      DATE(sales.CreateDate) AS create_date, #(lf)      sales.AutoCode AS autocode, #(lf)      sales.ProductCode AS product_code,#(lf)      -- b.ProductName AS product_name,#(lf)      sales.DMC3 AS dmc3,#(lf)      sales.quantity AS quantity,#(lf)      sales.amount AS amount,#(lf)      UPPER(district.Name) AS quan_huyen, #(lf)      UPPER(province.Name) AS tinh_thanh,#(lf)      code.used_date AS used_date,#(lf)      code.code AS promotion_code,#(lf)      code.autocode AS autocode_promotion ,#(lf)      take_value / COUNT(*) OVER(PARTITION BY sales.AutoCode) AS take_value, #(lf)      REGEXP_REPLACE(UPPER(TRIM(district.Name)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '') AS quan_huyen_final#(lf)      #(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_Order` AS so_order#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_OrderDetail` AS detail #(lf)    ON detail.OrderId = so_order.Id#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Province` AS province#(lf)    ON province.Id = so_order.ProvinceId#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_District` AS district#(lf)    ON district.Id = so_order.DistrictId#(lf)  LEFT JOIN `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` AS sales#(lf)    ON detail.Id = sales.SOOrderDetailId AND sales.Region = 'HCM'#(lf)  LEFT JOIN cte_remain AS code#(lf)    ON code.autocode = sales.AutoCode#(lf)#(lf)  WHERE #(lf)    DATE(sales.CreateDate) >= '2025-09-01' #(lf)    AND  sales.AutoCode IN (SELECT DISTINCT autocode FROM cte_remain)#(lf)    AND UPPER(sales.DMC3) LIKE '%LAPTOP CTM%' #(lf)    -- AND TRIM(REGEXP_REPLACE(UPPER(district.Name), r'(QUẬN|HUYỆN|THỊ XÃ)', '')) NOT IN (SELECT TRIM(REGEXP_REPLACE(UPPER(quan_huyen), r'(QUẬN|HUYỆN|THỊ XÃ)', '')) FROM cte_quan_huyen_cps GROUP BY 1)#(lf)#(lf)UNION ALL#(lf)#(lf)  SELECT#(lf)      DATE(sales.CreateDate) AS create_date, #(lf)      sales.AutoCode AS autocode, #(lf)      sales.ProductCode AS product_code,#(lf)      -- b.ProductName AS product_name,#(lf)      sales.DMC3 AS dmc3,#(lf)      sales.quantity AS quantity,#(lf)      sales.amount AS amount,#(lf)      UPPER(district.Name) AS quan_huyen, #(lf)      UPPER(province.Name) AS tinh_thanh,#(lf)      code.used_date AS used_date,#(lf)      code.code AS promotion_code,#(lf)      code.autocode AS autocode_promotion ,#(lf)      take_value / COUNT(*) OVER(PARTITION BY sales.AutoCode) AS take_value, #(lf)      REGEXP_REPLACE(UPPER(TRIM(district.Name)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '') AS quan_huyen_final#(lf)      #(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_Order` AS so_order#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_OrderDetail` AS detail #(lf)    ON detail.OrderId = so_order.Id#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_Province` AS province#(lf)    ON province.Id = so_order.ProvinceId#(lf)  LEFT JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Shared_District` AS district#(lf)    ON district.Id = so_order.DistrictId#(lf)  LEFT JOIN `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` AS sales#(lf)    ON detail.Id = sales.SOOrderDetailId AND sales.Region = 'HN'#(lf)  LEFT JOIN cte_remain AS code#(lf)    ON code.autocode = sales.AutoCode#(lf)#(lf)  WHERE #(lf)    DATE(sales.CreateDate) >= '2025-09-01' #(lf)    AND  sales.AutoCode IN (SELECT DISTINCT autocode FROM cte_remain)#(lf)    AND UPPER(sales.DMC3) LIKE '%LAPTOP CTM%'#(lf)    -- AND TRIM(REGEXP_REPLACE(UPPER(district.Name), r'(QUẬN|HUYỆN|THỊ XÃ)', '')) NOT IN (SELECT TRIM(REGEXP_REPLACE(UPPER(quan_huyen), r'(QUẬN|HUYỆN|THỊ XÃ)', '')) FROM cte_quan_huyen_cps GROUP BY 1)#(lf))#(lf)#(lf)SELECT *#(lf)FROM cte_data#(lf)#(lf)UNION ALL#(lf)#(lf)SELECT *#(lf)FROM cte_so_order", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

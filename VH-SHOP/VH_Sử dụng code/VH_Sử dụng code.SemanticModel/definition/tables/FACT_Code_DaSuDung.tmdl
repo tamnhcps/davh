@@ -1,0 +1,536 @@
+table FACT_Code_DaSuDung
+	lineageTag: 75f7576b-cf05-436c-8b65-4f9cd529610f
+
+	column ChuongTrinh
+		dataType: string
+		lineageTag: b6fefd44-d88a-431a-bd07-c194e26656c5
+		summarizeBy: none
+		sourceColumn: ChuongTrinh
+
+		annotation SummarizationSetBy = Automatic
+
+	column Code
+		dataType: string
+		lineageTag: 5030063d-9b63-476c-8a54-7c4e7c9df323
+		summarizeBy: none
+		sourceColumn: Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column AutoCode
+		dataType: string
+		lineageTag: a4d54985-2437-43cd-963e-d182a513a679
+		summarizeBy: none
+		sourceColumn: AutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1602d46c-b812-498d-89b2-d09726acd402
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		variation Variation
+			isDefault
+			relationship: 17e2e994-f6b9-40b5-9903-379e33a00638
+			defaultHierarchy: LocalDateTable_492f7cc8-6085-4843-9a97-d3fde5c3dba0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UsingDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 28d5bdaf-9ecb-4b44-951c-be24b886e77e
+		summarizeBy: none
+		sourceColumn: UsingDate
+
+		variation Variation
+			isDefault
+			relationship: f057c4ea-f3be-4372-833b-42c4af0a367e
+			defaultHierarchy: LocalDateTable_b6e62671-db80-4e77-92b4-69ce2fe89d6c.'Date Hierarchy'
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreateBy
+		dataType: string
+		lineageTag: 07566bee-30fd-4ed8-ac05-802de99fdb88
+		summarizeBy: none
+		sourceColumn: CreateBy
+
+		annotation SummarizationSetBy = Automatic
+
+	column UsedBy
+		dataType: string
+		lineageTag: 3453e34b-a73a-4db6-a42e-3dd389c51e91
+		summarizeBy: none
+		sourceColumn: UsedBy
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreCode = LOOKUPVALUE('FACT_Sale_Doanh số bán'[StoreCode],'FACT_Sale_Doanh số bán'[AutoCode], FACT_Code_DaSuDung[AutoCode],blank())
+		lineageTag: d4e7c4bd-a066-473e-a059-414399c52c7b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column count = ```
+			CALCULATE(COUNTROWS(FACT_Code_DaSuDung), filter(FACT_Code_DaSuDung, FACT_Code_DaSuDung[Code]=EARLIER(FACT_Code_DaSuDung[Code]))) 
+			```
+		formatString: 0
+		lineageTag: 931ae6c7-3d9b-46cd-9548-d12f1646f4cf
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Id
+		dataType: int64
+		formatString: 0
+		lineageTag: ea968ec4-386c-4905-919e-204095add05e
+		summarizeBy: none
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_Used = FACT_Code_DaSuDung[UsingDate].[Date]
+		formatString: Short Date
+		lineageTag: 0837bd62-62e8-487d-8c48-3c4b1335eb50
+		summarizeBy: none
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Count Autocode' = ```
+			CALCULATE(COUNTROWS(FACT_Code_DaSuDung), filter(FACT_Code_DaSuDung, FACT_Code_DaSuDung[AutoCode]=EARLIER(FACT_Code_DaSuDung[AutoCode]))) 
+			```
+		formatString: #,0
+		lineageTag: d8155bc3-7200-4a02-9808-616156da61f0
+		summarizeBy: sum
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dso =
+			
+			VAR minindex =
+			    CALCULATE (
+			        MIN ( FACT_Code_DaSuDung[Index] ),
+			        FILTER (
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[AutoCode]
+			                = EARLIER ( FACT_Code_DaSuDung[AutoCode] )
+			        )
+			    )
+			VAR Dso_Not_BHMR=CALCULATE (
+			                        [Dso],
+			                        FILTER (
+			                            'FACT_Sale_Doanh số bán',
+			                            'FACT_Sale_Doanh số bán'[AutoCode]
+			                                = EARLIER ( FACT_Code_DaSuDung[AutoCode] )
+			                                && FACT_Code_DaSuDung[Index] = minindex
+			                        )
+			                    )
+			VAR Dso_BHMR=CALCULATE (
+			                        [Dso],
+			                        FILTER (
+			                            'FACT_Sale_Doanh số bán',
+			                            'FACT_Sale_Doanh số bán'[AutoCode]
+			                                = EARLIER ( FACT_Code_DaSuDung[AutoCode] )
+			                                && FACT_Code_DaSuDung[Index] = minindex
+			                                && 'FACT_Sale_Doanh số bán'[DMC3]="BH CŨ"
+			                        )
+			                    )
+			RETURN SWITCH(TRUE(),'FACT_Code_DaSuDung'[ChuongTrinh]="Ban kem BHMR_SM"||'FACT_Code_DaSuDung'[ChuongTrinh]="Ban kem BHMR_AM",Dso_BHMR,Dso_Not_BHMR)
+		formatString: #,0
+		lineageTag: 318c3051-7a9f-4088-aff3-d5540a444aab
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 97b8cc4b-7d81-4370-8031-127395025688
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsPercent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 37868a21-fce7-4c75-91ee-420a9e0cf73a
+		summarizeBy: none
+		sourceColumn: IsPercent
+
+		annotation SummarizationSetBy = Automatic
+
+	column TakeMaxAmount
+		dataType: double
+		formatString: #,0
+		lineageTag: d66229cb-ff70-4b59-85ed-70ba919a88b3
+		summarizeBy: sum
+		sourceColumn: TakeMaxAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Contactphone = LOOKUPVALUE('FACT_Sale_Doanh số bán'[ContactPhone],'FACT_Sale_Doanh số bán'[AutoCode], FACT_Code_DaSuDung[AutoCode])
+		lineageTag: f44026a3-7314-4e32-8b80-5f7f8ad0f323
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'TakeValue thực' =
+			
+			VAR value_percent =
+			    IF (
+			        FACT_Code_DaSuDung[TakeMaxAmount]
+			            = BLANK (),
+			        DIVIDE (
+			            'FACT_Code_DaSuDung'[Dso] * FACT_Code_DaSuDung[TakeValue],
+			            100
+			        ),
+			        MIN (
+			            DIVIDE (
+			                'FACT_Code_DaSuDung'[Dso]  * FACT_Code_DaSuDung[TakeValue],
+			                100
+			            ),
+			            FACT_Code_DaSuDung[TakeMaxAmount]
+			        )
+			    )
+			RETURN
+			    IF (
+			        FACT_Code_DaSuDung[IsPercent]
+			            =True,
+			        value_percent,
+			        FACT_Code_DaSuDung[TakeValue]
+			    )
+		formatString: #,0
+		lineageTag: 86419be0-7bb0-4e5d-b107-b8e119760b8e
+		summarizeBy: sum
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Dso_SĐT =
+			
+			VAR minindex =
+			    CALCULATE(
+			        MIN( FACT_Code_DaSuDung[Index] ),
+			        FILTER(
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[Contactphone] = EARLIER( FACT_Code_DaSuDung[Contactphone] )
+			                && FACT_Code_DaSuDung[Date_Used] = EARLIER( FACT_Code_DaSuDung[Date_Used] )
+			        )
+			    )
+			RETURN
+			    CALCULATE(
+			        [Dso],
+			        FILTER(
+			            'FACT_Sale_Doanh số bán',
+			            'FACT_Sale_Doanh số bán'[ContactPhone]
+			                = EARLIER( FACT_Code_DaSuDung[Contactphone] )
+			                && 'FACT_Sale_Doanh số bán'[Date] = EARLIER( FACT_Code_DaSuDung[Date_Used] )
+			                && FACT_Code_DaSuDung[Index] = minindex
+			        )
+			    )
+		lineageTag: 32fdd29d-d2a6-4c5a-9d27-4eb1a209975d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Code AM_SM' =
+			
+			SWITCH(
+			    TRUE(),
+			    SIGN(CALCULATE(COUNTROWS(DIM_PromotionCode),FILTER(DIM_PromotionCode, DIM_PromotionCode[PromotionCodeId]=EARLIER(FACT_Code_DaSuDung[Id]) && DIM_PromotionCode[SM] = 1))) = 1, "SM",
+			    SIGN(CALCULATE(COUNTROWS(DIM_PromotionCode),FILTER(DIM_PromotionCode, DIM_PromotionCode[PromotionCodeId]=EARLIER(FACT_Code_DaSuDung[Id]) && DIM_PromotionCode[AM] = 1))) = 1, "AM",
+			    BLANK()
+			)
+		lineageTag: 43ace223-f7d0-4881-9971-61307206a044
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Is_Use = if(FACT_Code_DaSuDung[AutoCode]= BLANK(), 0,1)
+		formatString: 0
+		lineageTag: effb56c0-9475-41b2-8ef8-a8d2c929ca7d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date_Cre = FACT_Code_DaSuDung[CreateDate].[Date]
+		formatString: Short Date
+		lineageTag: ec67d3cf-2463-4bee-9afb-6c82bd3e28b2
+		summarizeBy: none
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column Percent = if(FACT_Code_DaSuDung[IsPercent]=TRUE(), FACT_Code_DaSuDung[TakeValue], BLANK())
+		formatString: #,0
+		lineageTag: a57c9655-fcef-4d24-b23c-d5957b02cc08
+		summarizeBy: sum
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Startdate_Cre = STARTOFMONTH(FACT_Code_DaSuDung[Date_Cre])
+		formatString: Short Date
+		lineageTag: 7e709178-f1fe-4865-8f17-cf554cea89f2
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 9cbc9176-274a-4934-a189-912a6888a993
+			defaultHierarchy: LocalDateTable_ac99f73d-76c7-4d8f-9dff-ee492a3b4faf.'Date Hierarchy'
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dso chưa ck' = ```
+			
+			VAR minindex =
+			    CALCULATE (
+			        MIN ( FACT_Code_DaSuDung[Index] ),
+			        FILTER (
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[AutoCode]
+			                = EARLIER ( FACT_Code_DaSuDung[AutoCode] )
+			        )
+			    )
+			var dso=
+			    CALCULATE (
+			        sum(FACT_Code_DaSuDung[Dso]),
+			        FILTER (
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[AutoCode]
+			                = EARLIER ( FACT_Code_DaSuDung[AutoCode] )
+			                && FACT_Code_DaSuDung[Index] = minindex
+			        )
+			    )
+			var dis_smem=
+			    CALCULATE (
+			        sum(FACT_Code_DaSuDung[Smember_Discount]),
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[AutoCode]
+			                = EARLIER ( FACT_Code_DaSuDung[AutoCode] )
+			                && FACT_Code_DaSuDung[Index] = minindex
+			        )
+			    
+			return if(FACT_Code_DaSuDung[Index]=minindex, dso + dis_smem, BLANK())
+			```
+		lineageTag: 02eb8d60-2e4a-474c-ab53-5825b987084c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Phòng ban_Creby' = LOOKUPVALUE('DIM_Danh mục_Nhân viên'[DepartmentName], 'DIM_Danh mục_Nhân viên'[Mã nhân viên], FACT_Code_DaSuDung[CreateBy])
+		isHidden
+		lineageTag: d6c5c2cc-0987-4a44-88c0-38278357dafe
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Createby_Slgcode =
+			
+			CALCULATE (
+			    COUNTROWS ( FACT_Code_DaSuDung ),
+			    FILTER (
+			        FACT_Code_DaSuDung,
+			        FACT_Code_DaSuDung[ChuongTrinh]
+			            = EARLIER ( FACT_Code_DaSuDung[ChuongTrinh] )
+			            && FACT_Code_DaSuDung[CreateBy]
+			                = EARLIER ( FACT_Code_DaSuDung[CreateBy] )
+			    )
+			)
+		formatString: 0
+		lineageTag: 5f0c9909-1db1-434d-b793-4a96e8653fe2
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Len_Contact = len(FACT_Code_DaSuDung[Contactphone])
+		formatString: 0
+		lineageTag: b0a94a74-3f91-46a3-97dc-e96fdb53930c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is_SĐT nv' =
+			
+			VAR is_nv =
+			    CALCULATE (
+			        COUNTROWS ( 'DIM_Danh mục_Nhân viên' ),
+			        FILTER (
+			            'DIM_Danh mục_Nhân viên',
+			            'DIM_Danh mục_Nhân viên'[WorkingPhone]
+			                = EARLIER ( FACT_Code_DaSuDung[ContactPhone] )
+			        )
+			    )
+			VAR is_nv_2 =
+			    CALCULATE (
+			        COUNTROWS ( 'DIM_Danh mục_Nhân viên' ),
+			        FILTER (
+			            'DIM_Danh mục_Nhân viên',
+			            'DIM_Danh mục_Nhân viên'[Telephone]
+			                = EARLIER ( FACT_Code_DaSuDung[ContactPhone] )
+			        )
+			    )
+			RETURN
+			    IF (
+			        FACT_Code_DaSuDung[Contactphone]
+			            <> BLANK (),
+			        IF (
+			            is_nv > 0
+			                || is_nv_2 > 0,
+			            1,
+			            BLANK ()
+			        )
+			    )
+		formatString: 0
+		lineageTag: 21cec31f-8b5d-48b2-9c7e-4a66fa58f94b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Imei = CALCULATE(FIRSTNONBLANK('FACT_Sale_Doanh số bán'[imei],0),filter('FACT_Sale_Doanh số bán','FACT_Sale_Doanh số bán'[AutoCode]=EARLIER( FACT_Code_DaSuDung[AutoCode])))
+		lineageTag: af33a70e-d430-44c4-b1bb-48f1c6cc9bc9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày sử dụng code AM/SM gần nhất' =
+			
+			CALCULATE (
+			    MIN ( FACT_Code_DaSuDung[UsingDate] ),
+			    FILTER (
+			        FACT_Code_DaSuDung,
+			        FACT_Code_DaSuDung[Contactphone]
+			            = EARLIER ( FACT_Code_DaSuDung[Contactphone] )
+			            && ( FACT_Code_DaSuDung[Code AM_SM] = "AM"
+			            || FACT_Code_DaSuDung[Code AM_SM] = "SM" )
+			            && FACT_Code_DaSuDung[UsingDate]
+			                > EARLIER ( FACT_Code_DaSuDung[UsingDate] )
+			    )
+			)
+		formatString: General Date
+		lineageTag: 3a0ff3a1-13b2-4ce9-ac5c-05700f2db67b
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: fcf38cc9-6962-4395-86d7-111aeda0c8bb
+			defaultHierarchy: LocalDateTable_01fce7e2-511b-4d39-a573-cc6dd54bd51d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Kc.tg' = IF(FACT_Code_DaSuDung[Ngày sử dụng code AM/SM gần nhất]= BLANK(), BLANK(), FACT_Code_DaSuDung[Ngày sử dụng code AM/SM gần nhất]- FACT_Code_DaSuDung[UsingDate])
+		dataType: double
+		formatString: 0.00
+		lineageTag: 16ad9278-d35a-4b16-bc7f-9ca142295f38
+		summarizeBy: sum
+
+		changedProperty = DataType
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brandname = RELATED('DIM_Danh mục_Phòng ban'[Cửa hàng])
+		lineageTag: 3657c864-f9b5-4c49-b340-7534575bf0bf
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column takevalue
+		dataType: double
+		lineageTag: 02b178cb-29fb-4163-b8d4-51aa12820e63
+		summarizeBy: sum
+		sourceColumn: takevalue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nhom_hang
+		dataType: string
+		lineageTag: ac530cc9-2298-45c9-90d3-a2c24980f33e
+		summarizeBy: none
+		sourceColumn: nhom_hang
+
+		annotation SummarizationSetBy = Automatic
+
+	column smember_discount
+		dataType: double
+		lineageTag: 904b62f5-51f8-48f3-924f-6a3880f374ac
+		summarizeBy: sum
+		sourceColumn: smember_discount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column allocate_take_value
+		dataType: double
+		formatString: #,0
+		lineageTag: 3c1e633d-17ba-47c2-95af-9654e9b0087c
+		summarizeBy: sum
+		sourceColumn: allocate_take_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column FUllName = RELATED('DIM_Danh mục_Nhân viên'[Tên nhân viên])
+		lineageTag: 397810b4-cdc3-4ecb-be3d-734e73c0c32a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column gia_tri_don_hang_ap_dung_code
+		dataType: double
+		formatString: #,0
+		lineageTag: 9acab764-a04a-4fae-a694-397b8f8e3f9e
+		summarizeBy: sum
+		sourceColumn: gia_tri_don_hang_ap_dung_code
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	partition FACT_Code_DaSuDung-276cdaf6-8bb6-415e-aa55-9f13997596cf = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([Implementation="2.0"]){[Name="cellphones-data-platform"]}[Data], "with --BẢN FIX#(lf)_promotion_raw as --tạo bảng promotion_raw để phân loại phân bổ#(lf)(#(lf)  select#(lf)    code.id as `code_id`,#(lf)    code.name as `code_name`,#(lf)    case#(lf)      when sign(count(pro.ProductId)) = 1 then 'product_id'#(lf)      when sign(count(prg.ProductGroupId)) = 1 then 'product_group_id'#(lf)      else 'all'#(lf)    end as `allocate_type`,#(lf)    case#(lf)      when sign(count(pro.ProductId)) = 1 then 1#(lf)      when sign(count(prg.ProductGroupId)) = 1 then 2#(lf)      else 3#(lf)    end as `allocate_type_id`#(lf)  from#(lf)    `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_PromotionCode` as code#(lf)    left join `cellphones-data-platform.cps_sql_server_live_shared_data_dwh.SO_PromotionCodeProduct` as pro#(lf)      on pro.PromotionCodeId = code.Id#(lf)    left join `cellphones-data-platform.cps_sql_server_live_shared_data_dwh.SO_PromotionCodeProductGroup` as prg#(lf)      on prg.PromotionCodeId = code.Id and prg.Inactive is not true#(lf)  group by#(lf)    1,2#(lf)  qualify row_number() over(partition by code_id order by allocate_type_id asc) = 1#(lf)),#(lf)#(lf)_promotion as --lấy thông tin code đã sử dụng#(lf)(#(lf)  select#(lf)    raw.code_id,#(lf)    raw.code_name,#(lf)    raw.allocate_type,#(lf)    log.AutoCode,#(lf)    log.Code,#(lf)    log.TakeValue,#(lf)    date_diff(detail.UsingDate, detail.CreateDate, hour) as redeem_hour#(lf)  from#(lf)    `cellphones-data-platform.cps_cdc_sep_shared_data_dbo.SO_PromotionCodeLog` as log#(lf)    left join `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_PromotionCodeDetail` as detail#(lf)      on detail.Code = log.Code#(lf)    inner join _promotion_raw as raw#(lf)      on raw.code_id = log.PromotionCodeId#(lf)  where#(lf)    1 = 1#(lf)    and log.CancelDate is null#(lf)    and log.IsOrder = false --chỉ lấy các đơn SP, loại trừ các đơn DH#(lf)),#(lf)#(lf)_sale as --tạo bảng sale tính toán việc phân bổ code#(lf)(#(lf)  select#(lf)    Createdate,#(lf)    AutoCode, #(lf)    product.product_group_id, #(lf)    product.nhom_hang,#(lf)    product.product_id,#(lf)    product.ten_hang,#(lf)    sum(sale.amount) as amt#(lf)  from#(lf)    `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` as sale#(lf)    left join `cellphones-data-platform.cps_DA_General_Transform.dim_product` as product#(lf)      on product.product_id = sale.ProductId#(lf)  where #(lf)    1 = 1#(lf)    and sale.IsSales = 1#(lf)    and date(sale.createdate) >= '2025-01-01'#(lf)  group by#(lf)    1,2,3,4,5,6#(lf)),#(lf)#(lf)_join as --chia làm 3 phân loại phân bổ code và union lại#(lf)(#(lf)  --allocate_type = product_id#(lf)  select#(lf)    sale.*,#(lf)    promotion.code_id,#(lf)    promotion.code_name,#(lf)    promotion.allocate_type,#(lf)    promotion.code,#(lf)    promotion.takevalue,#(lf)    promotion.redeem_hour#(lf)  from#(lf)    _sale as sale#(lf)    inner join _promotion as promotion#(lf)      on promotion.autocode = sale.autocode#(lf)    inner join `cellphones-data-platform.cps_sql_server_live_shared_data_dwh.SO_PromotionCodeProduct` pro#(lf)      on pro.PromotionCodeId = promotion.code_id#(lf)      and pro.ProductId = sale.product_id#(lf)  where#(lf)    promotion.allocate_type = 'product_id'#(lf)#(lf)  union all#(lf)#(lf)  --allocate_type = product_group_id#(lf)  select#(lf)    sale.*,#(lf)    promotion.code_id,#(lf)    promotion.code_name,#(lf)    promotion.allocate_type,#(lf)    promotion.code,#(lf)    promotion.takevalue,#(lf)    promotion.redeem_hour#(lf)  from#(lf)    _sale as sale#(lf)    inner join _promotion as promotion#(lf)      on promotion.autocode = sale.autocode#(lf)    inner join `cellphones-data-platform.cps_sql_server_live_shared_data_dwh.SO_PromotionCodeProductGroup` prg#(lf)      on prg.PromotionCodeId = promotion.code_id#(lf)      and prg.ProductGroupId = sale.product_group_id#(lf)  where#(lf)    promotion.allocate_type = 'product_group_id'#(lf)#(lf)  union all#(lf)#(lf)  --allocate_type = all#(lf)  select#(lf)    sale.*,#(lf)    promotion.code_id,#(lf)    promotion.code_name,#(lf)    promotion.allocate_type,#(lf)    promotion.code,#(lf)    promotion.takevalue,#(lf)    promotion.redeem_hour#(lf)  from#(lf)    _sale as sale#(lf)    inner join _promotion as promotion#(lf)      on promotion.autocode = sale.autocode#(lf)  where#(lf)    promotion.allocate_type = 'all'#(lf)),#(lf)#(lf)_join_outer as#(lf)(#(lf)  select#(lf)    sale.*,#(lf)    promotion.code_id,#(lf)    promotion.code_name,#(lf)    promotion.allocate_type,#(lf)    promotion.code,#(lf)    promotion.takevalue,#(lf)    promotion.redeem_hour#(lf)  from#(lf)    _promotion as promotion#(lf)    left outer join _join #(lf)      on _join.code = promotion.code#(lf)    left join _sale as sale#(lf)      on sale.autocode = promotion.autocode#(lf)  where#(lf)    _join.code is null#(lf)),#(lf)#(lf)_join_all as#(lf)(#(lf)  select * from _join#(lf)  union all#(lf)  select * from _join_outer#(lf)),#(lf)#(lf)joinallv2 AS (#(lf)  SELECT#(lf)    _join_all.*,#(lf)#(lf)    SUM(amt) OVER (#(lf)      PARTITION BY _join_all.AutoCode, _join_all.Code#(lf)    ) AS gia_tri_don_hang_ap_dung_code,#(lf)#(lf)    SAFE_DIVIDE(#(lf)      amt,#(lf)      SUM(amt) OVER (PARTITION BY _join_all.AutoCode, _join_all.Code)#(lf)    ) * _join_all.takevalue AS allocate_take_value#(lf)#(lf)  FROM _join_all#(lf)),#(lf)#(lf)#(lf)#(lf)Smember_Discount_DP AS (#(lf)  SELECT#(lf)    g.AutoCode,#(lf)    SUM(#(lf)      CAST(#(lf)        REPLACE(#(lf)          SUBSTRING(D.DetailSmemberDiscount, STRPOS(D.DetailSmemberDiscount, '|') + 1),#(lf)          ',', '.'#(lf)        ) AS FLOAT64#(lf)      )#(lf)    ) AS smember_discount#(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBill` B#(lf)  JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_General` g#(lf)    ON B.Id = g.Id#(lf)  JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Acc_StoreBillDetail` D#(lf)    ON D.StoreBillId = B.Id#(lf)  WHERE#(lf)    (B.MethodId IN (14,27,56,57,58,59,48)#(lf)     OR (B.MethodId = 3 AND B.IsDistribution = FALSE))#(lf)    AND g.ReplaceById IS NULL#(lf)    AND DATE(g.CreateDate) >= '2025-06-01'#(lf)    AND DATE(g.CreateDate) < CURRENT_DATE('+7')#(lf)    AND D.DetailSmemberDiscount IS NOT NULL#(lf)    AND D.DetailSmemberDiscount <> ''#(lf)  GROUP BY g.AutoCode#(lf)),#(lf)Smember_Discount_HTV AS (#(lf)  SELECT#(lf)    g.AutoCode,#(lf)    SUM(#(lf)      CAST(#(lf)        REPLACE(#(lf)          SUBSTRING(D.DetailSmemberDiscount, STRPOS(D.DetailSmemberDiscount, '|') + 1),#(lf)          ',', '.'#(lf)        ) AS FLOAT64#(lf)      )#(lf)    ) AS smember_discount#(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBill` B#(lf)  JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_General` g#(lf)    ON B.Id = g.Id#(lf)  JOIN `cellphones-data-platform.cps_cdc_sep_hn_dbo.Acc_StoreBillDetail` D#(lf)    ON D.StoreBillId = B.Id#(lf)  WHERE#(lf)    (B.MethodId IN (14,27,56,57,58,59,48)#(lf)     OR (B.MethodId = 3 AND B.IsDistribution = FALSE))#(lf)    AND g.ReplaceById IS NULL#(lf)    AND DATE(g.CreateDate) >= '2025-06-01'#(lf)    AND DATE(g.CreateDate) < CURRENT_DATE('+7')#(lf)    AND D.DetailSmemberDiscount IS NOT NULL#(lf)    AND D.DetailSmemberDiscount <> ''#(lf)  GROUP BY g.AutoCode#(lf)),#(lf)Smember_Discount AS (#(lf)  SELECT#(lf)    AutoCode,#(lf)    SUM(smember_discount) AS smember_discount#(lf)  FROM (#(lf)    SELECT * FROM Smember_Discount_DP#(lf)    UNION ALL#(lf)    SELECT * FROM Smember_Discount_HTV#(lf)  )#(lf)  GROUP BY AutoCode#(lf))#(lf)#(lf)SELECT#(lf)  pc.Id,#(lf)  pc.Name AS ChuongTrinh,#(lf)  fa.code AS Code,#(lf)  fa.AutoCode,#(lf)  fa.takevalue AS takevalue,#(lf)  pcd.IsPercent,#(lf)  pc.TakeMaxAmount,#(lf)  pcd.CreateDate,#(lf)  pcd.UsingDate,#(lf)  pcd.CreateBy,#(lf)  fa.nhom_hang,#(lf)  pcd.UsedBy,#(lf)  sd.smember_discount,#(lf)  fa.allocate_take_value,#(lf)  fa.gia_tri_don_hang_ap_dung_code#(lf)FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_PromotionCode` pc#(lf)JOIN `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_PromotionCodeDetail` pcd#(lf)  ON pcd.PromotionCodeId = pc.Id#(lf)LEFT JOIN joinallv2 fa#(lf)  ON fa.code_id = pc.Id#(lf) AND fa.AutoCode = pcd.POSCode#(lf)LEFT JOIN Smember_Discount sd#(lf)  ON sd.AutoCode = pcd.POSCode#(lf)WHERE#(lf)  pcd.POSCode IS NOT NULL#(lf)  AND pcd.UsingDate IS NOT NULL#(lf)  AND fa.AutoCode like ""SP%""#(lf)  AND DATE(pcd.UsingDate)#(lf)      BETWEEN '2025-06-01' AND CURRENT_DATE('+7')", null, [EnableFolding=true]),
+				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,220 @@
+table 'DIM_Danh mục_Ngày'
+	lineageTag: 2f0bf8bf-e7b4-47df-b433-8d51a1a8095d
+
+	column DateKey
+		dataType: string
+		lineageTag: ce82540c-4f79-4766-a5ac-5c65b5f81aba
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngày_IsActive =
+			
+			VAR mindate =
+			    MIN ( 'FACT_Sale_Doanh số bán'[Date] )
+			VAR maxdate =
+			    MAX ( 'FACT_Sale_Doanh số bán'[Date] )
+			RETURN
+			    IF (
+			        'DIM_Danh mục_Ngày'[Date] >= mindate
+			            && 'DIM_Danh mục_Ngày'[Date] <= maxdate,
+			        1,
+			        BLANK ()
+			    )
+		formatString: 0
+		lineageTag: c4f6ad98-effc-41b0-bc59-0d68cac24432
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 472a59af-ea6a-4a44-bbf3-97c595941427
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 09c272f2-e5fa-4b2f-836a-2503bbfe5506
+			defaultHierarchy: LocalDateTable_5886e3d2-2148-44a6-929d-cd8037ded72a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Năm/Tháng
+		dataType: string
+		lineageTag: 54f0a65b-0011-4e2a-91e4-8754b0fe0557
+		summarizeBy: none
+		sourceColumn: Năm/Tháng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tuần_Apple
+		dataType: int64
+		formatString: 0
+		lineageTag: a11fe02a-68a6-4868-b80e-c3d6be333cef
+		summarizeBy: sum
+		sourceColumn: Tuần_Apple
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tuần
+		dataType: int64
+		formatString: 0
+		lineageTag: 36540392-c3cb-4fbd-949d-14af695fdef4
+		summarizeBy: sum
+		sourceColumn: Tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Đầu tháng'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d2cab4b6-b74d-466a-af95-4c412599034b
+		summarizeBy: none
+		sourceColumn: Đầu tháng
+
+		variation Variation
+			isDefault
+			relationship: acc74695-10fe-41f3-a6d9-21333bc91a61
+			defaultHierarchy: LocalDateTable_7cdac07b-679e-41d1-b8d1-6bf7f956036f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Cuối tháng'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 238f5f47-fde2-422f-8d60-86faff150ceb
+		summarizeBy: none
+		sourceColumn: Cuối tháng
+
+		variation Variation
+			isDefault
+			relationship: 11a6ba6d-21c0-4b4e-a298-e0486baf6e02
+			defaultHierarchy: LocalDateTable_fbd32036-7a8d-416f-a8b5-ee893f5a376b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Năm
+		dataType: int64
+		formatString: 0
+		lineageTag: 0792827a-99d2-4bce-ad15-b8409e6aa45a
+		summarizeBy: sum
+		sourceColumn: Năm
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tháng
+		dataType: int64
+		formatString: 0
+		lineageTag: 01293e52-c096-4dba-a72e-1697f0650a84
+		summarizeBy: sum
+		sourceColumn: Tháng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ngày
+		dataType: int64
+		formatString: 0
+		lineageTag: 19e62dbf-717f-49e4-801a-c51d5d5f435a
+		summarizeBy: sum
+		sourceColumn: Ngày
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 6298cc8e-d93a-42a5-bd59-2edf95a4c181
+		summarizeBy: sum
+		sourceColumn: dayOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quý
+		dataType: int64
+		formatString: 0
+		lineageTag: bc22b1f8-2025-4fbb-9328-f519e393fbf6
+		summarizeBy: sum
+		sourceColumn: Quý
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Tuần
+		dataType: string
+		lineageTag: 5b6b987d-a4f9-44d1-99d0-ad312f3d03f7
+		summarizeBy: none
+		sourceColumn: Năm/Tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	column Năm/Quý
+		dataType: string
+		lineageTag: ceb94a28-ede0-4351-ac9c-2082d52807a7
+		summarizeBy: none
+		sourceColumn: Năm/Quý
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayName
+		dataType: string
+		lineageTag: 60c55e87-7fa0-482e-9ed9-f230d4a0f356
+		summarizeBy: none
+		sourceColumn: dayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayNameLong
+		dataType: string
+		lineageTag: 6eeecc4b-acdf-42df-92d5-ece002e1ab0c
+		summarizeBy: none
+		sourceColumn: dayNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthName
+		dataType: string
+		lineageTag: d6fb3234-a0b1-4804-bd39-1b014a1480e5
+		summarizeBy: none
+		sourceColumn: monthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthNameLong
+		dataType: string
+		lineageTag: 59507ea2-fd45-49d3-9ecd-655e10693ab6
+		summarizeBy: none
+		sourceColumn: monthNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cuối tuần'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 14a71a63-810f-4984-adad-f28ce93ad394
+		summarizeBy: none
+		sourceColumn: Cuối tuần
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Ngày-c4099bd4-5579-4b3e-b173-10ae7c841b02' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=54cfc7b0-4cd1-4ab1-87fd-85c6e135d1ac""#(lf)SELECT *, FORMAT_DATE('%Y%m%d', date) DateKey from `cellphones-data-platform.cps_DA_General_Transform.dim_date`", null, [EnableFolding=true]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"date", "Date"}, {"FirstDayOfMonth", "Đầu tháng"}, {"LastDayOfMonth", "Cuối tháng"}, {"year", "Năm"}, {"month", "Tháng"}, {"day", "Ngày"}, {"quarter", "Quý"}, {"yearMonth", "Năm/Tháng"}, {"year_week", "Tuần"}, {"weekend", "Cuối tuần"}, {"YearWeek", "Năm/Tuần"}, {"quy_nam", "Năm/Quý"}, {"apple_year_week", "Tuần_Apple"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Tuần", Int64.Type}, {"Quý", Int64.Type}, {"dayOfYear", Int64.Type}, {"Tháng", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

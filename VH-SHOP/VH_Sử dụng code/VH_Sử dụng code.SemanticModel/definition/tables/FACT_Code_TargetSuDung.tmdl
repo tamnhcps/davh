@@ -1,0 +1,215 @@
+table FACT_Code_TargetSuDung
+	lineageTag: 181a729d-2d2a-4bc0-8203-bff92478f71c
+
+	measure _min_date =
+			
+			min('DIM_Danh mục_Ngày'[Date])
+		formatString: Short Date
+		lineageTag: 9bd78aba-1704-43b5-a438-8f1fb5714e49
+
+	measure _target_su_dung_% =
+			
+			var _date =
+			    maxx(
+			        filter(
+			
+			            FACT_Code_TargetSuDung,
+			
+			            FACT_Code_TargetSuDung[Ngày bắt đầu] <= [_min_date]
+			        ),
+			        FACT_Code_TargetSuDung[Ngày bắt đầu]
+			    )
+			var _result =
+			    if(
+			        isinscope(DIM_PromotionCode[PromotionCode]),
+			
+			        max(FACT_Code_TargetSuDung[Tỷ trọng hạn mức]),
+			
+			        average(FACT_Code_TargetSuDung[Tỷ trọng hạn mức])
+			    )
+			return
+			    _result
+		formatString: "0.000% ;-0.000% ;- "
+		lineageTag: 51fd2c50-c682-4a86-ad5f-baec542cb3c5
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure _target_su_dung_abs = ```
+			
+			VAR _date = 
+			    MAXX(
+			        FILTER(
+			            FACT_Code_TargetSuDung,
+			            FACT_Code_TargetSuDung[Ngày bắt đầu] <= [_min_date]
+			        ),
+			        FACT_Code_TargetSuDung[Ngày bắt đầu]
+			    )
+			VAR _table =
+			    ADDCOLUMNS(
+			        VALUES(DIM_PromotionCode[PromotionCodeId]),
+			        "target_per",
+			            CALCULATE(
+			                MAX(FACT_Code_TargetSuDung[Tỷ trọng hạn mức]),
+			                FACT_Code_TargetSuDung[Ngày bắt đầu] = _date
+			            ),
+			        "dso",
+			            SWITCH( TRUE(),
+			                DIM_PromotionCode[PromotionCodeId] IN {3283,3284,3285,3287}, [Dso],
+			                DIM_PromotionCode[PromotionCodeId] IN {2859,3121}, [Dso_BHMR],
+			                DIM_PromotionCode[PromotionCodeId] IN {3742}, [Dso_IPHONE],
+			                0
+			            )
+			    )   
+			
+			VAR _result =
+			    SUMX(
+			        _table,
+			        [target_per] * [dso]
+			    )
+			
+			RETURN
+			    IF(
+			        ISBLANK([Giá trị code_used]), 
+			        BLANK(),
+			        _result
+			    )
+			```
+		formatString: #,0
+		lineageTag: 32292d56-6221-4a00-a3a7-25b30d102d27
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Chênh lệch Giá trị sử dụng' =
+			
+			[_target_su_dung_abs] - [Giá trị code_used]
+		formatString: "#,# ;-#,# ;- "
+		lineageTag: edeac36f-4c6a-4343-adf1-549abba29a02
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Chênh lệch Giá trị sử dụng_%' =
+			
+			divide(
+			    [Chênh lệch Giá trị sử dụng],
+			    [_target_su_dung_abs],
+			    blank()
+			)
+		formatString: "#,#0.0% ;-#,#0.0% ;- "
+		lineageTag: ed8daca9-9fad-48d7-a334-ce8538ad8dfb
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure Tổng_phạt = ```
+			
+			VAR StoreTable =
+			    ADDCOLUMNS(
+			        VALUES('DIM_Danh mục_Phòng ban'[Cửa hàng]),
+			        "StoreValue",
+			            CALCULATE(
+			                SUMX(
+			                    'FACT_Code_TargetSuDung',
+			                    IF(
+			                        [Chênh lệch Giá trị sử dụng] < 0,
+			                        [Chênh lệch Giá trị sử dụng],
+			                        BLANK()
+			                    )
+			                )
+			            )
+			    )
+			RETURN
+			SUMX(
+			    StoreTable,
+			    IF([StoreValue] < 0, [StoreValue], BLANK())
+			)
+			
+			```
+		lineageTag: 4f700bab-ab1f-43a3-8e26-a4701714f99a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '_target_su_dung_abs_Dự kiến' = [_target_su_dung_abs]*[Run Rate]
+		lineageTag: e82c399d-1006-4e41-8f72-d727b7ad6601
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Ngày bắt đầu'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 16123c9d-a8da-48b1-b0b4-383bfb42ae89
+		summarizeBy: none
+		sourceColumn: Ngày bắt đầu
+
+		variation Variation
+			isDefault
+			relationship: c24c24b7-fd05-4208-9c14-b7acf10b92af
+			defaultHierarchy: LocalDateTable_a72046b4-d5b8-4a61-8c54-50f7e27d3d50.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Id chương trình'
+		dataType: int64
+		formatString: 0
+		lineageTag: 53ebcd15-5f5c-407d-a5f7-47b5af59f1ab
+		summarizeBy: none
+		sourceColumn: Id chương trình
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chương trình'
+		dataType: string
+		lineageTag: ae75612b-33a1-4763-8412-e3de9069f9a4
+		summarizeBy: none
+		sourceColumn: Chương trình
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tỷ trọng hạn mức'
+		dataType: double
+		formatString: 0.000000
+		lineageTag: b641678d-b440-4569-8ad3-36f43058aa11
+		summarizeBy: sum
+		sourceColumn: Tỷ trọng hạn mức
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Doanh số'
+		dataType: string
+		lineageTag: 65d29176-8aeb-407a-8391-431d6360be15
+		summarizeBy: none
+		sourceColumn: Doanh số
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hạn mức cho phép'
+		dataType: string
+		lineageTag: 1133629f-3005-4fcd-a7f3-417afa2bcd64
+		summarizeBy: none
+		sourceColumn: Hạn mức cho phép
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chênh lệch hạn mức'
+		dataType: string
+		lineageTag: 50610499-41af-4ae2-924b-c3eb7025c829
+		summarizeBy: none
+		sourceColumn: Chênh lệch hạn mức
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_Code_TargetSuDung = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=54cfc7b0-4cd1-4ab1-87fd-85c6e135d1ac""#(lf)SELECT#(lf)#(lf)  DATE(#(lf)  TIMESTAMP_MILLIS(ngay_bat_dau),#(lf)  ""Asia/Ho_Chi_Minh""#(lf)) as ngay_bat_dau,#(lf)id_chuong_trinh,#(lf)chuong_trinh,#(lf)ty_trong_han_muc,#(lf)doanh_so,#(lf)han_muc_cho_phep,#(lf)chenh_lech_han_muc#(lf)from cellphones-data-platform.cps_larkbase.cps_vh_su_dung_code", null, [EnableFolding=true]),
+				    #"Renamed Columns" = Table.RenameColumns(Source,{{"ngay_bat_dau", "Ngày bắt đầu"}, {"id_chuong_trinh", "Id chương trình"}, {"chuong_trinh", "Chương trình"}, {"ty_trong_han_muc", "Tỷ trọng hạn mức"}, {"doanh_so", "Doanh số"}, {"han_muc_cho_phep", "Hạn mức cho phép"}, {"chenh_lech_han_muc", "Chênh lệch hạn mức"}}),
+				    #"Removed Blank Rows" = Table.SelectRows(#"Renamed Columns", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null})))
+				in
+				    #"Removed Blank Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

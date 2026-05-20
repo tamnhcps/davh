@@ -1,0 +1,82 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "d620a4fe66efd199a964",
+  "position": {
+    "x": 218.75,
+    "y": 687.5,
+    "z": 17000,
+    "height": 68.75,
+    "width": 991.25,
+    "tabOrder": 13000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Note :",
+                    "textStyle": {
+                      "fontStyle": "italic",
+                      "color": "#db996c"
+                    }
+                  },
+                  {
+                    "value": "  Số khách hàng: Số khách hàng có sử dụng code và chỉ lấy những khách hàng có SĐT là 10 hoặc 11 ký tự"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "           Số khách hàng_usecode >1: Số khách hàng có số lượng code AM/SM sử dụng >1"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "           T.gian TB:  Khoảng thời gian trung bình giữa 2 là sử dụng code gần nhất"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

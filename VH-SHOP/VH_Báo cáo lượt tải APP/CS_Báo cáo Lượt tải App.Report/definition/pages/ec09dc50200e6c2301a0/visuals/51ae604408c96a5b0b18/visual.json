@@ -64,56 +64,8 @@
               },
               "queryRef": "DIM_BQ_Miền.Miền",
               "nativeQueryRef": "Miền",
-              "active": false,
-              "displayName": "Miền"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_BQ_Shop"
-                    }
-                  },
-                  "Property": "Vùng"
-                }
-              },
-              "queryRef": "DIM_BQ_Shop.Vùng",
-              "nativeQueryRef": "Vùng",
-              "active": false,
-              "displayName": "Vùng"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_BQ_Shop"
-                    }
-                  },
-                  "Property": "AM"
-                }
-              },
-              "queryRef": "DIM_BQ_Shop.AM",
-              "nativeQueryRef": "AM",
-              "active": false,
-              "displayName": "AM"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DIM_BQ_Shop"
-                    }
-                  },
-                  "Property": "Shop+Size"
-                }
-              },
-              "queryRef": "DIM_BQ_Shop.Shop+Size",
-              "nativeQueryRef": "Cửa hàng",
               "active": true,
-              "displayName": "Cửa hàng"
+              "displayName": "Miền"
             }
           ],
           "fieldParameters": [
@@ -129,7 +81,7 @@
                 }
               },
               "index": 0,
-              "length": 4
+              "length": 1
             }
           ]
         },
@@ -12207,6 +12159,20 @@
             ],
             "metadata": "Measure.Đánh giá"
           }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "54D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DIM_BQ_Miền.Miền"
+          }
         }
       ],
       "columnFormatting": [
@@ -12513,7 +12479,8 @@
               }
             }
           ]
-        }
+        },
+        "howCreated": "User"
       },
       {
         "name": "5dd9f8207f3891b178c9",
@@ -12525,34 +12492,6 @@
               }
             },
             "Property": "Miền"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "27866b3c3be98d812253",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "DIM_BQ_Shop"
-              }
-            },
-            "Property": "Vùng"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "46a8d83ffb68074ccc4d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "DIM_BQ_Shop"
-              }
-            },
-            "Property": "AM"
           }
         },
         "type": "Categorical"

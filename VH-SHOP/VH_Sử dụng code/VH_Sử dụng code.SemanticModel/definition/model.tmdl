@@ -1,0 +1,111 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	maxParallelismPerRefresh: 1
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup FACT
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["FACT_Code_DaSuDung","DIM_Danh mục_Kho","DIM_Danh mục_Phòng ban","DIM_Danh mục_Ngày","FACT_Sale_Doanh số bán","FACT_Phòng ban_NV","DIM_Danh mục_Nhân viên","FACT_Chương trình code_MKT","DIM_Phân quyền_User","AppleCareDPtoHTV","DIM_PromotionCode","FACT_Code_TargetSuDung","D_Ngày","F_Data_Thị trường","F_Đơn Giao Hàng","FACT_Sale_Voucher","FACT_Sale_TargetDaily","DIM_Danh mục_Phòng ban (2)","Target các chương trình đặc biệt","Sale_GG_GSheet_Target Laptop","DIM_Danh mục_Phòng ban (3)","Sale_GG_GSheet_Target Đồng hồ","Sale_GG_GSheet_Target Apple","Sale_GG_GSheet_Target Sim thẻ","Sale_GG_GSheet_Target iPhone cũ","Sale_GG_GSheet_Target Camera GS","Sale_GG_GSheet_Target IP17","FACT_GSheet_Target_DMC3","Sale_GG_GSheet_Target Nhóm đặc biệt","FACT_Sale_Target_DMC3","fxGetISO8601Week","fxCalendar","MinYear","MaxYear","DIM_Danh mục_Ngày (2)","Sale_GG_GSheet_Tỷ trọng Target","DIM_Danh mục_Nhóm hàng","NhomHang_LaptopCu","FACT_Sale_Target","FACT_Sale_TargetDaily (2)","DIM_Danh mục_Phòng ban (4)","DIM_Danh mục_Sản phẩm","Target các chương trình đặc biệt (2)","Sale_GG_GSheet_SKU_exp","DIM_Danh mục_Phân khúc giá","FACT_SPTT_Model_Target","DIM_Ngày","DIM_Phân quyền_Kinh doanh","DIM_Phân khúc giá_cal","FACT_SPTT_SKU","Code_BoSung","F_TargetCodeShop","F_Code_LoaiSuDung"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table FACT_Code_DaSuDung
+ref table DateTableTemplate_3af28815-1b52-462d-8ed9-ec6fc9737acd
+ref table 'DIM_Danh mục_Kho'
+ref table 'DIM_Danh mục_Phòng ban'
+ref table 'DIM_Danh mục_Ngày'
+ref table 'FACT_Sale_Doanh số bán'
+ref table LocalDateTable_b6e62671-db80-4e77-92b4-69ce2fe89d6c
+ref table Measure
+ref table 'FACT_Code_Tên chương trình'
+ref table 'FACT_Phòng ban_NV'
+ref table 'DIM_Danh mục_Nhân viên'
+ref table LocalDateTable_cf3e63a9-45a3-4e70-83f9-91124d02e74c
+ref table LocalDateTable_492f7cc8-6085-4843-9a97-d3fde5c3dba0
+ref table LocalDateTable_ac99f73d-76c7-4d8f-9dff-ee492a3b4faf
+ref table 'FACT_Chương trình code_MKT'
+ref table LocalDateTable_01fce7e2-511b-4d39-a573-cc6dd54bd51d
+ref table 'DIM_Phân quyền_User'
+ref table LocalDateTable_71c297dd-ea00-48ae-b1a6-ad9c406f62c5
+ref table 'DIM_Phân quyền_Vận hành'
+ref table LocalDateTable_4df7b3ab-c002-4bd1-bd55-69b42b1dd29d
+ref table LocalDateTable_89a9a2db-da37-42f5-af7f-d1e6c72d2ee8
+ref table AutoCode
+ref table LocalDateTable_7014463a-251b-4b08-adb8-cf28488f5011
+ref table LocalDateTable_89d41d4f-3f19-4187-b558-85ede852f728
+ref table LocalDateTable_1002b49c-2bfe-4516-ac50-c88bb9c95051
+ref table LocalDateTable_5886e3d2-2148-44a6-929d-cd8037ded72a
+ref table LocalDateTable_7cdac07b-679e-41d1-b8d1-6bf7f956036f
+ref table LocalDateTable_fbd32036-7a8d-416f-a8b5-ee893f5a376b
+ref table DIM_PromotionCode
+ref table FACT_Code_TargetSuDung
+ref table 'Parameter_cửa hàng_measure'
+ref table LocalDateTable_a72046b4-d5b8-4a61-8c54-50f7e27d3d50
+ref table DIM_DMC3
+ref table D_Ngày
+ref table LocalDateTable_9d5357eb-5f04-4bc4-b2c8-67b1cd9f359e
+ref table LocalDateTable_6e4d7e58-fc61-4411-992f-a0ab2cc737f9
+ref table 'F_Data_Thị trường'
+ref table Parameter_Quận
+ref table 'D_Quận huyện'
+ref table 'F_Đơn Giao Hàng'
+ref table LocalDateTable_6397de17-f861-41fb-b4a5-a9062e1f0593
+ref table 'Parameter 1'
+ref table 'FACT_Kds_Cửa hàng'
+ref table LocalDateTable_54a6f921-2c6b-4fbe-9462-1d75deafb335
+ref table LastUpdate
+ref table LocalDateTable_a6522cd2-dcc1-46d6-8701-51dada2d32b4
+ref table LocalDateTable_617b490d-f032-4361-afbe-296cae893aa6
+ref table FACT_Sale_Voucher
+ref table LocalDateTable_4d9ba35a-c4fe-4784-8898-5bfacc27cb07
+ref table LocalDateTable_f633853f-c659-4b1f-8f59-1401e7cf13ee
+ref table FACT_Sale_TargetDaily
+ref table LocalDateTable_0d198f51-1bd1-4520-b5d5-fe3bf2e031ec
+ref table FACT_Sale_Target_DMC3
+ref table 'Nhóm Apple'
+ref table 'DIM_Danh mục_Nhóm hàng'
+ref table FACT_Sale_Target
+ref table 'DIM_Danh mục_Sản phẩm'
+ref table LocalDateTable_b5d8ac0c-27c3-427f-aaad-836eba57de41
+ref table 'DIM_Sale_Giá bán'
+ref table Sale_GG_GSheet_SKU_exp
+ref table LocalDateTable_665f2fa8-2f9e-40ef-afe6-c28529378590
+ref table LocalDateTable_38ecea1d-cca9-4946-a7a6-3423c26114f3
+ref table 'DIM_Danh mục_Phân khúc giá'
+ref table SPTT_Model
+ref table FACT_SPTT_Model_Target
+ref table LocalDateTable_6bba14d8-4a85-4825-8624-2abc1ebc148b
+ref table LocalDateTable_b1243cd1-17c1-496a-821e-e8d14a329d8c
+ref table LocalDateTable_94cd1579-c9ce-4f95-ad53-d0aef96be8c3
+ref table LocalDateTable_eb283a49-31a0-4dbc-b9dc-5ff59fa5339d
+ref table 'DIM_Phân quyền_Kinh doanh'
+ref table 'DIM_Phân khúc giá_cal'
+ref table FACT_SPTT_SKU
+ref table LocalDateTable_9329e756-290e-42c9-b42b-7ef4aad3bd5b
+ref table LocalDateTable_b3d432e9-b58d-492c-9d98-3f79f44edd28
+ref table LocalDateTable_46d442f8-88e2-4b98-9d57-383b7ff25635
+ref table Code_BoSung
+ref table F_TargetCodeShop
+ref table LocalDateTable_914d387b-9f48-4f8b-a589-0733566e99e7
+ref table LocalDateTable_9caac1c9-c742-4484-aa6a-2a7e1705a864
+ref table F_Code_LoaiSuDung
+ref table LocalDateTable_001cd942-fa62-436d-8d75-536ecda07f76
+ref table LocalDateTable_310c60f9-9243-42ab-863b-63f5f775cd75
+
+ref role QC
+ref role Chung
+ref role 'Vận hành_AM'
+ref role 'Vận hành_OP'
+ref role 'Vận hàng_Cửa hàng'
+
+ref cultureInfo en-US
+

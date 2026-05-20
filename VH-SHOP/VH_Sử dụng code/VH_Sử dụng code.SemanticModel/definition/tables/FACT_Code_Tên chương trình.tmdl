@@ -1,0 +1,68 @@
+table 'FACT_Code_Tên chương trình'
+	lineageTag: 8d05de44-53e4-402d-b213-5f8b70622537
+
+	column 'Chương trình'
+		lineageTag: 026446f7-1699-4a65-b17e-979b3222111d
+		summarizeBy: none
+		sourceColumn: FACT_Code_DaSuDung[ChuongTrinh]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại chương trình' =
+			
+			VAR zLoaiChTr =
+			    CALCULATE(
+			        FIRSTNONBLANK( 'FACT_Chương trình code_MKT'[Loại chương trình], TRUE() ),
+			        FILTER(
+			            'FACT_Chương trình code_MKT',
+			            'FACT_Chương trình code_MKT'[Tên chương trình] <> BLANK()
+			                && 'FACT_Chương trình code_MKT'[Tên chương trình]
+			                    = EARLIER( 'FACT_Code_Tên chương trình'[Chương trình] )
+			        )
+			    )
+			RETURN
+			    IF( zLoaiChTr <> BLANK(), zLoaiChTr, "Không xác định" )
+		lineageTag: 5033c7d8-0ce1-4054-8081-f4ad4dd76ebc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Người tạo' =
+			
+			VAR slgcode =
+			    CALCULATE (
+			        MAX ( FACT_Code_DaSuDung[Createby_Slgcode] ),
+			        FILTER (
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[ChuongTrinh]
+			                = EARLIER ( 'FACT_Code_Tên chương trình'[Chương trình] )
+			        )
+			    )
+			RETURN
+			    CALCULATE (
+			        FIRSTNONBLANK(
+			            FACT_Code_DaSuDung[CreateBy],0),
+			        FILTER (
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[ChuongTrinh]
+			                = EARLIER ( 'FACT_Code_Tên chương trình'[Chương trình] )
+			                && FACT_Code_DaSuDung[Createby_Slgcode] = slgcode
+			        )
+			    )
+		lineageTag: 1a846906-1dad-4295-9196-340a46ec4680
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phòng ban' = LOOKUPVALUE('FACT_Phòng ban_NV'[Phòng ban], 'FACT_Phòng ban_NV'[Mã nhân viên], 'FACT_Code_Tên chương trình'[Người tạo])
+		lineageTag: 3bbf7d45-b521-447c-93af-6d2feeae5352
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Code_Tên chương trình-30ee512f-3257-4997-9908-d75e6e4b47d9' = calculated
+		mode: import
+		source = SUMMARIZE(FACT_Code_DaSuDung,FACT_Code_DaSuDung[ChuongTrinh])
+
+	annotation PBI_Id = df5243224e9240d395cd55076310e11d
+

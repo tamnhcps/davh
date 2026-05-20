@@ -1,0 +1,101 @@
+table FACT_Sale_Target
+	lineageTag: f2fab8b7-9784-4232-b05e-49c428bd8803
+
+	column Object
+		dataType: string
+		lineageTag: e93016ac-62e8-4404-a319-1bf1f5aedb51
+		summarizeBy: none
+		sourceColumn: Object
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 4d029c76-b70f-4ddc-9371-0b961ce76628
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 2142b028-6c8e-4163-b1f7-72d91436faa0
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Target
+		dataType: double
+		lineageTag: 30cd76bc-0311-47c7-beae-fd6606e95ab0
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Miền
+		dataType: string
+		lineageTag: e789823d-a63e-41d1-96c5-40ff41c56455
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã Cửa hàng' = ```
+			
+			VAR MinIndex = 
+			    CALCULATE(
+			        MIN('DIM_Danh mục_Kho'[Index]),
+			        FILTER(
+			            'DIM_Danh mục_Kho',
+			            'DIM_Danh mục_Kho'[IsSale] = 1 &&
+			            'DIM_Danh mục_Kho'[Cửa hàng] = 'FACT_Sale_Target'[Object]
+			        )
+			    )
+			
+			RETURN
+			LOOKUPVALUE(
+			    'DIM_Danh mục_Kho'[Mã kho],
+			    'DIM_Danh mục_Kho'[IsSale], 1,
+			    'DIM_Danh mục_Kho'[Cửa hàng], 'FACT_Sale_Target'[Object],
+			    'DIM_Danh mục_Kho'[Index], MinIndex
+			)
+			
+			```
+		lineageTag: c010959a-866e-41a1-89c0-ea9dfb6855bb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_Sale_Target = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)SELECT #(lf)  trim(type) as Type,#(lf)  chi_nhanh `Chi nhánh`,#(lf)  thang_ap_dung#(tab)`Tháng áp dụng`,#(tab)#(lf)  target Target,#(lf)  ngay_bat_dau `Ngày bắt đầu`,#(lf)  ngay_ket_thuc `Ngày kết thúc`#(lf)FROM `cellphones-data-platform.cps_google_sheets_dwh.cps_target_thi_dua_nhom_hang_hang_thang` #(lf)where #(lf)  type  like '%ỐP DÁN%'#(lf)  or type in ('C_Brand', 'DNNC', 'Gia dụng' )", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"C_Brand","C-Brand",Replacer.ReplaceText,{"Type"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each ([Target] <> "nan")),
+				    #"Filtered Rows4" = Table.SelectRows(#"Filtered Rows", each [Tháng áp dụng] >= #date(2025, 1, 1)),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Filtered Rows4",{{"Target", type number}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type1", "Ngày trong tháng", each Duration.Days([Ngày kết thúc] - [Ngày bắt đầu]) + 1, Int64.Type),
+				    #"Added Custom3" = Table.AddColumn(#"Added Custom", "Target ngày", each [Target]/[Ngày trong tháng], type number),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom3", "Date", each List.Dates(
+				    [Ngày bắt đầu],
+				    Duration.Days([Ngày kết thúc] - [Ngày bắt đầu]) +1,
+				    #duration(1,0,0,0)
+				)),
+				    #"Expanded list_date" = Table.ExpandListColumn(#"Added Custom1", "Date"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded list_date",{{"Date", type date}, {"Ngày bắt đầu", type date}, {"Ngày kết thúc", type date}}),
+				    #"Added Custom5" = Table.AddColumn(#"Changed Type", "IsTargetDate", each if [Date] > [Ngày kết thúc] then 1 else if [Date] < [Ngày bắt đầu] then 1 else 0, type number),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Custom5", each [IsTargetDate] = 0),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows2",{ "Chi nhánh", "Type", "Date", "Target ngày"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"Target ngày", "Target"}, {"Chi nhánh", "Object"}}),
+				    #"Appended Query" = Table.Combine({#"Renamed Columns", #"FACT_Sale_TargetDaily (2)"})
+				in
+				    #"Appended Query"
+

@@ -1,0 +1,1255 @@
+table Measure
+	lineageTag: 8f8ee005-c6ad-452f-82b9-579b8000e382
+
+	measure 'Slg code_used' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(FACT_Code_DaSuDung[Code]),
+			    FACT_Code_DaSuDung[Is_Use] = 1
+			)
+		formatString: 0
+		displayFolder: Code\Slg code sử dụng
+		lineageTag: dc1e3427-0a7d-404a-877d-0bce6b04c4cf
+
+		changedProperty = FormatString
+
+	measure 'Giá trị code_used' = calculate(sum(FACT_Code_DaSuDung[allocate_take_value]), filter(FACT_Code_DaSuDung, FACT_Code_DaSuDung[Is_Use]=1))
+		formatString: #,0
+		displayFolder: Code\Giá trị sử dụng
+		lineageTag: 83620787-a2ff-4ff5-aad0-eca72d0bb00b
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Giá trị code_used_LM' = CALCULATE([Giá trị code_used], PREVIOUSMONTH('DIM_Danh mục_Ngày'[Date]))
+		displayFolder: Code\Giá trị sử dụng
+		lineageTag: e9c28e6a-7600-445b-a0ee-d001a353f219
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slg code_used_LM' = CALCULATE([Slg code_used], PREVIOUSMONTH('DIM_Danh mục_Ngày'[Date]))
+		formatString: #,0
+		displayFolder: Code\Slg code sử dụng
+		lineageTag: a8b88776-73c0-4b8b-989f-a5d6415f2b53
+
+		changedProperty = FormatString
+
+	measure Dso = CALCULATE(sum('FACT_Sale_Doanh số bán'[Dso]), filter('FACT_Sale_Doanh số bán', 'FACT_Sale_Doanh số bán'[IsSale]=1))
+		formatString: #,0
+		displayFolder: Sale
+		lineageTag: 876d1a86-9ec8-4020-bf71-c63fc64152c7
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '% Gtri Code vs Dso_Usecode' = DIVIDE([Giá trị code_used], [Dso_Usecode all])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Code\Giá trị sử dụng
+		lineageTag: e8fa0db6-a80c-4557-88a4-3ebe47a8f439
+
+		changedProperty = FormatString
+
+	measure 'Số hóa đơn' = CALCULATE(DISTINCTCOUNT('FACT_Sale_Doanh số bán'[AutoCode]), filter('FACT_Sale_Doanh số bán', 'FACT_Sale_Doanh số bán'[IsSale]=1))
+		formatString: 0
+		displayFolder: Sale
+		lineageTag: 69f049db-9419-4be2-8a9b-d35cc577ab05
+
+	measure '% Số hóa đơn_Usecode/SHĐ' = DIVIDE([Số hóa đơn_Usecode], [Số hóa đơn], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Code\Số hóa đơn sử dụng code
+		lineageTag: 0ddb274a-6a03-47f6-9485-f8a6195708c2
+
+		changedProperty = FormatString
+
+	measure '% Dso_Usecode/Dso' = DIVIDE([Dso_Usecode all], [Dso], BLANK())
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Code\Dso_code
+		lineageTag: 31b8b946-87d2-400c-a76f-54ef85566805
+
+		changedProperty = FormatString
+
+	measure Dso_Usecode = SUM(FACT_Code_DaSuDung[Dso])
+		displayFolder: Code\Dso_code
+		lineageTag: 67fdc23e-a718-41f4-a831-0171fe664ba4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dso_Usecode all' = CALCULATE( [Dso_Usecode], ALL(FACT_Code_DaSuDung[AutoCode]))
+		formatString: #,0
+		displayFolder: Code\Dso_code
+		lineageTag: 5479c59c-4182-4880-a8d7-6a062497534f
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Số hóa đơn_Usecode' = countrows(SUMMARIZE(filter(FACT_Code_DaSuDung, FACT_Code_DaSuDung[Is_Use]=1), FACT_Code_DaSuDung[AutoCode]))
+		formatString: #,0
+		displayFolder: Code\Số hóa đơn sử dụng code
+		lineageTag: 6514d1c7-5134-4a33-95b3-1dc412a026ab
+
+		changedProperty = FormatString
+
+	measure 'Giá trị code_used_LM g%' =
+			
+			VAR slg_lm_g =
+			    DIVIDE (
+			        [Giá trị code_used],
+			        [Giá trị code_used_LM],
+			        BLANK ()
+			    ) - 1
+			RETURN
+			    IF (
+			        [Giá trị code_used] <> 0
+			            && [Giá trị code_used_LM] <> 0,
+			        slg_lm_g,
+			        0
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Code\Giá trị sử dụng
+		lineageTag: 018301e2-cf3e-4b72-a3d9-8a05d1b34830
+
+		changedProperty = FormatString
+
+	measure 'Slg Code_used_LM g%' =
+			
+			VAR slg_lm_g =
+			    DIVIDE (
+			        [Slg code_used],
+			        [Slg code_used_LM],
+			        BLANK ()
+			    ) - 1
+			RETURN
+			    IF (
+			        [Slg code_used] <> 0
+			            && [Slg code_used_LM] <> 0,
+			        slg_lm_g,
+			        0
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Code\Slg code sử dụng
+		lineageTag: 26c1f2b1-4405-4ebe-8819-ec1f7365f0ee
+
+		changedProperty = FormatString
+
+	measure Dso_LM = CALCULATE([Dso], PREVIOUSMONTH('DIM_Danh mục_Ngày'[Date]))
+		formatString: #,0
+		displayFolder: Sale
+		lineageTag: b7894e0a-cae5-4b75-bfa8-60d5a5a8bc9f
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Hạn mức sử dụng code' = 0.0002*[Dso_LM]
+		formatString: #,0
+		displayFolder: Code\Hạn mức sử dụng
+		lineageTag: f9d538d7-1db2-44bd-b946-561f98d1a98f
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Giá trị chêch lệch' = [Hạn mức sử dụng code]-[Giá trị code_used]
+		formatString: #,0
+		displayFolder: Code\Giá trị sử dụng
+		lineageTag: 58cf3f58-6a1a-41ab-a059-bfb154c7a630
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Dso_Usecode_SĐT = SUM(FACT_Code_DaSuDung[Dso_SĐT])
+		displayFolder: Code\Dso_code
+		lineageTag: 04566b3e-e6f0-4211-aafb-3ab403ec52c0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dso_Usecode_SĐT all' = CALCULATE( [Dso_Usecode_SĐT], ALL(FACT_Code_DaSuDung[Contactphone]), ALL('DIM_Danh mục_Ngày'[Date]))
+		displayFolder: Code\Dso_code
+		lineageTag: 00a2caa4-f302-423d-848c-c9e30ab86b56
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Dso_Usecode_SĐT' = DIVIDE([Dso_Usecode_SĐT all], [Dso], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Code\Dso_code
+		lineageTag: b959db2a-9894-46ed-b5f3-6fa87283307c
+
+		changedProperty = FormatString
+
+	measure '% Giá trị code vs Hạn mức' = DIVIDE([Giá trị code_used], [Hạn mức sử dụng code], BLANK())
+		formatString: 0%;-0%;0%
+		displayFolder: Code\Hạn mức sử dụng
+		lineageTag: 0da6a936-e60a-4402-be18-d98c638c1b06
+
+		changedProperty = FormatString
+
+	measure 'Số ngày' =
+			
+			COUNTROWS ( 'DIM_Danh mục_Ngày' )
+		formatString: 0
+		displayFolder: 0. Datamodel
+		lineageTag: 497fae20-c7c5-43f8-b384-ce59b49d19eb
+
+	measure 'Số ngày thực hiện' =
+			
+			CALCULATE (
+			    [Số ngày],
+			    FILTER (
+			        'DIM_Danh mục_Ngày',
+			        'DIM_Danh mục_Ngày'[Ngày_IsActive] = 1
+			    )
+			)
+		displayFolder: 0. Datamodel
+		lineageTag: 6cc008da-ad8f-43d2-bf5d-41b09673c3ef
+
+	measure 'Run Rate' =
+			
+			DIVIDE (
+			    [Số ngày],
+			    [Số ngày thực hiện],
+			    BLANK ()
+			)
+		displayFolder: 0. Datamodel
+		lineageTag: 4d9cbff8-52ce-49bb-af2a-387cf254bb60
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slg code' = COUNTROWS(FACT_Code_DaSuDung)
+		formatString: #,0
+		displayFolder: Code\Slg code sử dụng
+		lineageTag: 6271085b-6c7b-435e-89c6-1047b305d34b
+
+		changedProperty = FormatString
+
+	measure '% Sử dụng code' = ```
+			CALCULATE(
+			    DIVIDE([Slg code_used], [Slg code], BLANK()),
+			    TREATAS(
+			        VALUES('DIM_Danh mục_Ngày'[Date]),
+			        FACT_Code_DaSuDung[Date_Cre]
+			    )
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Code\Slg code sử dụng
+		lineageTag: 10534dac-9be0-471c-8225-3c1299fb372c
+
+		changedProperty = FormatString
+
+	measure 'Slg code tích lũy' =
+			
+			CALCULATE (
+			    [Slg code],
+			    FILTER (
+			        ALL ( 'DIM_Danh mục_Ngày'[Date] ),
+			        'DIM_Danh mục_Ngày'[Date]
+			            <= MAX ( 'DIM_Danh mục_Ngày'[Date] )
+			    ),
+			    TREATAS (
+			        VALUES ( 'DIM_Danh mục_Ngày'[Date] ),
+			        FACT_Code_DaSuDung[Date_Cre]
+			    )
+			)
+		formatString: #,0
+		displayFolder: Code\Slg code sử dụng
+		lineageTag: 1523bf85-6e21-408b-ba30-0c1f62f13601
+
+		changedProperty = FormatString
+
+	measure 'Slg code_used tích lũy' =
+			
+			CALCULATE (
+			    [Slg code_used],
+			    FILTER (
+			        ALL ( 'DIM_Danh mục_Ngày'[Date] ),
+			        'DIM_Danh mục_Ngày'[Date]
+			            <= MAX ( 'DIM_Danh mục_Ngày'[Date] )
+			    )
+			)
+		formatString: #,0
+		displayFolder: Code\Slg code sử dụng
+		lineageTag: 0fee05bb-64da-42b1-a4e2-31e7731f2fa2
+
+		changedProperty = FormatString
+
+	measure '% Sử dụng code tích lũy' = ```
+			DIVIDE([Slg code_used tích lũy], [Slg code tích lũy], BLANK()) 
+			--,USERELATIONSHIP(FACT_Code_DaSuDung[Date_Cre],'DIM_Danh mục_Ngày'[Date] ))
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Code\Slg code sử dụng
+		lineageTag: 28caf6ae-6607-4a28-8e5d-19ff61c53cf3
+
+		changedProperty = FormatString
+
+	measure 'Thời gian dữ liệu mới nhất' =
+			
+			CALCULATE(
+			    MAX('FACT_Sale_Doanh số bán'[Date]),
+			    ALL('FACT_Sale_Doanh số bán')
+			)
+		formatString: Short Date
+		lineageTag: 5f708ab3-18a0-4b7c-859b-2145cba08b19
+
+		changedProperty = FormatString
+
+	measure 'Số khách hàng' =
+			
+			COUNTROWS (
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[Len_Contact]  = 10
+			                ||FACT_Code_DaSuDung[Len_Contact] = 11
+			        ),
+			        FACT_Code_DaSuDung[Contactphone]
+			    )
+			)
+		formatString: #,0
+		displayFolder: Code\Khách hàng
+		lineageTag: c784defa-5b6a-4ac7-9838-8286a8aa4fa9
+
+		changedProperty = FormatString
+
+	measure 'Số khách hàng (Slg_code >1)' = ```
+			
+			 var z_table=
+			    SUMMARIZE (
+			        FILTER (
+			            FACT_Code_DaSuDung,
+			            FACT_Code_DaSuDung[Len_Contact] = 10
+			                || FACT_Code_DaSuDung[Len_Contact] = 11
+			        ),
+			        FACT_Code_DaSuDung[Contactphone], "Slg code_kh",[Slg code]
+			    )
+			 VAR table_2=  filter(z_table, [Slg code_kh]>1)
+			 return COUNTROWS(table_2)
+			```
+		formatString: #,0
+		displayFolder: Code\Khách hàng
+		lineageTag: 108c3ba6-8ace-475f-b9cb-cca7a312b124
+
+		changedProperty = FormatString
+
+	measure 'Số khách hàng_used_code_nhân viên' = CALCULATE([Số khách hàng], filter(FACT_Code_DaSuDung, FACT_Code_DaSuDung[Is_SĐT nv]=1))
+		formatString: 0
+		displayFolder: Code\Khách hàng
+		lineageTag: 09451c76-065c-4bc7-88bb-a3ba5fc46f00
+
+	measure 'T.gian TB' = calculate(AVERAGE(FACT_Code_DaSuDung[Kc.tg]), filter(FACT_Code_DaSuDung, FACT_Code_DaSuDung[Ngày sử dụng code AM/SM gần nhất]<> BLANK()))
+		displayFolder: Code
+		lineageTag: c69effc8-7c6b-4600-970a-608a6a74a540
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Khách hàng (Slg_code>1)' = DIVIDE([Số khách hàng (Slg_code >1)], 'Measure'[Số khách hàng], BLANK())
+		formatString: 0%;-0%;0%
+		displayFolder: Code\Khách hàng
+		lineageTag: e41e6b45-9653-422f-8916-d94d0cf845ab
+
+		changedProperty = FormatString
+
+	measure 'Số hóa đơn_Usecode(>1 code)' = CALCULATE( [Số hóa đơn_Usecode], filter( FACT_Code_DaSuDung, FACT_Code_DaSuDung[Count Autocode]>1))
+		formatString: #,0
+		displayFolder: Sale
+		lineageTag: a1fba667-692e-4ffc-bfe3-eccfe78b83a7
+
+		changedProperty = FormatString
+
+	measure '% Số hóa đơn_Usecode(>1 code)' = DIVIDE([Số hóa đơn_Usecode(>1 code)],[Số hóa đơn], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1a3869cf-75a0-4e44-8fd4-19cdd3bc9567
+
+		changedProperty = FormatString
+
+	measure 'Dso_Dự kiến' = [Dso]*[Run Rate]
+		formatString: #,0
+		displayFolder: Sale
+		lineageTag: 7adc17bb-cda0-4190-ac8a-cdfe507aac15
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Định mức_BHMR' = CALCULATE([Dso_Dự kiến],FILTER('FACT_Sale_Doanh số bán','FACT_Sale_Doanh số bán'[DMC3]="BH CŨ"))*0.05
+		formatString: #,0
+		displayFolder: BHMR
+		lineageTag: cf6eb8da-89a1-44c5-a189-76061ea5161f
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Dso_BHMR = CALCULATE(SUM('FACT_Sale_Doanh số bán'[Dso_Raw_BHMR]),FILTER('FACT_Sale_Doanh số bán','FACT_Sale_Doanh số bán'[DMC3]="BH CŨ"))
+		formatString: #,0
+		displayFolder: BHMR
+		lineageTag: 682ed82f-a3b8-4e46-8217-59be602eceee
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '% BHMR/Tổng Hạn mức BHMR' = [Giá trị code_used]/[Định mức_BHMR]
+		formatString: 0%;-0%;0%
+		displayFolder: BHMR
+		lineageTag: a59e99a4-de82-46db-8731-1be0a7327c8e
+
+	measure 'Dso_BHMR_Dự kiến' = [Dso_BHMR]*[Run Rate]
+		displayFolder: BHMR
+		lineageTag: 0fd43a0f-3f65-40dc-8e85-67b86e2399c5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Chênh lệch BHMR' = [Định mức_BHMR]-[Giá trị code_used]
+		displayFolder: BHMR
+		lineageTag: e6d6a7bb-5653-4b36-a079-af0c828f83c3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Giá trị code_used/Dso' = [Giá trị code_used]/[Dso_BHMR]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: BHMR
+		lineageTag: d4767196-73ad-41c8-8d2d-f61b92ab1597
+
+	measure Dso_IPHONE = CALCULATE([Dso], filter('FACT_Sale_Doanh số bán', 'FACT_Sale_Doanh số bán'[DMC3]="IPHONE CTM"))
+		formatString: "#,# ;-#,# ;- "
+		lineageTag: 462c8d3e-8a0c-4181-86d3-517c70938cfc
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Dso_IPHONE_Dự kiến' = [Dso_IPHONE]*[Run Rate]
+		lineageTag: a0aec0c3-343d-4cd6-bd52-3982871d2bea
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Doanh số sử dụng code LAPTOP' =
+			
+			--  - Doanh số đơn hàng cả sử dụng code.--
+			CALCULATE(
+			    SUM('F_Đơn Giao Hàng'[amount]),
+			    FILTER(
+			        'F_Đơn Giao Hàng',
+			        'F_Đơn Giao Hàng'[promotion_code] <> BLANK()
+			    )
+			)
+		displayFolder: Laptop CTM
+		lineageTag: 4e17ffa5-215c-4b06-9c8d-b44a1d63da40
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Doanh số' =
+			
+			--  - Gồm doanh số cả sử dụng code và không sử dụng code.--
+			CALCULATE(
+			    SUM('F_Đơn Giao Hàng'[amount])
+			)
+		displayFolder: Laptop CTM
+		lineageTag: 206198d5-f8c5-4a3b-a2af-09c6a1fd5fa5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ngân sách code LAPTOP' =
+			
+			--  - Số tiền giảm cho các đơn hàng sử dụng Code.--
+			CALCULATE(
+			    SUM('F_Đơn Giao Hàng'[take_value]),
+			    FILTER(
+			        'F_Đơn Giao Hàng',
+			        'F_Đơn Giao Hàng'[promotion_code] <> BLANK()
+			    )
+			)
+		displayFolder: Laptop CTM
+		lineageTag: 029eb2f8-fc43-4d72-b78d-4a01178ecd2c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Số lượng Đơn hàng sử dụng Code' =
+			
+			--  - Số lượng đơn hàng cả sử dụng code.--
+			CALCULATE(
+			    DISTINCTCOUNT('F_Đơn Giao Hàng'[autocode]),
+			    FILTER(
+			        'F_Đơn Giao Hàng',
+			        'F_Đơn Giao Hàng'[promotion_code] <> BLANK()
+			    )
+			)
+		formatString: 0
+		displayFolder: Laptop CTM
+		lineageTag: db00bc2b-0e11-4d50-9e72-0f1fa9638152
+
+	measure 'Số lượng Đơn hàng' =
+			
+			--  - Gồm số lượng đơn hàng cả sử dụng code và không sử dụng code.--
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT('F_Đơn Giao Hàng'[autocode])
+			    ),
+			    0
+			)
+		formatString: 0
+		displayFolder: Laptop CTM
+		lineageTag: 4cb58fcf-d757-4089-a4d6-e6549c63eb6f
+
+	measure 'Tăng trưởng LM' = ```
+			
+			VAR _doanh_so_LM = 
+			CALCULATE(
+			    [Doanh số],
+			    DATEADD('D_Ngày'[date], -1, MONTH)
+			)
+			RETURN
+			IF(
+			    [Doanh số] = BLANK(),
+			    BLANK(),
+			    DIVIDE( [Doanh số] -  _doanh_so_LM, _doanh_so_LM, BLANK())
+			)
+			```
+		displayFolder: Laptop CTM
+		lineageTag: 12ed9eb2-a540-4bb7-b75f-0d155ec52832
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% thị phần' = ```
+			
+			VAR _thi_phan = 
+			CALCULATE(
+			    SUM('F_Data_Thị trường'[doanh_so])
+			)
+			RETURN 
+			DIVIDE( [Doanh số], _thi_phan, BLANK())
+			```
+		displayFolder: Laptop CTM
+		lineageTag: 2dcfb060-e466-4293-a852-17a2cc758ac7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% ngân sách Code' =
+			
+			DIVIDE( [Ngân sách code LAPTOP], [Doanh số sử dụng code LAPTOP], BLANK())
+		displayFolder: Laptop CTM
+		lineageTag: baa13253-866b-46d6-9c5b-7ffb537cc579
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Count Invoice' = DISTINCTCOUNT(FACT_Code_DaSuDung[AutoCode])
+		formatString: 0
+		lineageTag: e186f998-4aac-4e49-8563-37b7ba466703
+
+	measure 'Count Row' = COUNTROWS(FACT_Code_DaSuDung)
+		formatString: 0
+		lineageTag: a14a0635-ec9d-422a-a88a-cddf876431a7
+
+	measure 'Tỷ lệ vượt ngân sách' = ```
+			
+			VAR StoreTableViPham = 
+			    FILTER(
+			        ADDCOLUMNS(
+			            VALUES('DIM_Danh mục_Phòng ban'[Cửa hàng]),
+			            "ThucTe", [Giá trị code_used],
+			            "NganSach", [_target_su_dung_abs],
+			            "PhanVuot", [Giá trị code_used] - [_target_su_dung_abs]
+			        ),
+			        [ThucTe] > [NganSach] 
+			    )
+			
+			VAR TongTienVuot = SUMX(StoreTableViPham, [PhanVuot])
+			VAR TongNganSachViPham = SUMX(StoreTableViPham, [NganSach])
+			
+			RETURN
+			DIVIDE(
+			    TongTienVuot, 
+			    TongNganSachViPham, 
+			    BLANK()
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 0. Datamodel
+		lineageTag: af2b7387-8a6f-4e18-8873-45a4615056ad
+
+	measure 'Dso_Bán kèm' =
+			
+			CALCULATE (
+			    [Dso+voucher],
+			    FILTER (
+			        'DIM_Danh mục_Nhóm hàng',
+			        'DIM_Danh mục_Nhóm hàng'[Bán kèm] = 1
+			    )
+			)
+		displayFolder: 0. Datamodel\Bán kèm
+		lineageTag: 29990c2e-8842-4c2e-b154-1eeca5c86713
+
+	measure Dso+voucher =
+			
+			CALCULATE (
+			    SUM ( 'FACT_Sale_Doanh số bán'[Dso+Voucher] ),
+			    FILTER (
+			        'FACT_Sale_Doanh số bán',
+			        'FACT_Sale_Doanh số bán'[IsSale] = 1
+			    )
+			)
+		displayFolder: 0. Datamodel
+		lineageTag: 188e76c6-cef4-4fcb-93cd-d71db7769c2e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dso_Bán kèm Target' =
+			
+			CALCULATE (
+			    SUM ( 'FACT_Sale_Target'[Target] ),
+			    FILTER (
+			        'FACT_Sale_Target',
+			        'FACT_Sale_Target'[Type] = "BÁN KÈM TARGET"
+			    )
+			)
+		formatString: #,0
+		displayFolder: 0. Datamodel\Bán kèm
+		lineageTag: c3ae74a9-3e4b-401a-b369-184b96852cf6
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Dso_Bán kèm Target %' =
+			
+			DIVIDE (
+			    [Dso_bán kèm],
+			    [Dso_Bán kèm Target],
+			    1
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 0. Datamodel\Bán kèm
+		lineageTag: dc1b3aef-ec77-444f-8007-29538bc8eacc
+
+	measure 'Dso_Bán kèm Target % rr' =
+			
+			IF ( [Dso_Bán kèm Target] = BLANK(), 1, [Dso_Bán kèm Target %] * [Run Rate] )
+		displayFolder: 0. Datamodel\Bán kèm
+		lineageTag: 62f6ada4-bd42-42e5-9ea3-05824cf955be
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Dso_Target = ```
+			
+			VAR target =
+			    CALCULATE (
+			        SUM ( 'FACT_Sale_Target'[Target] ),
+			        'FACT_Sale_Target'[Type] = "DSO TARGET"
+			    )
+			VAR dso_iP17 =
+			    CALCULATE (
+			        [Dso],
+			        FILTER (
+			            'DIM_Danh mục_Sản phẩm',
+			            CONTAINSSTRING ( 'DIM_Danh mục_Sản phẩm'[Mã hàng], "APP-IP17" )
+			            || CONTAINSSTRING ( 'DIM_Danh mục_Sản phẩm'[Mã hàng], "APP-IP-AIR" )
+			        ),
+			        FILTER (
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Date] >= DATE ( 2025, 9, 19 )
+			            && 'DIM_Danh mục_Ngày'[Date] <= DATE ( 2025, 9, 30 )
+			        )
+			    )
+			RETURN
+			    target + dso_iP17
+			
+			```
+		formatString: #,0
+		displayFolder: 0. Datamodel\Doanh số
+		lineageTag: 2787891a-5309-4f19-b040-ce80456f7d8f
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Dso_Target %' =
+			
+			var shop =
+			DIVIDE (
+			    [Dso],
+			    [Dso_Target],
+			    1
+			)
+			var nv =
+			CALCULATE(
+			    DIVIDE (
+			    [Dso],
+			    [Dso_Target]),
+			    ALL ( 'DIM_Danh mục_Nhân viên' ))
+			return IF(ISINSCOPE('DIM_Danh mục_Nhân viên'[Mã-tên]), nv, shop)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 0. Datamodel\Doanh số
+		lineageTag: a46f9fd5-9f6b-4a06-8c54-44fe3c08558d
+
+	measure 'Dso_Target % rr' =
+			
+			IF ( [Dso_Target] = BLANK (), 1, [Dso_Target %] * [Run Rate])
+		displayFolder: 0. Datamodel\Doanh số
+		lineageTag: 5b958f14-0ac4-4b5a-b3fa-a142bf3fd37b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Dso_PK1 =
+			
+			CALCULATE (
+			    [Dso],
+			    FILTER (
+			        'DIM_Danh mục_Nhóm hàng',
+			        'DIM_Danh mục_Nhóm hàng'[Nhóm hàng cấp 2] = "PHỤ KIỆN 1"
+			    )
+			)
+		displayFolder: 0. Datamodel\PK 1
+		lineageTag: eccaff1a-8a29-40f5-8630-e259c3a3a429
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dso_PK1 Target' =
+			
+			CALCULATE (
+			    SUM ( 'FACT_Sale_Target'[Target] ),
+			    FILTER (
+			        'FACT_Sale_Target',
+			        'FACT_Sale_Target'[Type] = "PK1 TARGET"
+			    )
+			)
+		displayFolder: 0. Datamodel\PK 1
+		lineageTag: 7e451d2c-50a7-40a9-bf2b-42276fc842be
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dso_PK1 Target %' =
+			
+			DIVIDE (
+			    [dso_PK1],
+			    [Dso_PK1 Target],
+			    1
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 0. Datamodel\PK 1
+		lineageTag: 87322c1b-768e-404d-9461-56cca666a400
+
+	measure Dso_PK2 =
+			
+			CALCULATE (
+			    [Dso],
+			    FILTER (
+			        'DIM_Danh mục_Nhóm hàng',
+			        'DIM_Danh mục_Nhóm hàng'[Nhóm hàng cấp 2] = "PHỤ KIỆN 2"
+			    )
+			)
+		displayFolder: 0. Datamodel\PK 2
+		lineageTag: 1cfa574b-e904-4fd2-8c13-a2f59d205f29
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dso_PK2 Target' =
+			
+			CALCULATE (
+			    SUM ( 'FACT_Sale_Target'[Target] ),
+			    FILTER (
+			        'FACT_Sale_Target',
+			        'FACT_Sale_Target'[Type] = "PK2 TARGET"
+			    )
+			)
+		displayFolder: 0. Datamodel\PK 2
+		lineageTag: 9a2b0da8-63be-423c-897c-ee95c0a63eaa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dso_PK2 Target %' =
+			
+			DIVIDE (
+			    [dso_PK2],
+			    [Dso_PK2 Target],
+			    1
+			)
+		displayFolder: 0. Datamodel\PK 2
+		lineageTag: 9be5b01d-3481-4437-ac01-7d7912e0600c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Slg_Android = ```
+			
+			VAR Slg_nhom1 =
+			    CALCULATE (
+			        [Slg_Thi đua],
+			        FILTER (
+			            'DIM_Danh mục_Nhóm hàng',
+			            'DIM_Danh mục_Nhóm hàng'[Nhóm] = "ANDROID"
+			            && 'DIM_Danh mục_Nhóm hàng'[Thuộc tính]= "MỚI"
+			                && 'DIM_Danh mục_Nhóm hàng'[Phân nhóm] = "NHÓM 1"
+			        ),      
+			        FILTER (
+			            'DIM_Danh mục_Sản phẩm',
+			            'DIM_Danh mục_Sản phẩm'[Android_exp] = BLANK () 
+			        ),
+			        FILTER(
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Date] < DATE(2024,9,1))
+			    )
+			VAR Slg_nhom1_moi =
+			    CALCULATE (
+			        [Slg_Thi đua],
+			        FILTER (
+			            'DIM_Danh mục_Nhóm hàng',
+			            'DIM_Danh mục_Nhóm hàng'[Nhóm] = "ANDROID"
+			            && 'DIM_Danh mục_Nhóm hàng'[Thuộc tính]= "MỚI"
+			            && 'DIM_Danh mục_Nhóm hàng'[Phân nhóm] = "NHÓM 1"
+			            && 'DIM_Danh mục_Nhóm hàng'[Nhóm hàng] <> "NOKIA CTM"
+			        ),      
+			        FILTER (
+			            'DIM_Danh mục_Sản phẩm',
+			            'DIM_Danh mục_Sản phẩm'[Android_exp] = BLANK () 
+			        ),
+			        FILTER(
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Date] >= DATE(2024,9,1))
+			    )
+			VAR Slg_nhom2 =
+			    CALCULATE (
+			        [Slg_Thi đua],
+			        FILTER (
+			            'DIM_Danh mục_Nhóm hàng',
+			            'DIM_Danh mục_Nhóm hàng'[Nhóm] = "ANDROID"
+			                && 'DIM_Danh mục_Nhóm hàng'[Thuộc tính]= "MỚI"
+			                && 'DIM_Danh mục_Nhóm hàng'[Phân nhóm] = "NHÓM 2"
+			        ),
+			        FILTER (
+			            'DIM_Sale_Giá bán',
+			            'DIM_Sale_Giá bán'[IsTamTrung] = 1
+			        ),
+			        FILTER(
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Năm] <= 2023)
+			    )
+			VAR Slg_nhom2_moi =
+			    CALCULATE (
+			        [Slg_Thi đua],
+			        FILTER (
+			            'DIM_Danh mục_Nhóm hàng',
+			            'DIM_Danh mục_Nhóm hàng'[Nhóm] = "ANDROID"
+			                && 'DIM_Danh mục_Nhóm hàng'[Thuộc tính]= "MỚI"
+			                && 'DIM_Danh mục_Nhóm hàng'[Phân nhóm] = "NHÓM 2"
+			        ),
+			        FILTER(
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Năm] >= 2024)
+			
+			    )
+			VAR Slg_nhom3 =
+			    CALCULATE (
+			        [Slg_Thi đua],
+			        FILTER (
+			            'DIM_Danh mục_Nhóm hàng',
+			            'DIM_Danh mục_Nhóm hàng'[Nhóm] = "ANDROID"
+			                && 'DIM_Danh mục_Nhóm hàng'[Thuộc tính]= "MỚI"
+			                && 'DIM_Danh mục_Nhóm hàng'[Phân nhóm] = "NHÓM 3"
+			        ),
+			        FILTER (
+			            'DIM_Danh mục_Sản phẩm',
+			            'DIM_Danh mục_Sản phẩm'[Android_exp] = BLANK () 
+			        ),
+			        FILTER(
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Date] < DATE(2024,9,1))
+			    )
+			VAR Slg_nhom3_moi =
+			    CALCULATE (
+			        [Slg_Thi đua],
+			        FILTER (
+			            'DIM_Danh mục_Nhóm hàng',
+			            'DIM_Danh mục_Nhóm hàng'[Nhóm] = "ANDROID"
+			            && 'DIM_Danh mục_Nhóm hàng'[Thuộc tính]= "MỚI"
+			            && 'DIM_Danh mục_Nhóm hàng'[Phân nhóm] = "NHÓM 3"
+			            && 'DIM_Danh mục_Nhóm hàng'[Nhóm hàng] <> "MASSTEL CTM"
+			        ),      
+			        FILTER (
+			            'DIM_Danh mục_Sản phẩm',
+			            'DIM_Danh mục_Sản phẩm'[Android_exp] = BLANK () 
+			        ),
+			        FILTER(
+			            'DIM_Danh mục_Ngày',
+			            'DIM_Danh mục_Ngày'[Date] >= DATE(2024,9,1))
+			    )
+			VAR Slg_android_tamtrung = Slg_nhom1 + Slg_nhom2 + Slg_nhom3 +  Slg_nhom1_moi +  Slg_nhom2_moi +  Slg_nhom3_moi
+			RETURN
+			    Slg_android_tamtrung
+			```
+		displayFolder: 0. Datamodel\Thi đua Android
+		lineageTag: 7f5a1f05-d669-4292-bb60-73c44e9d0933
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slg_Thi đua' =
+			
+			CALCULATE (
+			    SUM ( 'FACT_Sale_Doanh số bán'[SL] ),
+			    FILTER (
+			        'FACT_Sale_Doanh số bán',
+			        'FACT_Sale_Doanh số bán'[exp_Thi đua] = BLANK()
+			    )
+			)
+		displayFolder: 0. Datamodel\Push shop
+		lineageTag: 0dc819db-618f-4364-8748-f9d60f9fb1a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slg_Android Target' =
+			
+			CALCULATE (
+			    SUM ( 'FACT_Sale_Target'[Target] ),
+			    FILTER (
+			        'FACT_Sale_Target',
+			        'FACT_Sale_Target'[Type] = "Android"
+			    )
+			)
+		displayFolder: 0. Datamodel\Thi đua Android
+		lineageTag: 53dd53d0-8ef2-4e38-98a8-8db5d2bb2057
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slg_Android Target %' =
+			
+			DIVIDE (
+			    [Slg_Android],
+			    [Slg_Android Target],
+			    1
+			)
+		displayFolder: 0. Datamodel\Thi đua Android
+		lineageTag: 31c2651f-a367-499d-8326-38c66f30989b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Kds =
+			
+			[Dso_Target %] * 0.4 + [Dso_Bán kèm Target %] * 0.2 + [Dso_PK1 Target %] * 0.2 + [Dso_PK2 Target %] * 0.1 + [Slg_Android Target %] * 0.1
+			/*[Dso_Target cửa hàng_Doanh số %] * 0.5 + [Dso_Target cửa hàng_bán kèm %] * 0.2 + [Dso_Target cửa hàng_PK1 %] * 0.2 + [Dso_Target cửa hàng_PK2 %] * 0.1*/
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 0. Datamodel\KDS
+		lineageTag: 9bf753ac-e2fc-47cf-9a62-46dc169b927b
+
+	measure 'Kds rr' =
+			
+			IF ( [Dso_Target] = BLANK (), 1, [Kds] * [Run Rate] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 0. Datamodel\KDS
+		lineageTag: 17da6975-1e0a-4c9b-a0a8-f0cdf9311238
+
+	measure 'Tỷ lệ SD Code trên Ngân sách' = ```
+			
+			DIVIDE(
+			    [Giá trị code_used],
+			    [_target_su_dung_abs],
+			    0
+			)
+			
+			```
+		formatString: 0%;-0%;0%
+		displayFolder: 0. Datamodel
+		lineageTag: fc4617f5-32db-4a0e-a7f0-dc4c050a2256
+
+	measure '_target_su_dung_abs 1' = ```
+			
+			VAR _CurrentChartDate = MAX('DIM_Danh mục_Ngày'[Date]) 
+			VAR _date = 
+			    CALCULATE(
+			        MAX(FACT_Code_TargetSuDung[Ngày bắt đầu]),
+			        FACT_Code_TargetSuDung[Ngày bắt đầu] <= _CurrentChartDate
+			    )
+			VAR _target_per = 
+			    CALCULATE(
+			        MAX(FACT_Code_TargetSuDung[Tỷ trọng hạn mức]),
+			        FACT_Code_TargetSuDung[Ngày bắt đầu] = _date
+			    )
+			VAR _BaseDso = 
+			    SUMX(
+			        DIM_PromotionCode,
+			        SWITCH( TRUE(),
+			            DIM_PromotionCode[PromotionCodeId] IN {3283,3284,3285,3287}, [Dso],
+			            DIM_PromotionCode[PromotionCodeId] IN {2859,3121}, [Dso_BHMR],
+			            DIM_PromotionCode[PromotionCodeId] IN {3742}, [Dso_IPHONE],
+			            0
+			        )
+			    )
+			RETURN 
+			    _BaseDso * _target_per
+			```
+		displayFolder: 0. Datamodel
+		lineageTag: b5100d3f-9d87-4d8a-9b10-cb7f18361e66
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quỹ được phân bổ' = ```
+			
+			VAR __MonthContext =
+			    VALUES ( 'DIM_Danh mục_Ngày'[Năm/Tháng] )
+			RETURN
+			    CALCULATE (
+			        SUMX (
+			            ADDCOLUMNS (
+			                F_TargetCodeShop,
+			                "__quy",
+			                    IF (
+			                        F_TargetCodeShop[loai_target] = "Quỹ sử dụng",
+			                        F_TargetCodeShop[gia_tri_trb_ngay],
+			                        F_TargetCodeShop[gia_tri_trb_ngay] * MAX ( [Dso_trong chtr], 0 )
+			                    )
+			            ),
+			            [__quy]
+			        ),
+			        REMOVEFILTERS ( 'DIM_Danh mục_Ngày' ),
+			        TREATAS ( __MonthContext, 'DIM_Danh mục_Ngày'[Năm/Tháng] )
+			    )
+			
+			```
+		formatString: #,0
+		displayFolder: Code\Hạn mức sử dụng
+		lineageTag: 9d885383-a7a5-422b-9017-0ca6b004df45
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Dso_trong chtr' =
+			
+			calculate(
+			    [Dso]
+			    ,filter( 'FACT_Sale_Doanh số bán', 'FACT_Sale_Doanh số bán'[Is_useCode] = 1 )
+			)
+		displayFolder: Sale
+		lineageTag: 5a4322ea-a0a6-47af-b58c-34ad15c8649f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Slg_trong chtr' = ```
+			
+			calculate(
+			    [Slg]
+			    ,filter(
+			        addcolumns(
+			            'FACT_Sale_Doanh số bán'
+			            ,"is_code_kd"
+			            ,var _nhom_hang = 
+			                sign(
+			                    countrows(
+			                        filter( 
+			                            F_Code_LoaiSuDung, 
+			                            F_Code_LoaiSuDung[ngay_bat_dau] <= earlier([Date])
+			                                && F_Code_LoaiSuDung[ngay_ket_thuc] >= earlier([Date])
+			                                && F_Code_LoaiSuDung[loai_ap_dung] = "Nhóm hàng"
+			                                && F_Code_LoaiSuDung[gia_tri] = earlier([DMC3])
+			                        )
+			                    )
+			                )
+			
+			            var _ma_hang = 
+			                sign(
+			                    countrows(
+			                        filter( 
+			                            F_Code_LoaiSuDung, 
+			                            F_Code_LoaiSuDung[ngay_bat_dau] <= earlier([Date])
+			                                && F_Code_LoaiSuDung[ngay_ket_thuc] >= earlier([Date])
+			                                && F_Code_LoaiSuDung[loai_ap_dung] = "Mã hàng"
+			                                && F_Code_LoaiSuDung[gia_tri] = earlier([ProductCode])
+			                        )
+			                    )
+			                )
+			
+			            var _x = if( _nhom_hang + _ma_hang >= 1, 1 , 0 )
+			            return _x
+			        )
+			        ,[is_code_kd] = 1
+			    )
+			)
+			```
+		formatString: #,0
+		displayFolder: Sale
+		lineageTag: f208a0d8-1e4a-41aa-a4f4-22539ddafcfc
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Slg =
+			
+			calculate(
+			    sum('FACT_Sale_Doanh số bán'[SL])
+			    ,filter(
+			        'FACT_Sale_Doanh số bán'
+			        ,[IsSale] = 1
+			    )
+			)
+		displayFolder: Sale
+		lineageTag: e93ce00a-3aab-4059-85a0-bae27802dcbf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Giá trị code_used_trung bình' =
+			
+			divide(
+			    [Giá trị code_used]
+			    ,[Slg code_used]
+			    ,blank()
+			)
+		formatString: #,0
+		displayFolder: Code\Giá trị sử dụng
+		lineageTag: d74a497e-885e-4554-bc76-3bdcd5a5a5fa
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Thời gian cập nhật' = ```
+			max('FACT_Sale_Doanh số bán'[Date]) 
+			```
+		formatString: Short Date
+		lineageTag: f4bc8b62-4724-4b7c-92e8-91b7aa2ba981
+
+	measure 'Note Sử dụng code KD' =
+			
+			"Slg_trong chtr: là các sản phẩm mà chương trình đang chọn có áp dụng. Ví dụ gói code 3962 sẽ lấy các SO các sản phẩm IP17 có hoặc ko dùng code."
+		displayFolder: Code\Hạn mức sử dụng
+		lineageTag: 7950fce0-0075-488c-923d-323ef526e8ed
+
+	measure 'Tỷ lệ quỹ đã dùng' =
+			
+			divide(
+			    [Giá trị code_used]
+			    ,[Quỹ được phân bổ]
+			    ,blank()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 0. Datamodel
+		lineageTag: 1cc78f07-b5c9-412a-b43a-ff4ece3d8aa7
+
+	measure 'Tỷ lệ code / đơn hàng' =
+			
+			DIVIDE (
+			    SUM ( FACT_Code_DaSuDung[allocate_take_value] ),
+			    MAX ( FACT_Code_DaSuDung[gia_tri_don_hang_ap_dung_code] ),
+			    BLANK ()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Code new
+		lineageTag: 4dac0475-e502-4232-a1df-e0f2b677ab55
+
+	measure 'Số đơn code > 30%' =
+			
+			VAR _OrderTable =
+			    ADDCOLUMNS (
+			        SUMMARIZE (
+			            FILTER (
+			                FACT_Code_DaSuDung,
+			                FACT_Code_DaSuDung[Is_Use] = 1
+			                    && FACT_Code_DaSuDung[Id] IN { 3283, 3284, 3285, 3287, 2859, 3121 }
+			            ),
+			            FACT_Code_DaSuDung[AutoCode]
+			        ),
+			        "GiaTriCode", CALCULATE ( SUM ( FACT_Code_DaSuDung[TakeValue thực] ) ),
+			        "GiaTriDonHang", CALCULATE ( MAX ( FACT_Code_DaSuDung[gia_tri_don_hang_ap_dung_code] ) )
+			    )
+			RETURN
+			    COUNTROWS (
+			        FILTER (
+			            _OrderTable,
+			            DIVIDE ( [GiaTriCode], [GiaTriDonHang], 0 ) > 0.3
+			        )
+			    )
+		formatString: 0
+		displayFolder: Code new
+		lineageTag: 559f85d1-8334-4750-9873-09c5631ffd9e
+
+	measure 'Giá trị code_used > 30%' =
+			
+			VAR _OrderTable =
+			    ADDCOLUMNS (
+			        SUMMARIZE (
+			            FILTER (
+			                FACT_Code_DaSuDung,
+			                FACT_Code_DaSuDung[Is_Use] = 1
+			                    && FACT_Code_DaSuDung[Id] IN { 3283, 3284, 3285, 3287, 2859, 3121 }
+			            ),
+			            FACT_Code_DaSuDung[AutoCode]
+			        ),
+			        "GiaTriCode", CALCULATE ( SUM ( FACT_Code_DaSuDung[TakeValue thực] ) ),
+			        "GiaTriDonHang", CALCULATE ( MAX ( FACT_Code_DaSuDung[Dso] ) )
+			    )
+			RETURN
+			    SUMX (
+			        FILTER (
+			            _OrderTable,
+			            DIVIDE ( [GiaTriCode], [GiaTriDonHang], 0 ) > 0.3
+			        ),
+			        [GiaTriCode]
+			    )
+		displayFolder: Code new
+		lineageTag: 9633220b-45ad-46f2-91e2-2530a7fbf8eb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Chênh lệch hạn mức code > 30%' =
+			
+			[_target_su_dung_abs] - [Giá trị code_used > 30%]
+		displayFolder: Code new
+		lineageTag: cea67baf-babf-4888-941c-b81ee6c73f93
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Tỷ lệ SD Code trên Ngân sách > 30%' =
+			
+			DIVIDE (
+			    [Giá trị code_used > 30%],
+			    [_target_su_dung_abs],
+			    0
+			)
+		displayFolder: Code new
+		lineageTag: 35d2b80b-f762-42e5-99f2-5d3f5dbdb788
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Số phiếu code > 30%' =
+			
+			VAR _BangDonCode =
+			    ADDCOLUMNS (
+			        SUMMARIZE (
+			            FILTER (
+			                FACT_Code_DaSuDung,
+			                FACT_Code_DaSuDung[Is_Use] = 1
+			                    && FACT_Code_DaSuDung[Id] IN { 3283, 3284, 3285, 3287, 2859, 3121 }
+			            ),
+			            FACT_Code_DaSuDung[AutoCode],
+			            FACT_Code_DaSuDung[Code]
+			        ),
+			        "GiaTriCode",
+			            CALCULATE (
+			                SUM ( FACT_Code_DaSuDung[allocate_take_value] )
+			            ),
+			        "GiaTriDonHang",
+			            CALCULATE (
+			                MAX ( FACT_Code_DaSuDung[gia_tri_don_hang_ap_dung_code] )
+			            )
+			    )
+			
+			VAR _BangViPham =
+			    FILTER (
+			        _BangDonCode,
+			        DIVIDE ( [GiaTriCode], [GiaTriDonHang], 0 ) > 0.3
+			    )
+			
+			RETURN
+			    COUNTROWS (
+			        SUMMARIZE (
+			            _BangViPham,
+			            FACT_Code_DaSuDung[AutoCode]
+			        )
+			    )
+		formatString: 0
+		displayFolder: Code new
+		lineageTag: 81c1f7aa-167a-4ada-892f-da19021a53d0
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 1f916095-b4e8-4620-b956-59658bb384d8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure-705e7667-7def-4896-be62-279e7700b8e3 = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 3bb3f7cf18264984bfd7ce0a753a0ff3
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

@@ -1,0 +1,199 @@
+table D_Ngày
+	lineageTag: da114602-72f4-4ee9-917a-dfb0638cf7ce
+
+	column date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: df1f5e53-7528-4ccf-b8cb-ab82480d01a7
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column yearMonth
+		dataType: string
+		lineageTag: 18e376f5-0f6a-437e-a6f3-5a0d7218f404
+		summarizeBy: none
+		sourceColumn: yearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column apple_year_week
+		dataType: int64
+		formatString: 0
+		lineageTag: a6d52fcc-6ac6-4402-bdd0-cc613987f25a
+		summarizeBy: sum
+		sourceColumn: apple_year_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_week
+		dataType: string
+		lineageTag: 204893f2-4120-47bf-a58a-085de043b90c
+		summarizeBy: none
+		sourceColumn: year_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstDayOfMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2db2d912-d363-4e95-9915-66950da2c93d
+		summarizeBy: none
+		sourceColumn: FirstDayOfMonth
+
+		variation Variation
+			isDefault
+			relationship: fea90e1d-23cb-4625-b2f6-7dc56c699071
+			defaultHierarchy: LocalDateTable_9d5357eb-5f04-4bc4-b2c8-67b1cd9f359e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column LastDayOfMonth
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5482d8c4-db60-4824-a6e0-c668e754e80c
+		summarizeBy: none
+		sourceColumn: LastDayOfMonth
+
+		variation Variation
+			isDefault
+			relationship: 98996fb7-edbc-4073-a732-a640ec98226b
+			defaultHierarchy: LocalDateTable_6e4d7e58-fc61-4411-992f-a0ab2cc737f9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: c06c2cf4-ae8e-4ce4-bdbd-1c4845c9f082
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: string
+		lineageTag: aab04a16-2706-4e52-a162-c49a9c03aec0
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ec77470-848f-4f92-bfdb-863a88257cc5
+		summarizeBy: sum
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayOfYear
+		dataType: string
+		lineageTag: bf974b35-6f95-4108-af30-23ceb86363c7
+		summarizeBy: none
+		sourceColumn: dayOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: string
+		lineageTag: 7665957b-4326-4072-8f45-0bf55597c52e
+		summarizeBy: none
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeek
+		dataType: string
+		lineageTag: 3aa65ce2-d993-4a0a-a2ae-23f32c68be76
+		summarizeBy: none
+		sourceColumn: YearWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column quy_nam
+		dataType: string
+		lineageTag: 7a62d255-891b-47ff-b4e1-e266eac42aa4
+		summarizeBy: none
+		sourceColumn: quy_nam
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayName
+		dataType: string
+		lineageTag: a3a43a4b-c10b-4b3d-84a4-307ee22670c8
+		summarizeBy: none
+		sourceColumn: dayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayNameLong
+		dataType: string
+		lineageTag: b233a99c-76b4-49e7-b36b-692b2d2f7ef9
+		summarizeBy: none
+		sourceColumn: dayNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthName
+		dataType: string
+		lineageTag: 8e4c5cbb-7a55-4579-a5d0-691427f85394
+		summarizeBy: none
+		sourceColumn: monthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthNameLong
+		dataType: string
+		lineageTag: 83f37f7c-9885-4112-995d-3b86701572f1
+		summarizeBy: none
+		sourceColumn: monthNameLong
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ec09010c-0f36-4b45-9442-4ddf5bf7551a
+		summarizeBy: none
+		sourceColumn: weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is.CampaignPeriod' =
+			
+			VAR ngaybatdau = date(2025,06,06)
+			VAR ngayketthuc = date(2025,10,31)
+			RETURN
+			    IF (
+			        'D_Ngày'[Date] >= ngaybatdau
+			            && 'D_Ngày'[Date] <= ngayketthuc,
+			        1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: e8c88560-19b4-4c4a-9a76-752fb121480d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_Ngày = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=7abaff99-dd11-48ca-a4aa-2fc1ae086ba5”#(lf)SELECT *#(lf)FROM cellphones-data-platform.cps_DA_General_Transform.dim_date#(lf)where date between '2023-01-01' and '2025-12-31'", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

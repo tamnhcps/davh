@@ -1,0 +1,119 @@
+table FACT_SPTT_Model_Target
+	lineageTag: 4bb5df76-64a6-44da-adbe-5c1244e8e958
+
+	column 'Chi nhánh'
+		dataType: string
+		lineageTag: 641029f4-8a53-4af6-8243-8740d9b63146
+		summarizeBy: none
+		sourceColumn: Chi nhánh
+
+		annotation SummarizationSetBy = Automatic
+
+	column Model
+		dataType: string
+		lineageTag: 3ccbc7db-4157-4bfa-a170-9fd49e767d66
+		summarizeBy: none
+		sourceColumn: Model
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tháng áp dụng'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c1518bee-ca5e-4a9f-a4eb-a7ede202c32c
+		summarizeBy: none
+		sourceColumn: Tháng áp dụng
+
+		variation Variation
+			isDefault
+			relationship: b1db1ff6-85c9-49c0-b6f8-8cfd356a3fe8
+			defaultHierarchy: LocalDateTable_6bba14d8-4a85-4825-8624-2abc1ebc148b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ngày bắt đầu'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 16bc9a05-95b7-4a29-baa6-b6cb5a9a097f
+		summarizeBy: none
+		sourceColumn: Ngày bắt đầu
+
+		variation Variation
+			isDefault
+			relationship: 8ea1810b-e505-4ad6-8064-fede43a42e25
+			defaultHierarchy: LocalDateTable_b1243cd1-17c1-496a-821e-e8d14a329d8c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ngày kết thúc'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1993b482-462f-435b-b71f-1ee0bbf68025
+		summarizeBy: none
+		sourceColumn: Ngày kết thúc
+
+		variation Variation
+			isDefault
+			relationship: bfd296c4-0ecd-4bc5-a9c7-6e43c7a1a938
+			defaultHierarchy: LocalDateTable_94cd1579-c9ce-4f95-ad53-d0aef96be8c3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Target
+		dataType: double
+		lineageTag: 272bf21a-32b8-44b3-9973-30e488590fc1
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fe8986aa-0005-48e0-b5fe-062757ec200e
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 74049994-c0a7-46e3-a977-7027d65cd816
+			defaultHierarchy: LocalDateTable_eb283a49-31a0-4dbc-b9dc-5ff59fa5339d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition FACT_SPTT_Model_Target = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGvMoHUidwN3cUAdWhjlD486eIRz-GjvecoUGHwSBTC0UdHkirJWb-UyH3bucvBTC_M5vs1cKj41IL/pub?output=xlsx"), null, true),
+				    #"C-Brand_exp_Sheet" = Source{[Item="SPTT_Model",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"C-Brand_exp_Sheet", [PromoteAllScalars=true]),
+				    #"Removed Blank Rows" = Table.SelectRows(#"Promoted Headers", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Removed Blank Rows",{"Chi nhánh", "Model", "Tháng áp dụng", "Ngày bắt đầu", "Ngày kết thúc", "Target"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"Chi nhánh", type text}, {"Model", type text}, {"Tháng áp dụng", type date}, {"Ngày bắt đầu", type date}, {"Target", Int64.Type}, {"Ngày kết thúc", type date}}),
+				    #"Inserted Date Subtraction" = Table.AddColumn(#"Changed Type", "No.Days", each Duration.Days([Ngày kết thúc] - [Ngày bắt đầu])+1, Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Inserted Date Subtraction", "Target ngày", each [Target]/[No.Days], type number),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Custom", each DIM_Ngày),
+				    #"Expanded Custom" = Table.ExpandTableColumn(#"Added Custom1", "Custom", {"Ngày"}, {"Ngày"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Expanded Custom",{{"Ngày", Int64.Type}}),
+				    #"Added Custom2" = Table.AddColumn(#"Changed Type1", "Filter", each if Date.Day([Ngày kết thúc]) >= [Ngày] then if Date.Day([Ngày bắt đầu]) <= [Ngày] then 1 else 0 else 0, Int64.Type),
+				    #"Filtered Rows" = Table.SelectRows(#"Added Custom2", each ([Filter] = 1)),
+				    #"Added Custom3" = Table.AddColumn(#"Filtered Rows", "Date", each #date(Date.Year([Ngày bắt đầu]), Date.Month([Ngày bắt đầu]),[Ngày]), type date),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Added Custom3",{"Chi nhánh", "Model", "Tháng áp dụng", "Ngày bắt đầu", "Ngày kết thúc", "Target ngày", "Date"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns1",{{"Target ngày", "Target"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Chi nhánh"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"Chi nhánh"})
+				in
+				    #"Replaced Value1"
+

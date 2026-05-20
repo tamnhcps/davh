@@ -1,0 +1,207 @@
+table FACT_Sale_Voucher
+	lineageTag: f041c0be-2f8f-4baf-9264-296216647d5c
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e2215331-cb10-4d91-8c0b-e285d35d5896
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		variation Variation
+			isDefault
+			relationship: 8913e849-4b46-42af-bba0-31b1e9483fed
+			defaultHierarchy: LocalDateTable_4d9ba35a-c4fe-4784-8898-5bfacc27cb07.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d88b39d7-b296-49af-adee-0e121518a199
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: cfcf7578-5752-4bf9-a21a-11f3d7924df7
+			defaultHierarchy: LocalDateTable_f633853f-c659-4b1f-8f59-1401e7cf13ee.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column AutoCode
+		dataType: string
+		lineageTag: 3da76cae-5387-4c5c-b369-a9067c2fb92b
+		summarizeBy: none
+		sourceColumn: AutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreCode
+		dataType: string
+		lineageTag: 2f362f90-1b67-4a12-82ed-ee310d5e2843
+		summarizeBy: none
+		sourceColumn: StoreCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 69c99e14-1695-47f8-a6e5-6b48883e8786
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCode
+		dataType: string
+		lineageTag: 800f465f-a914-4f66-8ae6-4f0d09721af7
+		summarizeBy: none
+		sourceColumn: ProductCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column DMC3
+		dataType: string
+		lineageTag: 4f8cbe7c-3c1a-4bee-aeb2-35d6c2820bc6
+		summarizeBy: none
+		sourceColumn: DMC3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		lineageTag: efaf20e9-2bdb-4adb-9759-e138455c5556
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Mien
+		dataType: string
+		lineageTag: 3c100e57-dd0b-4629-9ed9-4b897f64ffad
+		summarizeBy: none
+		sourceColumn: Mien
+
+		annotation SummarizationSetBy = Automatic
+
+	column code_pmh
+		dataType: string
+		lineageTag: 47fc8470-1f70-4dc0-bb58-addeb46a4d96
+		summarizeBy: none
+		sourceColumn: code_pmh
+
+		annotation SummarizationSetBy = Automatic
+
+	column UsingDate_Promotion
+		dataType: string
+		lineageTag: 0e1dd9ed-a2cc-4e14-a86e-3c6752757445
+		summarizeBy: none
+		sourceColumn: UsingDate_Promotion
+
+		annotation SummarizationSetBy = Automatic
+
+	column isUsingPromotion
+		dataType: int64
+		formatString: 0
+		lineageTag: 99a7813c-ec3c-46b6-9c70-7672b76cc09e
+		summarizeBy: sum
+		sourceColumn: isUsingPromotion
+
+		annotation SummarizationSetBy = Automatic
+
+	column isUsingDiscount
+		dataType: int64
+		formatString: 0
+		lineageTag: 822bc846-51dd-45aa-9f14-93da0b8a4974
+		summarizeBy: sum
+		sourceColumn: isUsingDiscount
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountAmount
+		dataType: double
+		lineageTag: 9e1030c0-d11d-45f5-ab1b-1a19121ee1fc
+		summarizeBy: sum
+		sourceColumn: DiscountAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PromotionAmount
+		dataType: double
+		lineageTag: 5eb1b3c5-9f09-495b-9f0f-c82559d44855
+		summarizeBy: sum
+		sourceColumn: PromotionAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column slg
+		dataType: double
+		lineageTag: 7076469f-7456-41c0-a478-2e7095b5f661
+		summarizeBy: sum
+		sourceColumn: slg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dso
+		dataType: double
+		lineageTag: bca59b33-285e-4fd9-8741-5e34ee62433f
+		summarizeBy: sum
+		sourceColumn: dso
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Rate =
+			
+			VAR tu = FACT_Sale_Voucher[Price] * FACT_Sale_Voucher[slg]
+			VAR mau =
+			CALCULATE(
+			    SUMX(FACT_Sale_Voucher, FACT_Sale_Voucher[Price] * FACT_Sale_Voucher[slg]),
+			    ALLEXCEPT(FACT_Sale_Voucher, FACT_Sale_Voucher[AutoCode])
+			)
+			RETURN
+			IF(FACT_Sale_Voucher[isUsingPromotion] = 1,DIVIDE(tu, mau),0)
+		lineageTag: 6fda1357-8be0-43d5-b977-dae35ea89c7f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Promotion =
+			
+			ROUND(FACT_Sale_Voucher[PromotionAmount]*FACT_Sale_Voucher[Rate],0)
+		lineageTag: 4a1eea81-d382-4da8-819d-f278fcec36b6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FACT_Sale_Voucher = m
+		mode: import
+		queryGroup: FACT
+		source = ```
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)with#(lf)promotion as ( -- PMH Apple 2/3 triệu_tradein để mua sau#(lf)  select#(lf)    * except(ProductIds),#(lf)    trim(product) AS ProductId#(lf)  from `cellphones-data-platform.cps_cdc_sep_shared_data_dbo.SO_PromotionCodeLog` code#(lf)  cross join unnest(split(ProductIds, ',')) as product  #(lf)  where    #(lf)    PromotionCodeId = 3657#(lf)    and CancelDate is null#(lf)),#(lf)discount_3tr as ( -- sử dụng voucher 3tr để mua kèm#(lf)  select#(lf)  distinct(GeneralId), ProductId, DiscountAmount, OrderDiscountAmount, CenterId#(lf)  from `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_DiscountDetail`#(lf)  where DiscountId = 5905#(lf)  and Inactive = false#(lf)  union all#(lf)  select#(lf)  distinct(GeneralId), ProductId, DiscountAmount, OrderDiscountAmount, CenterId#(lf)  from `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_DiscountDetail`#(lf)  where DiscountId = 5910#(lf)  and Inactive = false#(lf)),#(lf)discount_2tr as ( -- sử dụng voucher 2tr để mua kèm#(lf)  select#(lf)  distinct(GeneralId), ProductId, DiscountAmount, OrderDiscountAmount, CenterId#(lf)  from `cellphones-data-platform.cps_cdc_sep_hcm_dbo.SO_DiscountDetail`#(lf)  where DiscountId = 5936#(lf)  and Inactive = false#(lf)  union all#(lf)  select#(lf)  distinct(GeneralId), ProductId, DiscountAmount, OrderDiscountAmount, CenterId#(lf)  from `cellphones-data-platform.cps_cdc_sep_hn_dbo.SO_DiscountDetail`#(lf)  where DiscountId = 5938#(lf)  and Inactive = false#(lf)),#(lf)discount as (#(lf)  select *#(lf)  from discount_2tr#(lf)  union all#(lf)  select *#(lf)  from discount_3tr#(lf))#(lf)#(lf)#(lf)select#(lf)  sale.CreateDate#(lf)  --,StoreBillId#(lf)  ,Date#(lf)  ,sale.AutoCode#(lf)  ,StoreCode#(lf)  ,ProductName#(lf)  ,ProductCode#(lf)  ,DMC3#(lf)  ,Price#(lf)  ,if(sale.centerid = 3759, ""Miền Bắc"", ""Miền Nam"") Mien#(lf)  ,promotion.code as code_pmh#(lf)  ,promotion.UsedDate as UsingDate_Promotion#(lf)  ,if(promotion.UsedDate is not null, 1, 0) isUsingPromotion#(lf)  ,if(discount.GeneralId is not null,1,0) isUsingDiscount#(lf)  ,coalesce(discount.discountamount, discount.OrderDiscountAmount) as DiscountAmount#(lf)  ,promotion.TakeValue as PromotionAmount#(lf)  ,sum(quantity) as slg#(lf)  ,sum(amount) as dso#(lf)from `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` sale#(lf)left join promotion#(lf)  on sale.AutoCode = promotion.AutoCode#(lf)  and CAST(sale.ProductId AS STRING) = promotion.ProductId#(lf)left join discount#(lf)  on sale.StoreBillId = discount.GeneralId#(lf)  and sale.ProductId = discount.productid#(lf)  and sale.centerid = discount.CenterId#(lf)where 1=1#(lf)  and date(sale.CreateDate) >= '2025-02-01'#(lf)  and date(sale.CreateDate) < '2025-04-10'#(lf)  and (promotion.UsedDate is not null or discount.GeneralId is not null)#(lf)  and IsSales = 1#(lf)group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,discount.GeneralId, promotion.TakeValue, discount.OrderDiscountAmount", null, [EnableFolding=true])
+				    
+				in
+				    Source
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,22 @@
+table DIM_DMC3
+	lineageTag: d635c382-6d68-4935-9427-3e3e6220c47d
+
+	column nhom_hang
+		lineageTag: 4b79f2d2-3f9e-48b3-a9eb-ae8b42569b36
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Code_DaSuDung[nhom_hang]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_DMC3 = calculated
+		mode: import
+		source =
+				
+				FILTER(
+				    DISTINCT(FACT_Code_DaSuDung[nhom_hang]),
+				    NOT ISBLANK(FACT_Code_DaSuDung[nhom_hang])
+				)
+
+	annotation PBI_Id = 5566c69e96104e51bef0c22c487bc677
+

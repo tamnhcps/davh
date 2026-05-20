@@ -1,0 +1,17 @@
+table AutoCode
+	lineageTag: c6d50590-ccc5-4986-b814-a013f656c7e8
+
+	column AutoCode
+		lineageTag: 7ca9c8ab-ef38-4302-a6cd-edcfc73d59ee
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Code_DaSuDung[AutoCode]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AutoCode-330fa52c-5ed2-4deb-bc8f-ae35e92931b4 = calculated
+		mode: import
+		source = CALCULATETABLE(DISTINCT('FACT_Code_DaSuDung'[AutoCode]), 'FACT_Code_DaSuDung'[AutoCode] <> BLANK())
+
+	annotation PBI_Id = e408d5ac38f54abd90412ae858869db5
+

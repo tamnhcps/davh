@@ -1,0 +1,128 @@
+table FACT_Sale_Target_DMC3
+	lineageTag: fc312782-216f-4692-984f-f70b11284d47
+
+	column Miền
+		dataType: string
+		lineageTag: be7f32e4-f279-406a-9c65-2c6125f7a99f
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column Object
+		dataType: string
+		lineageTag: 0699556c-edab-4eb9-85ec-69a78b3c6b72
+		summarizeBy: none
+		sourceColumn: Object
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 9c8bc8e7-6dda-4606-b487-ce173ba99127
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column DMC3
+		dataType: string
+		lineageTag: 6dd856b3-83f2-458a-b301-aa986c330e0d
+		summarizeBy: none
+		sourceColumn: DMC3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target ngày'
+		dataType: double
+		lineageTag: 993c3df8-456d-4140-81e9-d7c844817c26
+		summarizeBy: sum
+		sourceColumn: Target ngày
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 93699e2a-df8f-4faf-87cb-aabd57c8579b
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Phân loại thi đua'
+		dataType: string
+		lineageTag: 48b7fda4-ad60-438c-98a1-0ae4688e55b4
+		summarizeBy: none
+		sourceColumn: Phân loại thi đua
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: double
+		lineageTag: 9c577267-bacb-471f-8142-15d7c870b176
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Mã Kho' = ```
+			
+			VAR MinIndex = 
+			    CALCULATE(
+			        MIN('DIM_Danh mục_Kho'[Index]),
+			        FILTER(
+			            'DIM_Danh mục_Kho',
+			            'DIM_Danh mục_Kho'[IsSale] = 1 &&
+			            'DIM_Danh mục_Kho'[Cửa hàng] = 'FACT_Sale_Target_DMC3'[Object]
+			        )
+			    )
+			
+			RETURN
+			LOOKUPVALUE(
+			    'DIM_Danh mục_Kho'[Mã kho],
+			    'DIM_Danh mục_Kho'[IsSale], 1,
+			    'DIM_Danh mục_Kho'[Cửa hàng], 'FACT_Sale_Target_DMC3'[Object],
+			    'DIM_Danh mục_Kho'[Index], MinIndex
+			)
+			
+			```
+		lineageTag: 3dd7cf32-22cc-4336-9ca5-8e6869fdb626
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_Sale_Target_DMC3 = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = FACT_GSheet_Target_DMC3,
+				    #"Changed Type2" = Table.TransformColumnTypes(Source,{{"Ngày bắt đầu", type date}, {"Ngày kết thúc", type date}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Changed Type2", each [Ngày bắt đầu] >= #date(2025, 1, 1)),
+				    #"Added Custom2" = Table.AddColumn(#"Filtered Rows1", "Ngày trong tháng", each Date.Day([Ngày kết thúc]) - Date.Day([Ngày bắt đầu]) +1),
+				    #"Added Custom3" = Table.AddColumn(#"Added Custom2", "Target ngày", each [Target]/[Ngày trong tháng], type number),
+				    #"Added Custom4" = Table.AddColumn(#"Added Custom3", "Custom", each #"DIM_Danh mục_Ngày (2)"),
+				    #"Expanded Custom" = Table.ExpandTableColumn(#"Added Custom4", "Custom", {"Date"}, {"Date"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Custom",{{"Date", type date}}),
+				    #"Added Custom5" = Table.AddColumn(#"Changed Type", "IsTargetDate", each if [Date] <= [Ngày kết thúc] and [Date] >= [Ngày bắt đầu] then 1 else null, type number),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Custom5", each ([IsTargetDate] = 1)),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows2",{"Miền", "Shop", "Type", "Target", "DMC3", "Target ngày", "Date", "Phân loại thi đua"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Other Columns", {"Date", "DMC3"}, #"Sale_GG_GSheet_Tỷ trọng Target", {"Date", "Phân loại nhóm hàng"}, "Sale_GG_GSheet_Tỷ trọng Target", JoinKind.LeftOuter),
+				    #"Expanded Sale_GG_GSheet_Tỷ trọng Target" = Table.ExpandTableColumn(#"Merged Queries", "Sale_GG_GSheet_Tỷ trọng Target", {"Tỷ trọng"}, {"Tỷ trọng"}),
+				    #"Added Custom7" = Table.AddColumn(#"Expanded Sale_GG_GSheet_Tỷ trọng Target", "Custom", each if [Tỷ trọng] <> null then [Tỷ trọng]*[Target] else [Target ngày]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom7",{{"Custom", type number}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type1",{"Target", "Tỷ trọng"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"Custom", "Target"}, {"Shop", "Object"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each true),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Object"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"Object"})
+				in
+				    #"Replaced Value1"
+

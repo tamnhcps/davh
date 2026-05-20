@@ -1,0 +1,79 @@
+table Sale_GG_GSheet_SKU_exp
+	lineageTag: b5e935bd-0c76-4118-8c8a-0c092854e59b
+
+	column 'Nhóm hàng'
+		dataType: string
+		lineageTag: bc906d1e-80f7-44d0-8fdc-e6a5078c04d7
+		summarizeBy: none
+		sourceColumn: Nhóm hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã sản phẩm'
+		dataType: string
+		lineageTag: c873a677-3b1e-4d99-bbb1-cdeea468df51
+		summarizeBy: none
+		sourceColumn: Mã sản phẩm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên sản phẩm'
+		dataType: string
+		lineageTag: dc7078e2-c915-45a8-8e70-dd32eccbddad
+		summarizeBy: none
+		sourceColumn: Tên sản phẩm
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Thời gian bắt đầu'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 96138cb9-ae97-4760-bd3e-9cfeec6912a5
+		summarizeBy: none
+		sourceColumn: Thời gian bắt đầu
+
+		variation Variation
+			isDefault
+			relationship: b23f0067-032f-4ac3-98d9-81ccf0df6aa3
+			defaultHierarchy: LocalDateTable_665f2fa8-2f9e-40ef-afe6-c28529378590.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Thời gian kết thúc'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b20d23e5-afdc-4431-b1e8-41c2eaaff814
+		summarizeBy: none
+		sourceColumn: Thời gian kết thúc
+
+		variation Variation
+			isDefault
+			relationship: 7aa32264-2475-476d-8160-8f108d5fc988
+			defaultHierarchy: LocalDateTable_38ecea1d-cca9-4946-a7a6-3423c26114f3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Sale_GG_GSheet_SKU_exp = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt (2)"), null, true),
+				  #"Filtered rows" = Table.SelectRows(Source, each [Item] = "SKU_exp"),
+				  #"Removed other columns" = Table.SelectColumns(#"Filtered rows", {"Data"}),
+				  #"Expanded Data" = Table.ExpandTableColumn(#"Removed other columns", "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}, {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Expanded Data", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Nhóm hàng", type text}, {"Mã sản phẩm", type text}, {"Tên sản phẩm", type text}, {"Thời gian bắt đầu", type date}, {"Thời gian kết thúc", type date}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Nhóm hàng", "Mã sản phẩm", "Tên sản phẩm", "Thời gian bắt đầu", "Thời gian kết thúc"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Other Columns", each Date.IsInYearToDate([Thời gian bắt đầu]))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

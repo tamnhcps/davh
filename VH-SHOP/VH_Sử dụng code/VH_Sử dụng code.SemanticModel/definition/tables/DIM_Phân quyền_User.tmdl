@@ -1,0 +1,100 @@
+table 'DIM_Phân quyền_User'
+	lineageTag: cac314b2-ac06-4dbb-8c9b-9b8ddc3546c5
+
+	column Mail
+		dataType: string
+		lineageTag: 461c142a-290b-4717-b288-40a359637f97
+		summarizeBy: none
+		sourceColumn: Mail
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tên
+		dataType: string
+		lineageTag: a97f0008-f5c3-492b-bee8-254647b09c4a
+		summarizeBy: none
+		sourceColumn: Tên
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: e9d4cf6f-d77d-464c-bc4d-5693ac57ecaa
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column Workspace
+		dataType: string
+		lineageTag: 0725c672-7ce5-41a0-8ba1-b6e47209e037
+		summarizeBy: none
+		sourceColumn: Workspace
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Khu vực'
+		dataType: string
+		lineageTag: 98fe825e-7f68-4cdf-9e6f-cd4d7e7ddb9a
+		summarizeBy: none
+		sourceColumn: Khu vực
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		dataType: string
+		lineageTag: 727871d4-e66c-4d76-8236-b6777026ce6b
+		summarizeBy: none
+		sourceColumn: Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Leader
+		dataType: string
+		lineageTag: ee8c9717-7402-43a6-9ef7-bdb5eea3b8e7
+		summarizeBy: none
+		sourceColumn: Leader
+
+		annotation SummarizationSetBy = Automatic
+
+	column Startdate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 46ad0cc5-901e-4269-b87f-ab72a121ea3b
+		summarizeBy: none
+		sourceColumn: Startdate
+
+		variation Variation
+			isDefault
+			relationship: 5cd9aeb2-f0a6-4fb3-9076-4548ae3877da
+			defaultHierarchy: LocalDateTable_71c297dd-ea00-48ae-b1a6-ad9c406f62c5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Path =
+			
+			PATH (
+			    'DIM_Phân quyền_User'[Tên],
+			    'DIM_Phân quyền_User'[Leader]
+			)
+		lineageTag: dc0d61ae-fc5d-4437-9075-027dacfc2e7a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_User-2bf61914-0bfa-470c-82f2-5537c55f1234' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=54cfc7b0-4cd1-4ab1-87fd-85c6e135d1ac""#(lf)SELECT  #(lf)ten#(tab)AS `Tên`,#(lf)mail#(tab)AS `Mail`,#(lf)title#(tab)AS `Title`,#(lf)workspace#(tab)AS `Workspace`,#(lf)khu_vuc#(tab)AS `Khu vực`,#(lf)`group`#(tab)AS `Group`,#(lf)leader AS `Leader`,#(tab)#(lf)so_thang#(tab)AS `Startdate`#(lf)FROM `cellphones-data-platform.cps_DA_General_Transform.phan_quyen_bi_user`", null, [EnableFolding=true]),
+				    #"Replaced Value" = Table.ReplaceValue(Source,"",null,Replacer.ReplaceValue,{"Leader"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each [Mail] <> "")
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

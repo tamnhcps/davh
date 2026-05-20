@@ -1,0 +1,1412 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 5734.6930113820017,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 6211.45117418861,
+            "y": 370.18132340816118
+          },
+          "nodeIndex": "FACT_Code_DaSuDung",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 34
+        },
+        {
+          "location": {
+            "x": 5924.3830500146942,
+            "y": 603.52234431645081
+          },
+          "nodeIndex": "FACT_Code_Tên chương trình",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 33
+        },
+        {
+          "location": {
+            "x": 6510.3646795366822,
+            "y": 13.125
+          },
+          "nodeIndex": "DIM_Danh mục_Ngày",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 25
+        },
+        {
+          "location": {
+            "x": 7068.2215774183642,
+            "y": 434.20573568455308
+          },
+          "nodeIndex": "DIM_Danh mục_Kho",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 26
+        },
+        {
+          "location": {
+            "x": 6496.0015571897129,
+            "y": 366.62006018369971
+          },
+          "nodeIndex": "DIM_Danh mục_Phòng ban",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 27
+        },
+        {
+          "location": {
+            "x": 6782.0338648283023,
+            "y": 367.49985316309983
+          },
+          "nodeIndex": "FACT_Sale_Doanh số bán",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 32
+        },
+        {
+          "location": {
+            "x": 7636.2215774183642,
+            "y": 404.23027285941271
+          },
+          "nodeIndex": "FACT_Phòng ban_NV",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 28
+        },
+        {
+          "location": {
+            "x": 8194.2215774183642,
+            "y": 390.23027285941271
+          },
+          "nodeIndex": "FACT_Chương trình code_MKT",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 29
+        },
+        {
+          "location": {
+            "x": 6754.0734369168131,
+            "y": 1107.3954186027177
+          },
+          "nodeIndex": "DIM_Danh mục_Nhân viên",
+          "nodeLineageTag": "d3b3751a-d008-45d4-b2fb-e11c50a03be9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 36
+        },
+        {
+          "location": {
+            "x": 8478.2215774183642,
+            "y": 330.23027285941271
+          },
+          "nodeIndex": "DIM_Phân quyền_User",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 30
+        },
+        {
+          "location": {
+            "x": 5985.5771588910329,
+            "y": 141.15423304505225
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 31
+        },
+        {
+          "location": {
+            "x": 6406.2129878476853,
+            "y": 723.33554571882564
+          },
+          "nodeIndex": "AutoCode",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 35
+        },
+        {
+          "location": {
+            "x": 7010.3258940879368,
+            "y": 880.97273322797366
+          },
+          "nodeIndex": "DIM_PromotionCode",
+          "nodeLineageTag": "13796efc-2cc5-4775-a98f-847dfde03523",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 9036.2215774183642,
+            "y": 481.04886661398677
+          },
+          "nodeIndex": "FACT_Code_TargetSuDung",
+          "nodeLineageTag": "181a729d-2d2a-4bc0-8203-bff92478f71c",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 9320.2215774183642,
+            "y": 529.04886661398677
+          },
+          "nodeIndex": "Parameter_cửa hàng_measure",
+          "nodeLineageTag": "6967da6a-9a83-44e2-98d8-901c4a87ca5e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 852.38305001469371,
+            "y": 505.04886661398677
+          },
+          "nodeIndex": "DIM_DMC3",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1136.3830500146937,
+            "y": 455.04886661398677
+          },
+          "nodeIndex": "D_Ngày",
+          "nodeLineageTag": "da114602-72f4-4ee9-917a-dfb0638cf7ce",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 618.38305001469371,
+            "y": 425.06375583438961
+          },
+          "nodeIndex": "F_Data_Thị trường",
+          "nodeLineageTag": "a3f7e205-5537-4b4f-be4d-22df818a3f61",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1420.3830500146937,
+            "y": 529.04886661398677
+          },
+          "nodeIndex": "Parameter_Quận",
+          "nodeLineageTag": "453014cd-b8e0-4f1a-9d7a-9fe2c53ea0ac",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 334.20156119318517,
+            "y": 457.90845379423354
+          },
+          "nodeIndex": "D_Quận huyện",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 405.04886661398677
+          },
+          "nodeIndex": "F_Đơn Giao Hàng",
+          "nodeLineageTag": "aed7ca3a-0c50-4eab-85bc-00583e71acfa",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 7910.2215774183642,
+            "y": 328.23027285941271
+          },
+          "nodeIndex": "Measure",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 1704.3830500146937,
+            "y": 529.04886661398677
+          },
+          "nodeIndex": "Parameter 1",
+          "nodeLineageTag": "58b1a6e2-9a51-4614-bf3a-846bb2adb20a",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 1988.3830500146937,
+            "y": 505.04886661398677
+          },
+          "nodeIndex": "FACT_Kds_Cửa hàng",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 2272.3830500146937,
+            "y": 505.04886661398677
+          },
+          "nodeIndex": "LastUpdate",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 3124.3830500146937,
+            "y": 455.04886661398677
+          },
+          "nodeIndex": "FACT_Sale_Voucher",
+          "nodeLineageTag": "f041c0be-2f8f-4baf-9264-296216647d5c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 4828.3830500146942,
+            "y": 469.04886661398677
+          },
+          "nodeIndex": "FACT_Sale_Target_DMC3",
+          "nodeLineageTag": "fc312782-216f-4692-984f-f70b11284d47",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 5112.3830500146942,
+            "y": 505.04886661398677
+          },
+          "nodeIndex": "FACT_Sale_TargetDaily",
+          "nodeLineageTag": "1995c320-e9f7-46c0-b969-0faa329715d2",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 9594.6558340023839,
+            "y": 524.04027610006938
+          },
+          "nodeIndex": "Nhóm Apple",
+          "nodeLineageTag": "b0c45a8f-1b7e-48ea-8f99-b4775ee6f601",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 9828.6558340023839,
+            "y": 447.54886661398677
+          },
+          "nodeIndex": "DIM_Danh mục_Nhóm hàng",
+          "nodeLineageTag": "6e64764b-c97a-44bd-9619-63ba1f210013",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 10396.655834002384,
+            "y": 497.54886661398677
+          },
+          "nodeIndex": "FACT_Sale_Target",
+          "nodeLineageTag": "f2fab8b7-9784-4232-b05e-49c428bd8803",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 10914.655834002384,
+            "y": 447.54886661398677
+          },
+          "nodeIndex": "DIM_Danh mục_Sản phẩm",
+          "nodeLineageTag": "41356a88-53f4-4024-ba97-5dc1cb0a247e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 22
+        },
+        {
+          "location": {
+            "x": 11148.655834002384,
+            "y": 497.54886661398677
+          },
+          "nodeIndex": "DIM_Sale_Giá bán",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 23
+        },
+        {
+          "location": {
+            "x": 11382.655834002384,
+            "y": 497.54886661398677
+          },
+          "nodeIndex": "Sale_GG_GSheet_SKU_exp",
+          "nodeLineageTag": "b5e935bd-0c76-4118-8c8a-0c092854e59b",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 24
+        },
+        {
+          "location": {
+            "x": 11950.655834002384,
+            "y": 598.76020930135883
+          },
+          "nodeIndex": "DIM_Danh mục_Phân khúc giá",
+          "nodeLineageTag": "7ec57eb7-79f1-4d29-ab71-43b506e89814",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 12752.655834002384,
+            "y": 612.76020930135883
+          },
+          "nodeIndex": "SPTT_Model",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13036.655834002384,
+            "y": 562.76020930135883
+          },
+          "nodeIndex": "DIM_Phân quyền_Kinh doanh",
+          "nodeLineageTag": "71284f48-143e-4989-b4f6-e9613559803f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13320.655834002384,
+            "y": 588.76020930135883
+          },
+          "nodeIndex": "FACT_SPTT_Model_Target",
+          "nodeLineageTag": "4bb5df76-64a6-44da-adbe-5c1244e8e958",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11666.655834002384,
+            "y": 586.76020930135883
+          },
+          "nodeIndex": "DIM_Phân khúc giá_cal",
+          "nodeLineageTag": "6bacde53-63da-4ceb-bd96-8a4348ed966b",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13604.655834002384,
+            "y": 612.76020930135883
+          },
+          "nodeIndex": "FACT_SPTT_SKU",
+          "nodeLineageTag": "9d6ca342-6b66-4ab6-878c-1b1d871646bb",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13888.655834002384,
+            "y": 636.76020930135883
+          },
+          "nodeIndex": "Code_BoSung",
+          "nodeLineageTag": "28f0367c-3fb7-4007-9fb1-277e021393ea",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 14122.655834002384,
+            "y": 589.51020930135883
+          },
+          "nodeIndex": "F_Code_LoaiSuDung",
+          "nodeLineageTag": "90d18214-e8e2-4521-ab6c-5b0eec3e43bf",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 14406.655834002384,
+            "y": 553.51020930135883
+          },
+          "nodeIndex": "F_TargetCodeShop",
+          "nodeLineageTag": "bb8fbb84-9203-4741-9b75-2a1a6fe8dfeb",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 71.721363145972646,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1735.8683112804251,
+            "y": 610.11601491649685
+          },
+          "nodeIndex": "FACT_Sale_Doanh số bán",
+          "nodeLineageTag": "0572c80c-444e-4d7a-9be4-975173f3e9cc",
+          "size": {
+            "height": 392,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 273.89117076723323,
+            "y": 343.02742508193535
+          },
+          "nodeIndex": "FACT_Code_DaSuDung",
+          "nodeLineageTag": "75f7576b-cf05-436c-8b65-4f9cd529610f",
+          "size": {
+            "height": 997.88140187441627,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 245.97667546364369,
+            "y": 0
+          },
+          "nodeIndex": "DIM_Danh mục_Kho",
+          "nodeLineageTag": "ed79095b-6c86-43b3-92b9-6d45488207d2",
+          "size": {
+            "height": 234.23111979551823,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 10,
+            "y": 791.680475987944
+          },
+          "nodeIndex": "AutoCode",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 903.815182287898,
+            "y": 0
+          },
+          "nodeIndex": "DIM_Danh mục_Ngày",
+          "nodeLineageTag": "2f0bf8bf-e7b4-47df-b433-8d51a1a8095d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 735.12478819691216,
+            "y": 960.929600396328
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "1ef3ec6b-953c-40ce-96c8-8bc002b5d41f",
+          "size": {
+            "height": 207.31851438308672,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": -23.851853264702697,
+            "y": 128.33333333333331
+          },
+          "nodeIndex": "DIM_PromotionCode",
+          "nodeLineageTag": "13796efc-2cc5-4775-a98f-847dfde03523",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 535.77777777777771,
+            "y": 188.33333333333331
+          },
+          "nodeIndex": "DIM_DMC3",
+          "nodeLineageTag": "d635c382-6d68-4935-9427-3e3e6220c47d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        }
+      ],
+      "name": "Layout 1",
+      "zoomValue": 63.859989510871941,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 2,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 50,
+            "y": 632.31371534333312
+          },
+          "nodeIndex": "FACT_Code_TargetSuDung",
+          "nodeLineageTag": "181a729d-2d2a-4bc0-8203-bff92478f71c",
+          "size": {
+            "height": 328,
+            "width": 312
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 418.683300039059,
+            "y": 452.5465872196587
+          },
+          "nodeIndex": "DIM_PromotionCode",
+          "nodeLineageTag": "13796efc-2cc5-4775-a98f-847dfde03523",
+          "size": {
+            "height": 349,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 711.73492611850861,
+            "y": -50
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "1ef3ec6b-953c-40ce-96c8-8bc002b5d41f",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1201.4866924214984,
+            "y": 43
+          },
+          "nodeIndex": "FACT_Sale_Doanh số bán",
+          "nodeLineageTag": "0572c80c-444e-4d7a-9be4-975173f3e9cc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 364.81821276625095,
+            "y": 95.85263483000233
+          },
+          "nodeIndex": "FACT_Code_DaSuDung",
+          "nodeLineageTag": "75f7576b-cf05-436c-8b65-4f9cd529610f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        }
+      ],
+      "name": "Layout 2",
+      "zoomValue": 89.192590520569482,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 3,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 599,
+            "y": 644
+          },
+          "nodeIndex": "F_Data_Thị trường",
+          "nodeLineageTag": "a3f7e205-5537-4b4f-be4d-22df818a3f61",
+          "size": {
+            "height": 273,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 426
+          },
+          "nodeIndex": "DIM_Danh mục_Ngày",
+          "nodeLineageTag": "2f0bf8bf-e7b4-47df-b433-8d51a1a8095d",
+          "size": {
+            "height": 491,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 1373,
+            "y": 102
+          },
+          "nodeIndex": "FACT_Code_DaSuDung",
+          "nodeLineageTag": "75f7576b-cf05-436c-8b65-4f9cd529610f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1292,
+            "y": 606
+          },
+          "nodeIndex": "FACT_Code_Tên chương trình",
+          "nodeLineageTag": "8d05de44-53e4-402d-b213-5f8b70622537",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 319.60744243658911,
+            "y": 964.66848642271418
+          },
+          "nodeIndex": "D_Ngày",
+          "nodeLineageTag": "da114602-72f4-4ee9-917a-dfb0638cf7ce",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1029.8241622809942,
+            "y": 769.83027124416049
+          },
+          "nodeIndex": "D_Quận huyện",
+          "nodeLineageTag": "7142559d-59f5-4321-87a1-cc750a1014cf",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 655.23198084093622,
+            "y": 0
+          },
+          "nodeIndex": "F_Đơn Giao Hàng",
+          "nodeLineageTag": "aed7ca3a-0c50-4eab-85bc-00583e71acfa",
+          "size": {
+            "height": 414.38888762095718,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 3",
+      "zoomValue": 79.553182037699813,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 4,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 533,
+            "y": 407
+          },
+          "nodeIndex": "FACT_Sale_Target",
+          "nodeLineageTag": "f2fab8b7-9784-4232-b05e-49c428bd8803",
+          "size": {
+            "height": 275,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 142,
+            "y": 294
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "1ef3ec6b-953c-40ce-96c8-8bc002b5d41f",
+          "size": {
+            "height": 271,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 666,
+            "y": 0
+          },
+          "nodeIndex": "DIM_Danh mục_Ngày",
+          "nodeLineageTag": "2f0bf8bf-e7b4-47df-b433-8d51a1a8095d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1065,
+            "y": 265
+          },
+          "nodeIndex": "DIM_Danh mục_Kho",
+          "nodeLineageTag": "ed79095b-6c86-43b3-92b9-6d45488207d2",
+          "size": {
+            "height": 370,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 4",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 5,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 903,
+            "y": 417
+          },
+          "nodeIndex": "FACT_Sale_Doanh số bán",
+          "nodeLineageTag": "0572c80c-444e-4d7a-9be4-975173f3e9cc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 861,
+            "y": 0
+          },
+          "nodeIndex": "DIM_Danh mục_Nhân viên",
+          "nodeLineageTag": "d3b3751a-d008-45d4-b2fb-e11c50a03be9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 230,
+            "y": 393
+          },
+          "nodeIndex": "DIM_Danh mục_Sản phẩm",
+          "nodeLineageTag": "41356a88-53f4-4024-ba97-5dc1cb0a247e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 520,
+            "y": 73
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "1ef3ec6b-953c-40ce-96c8-8bc002b5d41f",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1202,
+            "y": 0
+          },
+          "nodeIndex": "DIM_Danh mục_Nhóm hàng",
+          "nodeLineageTag": "6e64764b-c97a-44bd-9619-63ba1f210013",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1461,
+            "y": 396
+          },
+          "nodeIndex": "SPTT_Model",
+          "nodeLineageTag": "087ed28c-3d31-4137-ba83-7dcde73469b7",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 481,
+            "y": 765
+          },
+          "nodeIndex": "DIM_Phân quyền_Kinh doanh",
+          "nodeLineageTag": "71284f48-143e-4989-b4f6-e9613559803f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 845,
+            "y": 774
+          },
+          "nodeIndex": "DIM_Sale_Giá bán",
+          "nodeLineageTag": "8ad0daea-7b66-4baa-9a2b-6ed1813d60c5",
+          "size": {
+            "height": 188,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1255,
+            "y": 710
+          },
+          "nodeIndex": "DIM_Danh mục_Ngày",
+          "nodeLineageTag": "2f0bf8bf-e7b4-47df-b433-8d51a1a8095d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1520,
+            "y": 262
+          },
+          "nodeIndex": "DIM_Danh mục_Phân khúc giá",
+          "nodeLineageTag": "7ec57eb7-79f1-4d29-ab71-43b506e89814",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 164,
+            "y": 809
+          },
+          "nodeIndex": "DIM_Danh mục_Kho",
+          "nodeLineageTag": "ed79095b-6c86-43b3-92b9-6d45488207d2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 5",
+      "zoomValue": 79.553182037699813,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 6,
+      "scrollPosition": {
+        "x": 0,
+        "y": 167
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 593,
+            "y": 232
+          },
+          "nodeIndex": "FACT_Sale_Target_DMC3",
+          "nodeLineageTag": "fc312782-216f-4692-984f-f70b11284d47",
+          "size": {
+            "height": 388,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 120,
+            "y": 112
+          },
+          "nodeIndex": "DIM_Phân quyền_Vận hành",
+          "nodeLineageTag": "1ef3ec6b-953c-40ce-96c8-8bc002b5d41f",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 911,
+            "y": 15
+          },
+          "nodeIndex": "DIM_Danh mục_Kho",
+          "nodeLineageTag": "ed79095b-6c86-43b3-92b9-6d45488207d2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1217,
+            "y": 284
+          },
+          "nodeIndex": "DIM_Danh mục_Nhóm hàng",
+          "nodeLineageTag": "6e64764b-c97a-44bd-9619-63ba1f210013",
+          "size": {
+            "height": 298,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 998,
+            "y": 680
+          },
+          "nodeIndex": "Nhóm Apple",
+          "nodeLineageTag": "b0c45a8f-1b7e-48ea-8f99-b4775ee6f601",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 249,
+            "y": 674
+          },
+          "nodeIndex": "DIM_Danh mục_Ngày",
+          "nodeLineageTag": "2f0bf8bf-e7b4-47df-b433-8d51a1a8095d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        }
+      ],
+      "name": "Layout 6",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 7,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 173,
+            "y": 123
+          },
+          "nodeIndex": "DIM_Danh mục_Nhân viên",
+          "nodeLineageTag": "d3b3751a-d008-45d4-b2fb-e11c50a03be9",
+          "size": {
+            "height": 547,
+            "width": 472
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1195,
+            "y": 150
+          },
+          "nodeIndex": "DIM_PromotionCode",
+          "nodeLineageTag": "13796efc-2cc5-4775-a98f-847dfde03523",
+          "size": {
+            "height": 381,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 825,
+            "y": 0
+          },
+          "nodeIndex": "DIM_Danh mục_Ngày",
+          "nodeLineageTag": "2f0bf8bf-e7b4-47df-b433-8d51a1a8095d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 799,
+            "y": 409
+          },
+          "nodeIndex": "FACT_Code_DaSuDung",
+          "nodeLineageTag": "75f7576b-cf05-436c-8b65-4f9cd529610f",
+          "size": {
+            "height": 640,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1545,
+            "y": 399
+          },
+          "nodeIndex": "FACT_Code_Tên chương trình",
+          "nodeLineageTag": "8d05de44-53e4-402d-b213-5f8b70622537",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 7",
+      "zoomValue": 79.553182037699813,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 8,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 842,
+            "y": 428
+          },
+          "nodeIndex": "F_TargetCodeShop",
+          "nodeLineageTag": "bb8fbb84-9203-4741-9b75-2a1a6fe8dfeb",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 449,
+            "y": 148
+          },
+          "nodeIndex": "DIM_Danh mục_Ngày",
+          "nodeLineageTag": "2f0bf8bf-e7b4-47df-b433-8d51a1a8095d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 870,
+            "y": 20
+          },
+          "nodeIndex": "DIM_Danh mục_Phòng ban",
+          "nodeLineageTag": "95b1de6b-f4ca-4bd0-9888-0f1de2bf4fae",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1262,
+            "y": 348
+          },
+          "nodeIndex": "DIM_PromotionCode",
+          "nodeLineageTag": "13796efc-2cc5-4775-a98f-847dfde03523",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 453,
+            "y": 741
+          },
+          "nodeIndex": "FACT_Code_DaSuDung",
+          "nodeLineageTag": "75f7576b-cf05-436c-8b65-4f9cd529610f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 126,
+            "y": 565
+          },
+          "nodeIndex": "F_Code_LoaiSuDung",
+          "nodeLineageTag": "90d18214-e8e2-4521-ab6c-5b0eec3e43bf",
+          "size": {
+            "height": 292,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 8",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 9,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 864,
+            "y": 147
+          },
+          "nodeIndex": "DIM_Danh mục_Kho",
+          "nodeLineageTag": "ed79095b-6c86-43b3-92b9-6d45488207d2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 180,
+            "y": 182
+          },
+          "nodeIndex": "DIM_Danh mục_Phòng ban",
+          "nodeLineageTag": "95b1de6b-f4ca-4bd0-9888-0f1de2bf4fae",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 744,
+            "y": 637
+          },
+          "nodeIndex": "FACT_Code_DaSuDung",
+          "nodeLineageTag": "75f7576b-cf05-436c-8b65-4f9cd529610f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Layout 9",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Layout 8",
+  "defaultDiagram": "All tables"
+}

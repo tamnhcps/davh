@@ -1,0 +1,69 @@
+table 'Parameter_cửa hàng_measure'
+	lineageTag: 6967da6a-9a83-44e2-98d8-901c4a87ca5e
+
+	column 'Parameter_cửa hàng_measure'
+		lineageTag: f29b8840-1c19-456c-987f-cb80a1814f20
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_cửa hàng_measure Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_cửa hàng_measure Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_cửa hàng_measure Fields'
+		isHidden
+		lineageTag: d3e21c28-7ade-4a99-9c8d-5ca745f4fcb8
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_cửa hàng_measure Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_cửa hàng_measure Order'
+		isHidden
+		formatString: 0
+		lineageTag: cf959fee-f852-40d3-987d-8edafe66a521
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Parameter_cửa hàng_measure' = calculated
+		mode: import
+		source =
+				{
+				    ("Slg code_used", NAMEOF('Measure'[Slg code_used]), 0),
+				    ("Giá trị code_used", NAMEOF('Measure'[Giá trị code_used]), 1),
+				    ("% Gtri Code vs Dso_Usecode", NAMEOF('Measure'[% Gtri Code vs Dso_Usecode]), 2),
+				    ("Dso_Usecode all", NAMEOF('Measure'[Dso_Usecode all]), 3),
+				    ("% Dso_Usecode/Dso", NAMEOF('Measure'[% Dso_Usecode/Dso]), 4),
+				    ("% Số hóa đơn_Usecode/SHĐ", NAMEOF('Measure'[% Số hóa đơn_Usecode/SHĐ]), 5),
+				    ("Giá trị code_used_LM g%", NAMEOF('Measure'[Giá trị code_used_LM g%]), 6),
+				    ("Slg Code_used_LM g%", NAMEOF('Measure'[Slg Code_used_LM g%]), 7),
+				    ("Số hóa đơn_Usecode", NAMEOF('Measure'[Số hóa đơn_Usecode]), 8),
+				    ("Số hóa đơn_Usecode(>1 code)", NAMEOF('Measure'[Số hóa đơn_Usecode(>1 code)]), 9),
+				    ("% Số hóa đơn_Usecode(>1 code)", NAMEOF('Measure'[% Số hóa đơn_Usecode(>1 code)]), 10),
+				    ("Dso", NAMEOF('Measure'[Dso]), 11),
+				    ("Dso_BHMR", NAMEOF('Measure'[Dso_BHMR]), 12),
+				    ("Dso_IPHONE", NAMEOF('Measure'[Dso_IPHONE]), 13),
+				    ("Tỷ lệ hạn mức sd", NAMEOF('FACT_Code_TargetSuDung'[_target_su_dung_%]), 14),
+				    ("Hạn mức sd", NAMEOF('FACT_Code_TargetSuDung'[_target_su_dung_abs]), 15),
+				    ("Chênh lệch Giá trị sd", NAMEOF('FACT_Code_TargetSuDung'[Chênh lệch Giá trị sử dụng]), 16),
+				    ("Chênh lệch Giá trị sd_%", NAMEOF('FACT_Code_TargetSuDung'[Chênh lệch Giá trị sử dụng_%]), 17),
+				    ("Hạn mức sd dự kiến", NAMEOF('FACT_Code_TargetSuDung'[_target_su_dung_abs_Dự kiến]),18),
+				    ("Tỷ lệ vượt ngân sách",NAMEOF([Tỷ lệ vượt ngân sách]),19),
+				    ("KDS",NAMEOF([Kds rr]),20),
+				    ("Tổng mức phạt",NAMEOF([Tổng_phạt]),21),
+				    ("Số phiếu code > 30%", NAMEOF('Measure'[Số phiếu code > 30%]), 22)
+				}
+
+	annotation PBI_Id = c6bbf858d080435b8ba7050599d927fb
+

@@ -1,0 +1,73 @@
+table FACT_Sale_TargetDaily
+	lineageTag: 1995c320-e9f7-46c0-b969-0faa329715d2
+
+	column Object
+		dataType: string
+		lineageTag: eb6a506d-c537-4262-9ea2-5066014655dc
+		summarizeBy: none
+		sourceColumn: Object
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f5969d95-10a0-4623-ac5f-9b97d007f79f
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: f19d2d27-b17c-4c13-89c4-bc561500bf20
+			defaultHierarchy: LocalDateTable_0d198f51-1bd1-4520-b5d5-fe3bf2e031ec.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Type
+		dataType: string
+		lineageTag: 6d85514d-d1bb-435d-89f7-e725d5964d84
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: double
+		lineageTag: a3f410e8-3c7d-4ef6-943f-2a9e893bf74e
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Miền
+		dataType: string
+		lineageTag: a35abfbd-4e84-40ee-b596-2c6a7051de5b
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_Sale_TargetDaily = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTXSTDg5uUHUVf0LUUscrFFlMcCWSBYmv6rfNO7Z3mQoxLVo4aLZJT8gBru_Q9zP_YgDoafm6EUX8F0/pub?output=xlsx"), null, true),
+				    TargetDaily_SHOP_Aug24_Sheet = Source{[Item="TargetDaily_SHOP_Aug24",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(TargetDaily_SHOP_Aug24_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Shop", type text}, {"Ddate", type date}, {"DOW", Int64.Type}, {"K_DOW", type number}, {"Avg_Dso", type number}, {"ETA", type number}, {"MTD_ETA", type number}, {"Percentage_of_Target", type number}, {"Percentage_of_TargetDaily", type number}, {"Type", type text}, {"TargetDaily", type number}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Shop", "Ddate", "Type", "TargetDaily"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"Shop", "Object"}, {"Ddate", "Date"}, {"TargetDaily", "Target"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each ([Type] <> "NoniPhone")),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Object"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"Object"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","CPS-HNO-DDA-ON98TH","CPS-HNO-SHOPONLINE",Replacer.ReplaceText,{"Object"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Replaced Value2", {"Object"}, #"DIM_Danh mục_Phòng ban (2)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+				    #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged Queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"})
+				in
+				    #"Expanded DIM_Danh mục_Phòng ban"
+

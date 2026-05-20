@@ -1,0 +1,85 @@
+table FACT_SPTT_SKU
+	lineageTag: 9d6ca342-6b66-4ab6-878c-1b1d871646bb
+
+	column 'Tháng áp dụng'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0bdd2724-f456-4930-8cd7-672fed62eb55
+		summarizeBy: none
+		sourceColumn: Tháng áp dụng
+
+		variation Variation
+			isDefault
+			relationship: 98c6228c-a7fc-4f55-98a5-b94c4436684a
+			defaultHierarchy: LocalDateTable_9329e756-290e-42c9-b42b-7ef4aad3bd5b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ngày bắt đầu_Model'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1a3ac7ac-6e7d-4721-8431-cd302511fa30
+		summarizeBy: none
+		sourceColumn: Ngày bắt đầu_Model
+
+		variation Variation
+			isDefault
+			relationship: c0a49937-00b3-4b57-92d7-6614e7c5e6f2
+			defaultHierarchy: LocalDateTable_b3d432e9-b58d-492c-9d98-3f79f44edd28.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ngày kết thúc_Model'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ecaf6bfe-f86b-44e1-98ad-80d27bb1a50f
+		summarizeBy: none
+		sourceColumn: Ngày kết thúc_Model
+
+		variation Variation
+			isDefault
+			relationship: e503508f-dcc6-436c-82dd-ea2c51ee56bb
+			defaultHierarchy: LocalDateTable_46d442f8-88e2-4b98-9d57-383b7ff25635.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Model
+		dataType: string
+		lineageTag: 963d6d15-5e0c-4e01-83c8-2b7279a1d8dc
+		summarizeBy: none
+		sourceColumn: Model
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: 625d653a-fa1c-4d9a-9c16-767a673e3b52
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_SPTT_SKU = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGvMoHUidwN3cUAdWhjlD486eIRz-GjvecoUGHwSBTC0UdHkirJWb-UyH3bucvBTC_M5vs1cKj41IL/pub?output=xlsx"), null, true),
+				    #"C-Brand_exp_Sheet" = Source{[Item="SPTT_SKU",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"C-Brand_exp_Sheet", [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"Tháng áp dụng", "Ngày bắt đầu_Model", "Ngày kết thúc_Model", "Model", "SKU"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"Tháng áp dụng", type date}, {"Ngày bắt đầu_Model", type date}, {"Model", type text}, {"SKU", type text}, {"Ngày kết thúc_Model", type date}}),
+				    #"Removed Blank Rows" = Table.SelectRows(#"Changed Type", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null})))
+				in
+				    #"Removed Blank Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

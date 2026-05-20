@@ -1,0 +1,106 @@
+table 'DIM_Phân quyền_Kinh doanh'
+	lineageTag: 71284f48-143e-4989-b4f6-e9613559803f
+
+	column Miền
+		dataType: string
+		lineageTag: f4517735-83aa-4b4d-b602-f8758183a4dc
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm hàng'
+		dataType: string
+		lineageTag: c254d35a-c8bd-477c-a59e-cb454f555a00
+		summarizeBy: none
+		sourceColumn: Nhóm hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column QLNH
+		dataType: string
+		lineageTag: c784ed2b-4a0a-46e0-845a-133e2c8e2ec4
+		summarizeBy: none
+		sourceColumn: QLNH
+
+		annotation SummarizationSetBy = Automatic
+
+	column TLKD
+		dataType: string
+		lineageTag: 1fce2886-f813-459f-9bae-25958a934072
+		summarizeBy: none
+		sourceColumn: TLKD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quản lý vùng'
+		dataType: string
+		lineageTag: f4e03f39-3536-4f47-91b9-b4597f8cb612
+		summarizeBy: none
+		sourceColumn: Quản lý vùng
+
+		annotation SummarizationSetBy = Automatic
+
+	column BOD
+		dataType: string
+		lineageTag: f61b8615-a17d-45f5-82cd-faa0b4f35a5a
+		summarizeBy: none
+		sourceColumn: BOD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PK_Ốp bao da'
+		dataType: string
+		lineageTag: 72614776-58c2-4ee5-9f4f-1fe31ec5d550
+		summarizeBy: none
+		sourceColumn: PK_Ốp bao da
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'PK_Củ cáp'
+		dataType: string
+		lineageTag: 0167cd75-c165-4855-a307-1bac7dbc00c8
+		summarizeBy: none
+		sourceColumn: PK_Củ cáp
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'QLNH HỌC VIỆC'
+		dataType: string
+		lineageTag: 76b68c26-0690-422a-864e-45df8cef190d
+		summarizeBy: none
+		sourceColumn: QLNH HỌC VIỆC
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Máy cũ'
+		dataType: string
+		lineageTag: c1dfc9f5-09bc-44f7-a907-0c16f411f877
+		summarizeBy: none
+		sourceColumn: Máy cũ
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'APPLE MASTER'
+		dataType: string
+		lineageTag: ae40e924-0a7a-479c-8175-4495d23760d0
+		summarizeBy: none
+		sourceColumn: APPLE MASTER
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân quyền_Kinh doanh' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)select #(lf)mien as `Miền`,#(lf)nhom_hang as `Nhóm hàng`,#(lf)qlnh as `QLNH`,#(lf)tlkd as `TLKD`,#(lf)quan_ly_vung as `Quản lý vùng`,#(lf)bod as `BOD`,#(lf)pk_op_bao_da as `PK_Ốp bao da`,#(lf)pk_cu_cap as `PK_Củ cáp`,#(lf)qlnh_hoc_viec as `QLNH HỌC VIỆC`,#(lf)may_cu as `Máy cũ`,#(lf)apple_master as `APPLE MASTER`#(lf)from cellphones-data-platform.cps_DA_General_Transform.phan_quyen_kinh_doanh", null, [EnableFolding=true]),
+				    #"Removed Duplicates" = Table.Distinct(Source),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Duplicates","BẾP GIA DỤNG","Bếp Gia Dụng",Replacer.ReplaceText,{"Nhóm hàng"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","ĐIỆN GIA ĐÌNH","Điện Gia Đình",Replacer.ReplaceText,{"Nhóm hàng"})
+				in
+				    #"Replaced Value1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

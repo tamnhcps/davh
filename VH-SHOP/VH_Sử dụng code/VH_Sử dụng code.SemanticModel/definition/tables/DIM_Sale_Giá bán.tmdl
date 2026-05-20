@@ -1,0 +1,50 @@
+table 'DIM_Sale_Giá bán'
+	lineageTag: 8ad0daea-7b66-4baa-9a2b-6ed1813d60c5
+
+	column 'Giá bán'
+		formatString: 0
+		lineageTag: f19e7291-d8ae-4c9f-a352-7668ff184297
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = User
+
+	column 'Phân khúc giá' =
+			
+			SWITCH (
+			    TRUE (),
+			    'DIM_Sale_Giá bán'[Giá bán] <= 5000000, "Tầm thấp",
+			    'DIM_Sale_Giá bán'[Giá bán] <= 10000000, "Tầm trung",
+			    "Tầm cao"
+			)
+		lineageTag: 53741ef6-0663-4735-b2cd-487a99cda58d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsTamTrung =
+			
+			IF (
+			    'DIM_Sale_Giá bán'[Phân khúc giá] = "Tầm thấp"
+			        || 'DIM_Sale_Giá bán'[Phân khúc giá] = "Tầm trung",
+			    1,
+			    BLANK ()
+			)
+		formatString: 0
+		lineageTag: d5abd7c4-7167-4af5-9f3a-d0c2ce8fa7d8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Sale_Giá bán' = calculated
+		mode: import
+		source =
+				
+				GENERATESERIES (
+				    0,
+				    200000000,
+				    1000
+				)
+
+	annotation PBI_Id = c303c574665e4df29da123597374b14f
+

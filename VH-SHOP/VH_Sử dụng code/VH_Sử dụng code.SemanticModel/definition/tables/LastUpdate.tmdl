@@ -1,0 +1,25 @@
+table LastUpdate
+	lineageTag: 2ce3aec3-ea7f-4faf-b49e-13fae124e047
+
+	column CreateDate
+		formatString: General Date
+		lineageTag: 6ed8de7e-859c-4ef8-a25b-6da08a28635c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[CreateDate]
+
+		variation Variation
+			isDefault
+			relationship: db7934cc-131c-42db-bdf9-88c2cafb1f19
+			defaultHierarchy: LocalDateTable_a6522cd2-dcc1-46d6-8701-51dada2d32b4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition LastUpdate = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE( FILTER( 'FACT_Sale_Doanh số bán', 'FACT_Sale_Doanh số bán'[CreateDate] = max('FACT_Sale_Doanh số bán'[CreateDate])), 'FACT_Sale_Doanh số bán'[CreateDate])
+
+	annotation PBI_Id = 89ac548c95594916948b95fa0400a3bb
+
