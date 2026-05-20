@@ -1,0 +1,112 @@
+table 'FACT_Kds_Cửa hàng'
+	lineageTag: e53c5eb6-a56b-4c7a-9492-0a9dbdaf53fa
+
+	column Brandname
+		lineageTag: 2438ba53-ff09-4a3e-abc5-d91c859dfb17
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[Brandname]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		lineageTag: e0a44805-1705-4375-ae41-a95d3a61209b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[Miền]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Startdate
+		dataType: dateTime
+		formatString: yyyy-mm
+		lineageTag: c037dafb-e9f8-4440-85b2-eba76461d26c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_Sale_Doanh số bán[Startdate]
+
+		variation Variation
+			isDefault
+			relationship: 9e24e0de-0128-4f2a-aec2-3871905380e0
+			defaultHierarchy: LocalDateTable_617b490d-f032-4361-afbe-296cae893aa6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column LastDate
+		formatString: General Date
+		lineageTag: 9438cf12-0833-4fa6-9f3d-de825b8413a2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [LastDate]
+
+		variation Variation
+			isDefault
+			relationship: 0e979187-0c6d-4273-8dad-d6b9310598a4
+			defaultHierarchy: LocalDateTable_54a6f921-2c6b-4fbe-9462-1d75deafb335.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column _lastUpdate_calculate =
+			
+			var _lastupdate = max(LastUpdate[CreateDate])
+			RETURN ROUNDDOWN(_lastupdate,0) + if( ( time(HOUR(_lastupdate), MINUTE(_lastupdate),0) ) <= TIME(22,30,0), -1, 0 )
+		lineageTag: 8db6586e-16dd-447e-b14a-e07cd810472e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column RunRate =
+			
+			var noday = DAY(EOMONTH('FACT_Kds_Cửa hàng'[Startdate],0))
+			var _lastupdate = max(LastUpdate[CreateDate])
+			var _lastUpdate_calculate = ROUNDDOWN(_lastupdate,0) + if( ( time(HOUR(_lastupdate), MINUTE(_lastupdate),0) ) <= TIME(22,30,0), -1, 0 )
+			 --IF( 'FACT_Kds_Cửa hàng'[MaxDate] > 'FACT_Kds_Cửa hàng'[LastDate], 1, DIVIDE(noday, N_1))
+			return
+			SWITCH( true,
+			'FACT_Kds_Cửa hàng'[Startdate] = DATE( 2024, 9, 1 ), IF( _lastUpdate_calculate > DATE( 2024, 9, 26), 1, DIVIDE( noday-4, day(_lastUpdate_calculate), BLANK() )),
+			_lastUpdate_calculate >= EOMONTH('FACT_Kds_Cửa hàng'[Startdate],0), 1,
+			DIVIDE( noday, day(_lastUpdate_calculate), BLANK() )
+			)
+		lineageTag: 74c561d4-1924-402f-9886-22cd2caef1a8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size =
+			
+			LOOKUPVALUE (
+			    'DIM_Danh mục_Phòng ban'[SIZE],
+			    'DIM_Danh mục_Phòng ban'[Cửa hàng], 'FACT_Kds_Cửa hàng'[Brandname])
+		lineageTag: acd7550b-aeb8-4483-b87c-151215f2229f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM =
+			
+			LOOKUPVALUE (
+			    'DIM_Danh mục_Phòng ban'[AM],
+			    'DIM_Danh mục_Phòng ban'[Cửa hàng], 'FACT_Kds_Cửa hàng'[Brandname])
+		lineageTag: 63431cab-e739-4060-a26d-7793b0613751
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Kds_Cửa hàng' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(
+				    'FACT_Sale_Doanh số bán',
+				    'FACT_Sale_Doanh số bán'[Brandname],
+				    'FACT_Sale_Doanh số bán'[Miền],
+				    'FACT_Sale_Doanh số bán'[StartDate],
+				    "LastDate", LASTDATE('FACT_Sale_Doanh số bán'[Date])
+				    )
+
+	annotation PBI_Id = 524352d4522e4b0ab1921473d4191402
+

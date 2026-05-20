@@ -1,0 +1,49 @@
+table Parameter_Quận
+	lineageTag: 453014cd-b8e0-4f1a-9d7a-9fe2c53ea0ac
+
+	column Parameter_Quận
+		lineageTag: 41e5d8d1-eacf-44b6-837a-784903794587
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parameter_Quận Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Parameter_Quận Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Quận Fields'
+		isHidden
+		lineageTag: e3a934f6-8bb9-4c4f-a26c-3607e04e67a9
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parameter_Quận Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parameter_Quận Order'
+		isHidden
+		formatString: 0
+		lineageTag: a986e775-b4b8-49db-a5b8-0d2824e3f57e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parameter_Quận = calculated
+		mode: import
+		source =
+				{
+				    ("Tỉnh /Thành phố", NAMEOF('D_Quận huyện'[Tinh]), 0),
+				    ("Quận / Huyện", NAMEOF('D_Quận huyện'[QuanHuyen]), 1),
+				    ("Số phiếu", NAMEOF('F_Đơn Giao Hàng'[autocode]), 2)
+				}
+
+	annotation PBI_Id = f18fd6f0c15c4b5fb1fa5637178a4274
+

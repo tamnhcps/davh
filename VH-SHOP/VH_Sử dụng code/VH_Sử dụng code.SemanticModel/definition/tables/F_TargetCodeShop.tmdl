@@ -1,0 +1,111 @@
+table F_TargetCodeShop
+	lineageTag: bb8fbb84-9203-4741-9b75-2a1a6fe8dfeb
+
+	column id_chuong_trinh
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ef2f32a-1a9a-4bb3-8a67-0e6fb0e54979
+		summarizeBy: none
+		sourceColumn: id_chuong_trinh
+
+		annotation SummarizationSetBy = Automatic
+
+	column ten_chuong_trinh
+		dataType: string
+		lineageTag: 76ff9268-5496-4680-96f4-b358ce3e3d10
+		summarizeBy: none
+		sourceColumn: ten_chuong_trinh
+
+		annotation SummarizationSetBy = Automatic
+
+	column shop
+		dataType: string
+		lineageTag: f7e2eb27-e604-4d6d-8020-aa900215efeb
+		summarizeBy: none
+		sourceColumn: shop
+
+		annotation SummarizationSetBy = Automatic
+
+	column ngay_bat_dau
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 61c7b603-c56c-49d6-aae9-6c194a4e647e
+		summarizeBy: none
+		sourceColumn: ngay_bat_dau
+
+		variation Variation
+			isDefault
+			relationship: 34fa68b1-6d60-4bdd-920f-c2d3706e45ed
+			defaultHierarchy: LocalDateTable_914d387b-9f48-4f8b-a589-0733566e99e7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ngay_ket_thuc
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: b5674076-5ca1-41e5-b4b1-6620bab6047a
+		summarizeBy: none
+		sourceColumn: ngay_ket_thuc
+
+		variation Variation
+			isDefault
+			relationship: 962fcd06-a1ac-4d98-8226-5d9e570dbb46
+			defaultHierarchy: LocalDateTable_9caac1c9-c742-4484-aa6a-2a7e1705a864.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: aff36796-1372-4fda-a51a-e8f682c4b955
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column loai_target
+		dataType: string
+		lineageTag: 8f317d3d-5a2a-4a7f-99f0-f5530a9643ac
+		summarizeBy: none
+		sourceColumn: loai_target
+
+		annotation SummarizationSetBy = Automatic
+
+	column gia_tri
+		dataType: int64
+		formatString: 0
+		lineageTag: 0410c7b8-4151-42d1-bc1b-592b00a94b0a
+		summarizeBy: sum
+		sourceColumn: gia_tri
+
+		annotation SummarizationSetBy = Automatic
+
+	column gia_tri_trb_ngay
+		dataType: double
+		lineageTag: 7e6b1aa2-6c69-4a84-b2e1-7b2934038781
+		summarizeBy: sum
+		sourceColumn: gia_tri_trb_ngay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition F_TargetCodeShop = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=7abaff99-dd11-48ca-a4aa-2fc1ae086ba5”#(lf)select#(lf)  t.id_chuong_trinh#(lf)  ,t.ten_chuong_trinh#(lf)  ,t.shop#(lf)  ,date(t.ngay_bat_dau,'Asia/Ho_Chi_Minh') as `ngay_bat_dau`#(lf)  ,date(t.ngay_ket_thuc,'Asia/Ho_Chi_Minh') as `ngay_ket_thuc`#(lf)  ,d.date#(lf)  ,t.loai_target#(lf)  ,t.gia_tri#(lf)  ,case#(lf)    when t.loai_target = 'Quỹ sử dụng' then safe_divide(t.gia_tri, date_diff(date(t.ngay_ket_thuc),date(t.ngay_bat_dau),day)+1)#(lf)    when t.loai_target = 'Tỷ lệ doanh số' then t.gia_tri#(lf)    else t.gia_tri#(lf)  end as `gia_tri_trb_ngay`#(lf)from#(lf)  `cps_larkbase.code_kd_target_shop` as t#(lf)  left join `cps_DA_General_Transform.dim_date` as d#(lf)    on d.date >= date(t.ngay_bat_dau,'Asia/Ho_Chi_Minh') #(lf)    and d.date <= date(t.ngay_ket_thuc,'Asia/Ho_Chi_Minh')", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

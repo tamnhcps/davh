@@ -1,0 +1,311 @@
+table 'DIM_Danh mục_Phòng ban'
+	lineageTag: 95b1de6b-f4ca-4bd0-9888-0f1de2bf4fae
+
+	column HaraID
+		dataType: int64
+		formatString: 0
+		lineageTag: f8988350-4513-4a0f-8144-197487b2d6d8
+		summarizeBy: count
+		sourceColumn: HaraID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã Bộ phận'
+		dataType: string
+		lineageTag: 98acbb80-9703-496b-8939-62e6fda654d4
+		summarizeBy: none
+		sourceColumn: Mã Bộ phận
+
+		annotation SummarizationSetBy = Automatic
+
+	column HaraWorkPlaceName
+		dataType: string
+		lineageTag: 5433b4bf-3560-4f29-8e6d-ce5ee0731658
+		summarizeBy: none
+		sourceColumn: HaraWorkPlaceName
+
+		annotation SummarizationSetBy = Automatic
+
+	column lv2
+		dataType: string
+		lineageTag: 687dcf25-9728-464a-a54b-49b3d9ce16e8
+		summarizeBy: none
+		sourceColumn: lv2
+
+		annotation SummarizationSetBy = Automatic
+
+	column lv3
+		dataType: string
+		lineageTag: 667ff33d-addb-409a-bd98-bc8ba1b81e61
+		summarizeBy: none
+		sourceColumn: lv3
+
+		annotation SummarizationSetBy = Automatic
+
+	column lv4
+		dataType: string
+		lineageTag: f4338827-e5f6-4f6a-805b-19d4a4344347
+		summarizeBy: none
+		sourceColumn: lv4
+
+		annotation SummarizationSetBy = Automatic
+
+	column lv5
+		dataType: string
+		lineageTag: e633379a-58b4-4556-9bfe-0f5124d1cb7b
+		summarizeBy: none
+		sourceColumn: lv5
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInactive
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: baea7dbc-ebf8-4dc6-b12b-4637e04b3d8c
+		summarizeBy: none
+		sourceColumn: IsInactive
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Công ty'
+		dataType: string
+		lineageTag: 4b2bfec0-01d1-402d-ad33-03bb839680b0
+		summarizeBy: none
+		sourceColumn: Công ty
+
+		annotation SummarizationSetBy = Automatic
+
+	column Khối
+		dataType: string
+		lineageTag: 3f02f5c6-4b70-4e1f-89b0-85bc2c2b35f0
+		summarizeBy: none
+		sourceColumn: Khối
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phòng
+		dataType: string
+		lineageTag: e3ee9101-27c5-4fba-813b-23aa49137d01
+		summarizeBy: none
+		sourceColumn: Phòng
+
+		annotation SummarizationSetBy = Automatic
+
+	column Miền
+		dataType: string
+		lineageTag: 3b63be52-4ec8-47d1-969b-a60925463fa3
+		summarizeBy: none
+		sourceColumn: Miền
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vùng
+		dataType: string
+		lineageTag: c3067aca-08fc-4e4c-af10-d00235dd0981
+		summarizeBy: none
+		sourceColumn: Vùng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên ngắn gọn'
+		dataType: string
+		lineageTag: 7a2667f7-483d-49be-9d11-7a8cd883e7ce
+		summarizeBy: none
+		sourceColumn: Tên ngắn gọn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ngày bán cuối cùng'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3a3f142c-8566-4c55-970c-67be25f3f5a8
+		summarizeBy: none
+		sourceColumn: Ngày bán cuối cùng
+
+		variation Variation
+			isDefault
+			relationship: 4707a89a-c37a-4c8e-b054-ed063eb957ce
+			defaultHierarchy: LocalDateTable_7014463a-251b-4b08-adb8-cf28488f5011.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Ngày khai trương'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e35434d3-e3df-4074-8f46-ef7c8e676b74
+		summarizeBy: none
+		sourceColumn: Ngày khai trương
+
+		variation Variation
+			isDefault
+			relationship: ec565b2b-4973-4d72-a994-bd4fb77ed560
+			defaultHierarchy: LocalDateTable_89d41d4f-3f19-4187-b558-85ede852f728.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Lat-Long
+		dataType: string
+		lineageTag: e5d8e4ed-86b2-4cfb-a611-4a03f41bef7b
+		summarizeBy: none
+		sourceColumn: Lat-Long
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diện tích tổng'
+		dataType: double
+		lineageTag: a9af007a-c966-4450-b9b8-f56b988d07b2
+		summarizeBy: sum
+		sourceColumn: Diện tích tổng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lv6
+		dataType: string
+		lineageTag: 61759a16-2581-49a8-b46e-5731b1e35afc
+		summarizeBy: none
+		sourceColumn: lv6
+
+		annotation SummarizationSetBy = Automatic
+
+	column lv7
+		dataType: string
+		lineageTag: 1766641b-f6c0-4126-816e-c00dc7c05ccc
+		summarizeBy: none
+		sourceColumn: lv7
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchId
+		dataType: int64
+		formatString: 0
+		lineageTag: fc2eb3ff-8f3b-4bb3-9b40-4cb0b15482f6
+		summarizeBy: count
+		sourceColumn: BranchId
+
+		annotation SummarizationSetBy = Automatic
+
+	column AM
+		dataType: string
+		lineageTag: 915a7e14-7d87-4665-95b7-3b07b12ec124
+		summarizeBy: none
+		sourceColumn: AM
+
+		annotation SummarizationSetBy = Automatic
+
+	column RSM
+		dataType: string
+		lineageTag: 4faef655-4fd5-44fa-84b6-4f8d444d2fbf
+		summarizeBy: none
+		sourceColumn: RSM
+
+		annotation SummarizationSetBy = Automatic
+
+	column SIZE
+		dataType: string
+		lineageTag: 349e3426-7f03-45c7-aa3e-78a1f3afbfd9
+		summarizeBy: none
+		sourceColumn: SIZE
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng'
+		dataType: string
+		lineageTag: 7fd5fb27-e0c2-4b05-95bb-02d48d1b76e2
+		summarizeBy: none
+		sourceColumn: Cửa hàng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mã kho'
+		dataType: string
+		lineageTag: eedf2040-7b9d-4068-9cda-7fd3bed40c48
+		summarizeBy: none
+		sourceColumn: Mã kho
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cửa hàng_Văn phòng'
+		dataType: string
+		lineageTag: ef490e79-a36a-4a5f-96f9-1509da89ea32
+		summarizeBy: none
+		sourceColumn: Cửa hàng_Văn phòng
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tỉnh_Thành phố'
+		dataType: string
+		lineageTag: 4bae9928-f4ce-4a75-a54d-8f1440acfd22
+		summarizeBy: none
+		sourceColumn: Tỉnh_Thành phố
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quận_Huyện
+		dataType: string
+		lineageTag: 7390c405-8936-4d06-b0ea-c2507f2210ca
+		summarizeBy: none
+		sourceColumn: Quận_Huyện
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chiều ngang'
+		dataType: double
+		lineageTag: 9482baea-7658-4c87-8aa3-b33aed82048b
+		summarizeBy: sum
+		sourceColumn: Chiều ngang
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Chiều rộng'
+		dataType: double
+		lineageTag: 35ef6e88-8784-4d34-8e02-c1c0ef4050bc
+		summarizeBy: sum
+		sourceColumn: Chiều rộng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Diện tích shop'
+		dataType: double
+		lineageTag: 6c8dde73-b2a3-49aa-b924-6bc3a30f58e3
+		summarizeBy: sum
+		sourceColumn: Diện tích shop
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Khu vực' =
+			
+			IF(
+			    LEFT('DIM_Danh mục_Phòng ban'[Cửa hàng], 4) = "CPS-"
+			                    && 'DIM_Danh mục_Phòng ban'[AM] <> BLANK(),
+			                        MID('DIM_Danh mục_Phòng ban'[Cửa hàng], 5, 3),
+			                        BLANK()
+			)
+		lineageTag: af4feaa4-3e14-4562-8112-efdbe6a38c74
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Danh mục_Phòng ban-3c9453cc-0cce-416e-b63b-30c892f4d6f1' = m
+		mode: import
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=54cfc7b0-4cd1-4ab1-87fd-85c6e135d1ac""#(lf)SELECT#(lf)  hara_id HaraID,#(lf)  ma_bo_phan `Mã Bộ phận`,#(lf)  bo_phan `Cửa hàng`,#(lf)  ma_kho `Mã kho`,#(lf)  level_2 lv2,#(lf)  level_3 lv3,#(lf)  level_4 lv4,#(lf)  level_5 lv5,#(lf)  level_6 lv6,#(lf)  level_7 lv7,#(lf)  Latitude || ',' || Longitude `Lat-Long`,#(lf)  branch_id BranchId,#(lf)  is_inactive IsInactive,#(lf)  hara_workplace_name HaraWorkPlaceName,#(lf)  cong_ty `Công ty`,#(lf)  short_name `Tên ngắn gọn`,#(lf)  van_phong_cua_hang `Cửa hàng_Văn phòng`,#(lf)  mien `Miền`,#(lf)  vung `Vùng`,#(lf)  khoi `Khối`,#(lf)  phong `Phòng`,#(lf)  tinh_thanh_pho `Tỉnh_Thành phố`,#(lf)  quan_huyen `Quận_Huyện`,#(lf)  khai_truong `Ngày khai trương`,#(lf)  dong_cua `Ngày bán cuối cùng`,#(lf)  ngang_m `Chiều ngang`,#(lf)  sau_m `Chiều rộng`,#(lf)  tong_m2 `Diện tích tổng`,#(lf)  dien_tich_ban_hang `Diện tích shop`,#(lf)  am AM,#(lf)  size SIZE,#(lf)  rsm RSM#(lf)FROM#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_department`#(lf)WHERE cong_ty = 'CPS' AND van_phong_cua_hang = 'Cửa Hàng'", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

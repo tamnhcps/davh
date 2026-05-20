@@ -1,0 +1,512 @@
+expression AppleCareDPtoHTV =
+		let
+		    Source = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQOEwpEO7eqW0bXgX8hxmQPcmdAPHaXlu3tUPtRsIM_BLOR_-WxYqR-QtWqmOkaJkz9OlmeXSR0yj_K/pub?gid=1963746711&single=true&output=csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}}),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+		    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each [#"Số phiếu "] <> null and [#"Số phiếu "] <> "" and [#"Shop "] <> null and [#"Shop "] <> "")
+		in
+		    #"Filtered Rows"
+	lineageTag: d958b987-494d-4cf3-9ac9-59890df6b21d
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Target các chương trình đặc biệt' =
+		let
+		    Source = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGvMoHUidwN3cUAdWhjlD486eIRz-GjvecoUGHwSBTC0UdHkirJWb-UyH3bucvBTC_M5vs1cKj41IL/pub?output=xlsx" meta [IsParameterQuery = true, IsParameterQueryRequired = true, Type = type text, List = {"https://docs.google.com/spreadsheets/d/e/2PACX-1vRGvMoHUidwN3cUAdWhjlD486eIRz-GjvecoUGHwSBTC0UdHkirJWb-UyH3bucvBTC_M5vs1cKj41IL/pub?output=xlsx"}, DefaultValue = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGvMoHUidwN3cUAdWhjlD486eIRz-GjvecoUGHwSBTC0UdHkirJWb-UyH3bucvBTC_M5vs1cKj41IL/pub?output=xlsx"]
+		in
+		    Source
+	lineageTag: 1a65f4d9-4642-46a3-a29a-b0f7a9cf0e72
+	queryGroup: FACT
+
+	annotation PBI_ResultType = Text
+
+expression 'Sale_GG_GSheet_Target Laptop' =
+		let
+		  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt"), null, true),
+		  #"Filtered rows" = Table.SelectRows(Source, each [Item] = "Laptop"),
+		  #"Removed other columns" = Table.SelectColumns(#"Filtered rows", {"Data"}),
+		  #"Expanded Data" = Table.ExpandTableColumn(#"Removed other columns", "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}, {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}),
+		  #"Promoted headers" = Table.PromoteHeaders(#"Expanded Data", [PromoteAllScalars = true]),
+		  #"Removed other columns 1" = Table.SelectColumns(#"Promoted headers", {"Chi nhánh", "Tháng áp dụng", "Target"}),
+		  #"Filtered rows 1" = Table.SelectRows(#"Removed other columns 1", each [Chi nhánh] <> null and [Chi nhánh] <> ""),
+		  #"Changed column type" = Table.TransformColumnTypes(#"Filtered rows 1", {{"Chi nhánh", type text}, {"Tháng áp dụng", type date}, {"Target", Int64.Type}}),
+		  #"Added custom 2" = Table.TransformColumnTypes(Table.AddColumn(#"Changed column type", "Year", each Date.Year([Tháng áp dụng])), {{"Year", Int64.Type}}),
+		  #"Added custom 3" = Table.TransformColumnTypes(Table.AddColumn(#"Added custom 2", "Month", each Date.Month([Tháng áp dụng])), {{"Month", Int64.Type}}),
+		  #"Renamed columns" = Table.RenameColumns(#"Added custom 3", {{"Tháng áp dụng", "Ngày bắt đầu"}}),
+		  #"Added custom" = Table.AddColumn(#"Renamed columns", "Ngày kết thúc", each if [Month]=12 then Date.From(Number.From(#date([Year]+1,1,1))-1) else
+		Date.From(Number.From(#date([Year],[Month]+1,1))-1), type date),
+		    #"Replaced Value" = Table.ReplaceValue(#"Added custom","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Chi nhánh"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HCM-BTA-229NTT","CPS-HCM-BTA-127NTT",Replacer.ReplaceText,{"Chi nhánh"}),
+		  #"Merged queries" = Table.NestedJoin(#"Added custom", {"Chi nhánh"}, #"DIM_Danh mục_Phòng ban (3)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		  #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"}),
+		  #"Inserted conditional column" = Table.AddColumn(#"Expanded DIM_Danh mục_Phòng ban", "Region", each if [Miền] = "Miền Bắc" then "HN" else "HCM"),
+		  #"Added custom 1" = Table.AddColumn(#"Inserted conditional column", "Type", each "Laptop"),
+		  #"Changed column type 1" = Table.TransformColumnTypes(#"Added custom 1", {{"Type", type text}, {"Region", type text}}),
+		  #"Reordered columns" = Table.ReorderColumns(#"Changed column type 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Chi nhánh", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		  #"Renamed columns 1" = Table.RenameColumns(#"Reordered columns", {{"Chi nhánh", "Object"}}),
+		  #"Removed duplicates" = Table.Distinct(#"Renamed columns 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Object", "Type", "Target", "Ngày kết thúc", "Miền"})
+		in
+		  #"Removed duplicates"
+	lineageTag: 2a7ee22e-5d52-492f-8930-f4bcbc7bffee
+	queryGroup: FACT
+
+expression 'Sale_GG_GSheet_Target Đồng hồ' =
+		let
+		  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt"), null, true),
+		  #"Filtered rows" = Table.SelectRows(Source, each [Item] = "Đồng hồ"),
+		  #"Removed other columns" = Table.SelectColumns(#"Filtered rows", {"Data"}),
+		  #"Expanded Data" = Table.ExpandTableColumn(#"Removed other columns", "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}, {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}),
+		  #"Promoted headers" = Table.PromoteHeaders(#"Expanded Data", [PromoteAllScalars = true]),
+		  #"Removed other columns 1" = Table.SelectColumns(#"Promoted headers", {"Chi nhánh", "Tháng áp dụng", "Target"}),
+		  #"Filtered rows 1" = Table.SelectRows(#"Removed other columns 1", each [Chi nhánh] <> null and [Chi nhánh] <> ""),
+		  #"Changed column type" = Table.TransformColumnTypes(#"Filtered rows 1", {{"Chi nhánh", type text}, {"Tháng áp dụng", type date}, {"Target", Int64.Type}}),
+		  #"Added custom 2" = Table.TransformColumnTypes(Table.AddColumn(#"Changed column type", "Year", each Date.Year([Tháng áp dụng])), {{"Year", Int64.Type}}),
+		  #"Added custom 3" = Table.TransformColumnTypes(Table.AddColumn(#"Added custom 2", "Month", each Date.Month([Tháng áp dụng])), {{"Month", Int64.Type}}),
+		  #"Renamed columns" = Table.RenameColumns(#"Added custom 3", {{"Tháng áp dụng", "Ngày bắt đầu"}}),
+		  #"Added custom" = Table.AddColumn(#"Renamed columns", "Ngày kết thúc", each if [Month]=12 then Date.From(Number.From(#date([Year]+1,1,1))-1) else
+		Date.From(Number.From(#date([Year],[Month]+1,1))-1), type date),
+		    #"Replaced Value" = Table.ReplaceValue(#"Added custom","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Chi nhánh"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HCM-BTA-229NTT","CPS-HCM-BTA-127NTT",Replacer.ReplaceText,{"Chi nhánh"}),
+		  #"Merged queries" = Table.NestedJoin(#"Added custom", {"Chi nhánh"}, #"DIM_Danh mục_Phòng ban (3)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		  #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"}),
+		  #"Inserted conditional column" = Table.AddColumn(#"Expanded DIM_Danh mục_Phòng ban", "Region", each if [Miền] = "Miền Bắc" then "HN" else "HCM"),
+		  #"Added custom 1" = Table.AddColumn(#"Inserted conditional column", "Type", each "Đồng hồ"),
+		  #"Changed column type 1" = Table.TransformColumnTypes(#"Added custom 1", {{"Type", type text}, {"Region", type text}}),
+		  #"Reordered columns" = Table.ReorderColumns(#"Changed column type 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Chi nhánh", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		  #"Renamed columns 1" = Table.RenameColumns(#"Reordered columns", {{"Chi nhánh", "Object"}}),
+		  #"Removed duplicates" = Table.Distinct(#"Renamed columns 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Object", "Type", "Target", "Ngày kết thúc", "Miền"})
+		in
+		  #"Removed duplicates"
+	lineageTag: 75adf66f-7e95-4d30-8dfd-0f72663f33c3
+	queryGroup: FACT
+
+expression 'Sale_GG_GSheet_Target Apple' =
+		let
+		  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt"), null, true),
+		  #"Filtered rows" = Table.SelectRows(Source, each [Item] = "Apple"),
+		  #"Removed other columns" = Table.SelectColumns(#"Filtered rows", {"Data"}),
+		  #"Expanded Data" = Table.ExpandTableColumn(#"Removed other columns", "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"}, {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7"}),
+		  #"Promoted headers" = Table.PromoteHeaders(#"Expanded Data", [PromoteAllScalars = true]),
+		  #"Unpivoted other columns" = Table.UnpivotOtherColumns(#"Promoted headers", {"Chi nhánh", "Tháng áp dụng"}, "Type", "Target"),
+		  #"Filtered rows 1" = Table.SelectRows(#"Unpivoted other columns", each [Chi nhánh] <> null and [Chi nhánh] <> ""),
+		  #"Changed column type" = Table.TransformColumnTypes(#"Filtered rows 1", {{"Chi nhánh", type text}, {"Tháng áp dụng", type date}, {"Target", Int64.Type}}),
+		  #"Added custom 2" = Table.TransformColumnTypes(Table.AddColumn(#"Changed column type", "Year", each Date.Year([Tháng áp dụng])), {{"Year", Int64.Type}}),
+		  #"Added custom 3" = Table.TransformColumnTypes(Table.AddColumn(#"Added custom 2", "Month", each Date.Month([Tháng áp dụng])), {{"Month", Int64.Type}}),
+		  #"Renamed columns" = Table.RenameColumns(#"Added custom 3", {{"Tháng áp dụng", "Ngày bắt đầu"}}),
+		  #"Added custom" = Table.AddColumn(#"Renamed columns", "Ngày kết thúc", each if [Month]=12 then Date.From(Number.From(#date([Year]+1,1,1))-1) else
+		Date.From(Number.From(#date([Year],[Month]+1,1))-1), type date),
+		    #"Replaced Value" = Table.ReplaceValue(#"Added custom","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Chi nhánh"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HCM-BTA-229NTT","CPS-HCM-BTA-127NTT",Replacer.ReplaceText,{"Chi nhánh"}),
+		  #"Merged queries" = Table.NestedJoin(#"Added custom", {"Chi nhánh"}, #"DIM_Danh mục_Phòng ban (3)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		  #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"}),
+		  #"Inserted conditional column" = Table.AddColumn(#"Expanded DIM_Danh mục_Phòng ban", "Region", each if [Miền] = "Miền Bắc" then "HN" else "HCM"),
+		  #"Changed column type 1" = Table.TransformColumnTypes(#"Inserted conditional column", {{"Type", type text}, {"Region", type text}}),
+		  #"Reordered columns" = Table.ReorderColumns(#"Changed column type 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Chi nhánh", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		  #"Renamed columns 1" = Table.RenameColumns(#"Reordered columns", {{"Chi nhánh", "Object"}}),
+		  #"Removed duplicates" = Table.Distinct(#"Renamed columns 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Object", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		    #"Added Custom" = Table.AddColumn(#"Removed duplicates", "Phân loại thi đua", each "Apple", type text)
+		in
+		  #"Added Custom"
+	lineageTag: 0f13d5a5-138a-4275-9be2-847838473b22
+	queryGroup: FACT
+
+expression 'Sale_GG_GSheet_Target Sim thẻ' =
+		let
+		  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt"), null, true),
+		  #"Filtered rows" = Table.SelectRows(Source, each [Item] = "Sim thẻ"),
+		  #"Removed other columns" = Table.SelectColumns(#"Filtered rows", {"Data"}),
+		  #"Expanded Data" = Table.ExpandTableColumn(#"Removed other columns", "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}, {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}),
+		  #"Promoted headers" = Table.PromoteHeaders(#"Expanded Data", [PromoteAllScalars = true]),
+		  #"Removed other columns 1" = Table.SelectColumns(#"Promoted headers", {"Chi nhánh", "Tháng áp dụng", "Target"}),
+		  #"Filtered rows 1" = Table.SelectRows(#"Removed other columns 1", each [Chi nhánh] <> null and [Chi nhánh] <> ""),
+		  #"Changed column type" = Table.TransformColumnTypes(#"Filtered rows 1", {{"Chi nhánh", type text}, {"Tháng áp dụng", type date}, {"Target", Int64.Type}}),
+		  #"Added custom 2" = Table.TransformColumnTypes(Table.AddColumn(#"Changed column type", "Year", each Date.Year([Tháng áp dụng])), {{"Year", Int64.Type}}),
+		  #"Added custom 3" = Table.TransformColumnTypes(Table.AddColumn(#"Added custom 2", "Month", each Date.Month([Tháng áp dụng])), {{"Month", Int64.Type}}),
+		  #"Renamed columns" = Table.RenameColumns(#"Added custom 3", {{"Tháng áp dụng", "Ngày bắt đầu"}}),
+		  #"Added custom" = Table.AddColumn(#"Renamed columns", "Ngày kết thúc", each if [Month]=12 then Date.From(Number.From(#date([Year]+1,1,1))-1) else
+		Date.From(Number.From(#date([Year],[Month]+1,1))-1), type date),
+		    #"Replaced Value" = Table.ReplaceValue(#"Added custom","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Chi nhánh"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HCM-BTA-229NTT","CPS-HCM-BTA-127NTT",Replacer.ReplaceText,{"Chi nhánh"}),
+		  #"Merged queries" = Table.NestedJoin(#"Added custom", {"Chi nhánh"}, #"DIM_Danh mục_Phòng ban (3)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		  #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"}),
+		  #"Inserted conditional column" = Table.AddColumn(#"Expanded DIM_Danh mục_Phòng ban", "Region", each if [Miền] = "Miền Bắc" then "HN" else "HCM"),
+		  #"Added custom 1" = Table.AddColumn(#"Inserted conditional column", "Type", each "Sim"),
+		  #"Changed column type 1" = Table.TransformColumnTypes(#"Added custom 1", {{"Type", type text}, {"Region", type text}}),
+		  #"Reordered columns" = Table.ReorderColumns(#"Changed column type 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Chi nhánh", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		  #"Renamed columns 1" = Table.RenameColumns(#"Reordered columns", {{"Chi nhánh", "Object"}}),
+		  #"Removed duplicates" = Table.Distinct(#"Renamed columns 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Object", "Type", "Target", "Ngày kết thúc", "Miền"})
+		in
+		  #"Removed duplicates"
+	lineageTag: b8e12dfd-3db0-4f9e-b06a-d39403a9b7e9
+	queryGroup: FACT
+
+expression 'Sale_GG_GSheet_Target iPhone cũ' =
+		let
+		    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRizcEtlcY6Bal41DDL9lE1OCBhumgkAhFRFKjoa3jDYW0a8PzX4uswOU7qi5QEEiPyzwHOvSz0yGHn/pub?output=xlsx"), null, true),
+		    TargetDaily_CPS_Sheet = Source{[Item="Target_iphonecu_CPS",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(TargetDaily_CPS_Sheet, [PromoteAllScalars=true]),
+		#"Filtered rows 1" = Table.SelectRows(#"Promoted Headers", each [Chi nhánh] <> null and [Chi nhánh] <> ""),
+		  #"Changed column type" = Table.TransformColumnTypes(#"Filtered rows 1",{{"Chi nhánh", type text}, {"Tháng áp dụng", type date}, {"Target", type number}}),
+		  #"Added custom 2" = Table.TransformColumnTypes(Table.AddColumn(#"Changed column type", "Year", each Date.Year([Tháng áp dụng])), {{"Year", Int64.Type}}),
+		  #"Added custom 3" = Table.TransformColumnTypes(Table.AddColumn(#"Added custom 2", "Month", each Date.Month([Tháng áp dụng])), {{"Month", Int64.Type}}),
+		  #"Renamed columns" = Table.RenameColumns(#"Added custom 3", {{"Tháng áp dụng", "Ngày bắt đầu"}}),
+		  #"Added custom" = Table.AddColumn(#"Renamed columns", "Ngày kết thúc", each if [Month]=12 then Date.From(Number.From(#date([Year]+1,1,1))-1) else
+		Date.From(Number.From(#date([Year],[Month]+1,1))-1), type date),
+		    #"Replaced Value" = Table.ReplaceValue(#"Added custom","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Chi nhánh"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HCM-BTA-229NTT","CPS-HCM-BTA-127NTT",Replacer.ReplaceText,{"Chi nhánh"}),
+		  #"Merged queries" = Table.NestedJoin(#"Added custom", {"Chi nhánh"}, #"DIM_Danh mục_Phòng ban (3)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		  #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"}),
+		  #"Inserted conditional column" = Table.AddColumn(#"Expanded DIM_Danh mục_Phòng ban", "Region", each if [Miền] = "Miền Bắc" then "HN" else "HCM"),
+		  #"Added custom 1" = Table.AddColumn(#"Inserted conditional column", "Type", each "iPhone cũ"),
+		  #"Changed column type 1" = Table.TransformColumnTypes(#"Added custom 1", {{"Type", type text}, {"Region", type text}}),
+		  #"Reordered columns" = Table.ReorderColumns(#"Changed column type 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Chi nhánh", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		  #"Renamed columns 1" = Table.RenameColumns(#"Reordered columns", {{"Chi nhánh", "Object"}}),
+		  #"Removed duplicates" = Table.Distinct(#"Renamed columns 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Object", "Type", "Target", "Ngày kết thúc", "Miền"})
+		in
+		  #"Removed duplicates"
+	lineageTag: 922f7658-11f4-4a01-b8fd-cdfa208c4f65
+	queryGroup: FACT
+
+expression 'Sale_GG_GSheet_Target Camera GS' =
+		let
+		  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt"), null, true),
+		  #"Filtered rows" = Table.SelectRows(Source, each [Item] = "Camera GS_SKLD"),
+		  #"Removed other columns" = Table.SelectColumns(#"Filtered rows", {"Data"}),
+		  #"Expanded Data" = Table.ExpandTableColumn(#"Removed other columns", "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}, {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}),
+		  #"Promoted headers" = Table.PromoteHeaders(#"Expanded Data", [PromoteAllScalars = true]),
+		  #"Removed other columns 1" = Table.SelectColumns(#"Promoted headers",{"Chi nhánh", "Tháng áp dụng", "Target", "Ngày bắt đầu", "Ngày kết thúc", "Type"}),
+		  #"Filtered rows 1" = Table.SelectRows(#"Removed other columns 1", each [Chi nhánh] <> null and [Chi nhánh] <> ""),
+		  #"Changed column type" = Table.TransformColumnTypes(#"Filtered rows 1", {{"Chi nhánh", type text}, {"Tháng áp dụng", type date}, {"Target", Int64.Type}}),
+		  #"Replaced Value" = Table.ReplaceValue(#"Changed column type","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Chi nhánh"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HCM-BTA-229NTT","CPS-HCM-BTA-127NTT",Replacer.ReplaceText,{"Chi nhánh"}),
+		  #"Merged queries" = Table.NestedJoin(#"Changed column type", {"Chi nhánh"}, #"DIM_Danh mục_Phòng ban (3)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		  #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"}),
+		  #"Inserted conditional column" = Table.AddColumn(#"Expanded DIM_Danh mục_Phòng ban", "Region", each if [Miền] = "Miền Bắc" then "HN" else "HCM"),
+		    #"Inserted Year" = Table.AddColumn(#"Inserted conditional column", "Year", each Date.Year([Tháng áp dụng]), Int64.Type),
+		    #"Inserted Month" = Table.AddColumn(#"Inserted Year", "Month", each Date.Month([Tháng áp dụng]), Int64.Type),
+		  #"Reordered columns" = Table.ReorderColumns(#"Inserted Month", {"Year", "Month", "Ngày bắt đầu", "Region", "Chi nhánh", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		  #"Renamed columns 1" = Table.RenameColumns(#"Reordered columns", {{"Chi nhánh", "Object"}})
+		in
+		    #"Renamed columns 1"
+	lineageTag: da96cb00-77f5-4e42-b094-c53784318b23
+	queryGroup: FACT
+
+expression FACT_GSheet_Target_DMC3 =
+		let
+		  Source = Table.Combine({#"Sale_GG_GSheet_Target Laptop", #"Sale_GG_GSheet_Target Đồng hồ", #"Sale_GG_GSheet_Target Apple", #"Sale_GG_GSheet_Target Sim thẻ", #"Sale_GG_GSheet_Target iPhone cũ", #"Sale_GG_GSheet_Target Camera GS", #"Sale_GG_GSheet_Target IP17" }),
+		  #"Removed other columns" = Table.SelectColumns(Source, {"Ngày bắt đầu", "Object", "Type", "Target", "Ngày kết thúc", "Miền", "Phân loại thi đua"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Removed other columns",{{"Object", "Shop"}}),
+		  #"Added Custom" = Table.AddColumn(#"Renamed Columns", "DMC3", each if [Type] = "Apple watch" then "APPLE WATCH CTM" else
+		if [Type] = "Camera GS" then "CAMERA GIÁM SÁT" else
+		if [Type] = "iPad" then "IPAD CTM" else
+		if [Type] = "iPhone" then "IPHONE CTM" else
+		if [Type] = "iPhone 17 series" then "IPHONE CTM" else
+		if [Type] = "iPhone cũ" then "IPHONE CŨ" else
+		if [Type] = "Laptop" then "LAPTOP CTM" else
+		if [Type] = "Macbook" then "MACBOOK CTM" else
+		if [Type] = "PK Apple" then "PHỤ KIỆN APPLE" else
+		if [Type] = "Sim" then "PHỤ KIỆN SIM THẺ" else
+		if [Type] = "SKLD" then "SỨC KHOẺ - LÀM ĐẸP" else
+		if [Type] = "Đồng hồ" then "ĐỒNG HỒ" else null, type text),
+		    #"Appended Query" = Table.Combine({#"Added Custom", #"Sale_GG_GSheet_Target Nhóm đặc biệt"})
+		in
+		    #"Appended Query"
+	lineageTag: 2dc0b726-a6e3-412d-981f-4247bc3e517e
+	queryGroup: FACT
+
+expression 'Sale_GG_GSheet_Target Nhóm đặc biệt' =
+		let
+		  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt"), null, true),
+		    #"Nhóm đặc biệt_Sheet" = Source{[Item="Nhóm đặc biệt",Kind="Sheet"]}[Data],
+		    #"Transposed Table" = Table.Transpose(#"Nhóm đặc biệt_Sheet"),
+		    #"Merged Columns" = Table.CombineColumns(#"Transposed Table",{"Column1", "Column2"},Combiner.CombineTextByDelimiter("|", QuoteStyle.None),"Merged"),
+		    #"Transposed Table1" = Table.Transpose(#"Merged Columns"),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Transposed Table1", [PromoteAllScalars=true]),
+		    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Promoted Headers", {"|Chi nhánh", "|Tháng áp dụng"}, "Attribute", "Target"),
+		    #"Renamed Columns" = Table.RenameColumns(#"Unpivoted Other Columns",{{"|Chi nhánh", "Shop"}, {"|Tháng áp dụng", "Ngày bắt đầu"}}),
+		    #"Split Column by Delimiter" = Table.SplitColumn(#"Renamed Columns", "Attribute", Splitter.SplitTextByDelimiter("|", QuoteStyle.Csv), {"Type", "DMC3"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Shop", type text}, {"Ngày bắt đầu", type date}, {"Target", Int64.Type}}),
+		    #"Merged Queries" = Table.NestedJoin(#"Changed Type", {"Shop"}, #"DIM_Danh mục_Phòng ban (3)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		    #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged Queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"}),
+		    #"Added Custom" = Table.AddColumn(#"Expanded DIM_Danh mục_Phòng ban", "Ngày kết thúc", each Date.EndOfMonth([Ngày bắt đầu]), type date),
+		    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Phân loại thi đua", each "Nhóm đặc biệt", type text)
+		in
+		    #"Added Custom1"
+	lineageTag: 4a1147d1-af8b-4aab-9f26-825e6d32b5bb
+	queryGroup: FACT
+
+expression fxGetISO8601Week =
+		let
+		    getISO8601Week = (someDate as date) =>
+		    let
+		        getNaiveWeek = (inDate as date) =>
+		            let
+		                // monday = 1, sunday = 7
+		                weekday = 1 + Date.DayOfWeek(inDate, Day.Monday),
+		                weekdayOfJan4th = 1 + Date.DayOfWeek(#date(Date.Year(inDate), 1, 4), Day.Monday),
+		                ordinal = Date.DayOfYear(inDate),
+		                naiveWeek = Number.RoundDown(
+		                    (ordinal - weekday + 10) / 7
+		                )
+		            in
+		                naiveWeek,
+		        thisYear = Date.Year(someDate),
+		        priorYear = thisYear - 1,
+		        nwn = getNaiveWeek(someDate),
+		        lastWeekOfPriorYear =
+		        getNaiveWeek(#date(priorYear, 12, 28)),
+		
+		        // http://stackoverflow.com/a/34092382/2014893
+		        lastWeekOfThisYear =
+		            getNaiveWeek(#date(thisYear, 12, 28)),
+		
+		        weekNumber =
+		            if
+		                nwn < 1
+		            then
+		                lastWeekOfPriorYear
+		            else
+		                if
+		                    nwn > lastWeekOfThisYear
+		                then
+		                    1
+		                else
+		                    nwn
+		    in
+		        weekNumber
+		in
+		    getISO8601Week
+	lineageTag: b4b11cce-10a5-4bce-8b42-4332247cc463
+	queryGroup: FACT
+
+	annotation PBI_ResultType = Function
+
+expression fxCalendar = ```
+		let
+		  fnDateTable = (StartDate as date, EndDate as date, optional FYStartMonthNum as number, optional Holidays as list, optional WDStartNum as number ) as table =>
+		  let
+		    FYStartMonth = if List.Contains( {1..12}, FYStartMonthNum ) then FYStartMonthNum else 1,
+		    StartOfWeekDayName = Text.Proper( Text.Start( Date.DayOfWeekName( #date(2021, 2,1) ), 3)),
+		    WDStart = if List.Contains( {0, 1}, WDStartNum ) then WDStartNum else 0,
+		    CurrentDate = Date.From(DateTime.FixedLocalNow()),
+		    DayCount = Duration.Days(Duration.From(EndDate - StartDate))+1,
+		    Source = List.Dates(StartDate,DayCount,#duration(1,0,0,0)),
+		    AddToday = if EndDate < CurrentDate then List.Combine( {Source, {CurrentDate}}) else Source,
+		    TableFromList = Table.FromList(AddToday, Splitter.SplitByNothing()),
+		    ChangedType = Table.TransformColumnTypes(TableFromList,{{"Column1", type date}}),
+		    RenamedColumns = Table.RenameColumns(ChangedType,{{"Column1", "Date"}}),
+		    InsertDateKey = Table.AddColumn(RenamedColumns, "DateKey", each Date.Year([Date]) * 10000 + Date.Month([Date]) * 100 + Date.Day([Date]), type number),
+		    InsertYear = Table.AddColumn(InsertDateKey, "Năm", each Date.Year([Date]), Int64.Type),
+		    InsertQuarter = Table.AddColumn(InsertYear, "Quý", each Date.QuarterOfYear([Date]), Int64.Type),
+		    InsertYearQuarter = Table.AddColumn(InsertQuarter, "Năm/Quý", each Number.ToText([Năm])&"/Q" & Number.ToText([Quý]), type text),
+		    InsertYearQuarterIndex = Table.AddColumn(InsertYearQuarter,"Năm/Quý_Index",each -100*Date.Year([Date])-Number.RoundUp(Date.Month([Date])/3,0), type number),
+		    InsertMonth = Table.AddColumn(InsertYearQuarterIndex, "Tháng", each Date.Month([Date]), Int64.Type),
+		    InsertYearMonth = Table.AddColumn(InsertMonth, "Năm/Tháng", each Number.ToText([Năm])&"/"&(if [Tháng]<10 then "0"& Number.ToText([Tháng]) else Number.ToText([Tháng])), type text),
+		    InsertYearMonthIndex = Table.AddColumn(InsertYearMonth,"Năm/Tháng_Index", each -100*Date.Year([Date]) - Date.Month([Date]), type number),
+		    InsertMonthEnding = Table.AddColumn(InsertYearMonthIndex, "Cuối tháng", each Date.EndOfMonth([Date]), type date),
+		    InsertMonthStarting = Table.AddColumn(InsertMonthEnding, "Đầu tháng", each Date.StartOfMonth([Date]), type date),
+		    InsertYearMonthWeek = Table.AddColumn(InsertMonthStarting,"Năm/Tháng/Tuần", each Number.ToText([Năm])&"/" & (if [Tháng]<10 then "0"& Number.ToText([Tháng]) else Number.ToText([Tháng])) &"/" & (if Date.Day([Date])<8 then "W1" else if Date.Day([Date])<15 then "W2" else if Date.Day([Date])<22 then "W3" else if Date.Day([Date])<29 then "W4" else "W5"), type text),
+		    InsertYearMonthWeekIndex = Table.AddColumn(InsertYearMonthWeek,"Năm/Tháng/Tuần_Index", each -100*Date.Year([Date]) - Date.Month([Date]) - (if Date.Day([Date])<8 then 0.1 else if Date.Day([Date])<15 then 0.2 else if Date.Day([Date])<22 then 0.3 else if Date.Day([Date])<29 then 0.4 else 0.5), type number),
+		    InsertWeek = Table.AddColumn(InsertYearMonthWeekIndex,"Tuần", each fxGetISO8601Week([Date]), Int64.Type), // Date.WeekOfYear([Date],Day.Monday)
+		    InsertYearWeek = Table.AddColumn(InsertWeek, "Năm/Tuần", each Number.ToText(Date.Year( Date.AddDays( [Date], 26 - [Tuần] ) ))&"/"&(if [Tuần]<10 then "0"& Number.ToText([Tuần]) else Number.ToText([Tuần])), type text),
+		    InsertYearWeekIndex = Table.AddColumn(InsertYearWeek,"Năm/Tuần_Index", each -100*Date.Year( Date.AddDays( [Date], 26 - [Tuần] ) ) - [Tuần], type number),
+		    InsertWeekdayIndexRAW = Table.AddColumn(InsertYearWeekIndex, "Thứ_Index_RAW", each Date.DayOfWeek([Date]) + WDStart+1, Int64.Type),
+		    InsertWeekday = Table.AddColumn(InsertWeekdayIndexRAW, "Thứ", each if [Thứ_Index_RAW]=1 then "Chủ Nhật" else "Thứ "& Number.ToText([Thứ_Index_RAW]), type text),
+		    InsertWeekdayIndex = Table.AddColumn(InsertWeekday, "Thứ_Index", each if [Thứ_Index_RAW]=1 then 8 else [Thứ_Index_RAW], Int64.Type),
+		    InsertWeekend = Table.AddColumn(InsertWeekdayIndex, "Cuối tuần", each if [Thứ_Index]<=6 then "Trong tuần" else "Cuối tuần", type text),
+		    InsertDay = Table.AddColumn(InsertWeekend, "Ngày", each Date.Day([Date]), Int64.Type),
+		    InsertIsHoliday = Table.AddColumn( InsertDay, "IsHoliday", each if Holidays = null then "Unknown" else List.Contains( Holidays, [Date] ), if Holidays = null then type text else type logical)
+		  in
+		    InsertIsHoliday,
+		  documentation = [
+		    Documentation.Name =  " fxCalendar", 
+		    Documentation.Description = " Date table function to create an ISO-8601 calendar", 
+		    Documentation.LongDescription = " Date table function to create an ISO-8601 calendar", 
+		    Documentation.Category = " Table", 
+		    Documentation.Version = " 1.28: Fixed fiscal years when FYStartMonth =1",
+		    Documentation.Source = " local", 
+		    Documentation.Author = " Melissa de Korte", 
+		    Documentation.Examples = { [Description =  " See: https://forum.enterprisedna.co/t/extended-date-table-power-query-m-function/6390", 
+		      Code = " Optional paramters: #(lf)
+		      (FYStartMonthNum) Month number the fiscal year starts, Januari if omitted #(lf) 
+		      (Holidays) Select a query (and column) that contains a list of holiday dates #(lf) 
+		      (WDStartNum) Switch default weekday numbering from 0-6 to 1-7 by entering a 1 #(lf)
+		      #(lf)
+		      Important to note: #(lf)
+		      [Fiscal Week] starts on a Monday and can contain less than 7 days in a First- and/or Last Week of a FY #(lf)
+		      [IsWorkingDay] does not take holiday dates into account  #(lf)
+		      [IsBusinessDay] does take optional holiday dates into account  #(lf)
+		      [IsPYTD] and [IsPFYTD] compare Previous [Ngày] with the Current [Ngày] number, so dates don't align in leap years", 
+		      Result = " " ] }
+		    ],
+		  Custom = Value.ReplaceType(fnDateTable, Value.ReplaceMetadata(Value.Type(fnDateTable), documentation))
+		in
+		  Custom
+		```
+	lineageTag: f4b227e8-055b-4ab4-a7d4-971498daf129
+	queryGroup: FACT
+
+expression MinYear =
+		let
+		  Source = Date.Year(DateTime.FixedLocalNow())-3
+		in
+		    Source
+	lineageTag: 3ede2c79-8233-40c6-a43e-9573376e10bb
+	queryGroup: FACT
+
+expression MaxYear =
+		let
+		  Source = Date.Year(DateTime.FixedLocalNow())+1
+		in
+		  Source
+	lineageTag: 8ee4ddb3-2e15-434f-836f-b40824ae7bd9
+	queryGroup: FACT
+
+expression 'Sale_GG_GSheet_Tỷ trọng Target' =
+		let
+		  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt"), null, true),
+		    #"Tỷ trọng Target_Sheet" = Source{[Item="Tỷ trọng Target",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Tỷ trọng Target_Sheet", [PromoteAllScalars=true]),
+		    #"Filtered Rows" = Table.SelectRows(#"Promoted Headers", each ([Date] <> null)),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Filtered Rows",{{"Tỷ trọng", type number}, {"Date", type date}})
+		in
+		    #"Changed Type"
+	lineageTag: 9fef7b17-3d77-48c5-848a-35dc6b8a5a94
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'DIM_Danh mục_Ngày (2)' =
+		let
+		  Source = fxCalendar(#date(MinYear, 1, 1), #date(MaxYear, 12, 31), null, null, null),
+		  InsertAppleWeek = Table.AddColumn(Source,"Tuần_Apple", each Date.WeekOfYear(Date.AddDays([Date], 1), Day.Monday), Int64.Type),
+		  InsertAppleYearWeek = Table.TransformColumnTypes(Table.AddColumn(InsertAppleWeek, "Năm/Tuần_Apple", each Number.ToText(Date.Year(Date.AddDays([Date], 1)))&"/"&(if [Tuần_Apple]<10 then "0"& Number.ToText([Tuần_Apple]) else Number.ToText([Tuần_Apple]))), {{"Năm/Tuần_Apple", type text}}),
+		  InsertAppleYearWeekIndex = Table.TransformColumnTypes(Table.AddColumn(InsertAppleYearWeek, "Năm/Tuần_Index_Apple", each -100*Date.Year(Date.AddDays([Date], 1)) - [Tuần_Apple]), {{"Năm/Tuần_Index_Apple", type number}}),
+		  #"Filtered rows" = Table.SelectRows(InsertAppleYearWeekIndex, each [Năm] > MinYear)
+		in
+		  #"Filtered rows"
+	lineageTag: e3bc147c-8c90-430d-93ee-ea87e8051912
+	queryGroup: FACT
+
+expression 'DIM_Danh mục_Phòng ban (3)' =
+		let
+		    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)select #(lf)hara_id#(tab)HaraID,#(lf)hara_workplace_name HaraWorkPlaceName,#(lf)ma_bo_phan#(tab)`Mã Bộ phận`,#(lf)bo_phan#(tab)`Cửa hàng`,#(lf)cua_hang_gop    `Cửa hàng gộp`,#(lf)ma_kho#(tab)`Mã kho`,#(lf)level_2#(tab)lv2,#(lf)level_3#(tab)lv3,#(lf)level_4#(tab)lv4,#(lf)level_5#(tab)lv5,#(lf)level_6#(tab)lv6,#(lf)level_7#(tab)lv7,#(lf)short_name#(tab)`Tên ngắn gọn`,#(lf)dia_chi_shop#(tab)`Địa chỉ`,#(lf)Latitude#(tab),#(lf)Longitude#(tab),#(lf)branch_id#(tab)BranchId,#(lf)apple_location_id,#(tab)#(lf)oracle_code#(tab)CostCenter,#(lf)van_phong_cua_hang Type,#(lf)cong_ty#(tab)`Công ty`,#(lf)mien `Miền`,#(lf)tinh_thanh_pho#(tab)Province,#(lf)quan_huyen#(tab)District,#(lf)vung#(tab)`Vùng`,#(lf)khoi#(tab)`Khối`,#(lf)phong#(tab)`Phòng`,#(lf)khai_truong#(tab)`Ngày khai trương`,#(lf)dong_cua#(tab)`Ngày bán cuối cùng`,#(lf)ngang_m#(tab)`Chiều ngang`,#(lf)sau_m#(tab)`Chiều rộng`,#(lf)tong_m2#(tab)`Diện tích tổng`,#(lf)dien_tich_ban_hang#(tab)`Diện tích bán hàng`,#(lf)size#(tab)Size,#(lf)kn_am#(tab)AM,#(lf)rsm#(tab)RSM,#(lf)is_active#(tab)IsActive,#(lf)is_inactive#(tab)IsInactive,#(lf)from#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_department`#(lf)where cong_ty = 'CPS'", null, [EnableFolding=true]),
+		    #"Replaced Value" = Table.ReplaceValue(Source,"ĐÀM THỊ THU TRANG","RSM",Replacer.ReplaceText,{"RSM"})
+		in
+		    #"Replaced Value"
+	lineageTag: b468711d-90a8-4fa7-b21b-62ede7b6673d
+	queryGroup: FACT
+
+expression 'Sale_GG_GSheet_Target IP17' =
+		let
+		  Source = Excel.Workbook(Web.Contents(#"Target các chương trình đặc biệt"), null, true),
+		  #"Filtered rows" = Table.SelectRows(Source, each [Item] = "Iphone_T9_2025"),
+		  #"Removed other columns" = Table.SelectColumns(#"Filtered rows", {"Data"}),
+		  #"Expanded Data" = Table.ExpandTableColumn(#"Removed other columns", "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}, {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}),
+		  #"Promoted headers" = Table.PromoteHeaders(#"Expanded Data", [PromoteAllScalars = true]),
+		  #"Removed other columns 1" = Table.SelectColumns(#"Promoted headers",{"Chi nhánh", "Tháng áp dụng", "iPhone 17 series", "Ngày bắt đầu", "Ngày kết thúc"}),
+		  #"Filtered rows 1" = Table.SelectRows(#"Removed other columns 1", each [Chi nhánh] <> null and [Chi nhánh] <> ""),
+		    #"Renamed Columns" = Table.RenameColumns(#"Filtered rows 1",{{"iPhone 17 series", "Target"}}),
+		  #"Changed column type" = Table.TransformColumnTypes(#"Renamed Columns", {{"Chi nhánh", type text}, {"Tháng áp dụng", type date}, {"Target", Int64.Type}}),
+		  #"Added custom 2" = Table.TransformColumnTypes(Table.AddColumn(#"Changed column type", "Year", each Date.Year([Tháng áp dụng])), {{"Year", Int64.Type}}),
+		  #"Added custom 3" = Table.TransformColumnTypes(Table.AddColumn(#"Added custom 2", "Month", each Date.Month([Tháng áp dụng])), {{"Month", Int64.Type}}),
+		  #"Replaced Value" = Table.ReplaceValue(#"Added custom 3","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Chi nhánh"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HCM-BTA-229NTT","CPS-HCM-BTA-127NTT",Replacer.ReplaceText,{"Chi nhánh"}),
+		  #"Merged queries" = Table.NestedJoin(#"Added custom 3", {"Chi nhánh"}, #"DIM_Danh mục_Phòng ban (3)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		  #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"}),
+		  #"Inserted conditional column" = Table.AddColumn(#"Expanded DIM_Danh mục_Phòng ban", "Region", each if [Miền] = "Miền Bắc" then "HN" else "HCM"),
+		  #"Added custom 1" = Table.AddColumn(#"Inserted conditional column", "Type", each "iPhone 17 series"),
+		  #"Changed column type 1" = Table.TransformColumnTypes(#"Added custom 1", {{"Type", type text}, {"Region", type text}}),
+		  #"Reordered columns" = Table.ReorderColumns(#"Changed column type 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Chi nhánh", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		  #"Renamed columns 1" = Table.RenameColumns(#"Reordered columns", {{"Chi nhánh", "Object"}}),
+		  #"Removed duplicates" = Table.Distinct(#"Renamed columns 1", {"Year", "Month", "Ngày bắt đầu", "Region", "Object", "Type", "Target", "Ngày kết thúc", "Miền"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Removed duplicates",{{"Ngày bắt đầu", type date}, {"Ngày kết thúc", type date}})
+		in
+		  #"Changed Type"
+	lineageTag: 415fabd6-755f-46be-9ea5-d18f8ac0ca6b
+	queryGroup: FACT
+
+expression 'DIM_Danh mục_Phòng ban (2)' =
+		let
+		    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)select #(lf)hara_id#(tab)HaraID,#(lf)hara_workplace_name HaraWorkPlaceName,#(lf)ma_bo_phan#(tab)`Mã Bộ phận`,#(lf)bo_phan#(tab)`Cửa hàng`,#(lf)cua_hang_gop    `Cửa hàng gộp`,#(lf)ma_kho#(tab)`Mã kho`,#(lf)level_2#(tab)lv2,#(lf)level_3#(tab)lv3,#(lf)level_4#(tab)lv4,#(lf)level_5#(tab)lv5,#(lf)level_6#(tab)lv6,#(lf)level_7#(tab)lv7,#(lf)short_name#(tab)`Tên ngắn gọn`,#(lf)dia_chi_shop#(tab)`Địa chỉ`,#(lf)Latitude#(tab),#(lf)Longitude#(tab),#(lf)branch_id#(tab)BranchId,#(lf)apple_location_id,#(tab)#(lf)oracle_code#(tab)CostCenter,#(lf)van_phong_cua_hang Type,#(lf)cong_ty#(tab)`Công ty`,#(lf)mien `Miền`,#(lf)tinh_thanh_pho#(tab)Province,#(lf)quan_huyen#(tab)District,#(lf)vung#(tab)`Vùng`,#(lf)khoi#(tab)`Khối`,#(lf)phong#(tab)`Phòng`,#(lf)khai_truong#(tab)`Ngày khai trương`,#(lf)dong_cua#(tab)`Ngày bán cuối cùng`,#(lf)ngang_m#(tab)`Chiều ngang`,#(lf)sau_m#(tab)`Chiều rộng`,#(lf)tong_m2#(tab)`Diện tích tổng`,#(lf)dien_tich_ban_hang#(tab)`Diện tích bán hàng`,#(lf)size#(tab)Size,#(lf)kn_am#(tab)AM,#(lf)rsm#(tab)RSM,#(lf)is_active#(tab)IsActive,#(lf)is_inactive#(tab)IsInactive,#(lf)from#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_department`#(lf)where cong_ty = 'CPS'", null, [EnableFolding=true]),
+		    #"Replaced Value" = Table.ReplaceValue(Source,"ĐÀM THỊ THU TRANG","RSM",Replacer.ReplaceText,{"RSM"})
+		in
+		    #"Replaced Value"
+	lineageTag: 8494d883-5c8c-4f59-a459-5ab0748c3413
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression NhomHang_LaptopCu =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8nEMCPEPUHA+ukJJR8njcIOfu4LH4cmOQI5LiAc2YYiQCXZhhB4Uc+F8ZAYEGYCo2FgA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Nhóm hàng" = _t, #"Nhóm hàng cấp 1" = _t, #"Nhóm hàng cấp 2" = _t, #"Ngành hàng" = _t, #"Thuộc tính" = _t, Level = _t, Level1 = _t, Level2 = _t, Level3 = _t, Level4 = _t, #"Bán kèm" = _t, Brand = _t, SubBrand = _t, #"Thi đua S-Star" = _t, #"Nhóm S-Star" = _t, #"Hệ số thi đua phụ kiện" = _t, #"Nhóm S-Star_Index" = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Level", Int64.Type}, {"Bán kèm", Int64.Type}, {"Thi đua S-Star", Int64.Type}, {"Hệ số thi đua phụ kiện", type number}, {"Nhóm S-Star_Index", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: 55dc6393-7a06-4c85-9803-5432a7c3ff9e
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'Target các chương trình đặc biệt (2)' =
+		let
+		    Source = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGvMoHUidwN3cUAdWhjlD486eIRz-GjvecoUGHwSBTC0UdHkirJWb-UyH3bucvBTC_M5vs1cKj41IL/pub?output=xlsx" meta [IsParameterQuery = true, IsParameterQueryRequired = true, Type = type text, List = {"https://docs.google.com/spreadsheets/d/e/2PACX-1vRGvMoHUidwN3cUAdWhjlD486eIRz-GjvecoUGHwSBTC0UdHkirJWb-UyH3bucvBTC_M5vs1cKj41IL/pub?output=xlsx"}, DefaultValue = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGvMoHUidwN3cUAdWhjlD486eIRz-GjvecoUGHwSBTC0UdHkirJWb-UyH3bucvBTC_M5vs1cKj41IL/pub?output=xlsx"]
+		in
+		    Source
+	lineageTag: 8cab633f-fe5c-4474-b7c8-c28235fb11f8
+	queryGroup: FACT
+
+	annotation PBI_ResultType = Text
+
+expression DIM_Ngày =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("Lc67EYBADAPRXi4mQDLHpxbP9d8GjJZkHemNu4fG2no4rfRIZ3qmV3qnT6qdw1rMxV4AQhCEMAQiFKP4/wHFKEYxilGMYhSjFEp9ynoB", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Ngày = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Ngày", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: 1b47c0a4-a24e-462d-b565-a9726add7c07
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'FACT_Sale_TargetDaily (2)' =
+		let
+		    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTXSTDg5uUHUVf0LUUscrFFlMcCWSBYmv6rfNO7Z3mQoxLVo4aLZJT8gBru_Q9zP_YgDoafm6EUX8F0/pub?output=xlsx"), null, true),
+		    TargetDaily_SHOP_Aug24_Sheet = Source{[Item="TargetDaily_SHOP_Aug24",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(TargetDaily_SHOP_Aug24_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Shop", type text}, {"Ddate", type date}, {"DOW", Int64.Type}, {"K_DOW", type number}, {"Avg_Dso", type number}, {"ETA", type number}, {"MTD_ETA", type number}, {"Percentage_of_Target", type number}, {"Percentage_of_TargetDaily", type number}, {"Type", type text}, {"TargetDaily", type number}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Shop", "Ddate", "Type", "TargetDaily"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"Shop", "Object"}, {"Ddate", "Date"}, {"TargetDaily", "Target"}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns", each ([Type] <> "NoniPhone")),
+		    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","CPS-HNO-CGI-306CG","CPS-HNO-CGI-310CG",Replacer.ReplaceText,{"Object"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","CPS-HNO-DDA-384XD","CPS-HNO-DDA-360XD",Replacer.ReplaceText,{"Object"}),
+		    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","CPS-HNO-DDA-ON98TH","CPS-HNO-SHOPONLINE",Replacer.ReplaceText,{"Object"}),
+		    #"Merged Queries" = Table.NestedJoin(#"Replaced Value2", {"Object"}, #"DIM_Danh mục_Phòng ban (4)", {"Cửa hàng"}, "DIM_Danh mục_Phòng ban", JoinKind.LeftOuter),
+		    #"Expanded DIM_Danh mục_Phòng ban" = Table.ExpandTableColumn(#"Merged Queries", "DIM_Danh mục_Phòng ban", {"Miền"}, {"Miền"})
+		in
+		    #"Expanded DIM_Danh mục_Phòng ban"
+	lineageTag: fa3c5e6f-0ccb-47ae-995e-099a67908c48
+	queryGroup: FACT
+
+expression 'DIM_Danh mục_Phòng ban (4)' =
+		let
+		    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=079001d0-99cb-48c3-86c4-0130e59b27d3""#(lf)select #(lf)hara_id#(tab)HaraID,#(lf)hara_workplace_name HaraWorkPlaceName,#(lf)ma_bo_phan#(tab)`Mã Bộ phận`,#(lf)bo_phan#(tab)`Cửa hàng`,#(lf)cua_hang_gop    `Cửa hàng gộp`,#(lf)ma_kho#(tab)`Mã kho`,#(lf)level_2#(tab)lv2,#(lf)level_3#(tab)lv3,#(lf)level_4#(tab)lv4,#(lf)level_5#(tab)lv5,#(lf)level_6#(tab)lv6,#(lf)level_7#(tab)lv7,#(lf)short_name#(tab)`Tên ngắn gọn`,#(lf)dia_chi_shop#(tab)`Địa chỉ`,#(lf)Latitude#(tab),#(lf)Longitude#(tab),#(lf)branch_id#(tab)BranchId,#(lf)apple_location_id,#(tab)#(lf)oracle_code#(tab)CostCenter,#(lf)van_phong_cua_hang Type,#(lf)cong_ty#(tab)`Công ty`,#(lf)mien `Miền`,#(lf)tinh_thanh_pho#(tab)Province,#(lf)quan_huyen#(tab)District,#(lf)vung#(tab)`Vùng`,#(lf)khoi#(tab)`Khối`,#(lf)phong#(tab)`Phòng`,#(lf)khai_truong#(tab)`Ngày khai trương`,#(lf)dong_cua#(tab)`Ngày bán cuối cùng`,#(lf)ngang_m#(tab)`Chiều ngang`,#(lf)sau_m#(tab)`Chiều rộng`,#(lf)tong_m2#(tab)`Diện tích tổng`,#(lf)dien_tich_ban_hang#(tab)`Diện tích bán hàng`,#(lf)size#(tab)Size,#(lf)kn_am#(tab)AM,#(lf)rsm#(tab)RSM,#(lf)is_active#(tab)IsActive,#(lf)is_inactive#(tab)IsInactive,#(lf)from#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_department`#(lf)where cong_ty = 'CPS'", null, [EnableFolding=true]),
+		    #"Replaced Value" = Table.ReplaceValue(Source,"ĐÀM THỊ THU TRANG","RSM",Replacer.ReplaceText,{"RSM"})
+		in
+		    #"Replaced Value"
+	lineageTag: 660cf23a-6ea5-4e1f-8024-f5e440b0fd46
+	queryGroup: FACT
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

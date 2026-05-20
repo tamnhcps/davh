@@ -1,0 +1,740 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "c3a34272a40e57bc92e5",
+  "position": {
+    "x": 0,
+    "y": 172.22222222222223,
+    "z": 12000,
+    "height": 560,
+    "width": 1280,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Phòng ban"
+                    }
+                  },
+                  "Property": "Miền"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Phòng ban.Miền",
+              "nativeQueryRef": "Miền"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_Danh mục_Phòng ban"
+                    }
+                  },
+                  "Property": "Cửa hàng"
+                }
+              },
+              "queryRef": "DIM_Danh mục_Phòng ban.Cửa hàng",
+              "nativeQueryRef": "Cửa hàng"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Code_DaSuDung"
+                    }
+                  },
+                  "Property": "Code"
+                }
+              },
+              "queryRef": "FACT_Code_DaSuDung.Code",
+              "nativeQueryRef": "Mã Code",
+              "displayName": "Mã Code"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Code_DaSuDung"
+                    }
+                  },
+                  "Property": "AutoCode"
+                }
+              },
+              "queryRef": "FACT_Code_DaSuDung.AutoCode",
+              "nativeQueryRef": "Số phiếu ",
+              "displayName": "Số phiếu "
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Code_DaSuDung"
+                    }
+                  },
+                  "Property": "CreateDate"
+                }
+              },
+              "queryRef": "FACT_Code_DaSuDung.CreateDate",
+              "nativeQueryRef": "Ngày cấp sử dụng",
+              "displayName": "Ngày cấp sử dụng"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Code_DaSuDung"
+                    }
+                  },
+                  "Property": "UsingDate"
+                }
+              },
+              "queryRef": "FACT_Code_DaSuDung.UsingDate",
+              "nativeQueryRef": "Ngày sử dụng code",
+              "displayName": "Ngày sử dụng code"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Code_DaSuDung"
+                    }
+                  },
+                  "Property": "CreateBy"
+                }
+              },
+              "queryRef": "FACT_Code_DaSuDung.CreateBy",
+              "nativeQueryRef": "Người cấp",
+              "displayName": "Người cấp"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FACT_Code_DaSuDung"
+                    }
+                  },
+                  "Property": "UsedBy"
+                }
+              },
+              "queryRef": "FACT_Code_DaSuDung.UsedBy",
+              "nativeQueryRef": "Người dùng",
+              "displayName": "Người dùng"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Giá trị code_used"
+                }
+              },
+              "queryRef": "Measure.Giá trị code_used",
+              "nativeQueryRef": "Giá trị code sử dụng",
+              "displayName": "Giá trị code sử dụng"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "FACT_Code_DaSuDung"
+                        }
+                      },
+                      "Property": "gia_tri_don_hang_ap_dung_code"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "Sum(FACT_Code_DaSuDung.gia_tri_don_hang_ap_dung_code)",
+              "nativeQueryRef": "Giá trị đơn hàng áp dụng code",
+              "displayName": "Giá trị đơn hàng áp dụng code"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Tỷ lệ code / đơn hàng"
+                }
+              },
+              "queryRef": "Measure.Tỷ lệ code / đơn hàng",
+              "nativeQueryRef": "Tỷ lệ code / đơn hàng"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Số phiếu code > 30%"
+                }
+              },
+              "queryRef": "Measure.Số phiếu code > 30%",
+              "nativeQueryRef": "Số phiếu code > 30%"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F1C4D5'"
+                    }
+                  }
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8AA8C'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E8AA8C'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Chi tiết các đơn cấp code'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#298C8C'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI'', wf_segoe-ui_normal, helvetica, arial, sans-serif'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0a07bfc7bd29772748d8",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Code_DaSuDung"
+              }
+            },
+            "Property": "AutoCode"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "556262585de1820373e0",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Code_DaSuDung"
+              }
+            },
+            "Property": "Code"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "38e48043c56e0d0fdf12",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Code_DaSuDung"
+              }
+            },
+            "Property": "CreateBy"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b8d8d0fb332520e01202",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Code_DaSuDung"
+              }
+            },
+            "Property": "CreateDate"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "69473154b6fb2e286a52",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_Danh mục_Phòng ban"
+              }
+            },
+            "Property": "Cửa hàng"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "5e22aad09f7958b75429",
+        "ordinal": 5,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Giá trị code_used"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4287d4ff8bcca1b815c8",
+        "ordinal": 6,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_PromotionCode"
+              }
+            },
+            "Property": "PromotionCode"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "DIM_PromotionCode",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "PromotionCode"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Ban kem BHMR_AM'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'SM_May_2023'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'AM_May_2023'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'AM_PK_2023'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'SM_PK_2023'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Ban kem BHMR_SM'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "785525382bf51b3caca6",
+        "ordinal": 7,
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FACT_Code_DaSuDung"
+                  }
+                },
+                "Property": "gia_tri_don_hang_ap_dung_code"
+              }
+            },
+            "Function": 4
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bd5da98d3d40a9ac85f0",
+        "ordinal": 8,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Số phiếu code > 30%"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2b979f89946f627fb40f",
+        "ordinal": 9,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DIM_Danh mục_Phòng ban"
+              }
+            },
+            "Property": "Miền"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "34cb3bd3664dcf8db0eb",
+        "ordinal": 10,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Tỷ lệ code / đơn hàng"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9c208a385b3ac1512075",
+        "ordinal": 11,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Code_DaSuDung"
+              }
+            },
+            "Property": "UsedBy"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b8a5d8cae0a278e4d61d",
+        "ordinal": 12,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FACT_Code_DaSuDung"
+              }
+            },
+            "Property": "UsingDate"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "5eeb734f65ae28dc8e9a",
+        "ordinal": 13,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Số phiếu code > 30%"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  }
+}

@@ -1,0 +1,53 @@
+table 'FACT_Chương trình code_MKT'
+	lineageTag: e51386b1-c472-4217-b807-c36f95760fb6
+
+	column 'PHÒNG BAN'
+		dataType: string
+		lineageTag: a68cab27-033e-4043-8df1-e2497becc5ce
+		summarizeBy: none
+		sourceColumn: PHÒNG BAN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Loại chương trình'
+		dataType: string
+		lineageTag: d7ece0f6-9841-4442-b7cd-79ae5ba41a1d
+		summarizeBy: none
+		sourceColumn: Loại chương trình
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tên chương trình'
+		dataType: string
+		lineageTag: 074d8066-e819-4990-8b07-9a1413813f52
+		summarizeBy: none
+		sourceColumn: Tên chương trình
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column4
+		dataType: string
+		lineageTag: 8ef8891d-7490-4662-ba7c-9e6efbcc327f
+		summarizeBy: none
+		sourceColumn: Column4
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Chương trình code_MKT-8b65595f-b062-460e-9eb3-10d77322fd6c' = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vT1kIL6LsCWcGpYkKb3NHkvmLTMZCdSpABKDvsHYWl36uIEaZGB56SNCH5mFgz9va-OYfb8ur9k3h7E/pub?output=xlsx"), null, true),
+				    #"Chương trình code_MKT_Sheet" = Source{[Item="Chương trình code_MKT",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(#"Chương trình code_MKT_Sheet",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"PHÒNG BAN", type text}, {"Loại chương trình", type text}, {"Tên chương trình", type text}}),
+				    #"Removed Blank Rows" = Table.SelectRows(#"Changed Type1", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null})))
+				in
+				    #"Removed Blank Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

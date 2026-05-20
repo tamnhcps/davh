@@ -1,0 +1,41 @@
+table Code_BoSung
+	lineageTag: 28f0367c-3fb7-4007-9fb1-277e021393ea
+
+	column PromotionCodeId
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e23ca6d-871b-4704-81a7-ebb837110d4c
+		summarizeBy: none
+		sourceColumn: PromotionCodeId
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionCode
+		dataType: string
+		lineageTag: c2522168-bdb7-4035-a18a-c5152d2c5f39
+		summarizeBy: none
+		sourceColumn: PromotionCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column KD
+		dataType: string
+		lineageTag: aec74bec-34ee-4599-b479-d3d33349ddd5
+		summarizeBy: none
+		sourceColumn: KD
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Code_BoSung = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMrYwMlPSUfJLz3+4a2GmQmFpYh6Qa6gUqxOtZGRmaQrkhOWXJmekFim4paamJCUmZytkZxxemJyhkHF4QV46UB6s1tjMwBxJbXLGkeZcheLDm5NxqbaMAVnk8XD3dIWSooe7FyuUQbUG+ykE56bmIim1wK2wLLMAodDQALfCvNRysMJYAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [PromotionCodeId = _t, PromotionCode = _t, KD = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"PromotionCodeId", Int64.Type}, {"PromotionCode", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,38 @@
+table 'D_Quận huyện'
+	lineageTag: 7142559d-59f5-4321-87a1-cc750a1014cf
+
+	column Tinh
+		lineageTag: 5bb188b6-ee75-4930-a964-3826e704428e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Tinh]
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuanHuyen
+		lineageTag: ef4e0a29-aa18-45c5-a1b5-306f3e699035
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [QuanHuyen]
+
+		annotation SummarizationSetBy = Automatic
+
+	column key =
+			
+			'D_Quận huyện'[QuanHuyen] & "-" & 'D_Quận huyện'[Tinh]
+		lineageTag: 7b908d18-ae12-46e0-999b-8b9071f6c7f4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'D_Quận huyện' = calculated
+		mode: import
+		source =
+				
+				DISTINCT(
+				    UNION(
+				        SELECTCOLUMNS('F_Data_Thị trường', "Tinh", 'F_Data_Thị trường'[tinh_thanh], "QuanHuyen", 'F_Data_Thị trường'[quan_huyen]),
+				        SELECTCOLUMNS('F_Đơn Giao Hàng', "Tinh", 'F_Đơn Giao Hàng'[tinh_thanh], "QuanHuyen", 'F_Đơn Giao Hàng'[quan_huyen_final])))
+
+	annotation PBI_Id = aa9f9357a1ac48c9a02b1a728ec44c3f
+

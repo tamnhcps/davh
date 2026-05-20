@@ -1,0 +1,34 @@
+table 'FACT_Phòng ban_NV'
+	lineageTag: f458c9f8-2b1c-46a4-8121-738d71bfe7bf
+
+	column 'Mã nhân viên'
+		dataType: string
+		lineageTag: 10e32a1a-9a95-4ffb-9935-e898a89297a3
+		summarizeBy: none
+		sourceColumn: Mã nhân viên
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phòng ban'
+		dataType: string
+		lineageTag: de6aeedb-33e1-48f7-b015-35b8b4273f2e
+		summarizeBy: none
+		sourceColumn: Phòng ban
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Phòng ban_NV-518ddd90-2d66-4247-a8c1-19caf3060bc6' = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Excel.Workbook(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vT1kIL6LsCWcGpYkKb3NHkvmLTMZCdSpABKDvsHYWl36uIEaZGB56SNCH5mFgz9va-OYfb8ur9k3h7E/pub?output=xlsx"), null, true),
+				    #"Phòng ban_Nhân viên tạo code_MK_Sheet" = Source{[Item="Phòng ban_Nhân viên tạo code_MK",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(#"Phòng ban_Nhân viên tạo code_MK_Sheet",{{"Column1", type text}, {"Column2", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Mã nhân viên", type text}, {"Phòng ban", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+

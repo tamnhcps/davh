@@ -1,0 +1,60 @@
+table 'F_Data_Thị trường'
+	lineageTag: a3f7e205-5537-4b4f-be4d-22df818a3f61
+
+	column start_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 81b6cb6a-bc3a-4898-972b-7cfbccd65c50
+		summarizeBy: none
+		sourceColumn: start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column quan_huyen
+		dataType: string
+		lineageTag: 3d40e4ad-6884-4cc0-afba-8e184952eca1
+		summarizeBy: none
+		sourceColumn: quan_huyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column tinh_thanh
+		dataType: string
+		lineageTag: 6432c714-5d5d-481f-bf74-d41cebceed34
+		summarizeBy: none
+		sourceColumn: tinh_thanh
+
+		annotation SummarizationSetBy = Automatic
+
+	column key
+		dataType: string
+		lineageTag: 2d65b1f6-f6b0-4f91-967c-f5fed20f4a3a
+		summarizeBy: none
+		sourceColumn: key
+
+		annotation SummarizationSetBy = Automatic
+
+	column doanh_so
+		dataType: int64
+		formatString: 0
+		lineageTag: ed6b8366-89ec-469e-acfd-12a72b030672
+		summarizeBy: sum
+		sourceColumn: doanh_so
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'F_Data_Thị trường' = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "WITH cte_product AS (#(lf)  --“dataset_id=2fb0417e-7d51-4e10-8236-72593af71895”#(lf)with product as (#(lf)--dim product cps và đối thủ#(lf)select#(lf)  if( p.ma_hang = ""nan"", null,p.ma_hang ) as `Key product`,#(lf)  if( p.ten_hang = ""nan"", null, p.ten_hang ) as `Tên sản phẩm`,#(lf)  -- if( p.nhom_hang = ""nan"", null, m.nhom_hang ) as `Nhóm hàng`,#(lf)  case #(lf)    when p.nhom_hang = ""nan""then null#(lf)    when upper(p.nhom_hang) in ('LOA CAO CẤP','PHỤ KIỆN LOA') then 'LOA'#(lf)    when upper(p.nhom_hang) in ('TAI NGHE CAO CẤP','PHỤ KIỆN TAI NGHE') then 'TAI NGHE'#(lf)    else upper(p.nhom_hang)#(lf)    end as  `Nhóm hàng`,#(lf)  if( m.nganh_hang = ""nan"", null, m.nganh_hang ) as `Ngành hàng`,#(lf)  if( p.thuong_hieu = ""nan"", null, m.thuong_hieu ) as `Thương hiệu`,#(lf)  if( m.model = ""nan"", null, m.model ) as `Model`,#(lf)  if( m.note = ""nan"", null, m.note ) as `Note`,#(lf)  'CPS' as `Công ty`#(lf)from#(lf)  `cellphones-data-platform.cps_DA_General_Transform.dim_product` p#(lf)  left join `cellphones-data-platform.cps_product_datamart.cps_product_model` m#(lf)    on m.sku = p.ma_hang#(lf)#(lf)union all#(lf)#(lf)select#(lf)  if( com.ten_san_pham = ""nan"", null, com.ten_san_pham ) as `Key product`,#(lf)  if( com.ten_san_pham = ""nan"", null, com.ten_san_pham ) as `Tên sản phẩm`,#(lf)  -- if( com.nhom_hang_cps = ""nan"", null, com.nhom_hang_cps ) as `Nhóm hàng`,#(lf)  case #(lf)    when com.nhom_hang_cps = ""nan""then null#(lf)    when upper(com.nhom_hang_cps) in ('LOA CAO CẤP','PHỤ KIỆN LOA') then 'LOA'#(lf)    when upper(com.nhom_hang_cps) in ('TAI NGHE CAO CẤP','PHỤ KIỆN TAI NGHE') then 'TAI NGHE'#(lf)    else upper(com.nhom_hang_cps)#(lf)    end as  `Nhóm hàng`,#(lf)  if( com.nganh_hang = ""nan"", null, com.nganh_hang ) as `Ngành hàng`, #(lf)  if( com.thuong_hieu = ""nan"", null, com.thuong_hieu ) as `Thương hiệu`,#(lf)  if( com.model = ""nan"", null, com.model ) as `Model`,#(lf)  if( com.note = ""nan"", null, com.note ) as `Note`,#(lf)  'COM' as `Công ty`#(lf)from#(lf)  `cellphones-data-platform.competitor_analysis_dwh.competitor_product_model` com#(lf))#(lf)  select #(lf)  `Key product`,#(lf)  `Tên sản phẩm`,#(lf)  upper(`Nhóm hàng`) as `Nhóm hàng`,#(lf)  upper(`Ngành hàng`) as `Ngành hàng`, #(lf)  `Thương hiệu`,#(lf)  `Model`,#(lf)  `Note`,#(lf)  `Công ty`,#(lf)  from product#(lf)  WHERE (UPPER(`Tên sản phẩm`) NOT LIKE '%TRƯNG BÀY%' OR UPPER(`Tên sản phẩm`) NOT LIKE '%KÍCH HOẠT%' OR UPPER(`Tên sản phẩm`) NOT LIKE '%CŨ%')#(lf)  QUALIFY ROW_NUMBER() OVER (PARTITION BY `Key product`) = 1#(lf))#(lf)#(lf), cte_shop AS (#(lf)  -- dim shop CPS + đối thủ, đã gộp các bước transform của Power Query vào SQL#(lf)WITH cps AS (#(lf)  SELECT#(lf)    UPPER(s.ma_kho) AS `Key shop`,                               -- Uppercase#(lf)    REGEXP_REPLACE(s.cua_hang, r' {2,}', ' ') AS `Tên shop`,     -- Fix double spaces#(lf)    s.dia_chi_kho AS `Địa chỉ`,#(lf)    REGEXP_REPLACE(UPPER(TRIM(s.quan_huyen)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '') AS `Quận huyện`,#(lf)    -- Chuẩn hoá tỉnh thành + thay ""THỪA THIÊN HUẾ"" -> ""THỪA THIÊN - HUẾ""#(lf)    REPLACE(#(lf)      REGEXP_REPLACE(UPPER(TRIM(s.tinh_thanh)), r'\b(TỈNH|THÀNH PHỐ)\b\s*', ''),#(lf)      'THỪA THIÊN HUẾ', 'THỪA THIÊN - HUẾ'#(lf)    ) AS `Tỉnh thành`,#(lf)    s.mien AS `Miền`,#(lf)    CAST(s.lat  AS NUMERIC) AS `Lat`,#(lf)    CAST(s.long AS NUMERIC) AS `Long`,#(lf)    'CPS' AS company_norm,                                       -- dùng để tính sort_cty#(lf)    CASE#(lf)      WHEN LOWER(s.cua_hang) LIKE '%onl%'  THEN 1#(lf)      WHEN LOWER(s.cua_hang) LIKE '%98th%' THEN 1#(lf)      ELSE 0#(lf)    END AS is_online#(lf)  FROM `cellphones-data-platform.cps_DA_General_Transform.dim_storage` s#(lf)  WHERE s.cong_ty = 'CPS'#(lf)    AND s.ma_kho NOT IN ('HD.6NLB.KM','HN.117TH.KM','HN.115TH_KM','HP.34LT_KM')#(lf)),#(lf)com AS (#(lf)  SELECT#(lf)    UPPER(com.shop_code) AS `Key shop`,                           -- Uppercase#(lf)    REGEXP_REPLACE(com.shop_name, r' {2,}', ' ') AS `Tên shop`,   -- Fix double spaces#(lf)    com.address_full AS `Địa chỉ`,#(lf)    REGEXP_REPLACE(UPPER(TRIM(com.district)), r'\b(THỊ XÃ|THÀNH PHỐ|QUẬN|HUYỆN)\b\s*', '') AS `Quận huyện`,#(lf)    -- Chuẩn hoá tỉnh thành + thay ""THỪA THIÊN HUẾ"" -> ""THỪA THIÊN - HUẾ""#(lf)    REPLACE(#(lf)      REGEXP_REPLACE(UPPER(TRIM(com.province)), r'\b(TỈNH|THÀNH PHỐ)\b\s*', ''),#(lf)      'THỪA THIÊN HUẾ', 'THỪA THIÊN - HUẾ'#(lf)    ) AS `Tỉnh thành`,#(lf)    com.mien AS `Miền`,#(lf)    IF(com.latitude  = 'nan', NULL, CAST(com.latitude  AS NUMERIC)) AS `Lat`,#(lf)    IF(com.longitude = 'nan', NULL, CAST(com.longitude AS NUMERIC)) AS `Long`,#(lf)    -- Chuẩn hoá tên công ty: TGDĐ -> TGDD#(lf)    IF(com.company = 'TGDĐ', 'TGDD', com.company) AS company_norm,#(lf)    com.is_online#(lf)  FROM `cellphones-data-platform.competitor_analysis_dwh.competitor_store` com#(lf)  WHERE NOT REGEXP_CONTAINS(com.shop_name, r'^(AK_|BHX_|AK1_)')#(lf)),#(lf)unioned AS (#(lf)  SELECT * FROM cps#(lf)  UNION ALL#(lf)  SELECT * FROM com#(lf)),#(lf)with_sort AS (#(lf)  SELECT#(lf)    `Key shop`,#(lf)    `Tên shop`,#(lf)    `Địa chỉ`,#(lf)    -- loại bỏ thêm tiền tố ""THỊ XÃ "" / ""THÀNH PHỐ "" nếu còn sót#(lf)    REPLACE(REPLACE(`Quận huyện`, 'THỊ XÃ ', ''), 'THÀNH PHỐ ', '') AS `Quận huyện`,#(lf)    `Tỉnh thành`,#(lf)    `Miền`,#(lf)    `Lat`,#(lf)    `Long`,#(lf)    company_norm AS `Công ty`,#(lf)    CASE#(lf)      WHEN company_norm = 'CPS' THEN 1#(lf)      WHEN company_norm = 'FPT' THEN 2#(lf)      ELSE 3#(lf)    END AS sort_cty,#(lf)    is_online#(lf)  FROM unioned#(lf))#(lf)SELECT#(lf)  `Key shop`,#(lf)  `Tên shop`,#(lf)  `Địa chỉ`,#(lf)  `Quận huyện`,#(lf)  `Tỉnh thành`,#(lf)  `Miền`,#(lf)  `Lat`,#(lf)  `Long`,#(lf)  -- mapping cuối cùng: Công ty -> mã màu (R/Y/B)#(lf)  CASE#(lf)    WHEN `Công ty` = 'FPT'  THEN 'B'#(lf)    WHEN `Công ty` = 'TGDD' THEN 'Y'#(lf)    WHEN `Công ty` = 'CPS'  THEN 'R'#(lf)    ELSE `Công ty`#(lf)  END AS `Công ty`,#(lf)  sort_cty,#(lf)  is_online#(lf)FROM with_sort#(lf)WHERE `Quận huyện` IS NOT NULL#(lf))#(lf)#(lf), cte_data AS (#(lf)SELECT  #(lf)  file_name AS `Name`,#(lf)  date AS `DATE`,#(lf)  CASE #(lf)    WHEN UPPER(REPLACE(shop_id, "".0"","""")) = ""ĐMM_BKA_BBE-KHOCHỢRÃ"" THEN ""4149""#(lf)    WHEN UPPER(REPLACE(shop_id, "".0"","""")) = ""14139"" THEN ""5462""#(lf)    WHEN UPPER(REPLACE(shop_id, "".0"","""")) = ""13435"" THEN ""13796""#(lf)    WHEN UPPER(REPLACE(shop_id, "".0"","""")) = ""AVA_HCM-KHOONLINESÀNTMĐTTÂNBÌNH"" THEN ""14214""#(lf)    WHEN UPPER(REPLACE(shop_id, "".0"","""")) = ""ĐBH_HPH-KHOGHLĐTTĐMXHẢIPHÒNG2022"" THEN ""13357""#(lf)    WHEN UPPER(REPLACE(shop_id, "".0"","""")) = ""TNB_CTH-KHOTHANHLÝGHLĐTTĐMXCẦNTHƠ"" THEN ""14147""#(lf)    ELSE UPPER(REPLACE(shop_id, "".0"",""""))#(lf)  END AS `KEY SHOP`,#(lf)  UPPER(shop_name) AS `TÊN SHOP`,#(lf)  UPPER(product_name) AS `TÊN SẢN PHẨM`,#(lf)  UPPER(brand) AS `THƯƠNG HIỆU`,#(lf)  quantity AS `SỐ LƯỢNG`,#(lf)  revenue AS `DOANH SỐ`,#(lf)  CASE#(lf)    WHEN UPPER(company) = 'FPT' THEN 'B'#(lf)    WHEN UPPER(company) = 'TGDD' THEN 'Y'#(lf)    WHEN UPPER(company) = 'DMX' THEN 'Y'#(lf)    WHEN UPPER(company) = 'TOPZONE' THEN 'Y'#(lf)  END AS `CÔNG TY`,#(lf)  UPPER(nganh_hang) AS `NGÀNH HÀNG`,#(lf)#(lf)#(lf)FROM `cellphones-data-platform.competitor_analysis_dwh.competitor_transaction` AS a#(lf)LEFT JOIN cte_product AS b#(lf)  ON UPPER(a.product_name) = UPPER(b.`Key product`)#(lf)#(lf)WHERE #(lf)  date >= ""2025-07-01"" #(lf)  AND UPPER(b.`Nhóm hàng`) = 'LAPTOP CTM'#(lf))#(lf)#(lf), cte_final AS (#(lf)#(lf)  SELECT #(lf)      a.*, #(lf)      UPPER(c.`Quận huyện`) AS `Quận huyện`, #(lf)      UPPER(c.`Tỉnh thành`) AS `Tỉnh thành`,#(lf)      CASE#(lf)        WHEN a.`CÔNG TY` IN ('B') THEN a.`DOANH SỐ` #(lf)        WHEN a.`CÔNG TY` IN ('Y') AND a.`DATE` >= '2025-07-01' THEN a.`DOANH SỐ` * 1.08#(lf)        ELSE a.`DOANH SỐ` * 1.1#(lf)      END doanh_so_new#(lf)#(lf)  FROM cte_data AS a#(lf)  LEFT JOIN cte_shop AS c#(lf)  ON UPPER(a.`KEY SHOP`) = UPPER(c.`Key shop`)#(lf))#(lf)#(lf)-- SELECT `Quận huyện`, SUM(`DOANH SỐ`)#(lf)-- FROM  cte_final#(lf)-- group by 1#(lf)#(lf)SELECT #(lf)      DATE_TRUNC(`DATE`, MONTH) AS start_date,#(lf)      `Quận huyện` AS quan_huyen,#(lf)      `Tỉnh thành` AS tinh_thanh,#(lf)      CONCAT(`Quận huyện`, '-', `Tỉnh thành`) AS key,#(lf)      CAST(ROUND(SUM(doanh_so_new),0) AS INT64) AS doanh_so#(lf)#(lf)FROM  cte_final #(lf)WHERE `Quận huyện` IS NOT NULL#(lf)GROUP BY 1,2,3", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

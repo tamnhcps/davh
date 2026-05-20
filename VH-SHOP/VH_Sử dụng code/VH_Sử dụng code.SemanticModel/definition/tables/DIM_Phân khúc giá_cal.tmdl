@@ -1,0 +1,42 @@
+table 'DIM_Phân khúc giá_cal'
+	lineageTag: 6bacde53-63da-4ceb-bd96-8a4348ed966b
+
+	column Min
+		dataType: int64
+		formatString: 0
+		lineageTag: a5dc7695-b8c9-40c9-99df-2b95e1443533
+		summarizeBy: sum
+		sourceColumn: Min
+
+		annotation SummarizationSetBy = Automatic
+
+	column Max
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c67efa1-66e2-4dd6-a689-02647b639dc9
+		summarizeBy: sum
+		sourceColumn: Max
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân khúc giá'
+		dataType: string
+		lineageTag: 5bfc7777-f9c9-4933-9bae-fd762c8934f4
+		summarizeBy: none
+		sourceColumn: Phân khúc giá
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'DIM_Phân khúc giá_cal' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("TY5BDoAwCAS/0nDWhJamqW+pPfoBo/+XKnXhBDNzoDViWijxO7pxWEO6TupLc1T+LakX86AZpfpsHrSgVF/Mg1aU6qt50MhINYhsheNRXD2a+aUXxeWjmZ84sWH02m9mOb6uPw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Min = _t, Max = _t, #"Phân khúc giá" = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Min", Int64.Type}, {"Max", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

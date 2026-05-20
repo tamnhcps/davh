@@ -1,0 +1,51 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "ReportSection",
+  "displayName": "Tổng quan",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1350,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#B3B3B3'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "53D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "f1f90c09f9480739dd7e",
+      "target": "d93da7a755f74d6d2e4e",
+      "type": "DataFilter"
+    },
+    {
+      "source": "f1f90c09f9480739dd7e",
+      "target": "72f87e48740609a476cd",
+      "type": "DataFilter"
+    },
+    {
+      "source": "d93da7a755f74d6d2e4e",
+      "target": "f1f90c09f9480739dd7e",
+      "type": "NoFilter"
+    }
+  ]
+}

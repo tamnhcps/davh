@@ -1,0 +1,356 @@
+table 'FACT_Sale_Doanh số bán'
+	lineageTag: 0572c80c-444e-4d7a-9be4-975173f3e9cc
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e075aece-71b5-49de-a527-8696c2c4f9e8
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		variation Variation
+			isDefault
+			relationship: fe4c9d15-6e39-4716-b072-ac6ba3058837
+			defaultHierarchy: LocalDateTable_1002b49c-2bfe-4516-ac50-c88bb9c95051.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cd3be1c7-c81c-4a0a-827e-aecc0da56cff
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DMC3
+		dataType: string
+		lineageTag: 883210eb-2a63-42a6-8f65-e643c2a6ae2d
+		summarizeBy: none
+		sourceColumn: DMC3
+
+		annotation SummarizationSetBy = Automatic
+
+	column AutoCode
+		dataType: string
+		lineageTag: 089e1129-3eea-4809-8c0e-c6aa391d899d
+		summarizeBy: none
+		sourceColumn: AutoCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCode
+		dataType: string
+		lineageTag: f6d234b0-c663-43b5-a056-e0cad614391b
+		summarizeBy: none
+		sourceColumn: ProductCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: c4aa2101-edb3-4200-a522-3aa107a91c75
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column IMEI
+		dataType: string
+		lineageTag: 115b00e8-4ea3-47e8-bed7-7d4b3a0076a3
+		summarizeBy: none
+		sourceColumn: IMEI
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContactPhone
+		dataType: string
+		lineageTag: 181e662e-6d2c-4249-add9-22a4d610b7b9
+		summarizeBy: none
+		sourceColumn: ContactPhone
+
+		annotation SummarizationSetBy = Automatic
+
+	column MethodName
+		dataType: string
+		lineageTag: 050acd08-3190-4a0e-bcff-e9c37521941b
+		summarizeBy: none
+		sourceColumn: MethodName
+
+		annotation SummarizationSetBy = Automatic
+
+	column centerid
+		dataType: int64
+		lineageTag: 21df87ae-51a3-4661-87fa-29391b70a43d
+		summarizeBy: sum
+		sourceColumn: centerid
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Price
+		dataType: double
+		lineageTag: ec414890-1c95-46a2-9f3b-3d5d2ba71b9b
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Dso
+		dataType: double
+		lineageTag: 1dcb74d8-f408-4f9e-a077-a303233281bf
+		summarizeBy: sum
+		sourceColumn: Dso
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SL
+		dataType: double
+		lineageTag: 5a917958-e5a8-47f7-b510-7a05a7026dd8
+		summarizeBy: sum
+		sourceColumn: SL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsSale
+		dataType: int64
+		lineageTag: ff2f589d-5252-4c69-a746-7c1247ea2b46
+		summarizeBy: sum
+		sourceColumn: IsSale
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsRetail
+		dataType: int64
+		lineageTag: 62248a0f-7a2f-4a7a-843a-586022a40e45
+		summarizeBy: sum
+		sourceColumn: IsRetail
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsPO
+		dataType: int64
+		lineageTag: 9e17b8be-1193-49af-b6da-bbac470038f6
+		summarizeBy: sum
+		sourceColumn: IsPO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Is_useCode = ```
+			SIGN(CALCULATE(COUNTROWS(FACT_Code_DaSuDung),FILTER(FACT_Code_DaSuDung, FACT_Code_DaSuDung[AutoCode]=EARLIER('FACT_Sale_Doanh số bán'[AutoCode])))) 
+			```
+		formatString: 0
+		lineageTag: b00c9aa8-d677-43f8-bbb7-d50deb539a58
+		summarizeBy: count
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: e0f48028-338d-4141-a552-3d1cf651ab6e
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brandname = RELATED('DIM_Danh mục_Phòng ban'[Cửa hàng])
+		lineageTag: 479dcf9c-5b38-4fa9-b167-b279c8cfe907
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dso_Raw_BHMR = 'FACT_Sale_Doanh số bán'[Price]*'FACT_Sale_Doanh số bán'[SL]
+		lineageTag: bbdc0cfd-77ba-42ce-9ee8-921ca865f892
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column StoreCode
+		dataType: string
+		lineageTag: f281061d-f49b-4dd3-96f7-57e814bdf32c
+		summarizeBy: none
+		sourceColumn: StoreCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SaleEmployeeCode
+		dataType: string
+		lineageTag: 878742c1-3c84-4105-a13c-1090f6c816a5
+		summarizeBy: none
+		sourceColumn: SaleEmployeeCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm giá'
+		dataType: int64
+		formatString: 0
+		lineageTag: d506924e-0f64-45ba-9722-8ffb3a38aff7
+		summarizeBy: none
+		sourceColumn: Nhóm giá
+
+		annotation SummarizationSetBy = User
+
+	column Miền = RELATED('DIM_Danh mục_Kho'[Miền])
+		lineageTag: e526b684-4d77-46e6-99ea-6c7db28ffbef
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Startdate = related('DIM_Danh mục_Ngày'[Năm/Tháng])
+		lineageTag: d588fc37-0a5e-44b2-a7a4-6604f8938f21
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column isTax
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 91a5a91d-7601-4775-b620-8724c532463c
+		summarizeBy: none
+		sourceColumn: isTax
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm S-Star'
+		type: calculated
+		lineageTag: dee9732e-a1bd-42d1-ba4b-9b335047d611
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dso+Voucher = ```
+			
+			SWITCH(
+			    TRUE(),
+			    'FACT_Sale_Doanh số bán'[isTax] = TRUE(), BLANK(),
+			    NOT ISBLANK('FACT_Sale_Doanh số bán'[Nhóm S-Star]), 
+			        'FACT_Sale_Doanh số bán'[Dso] + 
+			        'FACT_Sale_Doanh số bán'[DiscountAmount] + 
+			        'FACT_Sale_Doanh số bán'[PromotionAmount],
+			    'FACT_Sale_Doanh số bán'[Dso]
+			)
+			
+			```
+		lineageTag: 12cffd09-b8a7-43d4-90a3-b64148d8c53b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountAmount =
+			
+			CALCULATE(SUM(FACT_Sale_Voucher[DiscountAmount]),
+			    FILTER(FACT_Sale_Voucher,
+			        FACT_Sale_Voucher[AutoCode] = EARLIER('FACT_Sale_Doanh số bán'[AutoCode]) &&
+			        FACT_Sale_Voucher[ProductCode] = EARLIER('FACT_Sale_Doanh số bán'[ProductCode]) &&
+			        FACT_Sale_Voucher[Mien] = EARLIER('FACT_Sale_Doanh số bán'[Miền]) &&
+			        FACT_Sale_Voucher[isUsingDiscount] = 1))
+		lineageTag: 58d4b049-2ac3-43c1-be61-8642eeb60068
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PromotionAmount =
+			
+			CALCULATE(SUM(FACT_Sale_Voucher[Promotion]),
+			    FILTER(FACT_Sale_Voucher,
+			        FACT_Sale_Voucher[AutoCode] = EARLIER('FACT_Sale_Doanh số bán'[AutoCode]) &&
+			        FACT_Sale_Voucher[ProductCode] = EARLIER('FACT_Sale_Doanh số bán'[ProductCode]) &&
+			        FACT_Sale_Voucher[Mien] = EARLIER('FACT_Sale_Doanh số bán'[Miền]) &&
+			        FACT_Sale_Voucher[isUsingPromotion] = 1))
+		lineageTag: a49e35fc-ef2f-45f6-aba6-ed945aebc90e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'exp_Thi đua' = ```
+			
+			COUNTROWS (
+			    SUMMARIZE (
+			        FILTER (
+			            Sale_GG_GSheet_SKU_exp,
+			            Sale_GG_GSheet_SKU_exp[Mã sản phẩm] 
+			                = EARLIER('FACT_Sale_Doanh số bán'[ProductCode])
+			            && Sale_GG_GSheet_SKU_exp[Thời gian bắt đầu]
+			                <= EARLIER ( 'FACT_Sale_Doanh số bán'[Date] )
+			            && Sale_GG_GSheet_SKU_exp[Thời gian kết thúc]
+			                >= EARLIER ( 'FACT_Sale_Doanh số bán'[Date] )
+			        ),
+			        Sale_GG_GSheet_SKU_exp[Mã sản phẩm]
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: eab7b771-ebbb-4fcb-9bcb-c564878c39f5
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Phân khúc giá' =
+			
+			VAR giabanbq =
+			    ABS ( 'FACT_Sale_Doanh số bán'[Dso] / 'FACT_Sale_Doanh số bán'[SL] )
+			RETURN
+			    CALCULATE (
+			        VALUES ( 'DIM_Phân khúc giá_cal'[Phân khúc giá] ),
+			        FILTER (
+			            'DIM_Phân khúc giá_cal',
+			            'DIM_Phân khúc giá_cal'[Min] <= giabanbq
+			                && 'DIM_Phân khúc giá_cal'[Max] > giabanbq
+			        )
+			    )
+		lineageTag: 40d33429-452d-462b-a02d-d85842b5f650
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column SPTT_Model = CALCULATE(VALUES(FACT_SPTT_SKU[Model]), FILTER(FACT_SPTT_SKU, FACT_SPTT_SKU[SKU] = EARLIER('FACT_Sale_Doanh số bán'[ProductCode]) && FACT_SPTT_SKU[Ngày bắt đầu_Model] <= EARLIER('FACT_Sale_Doanh số bán'[Date]) && FACT_SPTT_SKU[Ngày kết thúc_Model] >= EARLIER('FACT_Sale_Doanh số bán'[Date] )))
+		lineageTag: cef6d609-d9db-4566-8b5c-d403d72c3279
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'FACT_Sale_Doanh số bán-98002196-dcc6-463a-9c4a-adef737cc7f4' = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "---""dataset_id=54cfc7b0-4cd1-4ab1-87fd-85c6e135d1ac""#(lf)WITH tax_exportBill AS (#(lf)  SELECT DISTINCT Code#(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hcm_dbo.Tax_ExportBill`#(lf)  WHERE#(lf)    CAST(_airbyte_emitted_at AS date) >= '2024-09-27'#(lf)    AND CAST(_airbyte_emitted_at AS date) < current_date('Asia/Ho_Chi_Minh')#(lf)    AND BillType = 3#(lf)    AND SignOfBillNo IN ('C25TAA', 'C25TCP', 'C26TAA', 'C26TCP')#(lf)#(lf)  UNION ALL#(lf)#(lf)  SELECT DISTINCT Code#(lf)  FROM `cellphones-data-platform.cps_cdc_sep_hn_dbo.Tax_ExportBill`#(lf)  WHERE#(lf)    CAST(_airbyte_emitted_at AS date) >= '2024-09-27'#(lf)    AND CAST(_airbyte_emitted_at AS date) < current_date('Asia/Ho_Chi_Minh')#(lf)    AND BillType = 3#(lf)    AND SignOfBillNo IN ('C25TAA', 'C25TCP', 'C26TAA', 'C26TCP')#(lf))#(lf)#(lf)SELECT#(lf)  DATETIME(CreateDate) AS CreateDate,#(lf)  Date,#(lf)  DMC3,#(lf)  AutoCode,#(lf)  ProductCode,#(lf)  ProductName,#(lf)  MethodName,#(lf)  centerid,#(lf)  CASE#(lf)    WHEN StoreCode = 'DNA.313DBP' AND Date BETWEEN '2024-01-01' AND '2024-01-31' THEN 'DNA.912TDT'#(lf)    ELSE StoreCode#(lf)  END AS StoreCode,#(lf)  Price,#(lf)  SaleEmployeeCode,#(lf)  SUM(amount) AS Dso,#(lf)  SUM(quantity) AS SL,#(lf)  IsSales AS IsSale,#(lf)  IsRetail,#(lf)  IsPO,#(lf)  IMEI,#(lf)  ContactPhone,#(lf)  IF(#(lf)    tax.Code IS NOT NULL#(lf)    OR AutoCode IN ('SP.912THD.25.08.000244', 'SP.15DK.25.08.000398', 'SP.1393THD.25.08.000319'),#(lf)    TRUE, FALSE#(lf)  ) AS isTax#(lf)FROM#(lf)  `cellphones-data-platform.cps_sales_datamart.cps_cdc_sep_union_dbo_sales_transaction` sales#(lf)LEFT JOIN#(lf)  tax_exportBill tax ON sales.AutoCode = tax.Code#(lf)WHERE#(lf)  IsSales = 1#(lf)  AND DATE(CreateDate) < CURRENT_DATE('+7')#(lf)  AND DATE(CreateDate) >= '2025-06-01'#(lf)  AND NOT (DATE(CreateDate) >= '2024-03-01' AND ContactPhone IN ('0942482682', '0979453264'))#(lf)GROUP BY 1,2,3,4,5,6,7,8,9,10,11,14,15,16,17,18,19", null, [EnableFolding=true]),
+				    #"Filtered Rows1" = Table.SelectRows(Source, each ([MethodName] <> "Bán B2B") and ([centerid] = 1 or [centerid] = 3759 or [centerid] = 12869) and ([Date] < Date.From(DateTime.LocalNow()))),
+				    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows1", {"AutoCode"}, AppleCareDPtoHTV, {"Số phiếu "}, "AppleCareDP", JoinKind.LeftOuter),
+				    #"Expanded AppleCareDP" = Table.ExpandTableColumn(#"Merged Queries", "AppleCareDP", {"StoreCode", "MSNV"}, {"AppleCareDP.StoreCode", "AppleCareDP.MSNV"}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Expanded AppleCareDP", "ToStoreCode", each if [AppleCareDP.StoreCode] = null then [StoreCode] else [AppleCareDP.StoreCode], type text),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column", "ToSaleEmployeeCode", each if [AppleCareDP.MSNV] = null then [SaleEmployeeCode] else [AppleCareDP.MSNV], type text),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Conditional Column1",{"StoreCode", "AppleCareDP.StoreCode","SaleEmployeeCode", "AppleCareDP.MSNV"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"ToStoreCode", "StoreCode"},{"ToSaleEmployeeCode","SaleEmployeeCode"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "Nhóm giá", each Number.RoundUp([Price],-3)),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"Nhóm giá", Int64.Type}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Changed Type1", "Index", 1, 1, Int64.Type),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Index", each true)
+				in
+				    #"Filtered Rows2"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

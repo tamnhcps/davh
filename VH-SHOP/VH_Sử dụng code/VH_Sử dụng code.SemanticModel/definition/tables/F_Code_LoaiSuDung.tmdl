@@ -1,0 +1,81 @@
+table F_Code_LoaiSuDung
+	lineageTag: 90d18214-e8e2-4521-ab6c-5b0eec3e43bf
+
+	column id_chuong_trinh
+		dataType: int64
+		formatString: 0
+		lineageTag: 8b5fe5bd-12fa-48be-8e96-d2d9d4828b6b
+		summarizeBy: sum
+		sourceColumn: id_chuong_trinh
+
+		annotation SummarizationSetBy = Automatic
+
+	column ten_chuong_trinh
+		dataType: string
+		lineageTag: 4bcc7b2c-4687-4964-9abe-f54d38683033
+		summarizeBy: none
+		sourceColumn: ten_chuong_trinh
+
+		annotation SummarizationSetBy = Automatic
+
+	column ngay_bat_dau
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: ed5e2588-a930-4ec1-819f-be169dd3e770
+		summarizeBy: none
+		sourceColumn: ngay_bat_dau
+
+		variation Variation
+			isDefault
+			relationship: e20ea95c-295e-4c38-9158-c168d0d857a7
+			defaultHierarchy: LocalDateTable_001cd942-fa62-436d-8d75-536ecda07f76.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ngay_ket_thuc
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 061defb0-69a5-4b7b-8526-3250c7aafb0e
+		summarizeBy: none
+		sourceColumn: ngay_ket_thuc
+
+		variation Variation
+			isDefault
+			relationship: 9e02ecdb-f932-4281-98ef-626c1d7a73c7
+			defaultHierarchy: LocalDateTable_310c60f9-9243-42ab-863b-63f5f775cd75.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column loai_ap_dung
+		dataType: string
+		lineageTag: 5ac93fd1-ae3f-43a4-8b0d-0722f89607db
+		summarizeBy: none
+		sourceColumn: loai_ap_dung
+
+		annotation SummarizationSetBy = Automatic
+
+	column gia_tri
+		dataType: string
+		lineageTag: c8b3da68-0dc7-4a9c-a337-0dc3a7e68cc7
+		summarizeBy: none
+		sourceColumn: gia_tri
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_Code_LoaiSuDung = m
+		mode: import
+		queryGroup: FACT
+		source =
+				let
+				    Source = Value.NativeQuery(GoogleBigQuery.Database([BillingProject="cellphones-data-platform"]){[Name="cellphones-data-platform"]}[Data], "--“dataset_id=7abaff99-dd11-48ca-a4aa-2fc1ae086ba5”#(lf)select#(lf)  id_chuong_trinh#(lf)  ,ten_chuong_trinh#(lf)  ,date(ngay_bat_dau,'Asia/Ho_Chi_Minh') as `ngay_bat_dau`#(lf)  ,date(ngay_ket_thuc,'Asia/Ho_Chi_Minh') as `ngay_ket_thuc`#(lf)  ,loai_ap_dung#(lf)  ,gia_tri#(lf)from#(lf)  `cellphones-data-platform.cps_larkbase.code_kd_loai_ap_dung`", null, [EnableFolding=true])
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,25 @@
+table 'Nhóm Apple'
+	lineageTag: b0c45a8f-1b7e-48ea-8f99-b4775ee6f601
+
+	column 'Nhóm hàng'
+		lineageTag: 1515c8eb-f7a0-45cc-8d66-90ebe8e9c754
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Nhóm hàng[Nhóm hàng]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nhóm Apple'
+		lineageTag: 702d1002-a5cb-4f1c-b6c5-1f370f0b541c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: DIM_Danh mục_Nhóm hàng[Nhóm Apple]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Nhóm Apple' = calculated
+		mode: import
+		source = CALCULATETABLE( SUMMARIZE('DIM_Danh mục_Nhóm hàng', 'DIM_Danh mục_Nhóm hàng'[Nhóm hàng], 'DIM_Danh mục_Nhóm hàng'[Nhóm Apple]), 'DIM_Danh mục_Nhóm hàng'[Nhóm Apple] <> BLANK())
+
+	annotation PBI_Id = 7c4ac0188d0f4d2cabe64930093c87c9
+

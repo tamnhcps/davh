@@ -1,0 +1,19 @@
+table SPTT_Model
+	lineageTag: 087ed28c-3d31-4137-ba83-7dcde73469b7
+
+	column Model
+		lineageTag: 3d060690-73fe-4643-9875-acff939f5cdb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FACT_SPTT_Model_Target[Model]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SPTT_Model = calculated
+		mode: import
+		source = ```
+				SUMMARIZE(FACT_SPTT_Model_Target, FACT_SPTT_Model_Target[Model]) 
+				```
+
+	annotation PBI_Id = 334fee2ee1e349108bc3963219aa6f25
+
